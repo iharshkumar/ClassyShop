@@ -8,15 +8,15 @@ import IconButton from '@mui/material/IconButton';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import { IoGitCompareOutline } from "react-icons/io5";
 import { FaRegHeart } from "react-icons/fa";
-import {Tooltip} from '@mui/material';
+import { Tooltip } from '@mui/material';
 
 const StyledBadge = styled(Badge)(({ theme }) => ({
-  '& .MuiBadge-badge': {
-    right: -3,
-    top: 13,
-    border: `2px solid ${(theme.vars ?? theme).palette.background.paper}`,
-    padding: '0 4px',
-  },
+    '& .MuiBadge-badge': {
+        right: -3,
+        top: 13,
+        border: `2px solid ${(theme.vars ?? theme).palette.background.paper}`,
+        padding: '0 4px',
+    },
 }));
 
 
@@ -35,14 +35,14 @@ const Header = () => {
                         <div className="col2 flex items-center justify-end">
                             <ul className="flex items-center gap-4">
                                 <li className="list-none">
-                                    <Link to ="/help-center" className="text-[13px] link font-[500]
+                                    <Link to="/help-center" className="text-[13px] link font-[500]
                                     transition">Help Center</Link>
                                 </li>
                                 <li className="list-none">
-                                    <Link to ="/Track-Your-Order" 
-                                    className="text-[13px] link font-[500] transition">
+                                    <Link to="/Track-Your-Order"
+                                        className="text-[13px] link font-[500] transition">
                                         Track Your Order
-                                    
+
                                     </Link>
                                 </li>
                             </ul>
@@ -54,11 +54,11 @@ const Header = () => {
 
             <div className="header border-b-[1px] border-grey-250 mb-4 pt-1 ">
                 <div className="container flex items-center justify-between py-2 px-4 gap-6 h-16">
-                <div className="col1 w-[25%] ">
-                    <Link to="/">
-                                    <img src="/logo.jpg"  alt="Logo" />
-                                </Link>
-                            </div>
+                    <div className="col1 w-[25%] ">
+                        <Link to="/">
+                            <img src="/logo.jpg" alt="Logo" />
+                        </Link>
+                    </div>
                     <div className="col2 w-[45%] flex items-center justify-center">
                         {/* Search Component */}
                         <Search />
@@ -69,7 +69,7 @@ const Header = () => {
                         <ul className="flex items-center justify-end gap-3 w-full">
                             <li className="list-none">
                                 {/* Placeholder for future icons or links */}
-                                <Link to="/login"  className="link transition text-[15px] font-[500]" >Login </Link>
+                                <Link to="/login" className="link transition text-[15px] font-[500]" >Login </Link>
                                 | &nbsp;
                                 <Link to="/register" className="link transition text-[15px] font-[500]">Register</Link>
                             </li>

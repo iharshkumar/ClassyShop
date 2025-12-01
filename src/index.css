@@ -15,13 +15,33 @@ body {
   overflow-x: hidden;
 }
 
+
+::-webkit-scrollbar {
+  width: 8px !important;
+  height: 8px !important;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #ff5252;
+}
+
+::-webkit-scrollbar-track {
+  background: #f5f0f0;
+}
+
 .container {
   width: 100%;
   margin: auto;
   max-width: 1200px;
 }
 
-.top-strip {}
+.btn-org {
+  background: #ff5252 !important;
+  color: #ffffff !important;
+  font-weight: 500;
+  font-size: 16px;
+  padding: 7px 20px !important;
+}
 
 .link:hover {
   color: #ff5252
@@ -52,7 +72,7 @@ nav ui button:hover {
 
 /* Slide items */
 .sliderHome .item {
-  border-radius: 24px;
+  border-radius: 10px;
   overflow: hidden;
   position: relative;
 }
@@ -93,6 +113,22 @@ nav ui button:hover {
   transform: scale(1.08);
 }
 
+.smlBtn .swiper-button-prev,
+.smlBtn .swiper-button-next {
+  width: 30px !important;
+  height: 30px !important;
+  min-width: 30px !important;
+  top: 55% !important;
+}
+
+.smlBtn .swiper-button-prev:after,
+.smlBtn .swiper-button-next:after {
+  font-size: 10px !important;
+  color: #000;
+}
+
+
+
 /* Arrow icons */
 .swiper-button-prev:after,
 .swiper-button-next:after {
@@ -121,8 +157,8 @@ nav ui button:hover {
 
   .swiper-button-prev,
   .swiper-button-next {
-    width: 35px;
-    height: 35px;
+    width: 20px;
+    height: 20px;
   }
 
   .swiper-button-prev:after,
@@ -156,7 +192,9 @@ nav ui button:hover {
   right: -10px !important;
 }
 
-.homeCatSlider .item{border:1px solid rgba(0, 0, 0, 0.1)}
+.homeCatSlider .item {
+  border: 1px solid rgba(0, 0, 0, 0.1)
+}
 
 .homeCatSlider .swiper-button-prev:hover,
 .homeCatSlider .swiper-button-next:hover {
@@ -171,3 +209,28 @@ nav ui button:hover {
 .homeCatSlider .item:hover img {
   transform: scale(1.1);
 }
+
+.MuiTabs-indicator {
+  background-color: #ff5252 !important;
+}
+
+.MuiTab-textColorPrimary.Mui-selected {
+  color: #ff5252 !important;
+}
+
+.productSlider .swiper-wrapper {
+  padding: 15px;
+  margin-left: -15px;
+  margin-right: -15px;
+}
+
+footer form input::placeholder {
+  font-size: 14px;
+}
+
+.css-imrjgg-MuiButtonBase-root-MuiCheckbox-root.Mui-checked,
+.css-imrjgg-MuiButtonBase-root-MuiCheckbox-root.MuiCheckbox-indeterminate {
+  color: #ff5252 !important;
+}
+
+.MuiFormControlLabel-label{font-size: 13px !important; color: rgba(0, 0, 0, 0.8m );}

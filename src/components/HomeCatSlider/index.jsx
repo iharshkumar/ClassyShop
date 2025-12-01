@@ -101,14 +101,14 @@ const HomeCatSlider = () => {
           <SwiperSlide>
             <Link to="/">
               <div className='item py-7 px-3 bg-white rounded-sm text-center flex items-center justify-center flex-col  '>
-                <img src="https://png.pngtree.com/png-vector/20250205/ourmid/pngtree-professional-chef-knife-sharp-stainless-steel-image-png-image_15370615.png" className='w-[60px]' />
+                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT9W8zoLXMmSdE39xWDEIH5ZM5McbK6aldrfw&s" className='w-[60px]' />
                 <h3 className='text-[15px] font-[500] mt-2'>
                   Knife
                 </h3>
               </div>
             </Link>
           </SwiperSlide>
-<SwiperSlide>
+          <SwiperSlide>
             <Link to="/">
               <div className='item py-7 px-3 bg-white rounded-sm text-center flex items-center justify-center flex-col  '>
                 <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSUlcWsYdk9srq-JVy5QBUMHXcKfrJTVC-IjQ&s" className='w-[60px]' />
@@ -118,7 +118,7 @@ const HomeCatSlider = () => {
               </div>
             </Link>
           </SwiperSlide>
-<SwiperSlide>
+          <SwiperSlide>
             <Link to="/">
               <div className='item py-7 px-3 bg-white rounded-sm text-center flex items-center justify-center flex-col  '>
                 <img src="https://freepngimg.com/thumb/water_bottle/165014-water-flask-bottle-free-hq-image-thumb.png" className='w-[60px]' />
@@ -128,7 +128,7 @@ const HomeCatSlider = () => {
               </div>
             </Link>
           </SwiperSlide>
-<SwiperSlide>
+          <SwiperSlide>
             <Link to="/">
               <div className='item py-7 px-3 bg-white rounded-sm text-center flex items-center justify-center flex-col  '>
                 <img src="https://www.shutterstock.com/image-vector/acoustic-guitardreadnought-style-cutaway-natural-600nw-2142993959.jpg" className='w-[55px]' />

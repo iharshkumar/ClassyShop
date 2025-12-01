@@ -37,7 +37,7 @@ const CategoryPanel = (props) => {
     const DrawerList = (
         <Box sx={{ width: 250, paddingX: 2, paddingTop: 2 }} role="presentation" clasName="categoryPanel" >
 
-            <h3 className='text-[16px] font-semibold flex items-center justify-between gap-2'>
+            <h3 className='text-[22px] font-[500] flex items-center justify-between gap-2'>
                 Shop By Categories
                 <IoCloseSharp onClick={toggleDrawer(false)} className='cursor-pointer text-[20px] p-2' />
             </h3>
