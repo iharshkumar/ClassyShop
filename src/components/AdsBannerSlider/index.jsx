@@ -14,7 +14,14 @@ const AdsBannerSlider = (props) => {
                 spaceBetween={10}
                 navigation={true}
                 modules={[Navigation]}
-                className="smlBtn translate-y-3 -translate-x-8"
+                className="smlBtn"
+                breakpoints={{
+                  320: { slidesPerView: 1, spaceBetween: 10 },
+                  640: { slidesPerView: 2, spaceBetween: 10 },
+                  768: { slidesPerView: 3, spaceBetween: 10 },
+                  1024: { slidesPerView: props.items > 4 ? 4 : props.items, spaceBetween: 10 },
+                  1280: { slidesPerView: props.items, spaceBetween: 10 }
+                }}
             >
                 <SwiperSlide>
                     <BannerBox img ={'banner1.jpg'} link={'/'}/>

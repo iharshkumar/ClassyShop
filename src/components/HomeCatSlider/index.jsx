@@ -7,14 +7,21 @@ import { Link } from 'react-router-dom';
 
 const HomeCatSlider = () => {
   return (
-    <div className='homeCatSlider translate-y-6 '>
+    <div className='homeCatSlider pt-8 md:pt-10 pb-10 md:pb-12' style={{ marginTop: '1rem', marginBottom: '1rem' }}>
       <div className='container'>
         <Swiper
           slidesPerView={9}
           spaceBetween={10}
           navigation={true}
           modules={[Navigation]}
-          className="mySwiper -translate-x-8"
+          className="mySwiper"
+          breakpoints={{
+            320: { slidesPerView: 2, spaceBetween: 10 },
+            640: { slidesPerView: 4, spaceBetween: 10 },
+            768: { slidesPerView: 6, spaceBetween: 10 },
+            1024: { slidesPerView: 8, spaceBetween: 10 },
+            1280: { slidesPerView: 9, spaceBetween: 10 }
+          }}
         >
           <SwiperSlide>
             <Link to="/">

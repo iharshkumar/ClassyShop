@@ -27,16 +27,15 @@ const Home = () => {
       <HomeSlider />
       <HomeCatSlider />
 
-
-      <section className='bg-white translate-y-15'>
+      <section className='bg-white pt-12 md:pt-16 pb-8 md:pb-12'>
         <div className='container'>
-          <div className='flex items-center justify-between'>
+          <div className='flex flex-col md:flex-row items-start md:items-center justify-between gap-4 mb-6'>
             <div className='leftSec'>
-              <h2 className='text-[20px] font-[600]'>Popular Products </h2>
+              <h2 className='text-[20px] font-[600] mb-1'>Popular Products </h2>
               <p className='text-[15px] font-[300]'>Do not miss the current offers until the end of March</p>
             </div>
 
-            <div className='rightSec w-[60%]'>
+            <div className='rightSec w-full md:w-[60%]'>
               <Tabs
                 value={value}
                 onChange={handleChange}
@@ -57,73 +56,72 @@ const Home = () => {
 
           </div>
 
-
-
           <ProductsSlider items={6} />
         </div>
 
       </section>
 
-      <section className="w-full bg-white translate-y-29 ">
+      <section className="!w-full bg-white pt-12 md:pt-16 pb-8 md:pb-12"style={{ paddingTop: '30px' }}>
         <div className="container bg-white w-full">
-          <div className="freeShippng w-[80%] translate-x-12 border border-red-400 flex 
-          items-center justify-between rounded-md ">
-            <div className="col1 flex items-center gap-4 translate-x-3">
-              <LiaShippingFastSolid className='text-[50px]' />
-              <span className='text-[20px] font-[600] uppercase'>Free Shipping </span>
+          <div className="freeShippng w-full bg-gradient-to-r from-red-50 to-orange-50 flex 
+          flex-col md:flex-row items-center justify-between gap-6 md:gap-8 rounded-lg p-8 md:p-10 mb-8 shadow-sm">
+            <div className="col1 flex items-center gap-4 md:gap-5">
+              <LiaShippingFastSolid className='text-[40px] md:text-[60px] text-primary' style={{ paddingLeft: '20px' }} />
+              <span className='text-[18px] md:text-[24px] font-[600] uppercase'>Free Shipping </span>
             </div>
 
-
-            <div className="col2">
-              <p className='text-[16px] mb-0 font-[500]'>Enjoy free shipping on all orders over $50. Shop now and save!</p>
+            <div className="col2 flex-1 text-center md:text-left px-4">
+              <p className='text-[14px] md:text-[18px] mb-0 font-[500]' style={{ paddingLeft: '100px' }}>Enjoy free shipping on all orders over $50. Shop now and save!</p>
             </div>
 
             <div className="col3">
-              <button className='text-black py-2 px-4 rounded-md font-[500] text-[24px] -translate-x-3'>
+              <button className='bg-primary !text-black py-3 px-8 md:px-10 rounded-md font-[500] text-[16px] md:text-[18px] ' style={{ paddingRight: '20px' }}>
                 Shop Now
               </button>
             </div>
 
           </div>
 
-
           <AdsBannerSlider items={4} />
 
-
         </div>
       </section>
 
-      <section className='translate-y-40 bg-white py-4 '>
-        <div className='container bg-white flex flex-col  gap-5 '>
-          <h2 className='text-[20px] font-[600] -translate-x-8'>Latest Products </h2>
-          <div className='flex flex-col gap-5'>
+      <section className='bg-white pt-12 md:pt-16 pb-8 md:pb-12'>
+        <div className='container bg-white flex flex-col gap-6'>
+          <h2 className='text-[20px] font-[600]' style={{ paddingTop: '30px' }}>Latest Products </h2>
+          <div className='flex flex-col gap-6'>
             <ProductsSlider items={6} />
             <AdsBannerSlider items={3} />
           </div>
         </div>
       </section>
 
-
-      <section className='translate-y-40 bg-white py-4 '>
-        <div className='container bg-white flex flex-col  gap-5 '>
-          <h2 className='text-[20px] font-[600] -translate-x-8 translate-y-5'>Featured Products</h2>
-          <div className='flex flex-col gap-5'>
+      <section className='bg-white pt-12 md:pt-16 pb-8 md:pb-12'>
+        <div className='container bg-white flex flex-col gap-6'>
+          <h2 className='text-[20px] font-[600]' style={{ paddingTop: '30px'}}>Featured Products</h2>
+          <div className='flex flex-col gap-6'>
             <ProductsSlider items={6} />
             <AdsBannerSlider items={3} />
-
           </div>
         </div>
       </section>
 
-      <section className='py-5 pt-0 pb-8 w-full translate-y-50 bg-white blogSection'>
+      <section className='pt-12 md:pt-16 pb-16 md:pb-20 w-full bg-white blogSection'>
         <div className='container'>
-          <h2 className="text-[20px] -translate-x-8 font-[600] mb-4">From the Blogs</h2>
+          <h2 className="text-[20px] font-[600] mb-6"style={{ paddingTop: '30px' }}>From the Blogs</h2>
           <Swiper
             slidesPerView={4}
             spaceBetween={30}
             navigation={true}
             modules={[Navigation]}
-            className="blogSlider -translate-x-8"
+            className="blogSlider"
+            breakpoints={{
+              320: { slidesPerView: 1, spaceBetween: 15 },
+              640: { slidesPerView: 2, spaceBetween: 20 },
+              768: { slidesPerView: 3, spaceBetween: 25 },
+              1024: { slidesPerView: 4, spaceBetween: 30 }
+            }}
           >
             <SwiperSlide>
               <BlogItem />
@@ -155,13 +153,6 @@ const Home = () => {
       </section>
 
       <Footer />
-      <br/>
-      <br/>
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
     </>
   )
 }

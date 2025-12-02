@@ -23,129 +23,126 @@ import { FaInstagram } from "react-icons/fa";
 const Footer = () => {
     return (
         <>
-            <footer className='translate-y-55 !bg-white !w-full border-1 border-[rgba(0,0,0,0.1)]'>
-                <div className='container '>
-                    <div className='flex items-center !bg-white !w-[full] justify-center gap-5 translate-y-7 pb-5'>
-                        <div className='col flex items-center justify-center flex-col group w-[15%]'>
+            <footer className='bg-white w-full border-t border-[rgba(0,0,0,0.1)] pt-12 md:pt-16' style={{ paddingTop: '50px' }}>
+                <div className='container'>
+                    <div className='flex flex-wrap items-center bg-white w-full justify-center gap-6 md:gap-8 pb-8' style={{ paddingTop: '10px', paddingBottom: '20px' }}>
+                        <div className='col flex items-center justify-center flex-col group w-full sm:w-[45%] md:w-[18%] mb-4 md:mb-0'>
                             <LiaShippingFastSolid className='text-[40px] transition-all duration-300 group-hover:!text-red-500 group-hover:-translate-y-1' />
                             <h3 className='text-[16px] font-[600] mt-3'>
                                 Free Shipping
                             </h3>
-                            <p className='text-[12px] font-[500] '>For all Orders Over $20</p>
+                            <p className='text-[12px] font-[500]'>For all Orders Over $20</p>
                         </div>
 
-                        <div className='col flex items-center justify-center flex-col group w-[15%]'>
+                        <div className='col flex items-center justify-center flex-col group w-full sm:w-[45%] md:w-[18%] mb-4 md:mb-0'>
                             <TbTruckReturn className='text-[40px] transition-all duration-300 group-hover:!text-red-500 group-hover:-translate-y-1' />
                             <h3 className='text-[16px] font-[600] mt-3'>
                                 30 Days Returns
                             </h3>
-                            <p className='text-[12px] font-[500] '>For an Exchange Product</p>
+                            <p className='text-[12px] font-[500]'>For an Exchange Product</p>
                         </div>
-                        <div className='col flex items-center justify-center flex-col group w-[15%]'>
+                        <div className='col flex items-center justify-center flex-col group w-full sm:w-[45%] md:w-[18%] mb-4 md:mb-0'>
                             <IoWalletOutline className='text-[40px] transition-all duration-300 group-hover:!text-red-500 group-hover:-translate-y-1' />
                             <h3 className='text-[16px] font-[600] mt-3'>
                                 Secured Payment
                             </h3>
-                            <p className='text-[12px] font-[500] '>Payment Cards Accepted</p>
+                            <p className='text-[12px] font-[500]'>Payment Cards Accepted</p>
                         </div>
-                        <div className='col flex items-center justify-center flex-col group w-[15%]'>
+                        <div className='col flex items-center justify-center flex-col group w-full sm:w-[45%] md:w-[18%] mb-4 md:mb-0'>
                             <LiaGiftSolid className='text-[40px] transition-all duration-300 group-hover:!text-red-500 group-hover:-translate-y-1' />
                             <h3 className='text-[16px] font-[600] mt-3'>
                                 Special Gifts
                             </h3>
-                            <p className='text-[12px] font-[500] '>Our First Product Order</p>
+                            <p className='text-[12px] font-[500]'>Our First Product Order</p>
                         </div>
-                        <div className='col flex items-center justify-center flex-col group w-[15%]'>
+                        <div className='col flex items-center justify-center flex-col group w-full sm:w-[45%] md:w-[18%] mb-4 md:mb-0'>
                             <BiSupport className='text-[40px] transition-all duration-300 group-hover:!text-red-500 group-hover:-translate-y-1' />
                             <h3 className='text-[16px] font-[600] mt-3'>
                                 Support 24/7
                             </h3>
-                            <p className='text-[12px] font-[500] '>Contact us Anytime</p>
+                            <p className='text-[12px] font-[500]'>Contact us Anytime</p>
                         </div>
 
 
 
                     </div>
-                    <br />
 
-                    <hr />
+                    <hr className='mt-8 mb-12 md:mb-16' />
 
-                    <div className='footer flex items-center translate-y-11 '>
-                        <div className='part1 w-[25%] border-r border-[rgba(0,0,0,0.3)]'>
-                            <h2 className='text-[18px] font-[600]'>
+                    <div className='footer flex flex-col md:flex-row items-start md:items-start gap-8 md:gap-8 py-6 pb-12 md:pb-16' style={{ paddingTop: '15px', paddingBottom: '30px' }}>
+                        <div className='part1 w-full md:w-[25%] md:border-r border-[rgba(0,0,0,0.1)] md:pr-8'>
+                            <h2 className='text-[18px] font-[600] mb-4'>
                                 Contact us
                             </h2>
-                            <p className='text-[13px] font-[400]'>
-                                ClassShop - Mega Super Store
-                                Mandya,Karnataka
+                            <p className='text-[13px] font-[400] mb-3 leading-relaxed'>
+                                ClassShop - Mega Super Store<br />
+                                Mandya, Karnataka<br />
                                 India
                             </p>
-                            <Link className='link text-[13px]' to="mailto:someone@example.com">harsh@company.com</Link>
-                            <span className='text-[22px] font-[600] block w-full mt-3 !text-red-500'>
+                            <Link className='link text-[13px] block mb-4 hover:text-red-500 transition-colors' to="mailto:someone@example.com">harsh@company.com</Link>
+                            <span className='text-[22px] font-[600] block w-full mb-6 !text-red-500'>
                                 (+91) 8292035874
                             </span>
 
-
-                            <div className='flex items-center gap-2'>
-                                <IoChatboxOutline className='text-[40px] !text-red-500' />
-                                <span className='text-[16px] font-[600]'>
+                            <div className='flex items-center gap-3 mt-4'style={{ paddingTop: '20px' }}>
+                                <IoChatboxOutline className='text-[40px] !text-red-500 flex-shrink-0' />
+                                <span className='text-[16px] font-[600] leading-relaxed'>
                                     Online Chat<br />
-                                    Get Expert Help
+                                    <span className='text-[13px] font-[400] text-gray-600'>Get Expert Help</span>
                                 </span>
                             </div>
                         </div>
 
 
-                        <div className='part2 w-[40%] flex '>
-                            <div className="part2_col1 w-[50%] translate-x-10">
-                                <h2 className='text-[18px] font-[600]'>
+                        <div className='part2 w-full md:w-[40%] flex flex-col md:flex-row gap-8 md:gap-10'>
+                            <div className="part2_col1 w-full md:w-[50%]">
+                                <h2 className='text-[18px] font-[600] mb-4'>
                                     Products
                                 </h2>
 
-                                <ul className='list'>
-                                    <li className='list-none text[14px] w-full'><Link to="/" className='link'>Prices Drop</Link></li>
-                                    <li className='list-none text[14px] w-full'><Link to="/" className='link'>New Products</Link></li>
-                                    <li className='list-none text[14px] w-full'><Link to="/" className='link'>Best Deals</Link></li>
-                                    <li className='list-none text[14px] w-full'><Link to="/" className='link'>Contact us</Link></li>
-                                    <li className='list-none text[14px] w-full'><Link to="/" className='link'>Sitemap</Link></li>
-                                    <li className='list-none text[14px] w-full'><Link to="/" className='link'>Stores</Link></li>
-
+                                <ul className='list space-y-3'>
+                                    <li className='list-none text-[14px] w-full'><Link to="/" className='link hover:text-red-500 transition-colors'>Prices Drop</Link></li>
+                                    <li className='list-none text-[14px] w-full'><Link to="/" className='link hover:text-red-500 transition-colors'>New Products</Link></li>
+                                    <li className='list-none text-[14px] w-full'><Link to="/" className='link hover:text-red-500 transition-colors'>Best Deals</Link></li>
+                                    <li className='list-none text-[14px] w-full'><Link to="/" className='link hover:text-red-500 transition-colors'>Contact us</Link></li>
+                                    <li className='list-none text-[14px] w-full'><Link to="/" className='link hover:text-red-500 transition-colors'>Sitemap</Link></li>
+                                    <li className='list-none text-[14px] w-full'><Link to="/" className='link hover:text-red-500 transition-colors'>Stores</Link></li>
                                 </ul>
                             </div>
 
-                            <div className="part2_col2 w-[50%] translate-x-10">
-                                <h2 className='text-[18px] font-[600]'>
+                            <div className="part2_col2 w-full md:w-[50%]">
+                                <h2 className='text-[18px] font-[600] mb-4'>
                                     Our Company
                                 </h2>
 
-                                <ul className='list'>
-                                    <li className='list-none text[14px] w-full'><Link to="/" className='link'>Delivery</Link></li>
-                                    <li className='list-none text[14px] w-full'><Link to="/" className='link'>Legal Notice</Link></li>
-                                    <li className='list-none text[14px] w-full'><Link to="/" className='link'>Terms & Conditions</Link></li>
-                                    <li className='list-none text[14px] w-full'><Link to="/" className='link'>About Us</Link></li>
-                                    <li className='list-none text[14px] w-full'><Link to="/" className='link'>Secure Payment</Link></li>
-                                    <li className='list-none text[14px] w-full'><Link to="/" className='link'>Login</Link></li>
-
+                                <ul className='list space-y-3'>
+                                    <li className='list-none text-[14px] w-full'><Link to="/" className='link hover:text-red-500 transition-colors'>Delivery</Link></li>
+                                    <li className='list-none text-[14px] w-full'><Link to="/" className='link hover:text-red-500 transition-colors'>Legal Notice</Link></li>
+                                    <li className='list-none text-[14px] w-full'><Link to="/" className='link hover:text-red-500 transition-colors'>Terms & Conditions</Link></li>
+                                    <li className='list-none text-[14px] w-full'><Link to="/" className='link hover:text-red-500 transition-colors'>About Us</Link></li>
+                                    <li className='list-none text-[14px] w-full'><Link to="/" className='link hover:text-red-500 transition-colors'>Secure Payment</Link></li>
+                                    <li className='list-none text-[14px] w-full'><Link to="/" className='link hover:text-red-500 transition-colors'>Login</Link></li>
                                 </ul>
                             </div>
 
                         </div>
 
-                        <div className='part2 w-[35%] flex flex-col translate-x-11 translate-y-2'>
-                            <h2 className='text-[18px] font-[600]'>
+                        <div className='part2 w-full md:w-[35%] flex flex-col'>
+                            <h2 className='text-[18px] font-[600] mb-4'>
                                 Subscribe To Newsletter
                             </h2>
-                            <p className='text-[13px]'>Subscribe to our latest newsletter to get news about special discounts.</p>
+                            <p className='text-[13px] mb-5 leading-relaxed'>Subscribe to our latest newsletter to get news about special discounts.</p>
 
-                            <form className='mt-5'>
-                                <input type="text" className='w-full h-[45px] border outline-none pl-4 rounded-sm mb-4 focus:border-[rgba(0,0,0,0.3)]'
+                            <form className='flex flex-col gap-4'>
+                                <input type="text" className='w-full h-[45px] border outline-none pl-4 rounded-sm focus:border-red-500 transition-colors'
                                     placeholder='Your Email Address' />
-                                <Button className='btn-org'>Subscribe</Button>
-                                <FormControlLabel control={<Checkbox />} label="I agree to the terms and conditions and the privacy policy" />
-
+                                <Button className='btn-org w-full md:w-auto'>Subscribe</Button>
+                                <FormControlLabel 
+                                    control={<Checkbox />} 
+                                    label="I agree to the terms and conditions and the privacy policy"
+                                    className='text-[12px]'
+                                />
                             </form>
-
-
                         </div>
 
                     </div>
@@ -154,9 +151,9 @@ const Footer = () => {
             </footer>
 
 
-            <div className='bottomStrip border-t border-[rgba(0,0,0,0.1)] bg-white translate-y-65' >
-                <div className=' container flex items-center justify-center'>
-                    <ul className='flex items-center gap-2 -translate-x-100'>
+            <div className='bottomStrip border-t border-[rgba(0,0,0,0.1)] bg-white py-6' style={{ paddingTop: '10px', paddingBottom: '10px' }}>
+                <div className='container flex flex-col md:flex-row items-center justify-between gap-6'>
+                    <ul className='flex items-center gap-3'>
                         <li className='list-none'><Link to="/" target="_blank" className='!w-[35px] !h-[35px] rounded-full border border-[rgba(0,0,0,0.1)] 
                         flex items-center justify-center group hover:bg-red-500 transition-all'>
                             <CiFacebook className='text-[20px] group-hover:text-white' />
@@ -193,10 +190,10 @@ const Footer = () => {
                         </li>
                     </ul>
 
-                    <p className='text-[13px] text-center mb-0'>
+                    <p className='text-[13px] text-center mb-0 order-3 md:order-2'>
                         © 2025 - Ecommerce Template
                     </p>
-                    <div className='flex items-center translate-x-100'>
+                    <div className='flex items-center gap-2 order-2 md:order-3'>
                         <img src="/card1.png" alt='image' />
                         <img src="/card2.png" alt='image' />
                         <img src="/card3.png" alt='image' />

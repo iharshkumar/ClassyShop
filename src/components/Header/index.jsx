@@ -64,7 +64,7 @@ const Header = () => {
                         <Search />
                     </div>
 
-                    <div className="col3 w-[30%] flex items-center  translate-x-5 pr-10">
+                    <div className="col3 w-[30%] flex items-center justify-end">
                         {/* Additional header content can go here */}
                         <ul className="flex items-center justify-end gap-3 w-full">
                             <li className="list-none">

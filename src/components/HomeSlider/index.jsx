@@ -9,8 +9,8 @@ import { Navigation, Autoplay } from 'swiper/modules';
 
 const HomeSlider = () => {
     return (
-        <div className='homeSlider translate-y-2'>
-            <div className='container '>
+        <div className='homeSlider pt-4 md:pt-6 pb-6 md:pb-8'>
+            <div className='container'>
 
                 <Swiper
                     spaceBetween={10}
@@ -20,7 +20,7 @@ const HomeSlider = () => {
                         delay: 2500, 
                         disableOnInteraction: false 
                     }}
-                    className="sliderHome -translate-x-8">
+                    className="sliderHome">
                     <SwiperSlide>
                         <div className='item rounded-[20px] overflow-hidden'>
                             <img src="https://static.vecteezy.com/system/resources/thumbnails/004/707/493/small/online-shopping-on-phone-buy-sell-business-digital-web-banner-application-money-advertising-payment-ecommerce-illustration-search-vector.jpg"

@@ -16,7 +16,14 @@ const ProductsSlider = (props) => {
                 spaceBetween={10}
                 navigation={true}
                 modules={[Navigation]}
-                className="mySwiper -translate-x-8"
+                className="mySwiper productSlider"
+                breakpoints={{
+                  320: { slidesPerView: 1, spaceBetween: 10 },
+                  640: { slidesPerView: 2, spaceBetween: 10 },
+                  768: { slidesPerView: 3, spaceBetween: 10 },
+                  1024: { slidesPerView: props.items > 4 ? 4 : props.items, spaceBetween: 10 },
+                  1280: { slidesPerView: props.items, spaceBetween: 10 }
+                }}
             >
                 <SwiperSlide>
                     <ProductItem />
