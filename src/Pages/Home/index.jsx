@@ -12,6 +12,8 @@ import 'swiper/css/pagination';
 import { Navigation } from 'swiper/modules';
 import BlogItem from '../../components/BlogItem';
 import Footer from '../../components/Footer';
+import HomeSliderV2 from '../../components/HomeSliderV2';
+import BannerBoxV2 from '../../components/bannerBoxV2';
 
 
 
@@ -24,7 +26,40 @@ const Home = () => {
 
   return (
     <>
-      <HomeSlider />
+      {/* <HomeSlider /> */}
+
+
+      <section className='py-6' style={{ paddingTop: '20px' }}>
+        <div className='container flex w-[50%] mx-auto justify-start gap-5'>
+          <div className='part1 w-[70%]'>
+            <HomeSliderV2 />
+          </div>
+
+          <div className='part2 w-[30%] pl-5 flex items-center gap-5 justify-between flex-col'>
+            <BannerBoxV2 
+              info="Left" 
+              image={'https://serviceapi.spicezgold.com/download/1757183705017_1737020250515_New_Project_47.jpg'}
+              title="Iphone 16 Pro Max"
+              subtitle="Apple"
+              price="$169.00"
+              linkText="SHOP NOW"
+              linkTo="/"
+            />
+            
+            <BannerBoxV2 
+              info="right" 
+              image={'https://serviceapi.spicezgold.com/download/1760160666204_1737020916820_New_Project_52.jpg'}
+              title="Summer Collection"
+              subtitle="Nike"
+              price="$89.99"
+              linkText="EXPLORE"
+              linkTo="/products"
+            />
+          </div>
+
+        </div>
+      </section>
+
       <HomeCatSlider />
 
       <section className='bg-white pt-12 md:pt-16 pb-8 md:pb-12'>
@@ -61,7 +96,7 @@ const Home = () => {
 
       </section>
 
-      <section className="!w-full bg-white pt-12 md:pt-16 pb-8 md:pb-12"style={{ paddingTop: '30px' }}>
+      <section className="!w-full bg-white pt-12 md:pt-16 pb-8 md:pb-12" style={{ paddingTop: '30px' }}>
         <div className="container bg-white w-full">
           <div className="freeShippng w-full bg-gradient-to-r from-red-50 to-orange-50 flex 
           flex-col md:flex-row items-center justify-between gap-6 md:gap-8 rounded-lg p-8 md:p-10 mb-8 shadow-sm">
@@ -99,7 +134,7 @@ const Home = () => {
 
       <section className='bg-white pt-12 md:pt-16 pb-8 md:pb-12'>
         <div className='container bg-white flex flex-col gap-6'>
-          <h2 className='text-[20px] font-[600]' style={{ paddingTop: '30px'}}>Featured Products</h2>
+          <h2 className='text-[20px] font-[600]' style={{ paddingTop: '30px' }}>Featured Products</h2>
           <div className='flex flex-col gap-6'>
             <ProductsSlider items={6} />
             <AdsBannerSlider items={3} />
@@ -109,7 +144,7 @@ const Home = () => {
 
       <section className='pt-12 md:pt-16 pb-16 md:pb-20 w-full bg-white blogSection'>
         <div className='container'>
-          <h2 className="text-[20px] font-[600] mb-6"style={{ paddingTop: '30px' }}>From the Blogs</h2>
+          <h2 className="text-[20px] font-[600] mb-6" style={{ paddingTop: '30px' }}>From the Blogs</h2>
           <Swiper
             slidesPerView={4}
             spaceBetween={30}

@@ -13,6 +13,7 @@ const HomeSlider = () => {
             <div className='container'>
 
                 <Swiper
+                loop={true}
                     spaceBetween={10}
                     navigation={true}
                     modules={[Navigation , Autoplay]}
