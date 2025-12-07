@@ -56,6 +56,10 @@ body {
   padding: 7px 20px !important;
 }
 
+.btn-org:hover {
+  background: #090909 !important;
+}
+
 .link:hover {
   color: #ff5252;
 }
@@ -381,4 +385,25 @@ footer form input::placeholder {
 
 .homeSliderV2 .info .btn_ {
   transition: transform 0.8s ease 0.6s, opacity 0.8s ease 0.6s;
+}
+
+.MuiCheckbox-root {
+  padding: 6px !important;
+}
+
+.ReactCollapse--collapse {
+  transition: height 500ms;
+}
+
+.itemViewActions button.active svg,
+.itemViewActions button.active .MuiSvgIcon-root,
+.itemViewActions .MuiButton-root.active svg,
+.itemViewActions .MuiButton-root.active .MuiSvgIcon-root {
+  color: #ff5252 !important;
+  fill: #ff5252 !important;
+}
+
+.Mui-selected.MuiPaginationItem-page {
+  background-color: #ff5252 !important;
+  color: #ffffff !important;
 }

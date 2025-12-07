@@ -24,9 +24,9 @@ const Footer = () => {
     return (
         <>
             <footer className='bg-white w-full border-t border-[rgba(0,0,0,0.1)] pt-12 md:pt-16' style={{ paddingTop: '50px' }}>
-                <div className='container'>
-                    <div className='flex flex-wrap items-center bg-white w-full justify-center gap-6 md:gap-8 pb-8' style={{ paddingTop: '10px', paddingBottom: '20px' }}>
-                        <div className='col flex items-center justify-center flex-col group w-full sm:w-[45%] md:w-[18%] mb-4 md:mb-0'>
+                <div className='container w-full'>
+                    <div className='flex flex-wrap items-center bg-white justify-center gap-6 md:gap-8 pb-8' style={{ paddingTop: '10px', paddingBottom: '20px' }}>
+                        <div className='col flex items-center justify-center flex-col group w-full sm:w-[35%] md:w-[18%] mb-4 md:mb-0'>
                             <LiaShippingFastSolid className='text-[40px] transition-all duration-300 group-hover:!text-red-500 group-hover:-translate-y-1' />
                             <h3 className='text-[16px] font-[600] mt-3'>
                                 Free Shipping
@@ -34,28 +34,28 @@ const Footer = () => {
                             <p className='text-[12px] font-[500]'>For all Orders Over $20</p>
                         </div>
 
-                        <div className='col flex items-center justify-center flex-col group w-full sm:w-[45%] md:w-[18%] mb-4 md:mb-0'>
+                        <div className='col flex items-center justify-center flex-col group w-full sm:w-[35%] md:w-[18%] mb-4 md:mb-0'>
                             <TbTruckReturn className='text-[40px] transition-all duration-300 group-hover:!text-red-500 group-hover:-translate-y-1' />
                             <h3 className='text-[16px] font-[600] mt-3'>
                                 30 Days Returns
                             </h3>
                             <p className='text-[12px] font-[500]'>For an Exchange Product</p>
                         </div>
-                        <div className='col flex items-center justify-center flex-col group w-full sm:w-[45%] md:w-[18%] mb-4 md:mb-0'>
+                        <div className='col flex items-center justify-center flex-col group w-full sm:w-[35%] md:w-[18%] mb-4 md:mb-0'>
                             <IoWalletOutline className='text-[40px] transition-all duration-300 group-hover:!text-red-500 group-hover:-translate-y-1' />
                             <h3 className='text-[16px] font-[600] mt-3'>
                                 Secured Payment
                             </h3>
                             <p className='text-[12px] font-[500]'>Payment Cards Accepted</p>
                         </div>
-                        <div className='col flex items-center justify-center flex-col group w-full sm:w-[45%] md:w-[18%] mb-4 md:mb-0'>
+                        <div className='col flex items-center justify-center flex-col group w-full sm:w-[35%] md:w-[18%] mb-4 md:mb-0'>
                             <LiaGiftSolid className='text-[40px] transition-all duration-300 group-hover:!text-red-500 group-hover:-translate-y-1' />
                             <h3 className='text-[16px] font-[600] mt-3'>
                                 Special Gifts
                             </h3>
                             <p className='text-[12px] font-[500]'>Our First Product Order</p>
                         </div>
-                        <div className='col flex items-center justify-center flex-col group w-full sm:w-[45%] md:w-[18%] mb-4 md:mb-0'>
+                        <div className='col flex items-center justify-center flex-col group w-full sm:w-[35%] md:w-[15%] mb-4 md:mb-0'>
                             <BiSupport className='text-[40px] transition-all duration-300 group-hover:!text-red-500 group-hover:-translate-y-1' />
                             <h3 className='text-[16px] font-[600] mt-3'>
                                 Support 24/7

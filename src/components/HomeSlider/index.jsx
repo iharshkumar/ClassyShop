@@ -13,13 +13,13 @@ const HomeSlider = () => {
             <div className='container'>
 
                 <Swiper
-                loop={true}
+                    loop={true}
                     spaceBetween={10}
                     navigation={true}
-                    modules={[Navigation , Autoplay]}
-                    autoplay={{ 
-                        delay: 2500, 
-                        disableOnInteraction: false 
+                    modules={[Navigation, Autoplay]}
+                    autoplay={{
+                        delay: 2500,
+                        disableOnInteraction: false
                     }}
                     className="sliderHome">
                     <SwiperSlide>
@@ -49,21 +49,21 @@ const HomeSlider = () => {
                                 alt="Banner Slide" className='w-full' />
                         </div>
                     </SwiperSlide>
-                    
+
                     <SwiperSlide>
                         <div className='item rounded-[20px] overflow-hidden'>
                             <img src="https://static.vecteezy.com/system/resources/thumbnails/006/642/998/small/online-shopping-on-website-e-commerce-applications-and-digital-marketing-hand-holding-smartphonwith-the-delivery-man-template-for-banner-web-landing-page-social-media-flat-design-concept-vector.jpg"
                                 alt="Banner Slide" className='w-full' />
                         </div>
                     </SwiperSlide>
-                    
+
                     <SwiperSlide>
                         <div className='item rounded-[20px] overflow-hidden'>
                             <img src="https://images.all-free-download.com/images/graphiclarge/ecommerce_website_banner_template_customers_sketch_flat_design_6920122.jpg"
                                 alt="Banner Slide" className='w-full' />
                         </div>
                     </SwiperSlide>
-                    
+
                     <SwiperSlide>
                         <div className='item rounded-[20px] overflow-hidden'>
                             <img src="https://images.all-free-download.com/images/thumbjpg/ecommerce_website_banner_template_shoppers_sketch_6920121.jpg"

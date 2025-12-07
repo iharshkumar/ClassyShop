@@ -11,9 +11,9 @@ import 'swiper/css';
 import 'swiper/css/pagination';
 import { Navigation } from 'swiper/modules';
 import BlogItem from '../../components/BlogItem';
-import Footer from '../../components/Footer';
 import HomeSliderV2 from '../../components/HomeSliderV2';
 import BannerBoxV2 from '../../components/bannerBoxV2';
+import AdsBannerSliderV2 from '../../components/AdsBannerSliderV2';
 
 
 
@@ -31,7 +31,7 @@ const Home = () => {
 
       <section className='py-6' style={{ paddingTop: '20px' }}>
         <div className='container flex w-[50%] mx-auto justify-start gap-5'>
-          <div className='part1 w-[70%]'>
+          <div className='part1 w-[70%] ' >
             <HomeSliderV2 />
           </div>
 
@@ -117,7 +117,7 @@ const Home = () => {
 
           </div>
 
-          <AdsBannerSlider items={4} />
+          <AdsBannerSliderV2 items={4} />
 
         </div>
       </section>
@@ -187,7 +187,7 @@ const Home = () => {
 
       </section>
 
-      <Footer />
+    
     </>
   )
 }
