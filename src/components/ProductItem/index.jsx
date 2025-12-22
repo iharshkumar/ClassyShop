@@ -42,7 +42,7 @@ const ProductItem = () => {
                 </div>
             </div>
             <div className='productItem__info'>
-                <h6 className='productItem__category'>
+                <h6 className='productItem__category !font-[400]'>
                     <Link to="/" className='productItem__link'>
                         Soylent Green
                     </Link>

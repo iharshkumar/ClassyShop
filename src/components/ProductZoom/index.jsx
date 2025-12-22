@@ -27,38 +27,39 @@ export const ProductZoom = () => {
                     <Swiper
                         ref={zoomSliderSml}
                         direction={'vertical'}
-                        slidesPerView={4}
+                        slidesPerView={5}
                         spaceBetween={0}
                         navigation={true}
                         modules={[Navigation]}
-                        className="zoomProductSliderThumbs !h-[350px] !overflow-hidden"
+                        className="zoomProductSliderThumbs !h-[440px] !overflow-hidden"
 
                     >
                         <SwiperSlide>
-                            <div className={`item !rounded-md overflow-hidden cursor-pointer group ${slideIndex === 0 ? 'opacity-1' : 'opacity-30'}`} onClick={() => goto(0)}>
+                            <div className={`item !rounded-md !overflow-hidden cursor-pointer group ${slideIndex === 0 ? 'opacity-1' : 'opacity-30'}`} onClick={() => goto(0)}>
                                 <img src="https://api.spicezgold.com/download/file_1734526836569_modestouze-attires-women-s-mukaish-worked-ethnic-jacket-with-top-and-pant-set-product-images-rvziicqwq6-0-202403231855.jpg"
                                     className='w-full transition-all group-hover:scale-105' />
                             </div>
                         </SwiperSlide>
+                        
                         <SwiperSlide>
-                            <div className={`item !rounded-md overflow-hidden cursor-pointer group ${slideIndex === 1 ? 'opacity-1' : 'opacity-30'}`} onClick={() => goto(1)}>
+                            <div className={`item !rounded-md !overflow-hidden cursor-pointer group ${slideIndex === 1 ? 'opacity-1' : 'opacity-30'}`} onClick={() => goto(1)}>
                                 <img src="https://api.spicezgold.com/download/file_1734526836571_modestouze-attires-women-s-mukaish-worked-ethnic-jacket-with-top-and-pant-set-product-images-rvziicqwq6-1-202403231855.jpg"
                                     className='w-full transition-all group-hover:scale-105' />
                             </div>
                         </SwiperSlide><SwiperSlide>
-                            <div className={`item !rounded-md overflow-hidden cursor-pointer group ${slideIndex === 2 ? 'opacity-1' : 'opacity-30'}`} onClick={() => goto(2)}>
+                            <div className={`item !rounded-md !overflow-hidden cursor-pointer group ${slideIndex === 2 ? 'opacity-1' : 'opacity-30'}`} onClick={() => goto(2)}>
                                 <img src="https://api.spicezgold.com/download/file_1734526836573_modestouze-attires-women-s-mukaish-worked-ethnic-jacket-with-top-and-pant-set-product-images-rvziicqwq6-2-202403231855.jpg"
                                     className='w-full transition-all group-hover:scale-105' />
                             </div>
                         </SwiperSlide>
                         <SwiperSlide>
-                            <div className={`item !rounded-md overflow-hidden cursor-pointer group ${slideIndex === 3 ? 'opacity-1' : 'opacity-30'}`} onClick={() => goto(3)}>
+                            <div className={`item !rounded-md !overflow-hidden cursor-pointer group ${slideIndex === 3 ? 'opacity-1' : 'opacity-30'}`} onClick={() => goto(3)}>
                                 <img src="https://api.spicezgold.com/download/file_1734526836577_modestouze-attires-women-s-mukaish-worked-ethnic-jacket-with-top-and-pant-set-product-images-rvziicqwq6-3-202403231855.jpg"
                                     className='w-full transition-all group-hover:scale-105' />
                             </div>
                         </SwiperSlide>
                         <SwiperSlide>
-                            <div className={`item !rounded-md overflow-hidden cursor-pointer group ${slideIndex === 4 ? 'opacity-1' : 'opacity-30'}`} onClick={() => goto(4)}>
+                            <div className={`item !rounded-md !overflow-hidden cursor-pointer group ${slideIndex === 4 ? 'opacity-1' : 'opacity-30'}`} onClick={() => goto(4)}>
                                 <img src="https://api.spicezgold.com/download/file_1734529297930_fiorra-women-s-teapot-blue-pure-cotton-a-line-kurta-with-sharara-and-dupatta-product-images-rvo9n8udfg-1-202307260626.jpg"
                                     className='w-full transition-all group-hover:scale-105' />
                             </div>
@@ -71,7 +72,7 @@ export const ProductZoom = () => {
                     </Swiper>
                 </div>
 
-                <div className='zoomContainer w-[80%] !h-[350px] overflow-hidden'>
+                <div className='zoomContainer w-[80%] !h-[450px] overflow-hidden !rounded-md'>
                     <Swiper
                         ref={zoomSliderBig}
                         slidesPerView={1}
@@ -101,6 +102,12 @@ export const ProductZoom = () => {
                                 zoomType="hover"
                                 zoomScale={1}
                                 src={'https://api.spicezgold.com/download/file_1734526836577_modestouze-attires-women-s-mukaish-worked-ethnic-jacket-with-top-and-pant-set-product-images-rvziicqwq6-3-202403231855.jpg'} />
+                        </SwiperSlide>
+                        <SwiperSlide>
+                            <InnerImageZoom
+                                zoomType="hover"
+                                zoomScale={1}
+                                src={'https://api.spicezgold.com/download/file_1734526836571_modestouze-attires-women-s-mukaish-worked-ethnic-jacket-with-top-and-pant-set-product-images-rvziicqwq6-1-202403231855.jpg'} />
                         </SwiperSlide>
                         <SwiperSlide>
                             <InnerImageZoom

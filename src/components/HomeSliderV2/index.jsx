@@ -33,7 +33,7 @@ const HomeSliderV2 = () => {
         >
             <SwiperSlide>
                 <div className="item w-[full] rounded-md overflow-hidden relative">
-                    <img src="https://serviceapi.spicezgold.com/download/1756273096312_1737036773579_sample-1.jpg" alt="Banner 1" />
+                    <img src="https://t3.ftcdn.net/jpg/03/20/68/66/360_F_320686681_Ur6vdYQgDC9WiijiVfxlRyQffxOgfeFz.jpg" alt="Banner 1" />
 
                     <div className='info absolute top-0 -right-[100%] opacity-0 w-[50%] h-[100%] z-50 p-8 flex items-center 
                     flex-col justify-center transition-all duration-700'>
