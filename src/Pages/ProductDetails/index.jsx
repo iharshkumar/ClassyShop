@@ -8,6 +8,10 @@ import QtyBox from '../../components/QtyBox';
 import { MdOutlineShoppingCart } from 'react-icons/md';
 import { IoGitCompareOutline } from 'react-icons/io5'
 import { FaRegHeart } from 'react-icons/fa';
+import TextField from '@mui/material/TextField';
+import ProductsSlider from '../../components/ProductsSlider';
+import AdsBannerSlider from '../../components/AdsBannerSlider';
+
 
 export const ProductDetails = () => {
 
@@ -49,7 +53,7 @@ export const ProductDetails = () => {
                         <ProductZoom />
                     </div>
 
-                    <div className='productContent w-[60%]'>
+                    <div className='productContent w-[60%] !pr-10 !pl=10'>
                         <h1 className='text-[25px] font-[600] !mb-2'>Cotton Co Ord Set-Tie & Dye Tracksuit with Insert Pockets-Women Tie & Dye 2-Piece Co-Ord
                             Set-1PAIR (Size-XL)</h1>
                         <div className='flex items-center gap-3'>
@@ -88,7 +92,7 @@ export const ProductDetails = () => {
                         </div>
 
                         <p className='text-[14px] !mt-3 !mb-3'>Free Shipping (Est. Delivery Time 2-3 Days)</p>
-                        <div className='flex items-center  gap-5'>
+                        <div className='flex items-center  gap-5 !py-3'>
                             <div className='qtyBoxWrapper w-[70px]'>
                                 <QtyBox />
                             </div>
@@ -99,7 +103,7 @@ export const ProductDetails = () => {
 
                         </div>
 
-                        <div className='flex items-center gap-7 !mt-6'>
+                        <div className='flex items-center gap-7 !mt-4'>
                             <span className='flex items-center gap-2 text-[15px] link cursor-pointer font-[500]'>
                                 < FaRegHeart className='text-[18px]' />
                                 Add to Wishlist
@@ -173,10 +177,306 @@ export const ProductDetails = () => {
                         </div>
                     }
 
+                    {
+                        activeTab === 1 &&
+                        <div className='shadow-md w-full !py-5 !p-8 rounded-md'>
 
+                            <div class="relative overflow-x-auto bg-neutral-primary-soft !shadow-xs rounded-base !border !border-default">
+                                <table class="w-full text-sm text-left rtl:text-right text-body">
+                                    <thead class="text-sm text-body bg-neutral-secondary-soft border-b rounded-base border-default">
+                                        <tr>
+                                            <th scope="col" class="!px-6 !py-3 font-medium">
+                                                Stand Up                                        </th>
+                                            <th scope="col" class="!px-6 !py-3 font-medium">
+                                                Folded (w/o wheels)
+                                            </th>
+                                            <th scope="col" class="!px-6 !py-3 font-medium">
+                                                Folded (w/ wheels)
+                                            </th>
+                                            <th scope="col" class="!px-6 !py-3 font-medium">
+                                                Door Pass Through
+                                            </th>
+                                            <th scope="col" class="!px-6 !py-3 font-medium">
+                                                Frame
+                                            </th>
+
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr class="!bg-neutral-primary border-b !border-default">
+
+                                            <td class="!px-6 !py-4">
+                                                35″L x 24″W x 37-45″H(front to back wheel)
+                                            </td>
+
+                                            <td class="!px-6 !py-4">
+                                                32.5″L x 18.5″W x 16.5″H
+                                            </td>
+                                            <td class="!px-6 !py-4">
+                                                32.5″L x 24″W x 18.5″H
+                                            </td>
+                                            <td class="!px-6 !py-4">
+                                                $24
+                                            </td>
+                                            <td class="!px-6 !py-4">
+                                                Aluminum
+                                            </td>
+                                        </tr>
+
+
+                                        <tr class="!bg-neutral-primary border-b !border-default">
+
+                                            <td class="!px-6 !py-4   font-[500]">
+                                                35″L x 24″W x 37-45″H(front to back wheel)
+                                            </td>
+
+                                            <td class="!px-6 !py-4 font-[500]">
+                                                32.5″L x 18.5″W x 16.5″H
+                                            </td>
+                                            <td class="!px-6 !py-4 font-[500]">
+                                                32.5″L x 24″W x 18.5″H
+                                            </td>
+                                            <td class="!px-6 !py-4 font-[500]">
+                                                $24
+                                            </td>
+                                            <td class="!px-6 !py-4 font-[500]">
+                                                Aluminum
+                                            </td>
+                                        </tr>
+                                        <tr class="!bg-neutral-primary border-b !border-default">
+
+                                            <td class="!px-6 !py-4   font-[500]">
+                                                35″L x 24″W x 37-45″H(front to back wheel)
+                                            </td>
+
+                                            <td class="!px-6 !py-4 font-[500]">
+                                                32.5″L x 18.5″W x 16.5″H
+                                            </td>
+                                            <td class="!px-6 !py-4 font-[500]">
+                                                32.5″L x 24″W x 18.5″H
+                                            </td>
+                                            <td class="!px-6 !py-4 font-[500]">
+                                                $24
+                                            </td>
+                                            <td class="!px-6 !py-4 font-[500]">
+                                                Aluminum
+                                            </td>
+                                        </tr>
+                                        <tr class="!bg-neutral-primary border-b !border-default">
+
+                                            <td class="!px-6 !py-4   font-[500]">
+                                                35″L x 24″W x 37-45″H(front to back wheel)
+                                            </td>
+
+                                            <td class="!px-6 !py-4 font-[500]">
+                                                32.5″L x 18.5″W x 16.5″H
+                                            </td>
+                                            <td class="!px-6 !py-4 font-[500]">
+                                                32.5″L x 24″W x 18.5″H
+                                            </td>
+                                            <td class="!px-6 !py-4 font-[500]">
+                                                $24
+                                            </td>
+                                            <td class="!px-6 !py-4 font-[500]">
+                                                Aluminum
+                                            </td>
+                                        </tr>
+                                        <tr class="!bg-neutral-primary border-b !border-default">
+
+                                            <td class="!px-6 !py-4   font-[500]">
+                                                35″L x 24″W x 37-45″H(front to back wheel)
+                                            </td>
+
+                                            <td class="!px-6 !py-4 font-[500]">
+                                                32.5″L x 18.5″W x 16.5″H
+                                            </td>
+                                            <td class="!px-6 !py-4 font-[500]">
+                                                32.5″L x 24″W x 18.5″H
+                                            </td>
+                                            <td class="!px-6 !py-4 font-[500]">
+                                                $24
+                                            </td>
+                                            <td class="!px-6 !py-4 font-[500]">
+                                                Aluminum
+                                            </td>
+                                        </tr>
+
+
+
+
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                    }
+                    {
+                        activeTab === 2 &&
+                        <div className='shadow-md w-[80%] !py-5 !p-8 rounded-md'>
+                            <div className='w-full productReviewContainer'>
+                                <h2 className='text-[18px]'>Customer question & Answers</h2>
+
+
+                                <div className='reviewScroll w-full max-h-[300px] overflow-y-scroll 
+                                overflow-x-hidden !mt-5 !pr-5'>
+
+                                    <div className='review !pt-5 w-full flex items-center justify-between !pb-5 !border-b !border-[rgba(0,0,0,0.1)]'>
+                                        <div className='info w-[60%] flex items-center gap-3'>
+                                            <div className='img w-[90px] h-[90px] overflow-hidden !rounded-full '>
+                                                <img src="https://static.vecteezy.com/system/resources/thumbnails/029/271/062/small/avatar-profile-icon-in-flat-style-male-user-profile-illustration-on-isolated-background-man-profile-sign-business-concept-vector.jpg "
+                                                    className='w-full' />
+                                            </div>
+                                            <div className='w-[80%]'>
+                                                <h4 className='text-[16px]'>Rinku Verma</h4>
+                                                <h5 className='text-[13px] !mb-0'>2024-12-01</h5>
+                                                <p className='!mt-0 !mb-0'>Nice Product</p>
+                                            </div>
+
+
+
+
+                                        </div>
+                                        <Rating name="size-small"
+                                            defaultValue={4}
+                                            readOnly />
+                                    </div>
+                                    <div className='review !pt-5 w-full flex items-center justify-between !pb-5 !border-b !border-[rgba(0,0,0,0.1)]'>
+                                        <div className='info w-[60%] flex items-center gap-3'>
+                                            <div className='img w-[90px] h-[90px] overflow-hidden !rounded-full '>
+                                                <img src="https://static.vecteezy.com/system/resources/thumbnails/029/271/062/small/avatar-profile-icon-in-flat-style-male-user-profile-illustration-on-isolated-background-man-profile-sign-business-concept-vector.jpg "
+                                                    className='w-full' />
+                                            </div>
+                                            <div className='w-[80%]'>
+                                                <h4 className='text-[16px]'>Rinku Verma</h4>
+                                                <h5 className='text-[13px] !mb-0'>2024-12-01</h5>
+                                                <p className='!mt-0 !mb-0'>Nice Product</p>
+                                            </div>
+
+
+
+
+                                        </div>
+                                        <Rating name="size-small"
+                                            defaultValue={4}
+                                            readOnly />
+                                    </div>
+                                    <div className='review !pt-5 w-full flex items-center justify-between !pb-5 !border-b !border-[rgba(0,0,0,0.1)]'>
+                                        <div className='info w-[60%] flex items-center gap-3'>
+                                            <div className='img w-[90px] h-[90px] overflow-hidden !rounded-full '>
+                                                <img src="https://static.vecteezy.com/system/resources/thumbnails/029/271/062/small/avatar-profile-icon-in-flat-style-male-user-profile-illustration-on-isolated-background-man-profile-sign-business-concept-vector.jpg "
+                                                    className='w-full' />
+                                            </div>
+                                            <div className='w-[80%]'>
+                                                <h4 className='text-[16px]'>Rinku Verma</h4>
+                                                <h5 className='text-[13px] !mb-0'>2024-12-01</h5>
+                                                <p className='!mt-0 !mb-0'>Nice Product</p>
+                                            </div>
+
+
+
+
+                                        </div>
+                                        <Rating name="size-small"
+                                            defaultValue={4}
+                                            readOnly />
+                                    </div>
+                                    <div className='review !pt-5 w-full flex items-center justify-between !pb-5 !border-b !border-[rgba(0,0,0,0.1)]'>
+                                        <div className='info w-[60%] flex items-center gap-3'>
+                                            <div className='img w-[90px] h-[90px] overflow-hidden !rounded-full '>
+                                                <img src="https://static.vecteezy.com/system/resources/thumbnails/029/271/062/small/avatar-profile-icon-in-flat-style-male-user-profile-illustration-on-isolated-background-man-profile-sign-business-concept-vector.jpg "
+                                                    className='w-full' />
+                                            </div>
+                                            <div className='w-[80%]'>
+                                                <h4 className='text-[16px]'>Rinku Verma</h4>
+                                                <h5 className='text-[13px] !mb-0'>2024-12-01</h5>
+                                                <p className='!mt-0 !mb-0'>Nice Product</p>
+                                            </div>
+
+
+
+
+                                        </div>
+                                        <Rating name="size-small"
+                                            defaultValue={4}
+                                            readOnly />
+                                    </div>
+                                    <div className='review !pt-5 w-full flex items-center justify-between !pb-5 !border-b !border-[rgba(0,0,0,0.1)]'>
+                                        <div className='info w-[60%] flex items-center gap-3'>
+                                            <div className='img w-[90px] h-[90px] overflow-hidden !rounded-full '>
+                                                <img src="https://static.vecteezy.com/system/resources/thumbnails/029/271/062/small/avatar-profile-icon-in-flat-style-male-user-profile-illustration-on-isolated-background-man-profile-sign-business-concept-vector.jpg "
+                                                    className='w-full' />
+                                            </div>
+                                            <div className='w-[80%]'>
+                                                <h4 className='text-[16px]'>Rinku Verma</h4>
+                                                <h5 className='text-[13px] !mb-0'>2024-12-01</h5>
+                                                <p className='!mt-0 !mb-0'>Nice Product</p>
+                                            </div>
+
+
+
+
+                                        </div>
+                                        <Rating name="size-small"
+                                            defaultValue={4}
+                                            readOnly />
+                                    </div>
+                                    <div className='review !pt-5 w-full flex items-center justify-between !pb-5 !border-b !border-[rgba(0,0,0,0.1)]'>
+                                        <div className='info w-[60%] flex items-center gap-3'>
+                                            <div className='img w-[90px] h-[90px] overflow-hidden !rounded-full '>
+                                                <img src="https://static.vecteezy.com/system/resources/thumbnails/029/271/062/small/avatar-profile-icon-in-flat-style-male-user-profile-illustration-on-isolated-background-man-profile-sign-business-concept-vector.jpg "
+                                                    className='w-full' />
+                                            </div>
+                                            <div className='w-[80%]'>
+                                                <h4 className='text-[16px]'>Rinku Verma</h4>
+                                                <h5 className='text-[13px] !mb-0'>2024-12-01</h5>
+                                                <p className='!mt-0 !mb-0'>Nice Product</p>
+                                            </div>
+
+
+
+
+                                        </div>
+                                        <Rating name="size-small"
+                                            defaultValue={4}
+                                            readOnly />
+                                    </div>
+                                </div>
+
+                                <br />
+
+                                <div className='reviewForm !bg-[#f1f1f1] !p-4 !rounded-md'>
+                                    <h2 className='text-[18px]'>Add a Review </h2>
+                                    <form className='w-full !mt-5'>
+                                        <TextField
+                                            id="outlined-multiline-flexible"
+                                            label="Write a Review.."
+                                            className='w-full !mb-6'
+                                            multiline
+                                            rows={6}
+                                        />
+                                        <br />
+                                        <Rating name="size-small"
+                                            defaultValue={4}
+                                            readOnly />
+                                        <div className='flex items-center !mt-5'>
+                                            <Button className='btn-org !rounded-lg'>Submit Review</Button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    }
                 </div>
 
+                <div className='container !pt-3'>
+                    <h2 className='text-[20px] font-[600] !pb-5' style={{ paddingTop: '30px' }}>Related Products </h2>
+                    <div className='flex flex-col gap-6 !pb-0'>
+                        <ProductsSlider items={6} />
+                    </div>
+                </div>
             </section>
+
+
         </>
     )
 }
