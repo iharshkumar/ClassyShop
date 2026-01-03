@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import "../ProductItem/style.css";
 import { Link } from 'react-router-dom';
 import Rating from '@mui/material/Rating';
@@ -7,9 +7,13 @@ import { FaRegHeart } from 'react-icons/fa';
 import { IoGitCompareOutline } from 'react-icons/io5';
 import { MdZoomOutMap } from 'react-icons/md';
 import { FaShoppingCart } from 'react-icons/fa';
-
+import { MyContext } from '../../App';
 
 const ProductItemListView = () => {
+
+    const context = useContext(MyContext);
+
+
     return (
         <div className='productItem bg-white border border-gray-200 rounded-lg p-4 mb-4 flex gap-4' style={{flexDirection: 'row', height: 'auto'}}>
             <div className="productItem__imageWrapper flex-shrink-0" style={{width: '250px', height: '250px', borderRadius: '12px'}}>
@@ -31,7 +35,7 @@ const ProductItemListView = () => {
                     10%
                 </span>
                 <div className='productItem__actions'>
-                    <Button className='productItem__actionBtn' title="Quick View">
+                    <Button className='productItem__actionBtn' title="Quick View" onClick={()=>context.setOpenProductDetailsModal(true)}>
                         <MdZoomOutMap />
                     </Button>
                     <Button className='productItem__actionBtn' title="Compare">

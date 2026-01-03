@@ -11,11 +11,6 @@ import { LuMenu } from 'react-icons/lu';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 
-function handleClick(event) {
-    event.preventDefault();
-    console.info('You clicked a breadcrumb.');
-}
-
 const ProductListing = () => {
     const [isItemView, setIsItemView] = useState('grid');
     const [anchorEl, setAnchorEl] = useState(null);
