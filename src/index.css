@@ -68,6 +68,10 @@ h1,h2,h3,h4,h5,h6{font-weight: 600;}
   background: #090909 !important;
 }
 
+btn-lg{ font-size: 18px;
+  padding: 10px 20px !important;
+}
+
 .link:hover {
   color: #ff5252;
 }
