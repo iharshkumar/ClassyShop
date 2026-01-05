@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { BrowserRouter, Routes, Route } from 'react-router-dom'
+import { BrowserRouter, Routes, Route, Link } from 'react-router-dom'
 import './index.css'          // Tailwind styles
 import Header from './components/Header/index.jsx';
 import Footer from './components/Footer/index.jsx';
@@ -28,14 +28,24 @@ function App() {
   const [maxWidth] = React.useState('lg');
   const [fullWidth] = React.useState(true)
 
+  const [openCartPanel, setOpenCartPanel] = useState(false);
+
+
 
   const handleCloseProductDetailsModal = () => {
     setOpenProductDetailsModal(false);
   };
 
+  const toggleCartPanel = (newOpen) => {
+    setOpenCartPanel(newOpen);
+  };
+
 
   const values = {
-    setOpenProductDetailsModal
+    setOpenProductDetailsModal,
+    setOpenCartPanel,
+    toggleCartPanel,
+    openCartPanel
   }
 
   return (
@@ -79,8 +89,11 @@ function App() {
             </div>
           </div>
         </DialogContent>
-
       </Dialog>
+
+
+      
+
     </>
   )
 }

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { LiaShippingFastSolid } from 'react-icons/lia';
 import { BiSupport } from "react-icons/bi";
 import { LiaGiftSolid } from "react-icons/lia";
@@ -14,6 +14,12 @@ import { RiTwitterXLine } from "react-icons/ri";
 import { CiYoutube } from "react-icons/ci";
 import { FaPinterest } from "react-icons/fa";
 import { FaInstagram } from "react-icons/fa";
+import { IoCloseSharp } from "react-icons/io5";
+import Drawer from '@mui/material/Drawer';
+import CartPanel from "../CartPanel";
+import { MyContext } from '../../App.jsx';
+
+
 
 
 
@@ -21,6 +27,7 @@ import { FaInstagram } from "react-icons/fa";
 
 
 const Footer = () => {
+    const context = useContext(MyContext)
     return (
         <>
             <footer className='bg-white w-full border-t border-[rgba(0,0,0,0.1)] pt-12 md:pt-16' style={{ paddingTop: '50px' }}>
@@ -84,7 +91,7 @@ const Footer = () => {
                                 (+91) 8292035874
                             </span>
 
-                            <div className='flex items-center gap-3 mt-4'style={{ paddingTop: '20px' }}>
+                            <div className='flex items-center gap-3 mt-4' style={{ paddingTop: '20px' }}>
                                 <IoChatboxOutline className='text-[40px] !text-red-500 flex-shrink-0' />
                                 <span className='text-[16px] font-[600] leading-relaxed'>
                                     Online Chat<br />
@@ -137,8 +144,8 @@ const Footer = () => {
                                 <input type="text" className='w-full h-[45px] border outline-none pl-4 rounded-sm focus:border-red-500 transition-colors'
                                     placeholder='Your Email Address' />
                                 <Button className='btn-org w-full md:w-auto'>Subscribe</Button>
-                                <FormControlLabel 
-                                    control={<Checkbox />} 
+                                <FormControlLabel
+                                    control={<Checkbox />}
                                     label="I agree to the terms and conditions and the privacy policy"
                                     className='text-[12px]'
                                 />
@@ -203,6 +210,16 @@ const Footer = () => {
                 </div>
             </div>
 
+
+            {/*Cart Panel*/}
+            <Drawer open={context.openCartPanel} onClose={() => context.setOpenCartPanel(false)} anchor={"right"}
+                className="cartPanel">
+                <div className="flex items-center justify-between !py-3 !px-4 gap-3 border-b border-[rgba(0,0,0,0.1)]">
+                    <h4>Shopping Cart (1)</h4>
+                    <IoCloseSharp className="text-[20px] cursor-pointer" onClick={() => context.setOpenCartPanel(false)} />
+                </div>
+                <CartPanel />
+            </Drawer>
 
         </>
     )
