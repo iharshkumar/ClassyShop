@@ -40,8 +40,8 @@ const CartItems = (props) => {
         }
     };
     return (
-        <div className='cartItem w-full !p-3 flex items-center gap-4 !pb-5 border-b border-[rgba(0,0,0.1)]'>
-            <div className='img w-[15%] !rounded-md overflow-hidden'>
+        <div className='cartItem w-full !p-3 flex items-center gap-4 !pb-5 !border-b !border-[rgba(0,0,0.1)]'>
+            <div className='img w-[15%] !rounded-md !overflow-hidden'>
                 <Link to="/product/84758" className="group">
                     <img src="https://serviceapi.spicezgold.com/download/1742447169245_blubags-40l-men-backpack-school-bag-college-bag-office-bag-laptop-bag-grey-product-images-rvamcbxklo-0-202303100916.webp"
                         className='w-full group-hover:scale-105 transition-all' />
