@@ -22,7 +22,14 @@ p {
   margin-top: 10px;
 }
 
-h1,h2,h3,h4,h5,h6{font-weight: 600;}
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-weight: 600;
+}
 
 ::-webkit-scrollbar {
   width: 8px !important;
@@ -68,7 +75,8 @@ h1,h2,h3,h4,h5,h6{font-weight: 600;}
   background: #090909 !important;
 }
 
-btn-lg{ font-size: 18px;
+btn-lg {
+  font-size: 18px;
   padding: 10px 20px !important;
 }
 
@@ -473,18 +481,43 @@ footer form input::placeholder {
 }
 
 input[type=number]::-webkit-inner-spin-button,
-input[type=number]::-webkit-outer-spin-button{
-    -webkit-appearance: none;
-    -moz-appearance: none;
-    appearance: none;
+input[type=number]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
 }
 
-.reviewScroll::-webkit-scrollbar{width: 5px !important;}
-.reviewScroll::-webkit-scrollbar-thumb{background: #ccc !important;}
+.reviewScroll::-webkit-scrollbar {
+  width: 5px !important;
+}
+
+.reviewScroll::-webkit-scrollbar-thumb {
+  background: #ccc !important;
+}
 
 
-.productDetailModal .MuiDialogContent-root{padding: 0px !important;}
+.productDetailModal .MuiDialogContent-root {
+  padding: 0px !important;
+}
 
-.cartPanel .MuiPaper-root{width: 500px !important;}
+.cartPanel .MuiPaper-root {
+  width: 500px !important;
+}
 
-#size-menu .MuiButtonBase-root{font-size:12px !important;}
+#size-menu .MuiButtonBase-root {
+  font-size: 12px !important;
+}
+
+.otpBox input {
+  border: 1px solid rgba(0, 0, 0, 0.3) !important;
+  outline: none !important;
+  border-radius: 4px;
+}
+
+.otpBox input:focus {
+  border: 1px solid rgba(0, 0, 0, 0.7) !important;
+}
+.otpPage .container{
+  height: 90vh;
+  display: flex;
+}
