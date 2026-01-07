@@ -486,3 +486,5 @@ input[type=number]::-webkit-outer-spin-button{
 .productDetailModal .MuiDialogContent-root{padding: 0px !important;}
 
 .cartPanel .MuiPaper-root{width: 500px !important;}
+
+#size-menu .MuiButtonBase-root{font-size:12px !important;}
