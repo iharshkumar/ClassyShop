@@ -7,11 +7,9 @@ import Home from './Pages/Home';
 import ProductListing from './Pages/ProductListing';
 import ProductDetails from './Pages/ProductDetails';
 import { createContext } from 'react';
-
 import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
 import DialogContent from '@mui/material/DialogContent';
-
 import { ProductZoom } from "./components/ProductZoom";
 import { IoCloseSharp } from "react-icons/io5";
 import ProductDetailsComponents from "./components/ProductDetails";
@@ -19,10 +17,10 @@ import Login from "./Pages/Login";
 import Register from "./Pages/Register";
 import CartPage from "./Pages/Cart";
 import Verify from "./Pages/Verify";
-
 import ForgotPassword from "./Pages/ForgotPassWord/index.jsx";
 import toast, { Toaster } from 'react-hot-toast';
-import Checkout from "./Pages/Checkout/index.jsx";
+import Checkout from "./Pages/Checkout";
+import MyAccount from "./Pages/MyAccount/index.jsx";
 
 
 
@@ -33,9 +31,8 @@ function App() {
   const [openProductDetailsModal, setOpenProductDetailsModal] = useState(false);
   const [maxWidth] = React.useState('lg');
   const [fullWidth] = React.useState(true)
-
   const [openCartPanel, setOpenCartPanel] = useState(false);
-
+  const [isLogin, setIsLogin] = useState(true)
 
 
   const handleCloseProductDetailsModal = () => {
@@ -46,10 +43,10 @@ function App() {
     setOpenCartPanel(newOpen);
   };
 
-  const openAlertBox = (status,msg) => {
+  const openAlertBox = (status, msg) => {
     if (status === "Success") {
       toast.success(msg);
-    } 
+    }
     if (status === "error") {
       toast.error(msg);
     }
@@ -60,7 +57,9 @@ function App() {
     setOpenCartPanel,
     toggleCartPanel,
     openCartPanel,
-    openAlertBox
+    openAlertBox,
+    isLogin,
+    setIsLogin
   }
 
   return (
@@ -78,6 +77,8 @@ function App() {
             <Route path={'/verify'} exact={true} element={<Verify />} />
             <Route path={'/forgot-password'} exact={true} element={<ForgotPassword />} />
             <Route path={'/checkout'} exact={true} element={<Checkout />} />
+
+            <Route path={'/my-account'} exact={true} element={<MyAccount />} />
           </Routes>
           <Footer />
         </MyContext.Provider>

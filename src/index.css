@@ -69,13 +69,29 @@ h6 {
   font-weight: 500;
   font-size: 16px;
   padding: 7px 20px !important;
+  border: 1px solid #ff5252 !important;
 }
 
 .btn-org:hover {
-  background: #090909 !important;
+  background: #171717 !important;
 }
 
-btn-lg {
+.btn-border {
+  background: transparent !important;
+  color: #ff5252 !important;
+  font-weight: 500;
+  font-size: 16px;
+  padding: 7px 20px !important;
+  border: 1px solid #ff5252 !important;
+}
+
+.btn-border:hover {
+  background: #171717 !important;
+  color: #fff !important;
+  border: 1px solid #171717 !important;
+}
+
+.btn-lg {
   font-size: 18px;
   padding: 10px 20px !important;
 }
@@ -96,9 +112,13 @@ nav ui button:hover {
   background: none !important;
 }
 
-.scroll::-webkit-scrollbar{width:5px !important;}
+.scroll::-webkit-scrollbar {
+  width: 5px !important;
+}
 
-.scroll::-webkit-scrollbar-thumb{background: #ccc !important;}
+.scroll::-webkit-scrollbar-thumb {
+  background: #ccc !important;
+}
 
 /* Better container spacing */
 .homeSlider {
@@ -521,7 +541,40 @@ input[type=number]::-webkit-outer-spin-button {
 .otpBox input:focus {
   border: 1px solid rgba(0, 0, 0, 0.7) !important;
 }
-.otpPage .container{
+
+.otpPage .container {
   height: 90vh;
   display: flex;
+}
+
+#account-menu .MuiPaper-root {
+  width: 200px !important;
+}
+
+.myAccountTabs li a {
+  position: relative;
+  display: block;
+}
+
+.myAccountTabs li a:before{
+  content: '';
+  width: 3px;
+  height: 100%;
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  background: #ff5252;
+  transition: all 0.3s ease-in-out;
+  opacity: 0;
+}
+
+.myAccountTabs li a.active::before{
+  height: 100%;
+  opacity: 1;
+  top: 0px;
+}
+
+.myAccountTabs li a.active button svg{
+  color: #ff5252 !important;
+  opacity: 1 !important;  
 }
