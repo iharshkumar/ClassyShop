@@ -37,7 +37,7 @@ const Navigation = () => {
                             </li>
 
                             <li className="list-none relative group">
-                                <Link to="/" className="link transition text-[14px] font-[500]">
+                                <Link to="/productListing" className="link transition text-[14px] font-[500]">
                                     <Button className='link transition !font-[500] !text-[rgba(0,0,0,0.8)] hover:!text-[#ff5252]  !py-4'>
                                         Fashion
                                     </Button>

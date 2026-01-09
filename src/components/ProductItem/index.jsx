@@ -15,7 +15,7 @@ const ProductItem = () => {
     return (
         <div className='productItem'>
             <div className="productItem__imageWrapper">
-                <Link to="/" className="productItem__imageLink">
+                <Link to="/product/84758" className="productItem__imageLink">
                     <div className='productItem__imageContainer'>
                         <img 
                             src='https://www.yellowbrick.co/wp-content/uploads/2023/08/fashion_blog_styling_blog_two-models-min-1024x683.jpg'
@@ -46,12 +46,12 @@ const ProductItem = () => {
             </div>
             <div className='productItem__info'>
                 <h6 className='productItem__category !font-[400]'>
-                    <Link to="/" className='productItem__link'>
+                    <Link to="/product/84758" className='productItem__link'>
                         Soylent Green
                     </Link>
                 </h6>
                 <h3 className='productItem__title'>
-                    <Link to="/" className='productItem__link'>
+                    <Link to="/product/84758" className='productItem__link'>
                         Women's Fashionable Clothes
                     </Link>
                 </h3>
