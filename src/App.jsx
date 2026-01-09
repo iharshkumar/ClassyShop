@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { BrowserRouter, Routes, Route, Link } from 'react-router-dom'
-import './index.css'          // Tailwind styles
+import './index.css'         
 import Header from './components/Header/index.jsx';
 import Footer from './components/Footer/index.jsx';
 import Home from './Pages/Home';
@@ -21,6 +21,7 @@ import ForgotPassword from "./Pages/ForgotPassWord/index.jsx";
 import toast, { Toaster } from 'react-hot-toast';
 import Checkout from "./Pages/Checkout";
 import MyAccount from "./Pages/MyAccount/index.jsx";
+import MyList from "./Pages/MyList/index.jsx";
 
 
 
@@ -79,6 +80,7 @@ function App() {
             <Route path={'/checkout'} exact={true} element={<Checkout />} />
 
             <Route path={'/my-account'} exact={true} element={<MyAccount />} />
+            <Route path={'/my-list'} exact={true} element={<MyList />} />
           </Routes>
           <Footer />
         </MyContext.Provider>
