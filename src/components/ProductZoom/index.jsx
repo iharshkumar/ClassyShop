@@ -20,6 +20,14 @@ export const ProductZoom = () => {
         zoomSliderBig.current.swiper.slideTo(index);
     }
 
+    const handleSlideChange = (swiper) => {
+        const activeIndex = swiper.activeIndex;
+        setSlideIndex(activeIndex);
+        if (zoomSliderSml.current && zoomSliderSml.current.swiper) {
+            zoomSliderSml.current.swiper.slideTo(activeIndex);
+        }
+    }
+
     return (
         <>
             <div className='flex gap-3'>
@@ -35,40 +43,48 @@ export const ProductZoom = () => {
 
                     >
                         <SwiperSlide>
-                            <div className={`item !rounded-md !overflow-hidden cursor-pointer group ${slideIndex === 0 ? 'opacity-1' : 'opacity-30'}`} onClick={() => goto(0)}>
-                                <img src="https://api.spicezgold.com/download/file_1734526836569_modestouze-attires-women-s-mukaish-worked-ethnic-jacket-with-top-and-pant-set-product-images-rvziicqwq6-0-202403231855.jpg"
+                            <div className={`item !rounded-md !overflow-hidden cursor-pointer group transition-all ${slideIndex === 0 ? 'opacity-100 !border-2 !border-[#ff5252] !shadow-md' : 'opacity-30 !border-2 !border-transparent'}`} onClick={() => goto(0)}>
+                                <img src="https://adn-static1.nykaa.com/nykdesignstudio-images/pub/media/catalog/product/6/3/63be811GQAZMI00000629_1.jpg"
                                     className='w-full transition-all group-hover:scale-105' />
+                                {slideIndex === 0 && <div className='absolute inset-0 !bg-[#ff5252] opacity-20 rounded-md'></div>}
                             </div>
                         </SwiperSlide>
                         
                         <SwiperSlide>
-                            <div className={`item !rounded-md !overflow-hidden cursor-pointer group ${slideIndex === 1 ? 'opacity-1' : 'opacity-30'}`} onClick={() => goto(1)}>
-                                <img src="https://api.spicezgold.com/download/file_1734526836571_modestouze-attires-women-s-mukaish-worked-ethnic-jacket-with-top-and-pant-set-product-images-rvziicqwq6-1-202403231855.jpg"
+                            <div className={`item !rounded-md !overflow-hidden cursor-pointer group transition-all ${slideIndex === 1 ? 'opacity-100 !border-2 !border-[#ff5252] !shadow-md' : 'opacity-30 !border-2 !border-transparent'}`} onClick={() => goto(1)}>
+                                <img src="https://adn-static1.nykaa.com/nykdesignstudio-images/pub/media/catalog/product/6/3/63be811GQAZMI00000629_2.jpg"
                                     className='w-full transition-all group-hover:scale-105' />
                             </div>
                         </SwiperSlide><SwiperSlide>
-                            <div className={`item !rounded-md !overflow-hidden cursor-pointer group ${slideIndex === 2 ? 'opacity-1' : 'opacity-30'}`} onClick={() => goto(2)}>
-                                <img src="https://api.spicezgold.com/download/file_1734526836573_modestouze-attires-women-s-mukaish-worked-ethnic-jacket-with-top-and-pant-set-product-images-rvziicqwq6-2-202403231855.jpg"
+                            <div className={`item !rounded-md !overflow-hidden cursor-pointer group transition-all ${slideIndex === 2 ? 'opacity-100 !border-2 !border-[#ff5252] !shadow-md' : 'opacity-30 !border-2 !border-transparent'}`} onClick={() => goto(2)}>
+                                <img src="https://adn-static1.nykaa.com/nykdesignstudio-images/pub/media/catalog/product/6/3/63be811GQAZMI00000629_3.jpg"
                                     className='w-full transition-all group-hover:scale-105' />
                             </div>
                         </SwiperSlide>
                         <SwiperSlide>
-                            <div className={`item !rounded-md !overflow-hidden cursor-pointer group ${slideIndex === 3 ? 'opacity-1' : 'opacity-30'}`} onClick={() => goto(3)}>
-                                <img src="https://api.spicezgold.com/download/file_1734526836577_modestouze-attires-women-s-mukaish-worked-ethnic-jacket-with-top-and-pant-set-product-images-rvziicqwq6-3-202403231855.jpg"
+                            <div className={`item !rounded-md !overflow-hidden cursor-pointer group transition-all ${slideIndex === 3 ? 'opacity-100 !border-2 !border-[#ff5252] !shadow-md' : 'opacity-30 !border-2 !border-transparent'}`} onClick={() => goto(3)}>
+                                <img src="https://adn-static1.nykaa.com/nykdesignstudio-images/pub/media/catalog/product/6/3/63be811GQAZMI00000629_4.jpg"
                                     className='w-full transition-all group-hover:scale-105' />
                             </div>
                         </SwiperSlide>
                         <SwiperSlide>
-                            <div className={`item !rounded-md !overflow-hidden cursor-pointer group ${slideIndex === 4 ? 'opacity-1' : 'opacity-30'}`} onClick={() => goto(4)}>
-                                <img src="https://api.spicezgold.com/download/file_1734529297930_fiorra-women-s-teapot-blue-pure-cotton-a-line-kurta-with-sharara-and-dupatta-product-images-rvo9n8udfg-1-202307260626.jpg"
+                            <div className={`item !rounded-md !overflow-hidden cursor-pointer group transition-all ${slideIndex === 4 ? 'opacity-100 !border-2 !border-[#ff5252] !shadow-md' : 'opacity-30 !border-2 !border-transparent'}`} onClick={() => goto(4)}>
+                                <img src="https://adn-static1.nykaa.com/nykdesignstudio-images/pub/media/catalog/product/6/3/63be811GQAZMI00000629_5.jpg"
                                     className='w-full transition-all group-hover:scale-105' />
                             </div>
                         </SwiperSlide>
-
                         <SwiperSlide>
+                            <div className={`item !rounded-md !overflow-hidden cursor-pointer group transition-all ${slideIndex === 5 ? 'opacity-100 !border-2 !border-[#ff5252] !shadow-md' : 'opacity-30 !border-2 !border-transparent'}`} onClick={() => goto(5)}>
+                                <img src="https://adn-static1.nykaa.com/nykdesignstudio-images/pub/media/catalog/product/6/3/63be811GQAZMI00000629_6.jpg"
+                                    className='w-full transition-all group-hover:scale-105' />
+                            </div>
                         </SwiperSlide>
-
-
+                        <SwiperSlide>
+                            <div className={`item !rounded-md !overflow-hidden cursor-pointer group transition-all ${slideIndex === 6 ? 'opacity-100 !border-2 !border-[#ff5252] !shadow-md' : 'opacity-30 !border-2 !border-transparent'}`} onClick={() => goto(6)}>
+                                <img src="https://adn-static1.nykaa.com/nykdesignstudio-images/pub/media/catalog/product/6/3/63be811GQAZMI00000629_7.jpg"
+                                    className='w-full transition-all group-hover:scale-105' />
+                            </div>
+                        </SwiperSlide>
                     </Swiper>
                 </div>
 
@@ -78,42 +94,49 @@ export const ProductZoom = () => {
                         slidesPerView={1}
                         spaceBetween={0}
                         navigation={false}
+                        onSlideChange={handleSlideChange}
                     >
                         <SwiperSlide>
                             <InnerImageZoom
                                 zoomType="hover"
                                 zoomScale={1}
-                                src={'https://api.spicezgold.com/download/file_1734526836569_modestouze-attires-women-s-mukaish-worked-ethnic-jacket-with-top-and-pant-set-product-images-rvziicqwq6-0-202403231855.jpg'} />
+                                src={'https://adn-static1.nykaa.com/nykdesignstudio-images/pub/media/catalog/product/6/3/63be811GQAZMI00000629_1.jpg'} />
                         </SwiperSlide>
                         <SwiperSlide>
                             <InnerImageZoom
                                 zoomType="hover"
                                 zoomScale={1}
-                                src={'https://api.spicezgold.com/download/file_1734529297930_fiorra-women-s-teapot-blue-pure-cotton-a-line-kurta-with-sharara-and-dupatta-product-images-rvo9n8udfg-1-202307260626.jpg'} />
+                                src={'https://adn-static1.nykaa.com/nykdesignstudio-images/pub/media/catalog/product/6/3/63be811GQAZMI00000629_2.jpg'} />
                         </SwiperSlide>
                         <SwiperSlide>
                             <InnerImageZoom
                                 zoomType="hover"
                                 zoomScale={1}
-                                src={'https://api.spicezgold.com/download/file_1734526836573_modestouze-attires-women-s-mukaish-worked-ethnic-jacket-with-top-and-pant-set-product-images-rvziicqwq6-2-202403231855.jpg'} />
+                                src={'https://adn-static1.nykaa.com/nykdesignstudio-images/pub/media/catalog/product/6/3/63be811GQAZMI00000629_3.jpg'} />
                         </SwiperSlide>
                         <SwiperSlide>
                             <InnerImageZoom
                                 zoomType="hover"
                                 zoomScale={1}
-                                src={'https://api.spicezgold.com/download/file_1734526836577_modestouze-attires-women-s-mukaish-worked-ethnic-jacket-with-top-and-pant-set-product-images-rvziicqwq6-3-202403231855.jpg'} />
+                                src={'https://adn-static1.nykaa.com/nykdesignstudio-images/pub/media/catalog/product/6/3/63be811GQAZMI00000629_4.jpg'} />
                         </SwiperSlide>
                         <SwiperSlide>
                             <InnerImageZoom
                                 zoomType="hover"
                                 zoomScale={1}
-                                src={'https://api.spicezgold.com/download/file_1734526836571_modestouze-attires-women-s-mukaish-worked-ethnic-jacket-with-top-and-pant-set-product-images-rvziicqwq6-1-202403231855.jpg'} />
+                                src={'https://adn-static1.nykaa.com/nykdesignstudio-images/pub/media/catalog/product/6/3/63be811GQAZMI00000629_5.jpg'} />
                         </SwiperSlide>
                         <SwiperSlide>
                             <InnerImageZoom
                                 zoomType="hover"
                                 zoomScale={1}
-                                src={'https://api.spicezgold.com/download/file_1734526836571_modestouze-attires-women-s-mukaish-worked-ethnic-jacket-with-top-and-pant-set-product-images-rvziicqwq6-1-202403231855.jpg'} />
+                                src={'https://adn-static1.nykaa.com/nykdesignstudio-images/pub/media/catalog/product/6/3/63be811GQAZMI00000629_6.jpg'} />
+                        </SwiperSlide>
+                        <SwiperSlide>
+                            <InnerImageZoom
+                                zoomType="hover"
+                                zoomScale={1}
+                                src={'https://adn-static1.nykaa.com/nykdesignstudio-images/pub/media/catalog/product/6/3/63be811GQAZMI00000629_7.jpg'} />
                         </SwiperSlide>
                     </Swiper>
                 </div>

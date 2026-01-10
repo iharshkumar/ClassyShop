@@ -16,7 +16,7 @@ const SideBar = () => {
     const [isOpenCategoryFilter, setIsOpenCategoryFilter] = useState(true);
     const [isOpenAvailFilter, setIsOpenAvailFilter] = useState(true);
     const [isOpenSizeFilter, setIsOpenSizeFilter] = useState(true);
-    const [value, setValue] = useState([100, 10000]);
+    const [value, setValue] = useState([0, 1000]);
 
     return (
         <aside className='sidebar !py-3 '>
@@ -35,7 +35,7 @@ const SideBar = () => {
                 </h3>
 
                 <Collapse isOpened={isOpenCategoryFilter}>
-                    <div className='scroll relative -left-[10px]' style={{ padding: '3px', paddingLeft: '10px' }}>
+                    <div className='scroll relative -left-[10px] !px-4'>
                         <FormGroup className='flex flex-col'>
                             <FormControlLabel control={<Checkbox size='small' />} label="Fashion" />
                             <FormControlLabel control={<Checkbox size='small' />} label="Electronics" />
@@ -67,7 +67,7 @@ const SideBar = () => {
                 </h3>
 
                 <Collapse isOpened={isOpenAvailFilter}>
-                    <div className='scroll relative -left-[10px]' style={{ padding: '3px', paddingLeft: '10px' }}>
+                    <div className='scroll relative -left-[10px] !px-4' >
                         <FormGroup className='flex flex-col'>
                             <FormControlLabel control={<Checkbox
                                 size='small' />}
@@ -103,7 +103,7 @@ const SideBar = () => {
                 </h3>
 
                 <Collapse isOpened={isOpenSizeFilter}>
-                    <div className='scroll relative -left-[10px]' style={{ padding: '3px', paddingLeft: '10px' }}>
+                    <div className='scroll relative -left-[10px] !px-4'>
                         <FormGroup className='flex flex-col'>
                             <FormControlLabel control={<Checkbox
                                 size='small' />}
@@ -145,7 +145,7 @@ const SideBar = () => {
 
             </div>
 
-            <div className='box bg-white !p-3 rounded-lg' style={{paddingTop:'10px'}}>
+            <div className='box bg-white !p-3 rounded-lg !px-4'>
                 <h3 className='!w-full mb-3 text-[16px] font-[600] flex items-center'>
                     Filter by Rating
                 </h3>

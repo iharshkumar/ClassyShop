@@ -46,7 +46,7 @@ const Header = () => {
     const context = useContext(MyContext)
 
     return (
-        <header className="bg-white">
+        <header className="bg-white relative z-[100]">
             <div className="top-strip py-2 border-t-[1px] border-grey-250 border-b-[1px] mb-4 ">
                 <div className="container">
                     <div className="flex items-center justify-between">

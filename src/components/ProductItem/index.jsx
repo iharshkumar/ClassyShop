@@ -17,15 +17,15 @@ const ProductItem = () => {
             <div className="productItem__imageWrapper">
                 <Link to="/product/84758" className="productItem__imageLink">
                     <div className='productItem__imageContainer'>
-                        <img 
-                            src='https://www.yellowbrick.co/wp-content/uploads/2023/08/fashion_blog_styling_blog_two-models-min-1024x683.jpg'
+                        <img
+                            src='https://adn-static1.nykaa.com/nykdesignstudio-images/pub/media/catalog/product/4/4/444700450699SS131913_3.jpg'
                             alt="Product"
-                            className='productItem__image productItem__image--primary' 
+                            className='productItem__image productItem__image--primary'
                         />
-                        <img 
-                            src='https://media.cnn.com/api/v1/images/stellar/prod/gettyimages-2239341361.jpg?c=16x9&q=w_1479,c_fill'
+                        <img
+                            src='https://adn-static1.nykaa.com/nykdesignstudio-images/pub/media/catalog/product/4/4/444700450699SS131913_2.jpg'
                             alt="Product alternate view"
-                            className='productItem__image productItem__image--secondary' 
+                            className='!w-full productItem__image productItem__image--secondary'
                         />
                     </div>
                 </Link>
@@ -33,7 +33,7 @@ const ProductItem = () => {
                     10%
                 </span>
                 <div className='productItem__actions'>
-                    <Button className='productItem__actionBtn' title="Quick View" onClick={()=>context.setOpenProductDetailsModal(true)}>
+                    <Button className='productItem__actionBtn' title="Quick View" onClick={() => context.setOpenProductDetailsModal(true)}>
                         <MdZoomOutMap />
                     </Button>
                     <Button className='productItem__actionBtn' title="Compare">
@@ -52,7 +52,7 @@ const ProductItem = () => {
                 </h6>
                 <h3 className='productItem__title'>
                     <Link to="/product/84758" className='productItem__link'>
-                        Women's Fashionable Clothes
+                        Women Multi-Color Floral Pure Cotton Midi Dress
                     </Link>
                 </h3>
                 <div className='productItem__rating'>

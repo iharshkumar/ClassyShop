@@ -18,7 +18,7 @@ const Navigation = () => {
 
     return (
         <>
-            <nav>
+            <nav className="relative z-[100] bg-white">
                 <div className="container flex items-center justify-end gap-8">
                     <div className="col_1 w-[25%] justify-start">
                         <Button className='!text-black gap-2 w-full ' onClick={openCategoryPanel} >
@@ -27,8 +27,8 @@ const Navigation = () => {
                         </Button>
                     </div>
 
-                    <div className="col_2 w-[60%]">
-                        <ul className="flex items-center gap-3 justify-center nav">
+                    <div className="col_2 w-[60%] relative z-50">
+                        <ul className="flex items-center gap-3 justify-center nav relative z-50">
                             <li className="list-none">
                                 <Link to="/" className="link transition !font-[500]">
                                     <Button className='link transition !font-[500] !text-[rgba(0,0,0,0.8)] hover:!text-[#ff5252] !py-4'>
@@ -44,11 +44,11 @@ const Navigation = () => {
                                 </Link>
 
 
-
+                                {/* Fashion Hover Things */}
                                 <div className='submenu absolute top-full left-0 min-w-[150px] bg-white shadow-md 
                                                 opacity-0 invisible translate-y-2
                                                 group-hover:opacity-100 group-hover:visible group-hover:translate-y-0
-                                                transition-all duration-300 z-50'>
+                                                transition-all duration-300 z-[999]'>
                                     <ul>
                                         <li className="list-none w-full relative group/men">
                                             <Link to="/" className='w-full block'>
@@ -59,7 +59,7 @@ const Navigation = () => {
                                                 <div className='absolute top-0 left-full min-w-[150px] bg-white shadow-md
                                                                 opacity-0 invisible translate-x-2
                                                                 group-hover/men:opacity-100 group-hover/men:visible group-hover/men:translate-x-0
-                                                                transition-all duration-300 z-50'>
+                                                                transition-all duration-300 z-[999]'>
                                                     <ul>
                                                         <li>
                                                             <Link to="/" className='w-full'>
@@ -151,12 +151,116 @@ const Navigation = () => {
 
 
 
-                            <li className="list-none">
+                            <li className="list-none relative group">
                                 <Link to="/" className="link transition text-[14px] font-[500]">
                                     <Button className='link transition !font-[500] !text-[rgba(0,0,0,0.8)] hover:!text-[#ff5252]  !py-4'>
                                         Electronics
                                     </Button>
                                 </Link>
+
+                                {/* Electronics Hover Things */}
+                                <div className='submenu absolute top-full left-0 min-w-[150px] bg-white shadow-md 
+                                                opacity-0 invisible translate-y-2
+                                                group-hover:opacity-100 group-hover:visible group-hover:translate-y-0
+                                                transition-all duration-300 z-[999]'>
+                                    <ul>
+                                        <li className="list-none w-full relative group/men">
+                                            <Link to="/" className='w-full block'>
+                                                <Button className="!text-[rgba(0,0,0,0.8)] w-full !text-left !justify-start !rounded-none">
+                                                    Audio
+                                                </Button>
+
+                                                <div className='absolute top-0 left-full min-w-[150px] bg-white shadow-md
+                                                                opacity-0 invisible translate-x-2
+                                                                group-hover/men:opacity-100 group-hover/men:visible group-hover/men:translate-x-0
+                                                                transition-all duration-300 z-[999]'>
+                                                    <ul>
+                                                        <li>
+                                                            <Link to="/" className='w-full'>
+                                                                <Button className="!text-[rgba(0,0,0,0.8)] w-full !justify-start !text-left !rounded-none whitespace-nowrap">
+                                                                    Bluetooth Headphones
+                                                                </Button>
+                                                            </Link>
+                                                        </li>
+                                                        <li>
+                                                            <Link to="/" className='w-full'>
+                                                                <Button className="!text-[rgba(0,0,0,0.8)] w-full !justify-start !text-left !rounded-none">
+                                                                    Bluetooth Speakers
+                                                                </Button>
+                                                            </Link>
+                                                        </li>
+                                                        <li>
+                                                            <Link to="/" className='w-full'>
+                                                                <Button className="!text-[rgba(0,0,0,0.8)] w-full !justify-start !text-left !rounded-none">
+                                                                    Wired Headphones
+                                                                </Button>
+                                                            </Link>
+                                                        </li>
+                                                        <li>
+                                                            <Link to="/" className='w-full'>
+                                                                <Button className="!text-[rgba(0,0,0,0.8)] w-full !justify-start !text-left !rounded-none">
+                                                                    Home Theaters
+                                                                </Button>
+                                                            </Link>
+                                                        </li>
+                                                        <li >
+                                                            <Link to="/" className='w-full'>
+                                                                <Button className="!text-[rgba(0,0,0,0.8)] w-full !justify-start !text-left !rounded-none">
+                                                                    Remote Control
+                                                                </Button>
+                                                            </Link>
+                                                        </li>
+                                                        <li>
+                                                            <Link to="/" className='w-full'>
+                                                                <Button className="!text-[rgba(0,0,0,0.8)] w-full !justify-start !text-left !rounded-none">
+                                                                    Soundbars
+                                                                </Button>
+                                                            </Link>
+                                                        </li>
+
+                                                    </ul>
+                                                </div>
+
+                                            </Link>
+                                        </li>
+                                        <li className="list-none w-full !justify-start !text-left !rounded-none">
+                                            <Link to="/" className='w-full'>
+                                                <Button className="!text-[rgba(0,0,0,0.8)] w-full !text-left !justify-start !rounded-none">
+                                                    Gaming
+                                                </Button>
+                                            </Link>
+                                        </li>
+                                        <li className="list-none w-full !justify-start !text-left !rounded-none">
+                                            <Link to="/" className='w-full'>
+                                                <Button className="!text-[rgba(0,0,0,0.8)] w-full !text-left !justify-start !rounded-none">
+                                                    Cameras
+                                                </Button>
+                                            </Link>
+                                        </li>
+                                        <li className="list-none w-full !justify-start !text-left !rounded-none">
+                                            <Link to="/" className='w-full'>
+                                                <Button className="!text-[rgba(0,0,0,0.8)] w-full !text-left !justify-start !rounded-none">
+                                                    Powerbank
+                                                </Button>
+                                            </Link>
+                                        </li>
+                                        <li className="list-none w-full">
+                                            <Link to="/" className='w-full'>
+                                                <Button className="!text-[rgba(0,0,0,0.8)] w-full w-full !text-left !justify-start !rounded-none">
+                                                    Smart Wearables
+                                                </Button>
+                                            </Link>
+                                        </li>
+                                        <li className="list-none w-full ">
+                                            <Link to="/" className='w-full'>
+                                                <Button className="!text-[rgba(0,0,0,0.8)] w-full !text-left !justify-start !rounded-none">
+                                                    Mobile Accessory
+                                                </Button>
+                                            </Link>
+                                        </li>
+
+                                    </ul>
+                                </div>
                             </li>
 
                             <li className="list-none">
@@ -183,12 +287,99 @@ const Navigation = () => {
                                 </Link>
                             </li>
 
-                            <li className="list-none">
+                            <li className="list-none relative group">
                                 <Link to="/" className="link transition text-[14px] font-[500]">
                                     <Button className='link transition !font-[500] !text-[rgba(0,0,0,0.8)] hover:!text-[#ff5252]  !py-4'>
                                         Beauty
                                     </Button>
                                 </Link>
+
+                                {/* Beauty Hover Things */}
+                                <div className='submenu absolute top-full left-0 min-w-[150px] bg-white shadow-md 
+                                                opacity-0 invisible translate-y-2
+                                                group-hover:opacity-100 group-hover:visible group-hover:translate-y-0
+                                                transition-all duration-300 z-[999]'>
+                                    <ul>
+                                        <li className="list-none w-full relative group/men">
+                                            <Link to="/" className='w-full block'>
+                                                <Button className="whitespace-nowrap !text-[rgba(0,0,0,0.8)] w-full !text-left !justify-start !rounded-none">
+                                                    Beauty & Personal Care
+                                                </Button>
+
+                                                <div className='absolute top-0 left-full min-w-[150px] bg-white shadow-md
+                                                                opacity-0 invisible translate-x-2
+                                                                group-hover/men:opacity-100 group-hover/men:visible group-hover/men:translate-x-0
+                                                                transition-all duration-300 z-[999]'>
+                                                    <ul>
+                                                        <li>
+                                                            <Link to="/" className='w-full'>
+                                                                <Button className="!text-[rgba(0,0,0,0.8)] w-full !justify-start !text-left !rounded-none whitespace-nowrap">
+                                                                    Hair Care
+                                                                </Button>
+                                                            </Link>
+                                                        </li>
+                                                        <li>
+                                                            <Link to="/" className='w-full'>
+                                                                <Button className="!text-[rgba(0,0,0,0.8)] w-full !justify-start !text-left !rounded-none">
+                                                                    Bath & Oral Care
+                                                                </Button>
+                                                            </Link>
+                                                        </li>
+                                                        <li>
+                                                            <Link to="/" className='w-full'>
+                                                                <Button className="!text-[rgba(0,0,0,0.8)] w-full !justify-start !text-left !rounded-none">
+                                                                    Lip Makeup                                                                </Button>
+                                                            </Link>
+                                                        </li>
+                                                        <li>
+                                                            <Link to="/" className='w-full'>
+                                                                <Button className="!text-[rgba(0,0,0,0.8)] w-full !justify-start !text-left !rounded-none">
+                                                                    Bath Essentials
+                                                                </Button>
+                                                            </Link>
+                                                        </li>
+                                                        <li >
+                                                            <Link to="/" className='w-full'>
+                                                                <Button className="!text-[rgba(0,0,0,0.8)] w-full !justify-start !text-left !rounded-none">
+                                                                    Skin Care
+                                                                </Button>
+                                                            </Link>
+                                                        </li>
+                                                                                                            </ul>
+                                                </div>
+
+                                            </Link>
+                                        </li>
+                                        <li className="list-none w-full !justify-start !text-left !rounded-none">
+                                            <Link to="/" className='w-full'>
+                                                <Button className="!text-[rgba(0,0,0,0.8)] w-full !text-left !justify-start !rounded-none">
+                                                    Men's Grooming
+                                                </Button>
+                                            </Link>
+                                        </li>
+                                        <li className="list-none w-full !justify-start !text-left !rounded-none">
+                                            <Link to="/" className='w-full'>
+                                                <Button className="!text-[rgba(0,0,0,0.8)] w-full !text-left !justify-start !rounded-none">
+                                                    Baby Care
+                                                </Button>
+                                            </Link>
+                                        </li>
+                                        <li className="list-none w-full !justify-start !text-left !rounded-none">
+                                            <Link to="/" className='w-full'>
+                                                <Button className="!text-[rgba(0,0,0,0.8)] w-full !text-left !justify-start !rounded-none">
+                                                    Lipstick
+                                                </Button>
+                                            </Link>
+                                        </li>
+                                        <li className="list-none w-full">
+                                            <Link to="/" className='w-full'>
+                                                <Button className="whitespace-nowrap !text-[rgba(0,0,0,0.8)] w-full w-full !text-left !justify-start !rounded-none">
+                                                    Make Up Accessories                                                </Button>
+                                            </Link>
+                                        </li>
+
+                                    </ul>
+                                </div>
                             </li>
 
                             <li className="list-none">

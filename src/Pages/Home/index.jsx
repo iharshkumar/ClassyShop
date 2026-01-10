@@ -66,8 +66,8 @@ const Home = () => {
         <div className='container'>
           <div className='flex flex-col md:flex-row items-start md:items-center justify-between gap-4 mb-6'>
             <div className='leftSec'>
-              <h2 className='text-[20px] font-[600] mb-1'>Popular Products </h2>
-              <p className='text-[15px] font-[300]'>Do not miss the current offers until the end of March</p>
+              <h2 className='text-[20px] font-[600] !mt-3'>Popular Products </h2>
+              <p className='text-[15px] font-[300] !-mt-2'>Do not miss the current offers until the end of March</p>
             </div>
 
             <div className='rightSec w-full md:w-[60%]'>

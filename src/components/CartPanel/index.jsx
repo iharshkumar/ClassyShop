@@ -107,7 +107,7 @@ const CartPanel = () => {
 
             <br />
 
-            <div className='bottomSec bottom-[10px] left-[10px]'>
+            <div className='bottomSec bottom-[10px] left-[10px] !mt-5'>
                 <div className='bottomInfo !pt-35 !px-4 w-full border-t border-[rgba(0,0,0,0.1)] flex items-center justify-between flex-col'>
                     <div className='flex items-center justify-between w-full'>
                         <span>1 item </span>
@@ -137,7 +137,7 @@ const CartPanel = () => {
                     </div>
 
 
-                    <div className='flex items-center justify-between w-full gap-1 !pt-5'>
+                    <div className='flex items-center justify-between w-full gap-1 !mb-0 !mt-6'>
                         <Link to="/cart" className='w-[50%] d-block'>
                             <Button className='btn-org btn-lg w-full'>View Cart</Button>
                         </Link>

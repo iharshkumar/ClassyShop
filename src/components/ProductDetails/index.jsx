@@ -13,11 +13,12 @@ const ProductDetailsComponents = () => {
     return (
 
         <>
-            <h1 className='text-[25px] font-[600] !mb-2'>Cotton Co Ord Set-Tie & Dye Tracksuit with Insert Pockets-Women Tie & Dye 2-Piece Co-Ord
-                Set-1PAIR (Size-XL)</h1>
+            <h1 className='text-[25px] font-[600] !mb-2'>
+                Women Floral Kashmiri Aari Embroidered Viscose Rayon Slim Fit Kurta
+            </h1>
             <div className='flex items-center gap-3'>
                 <span className='text-gray-400 text-[13px] opacity-75'>Brands : <span className='font-[500] !text-black'>
-                    Altecia
+                    QAZMI
                 </span>
                 </span>
 

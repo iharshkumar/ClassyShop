@@ -104,8 +104,8 @@ function App() {
             <Button className="w-[40px] !h-[40px] !min-w-[40px] !rounded-full !text-[#000]
              !absolute top-[15px] right-[15px] !bg-[#f1f1f1]" onClick={handleCloseProductDetailsModal}>
               <IoCloseSharp className="text-[20px]" /></Button>
-            <div className="col1 w-[40%] !px-2">
-              <ProductZoom />
+            <div className="col1 w-[40%] !pl-3 !pr-2">
+              <ProductZoom className='w-full'/>
             </div>
 
             <div className="col2 w-[50%] !py-5 !px-8 !pr-16 productContent">

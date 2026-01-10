@@ -161,6 +161,15 @@ nav ui button:hover {
   transform: scale(1.03);
 }
 
+
+.swiper-button-prev, .swiper-button-next {
+  svg {
+      width: 100% !important;
+      height: 50% !important;
+  }
+}
+
+
 /* Navigation Buttons */
 .swiper-button-prev,
 .swiper-button-next {
@@ -169,8 +178,8 @@ nav ui button:hover {
   justify-content: center;
   background: rgba(255, 255, 255, 0.9);
   border-radius: 50%;
-  width: 45px;
-  height: 45px;
+  width: 100%;
+  height: 50%;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
   backdrop-filter: blur(6px);
   transition: all 0.3s ease;
@@ -186,11 +195,12 @@ nav ui button:hover {
 
 .smlBtn .swiper-button-prev,
 .smlBtn .swiper-button-next {
-  width: 30px !important;
-  height: 30px !important;
+  width: 40px !important;
+  height: 50px !important;
   min-width: 30px !important;
   top: 55% !important;
 }
+
 
 .smlBtn .swiper-button-prev:after,
 .smlBtn .swiper-button-next:after {
@@ -240,8 +250,7 @@ nav ui button:hover {
 
 
 .homeCatSlider {
-  overflow: inherit !important;
-  margin-top: 2rem !important;
+  position: relative !important;
 }
 
 @media (min-width: 768px) {
@@ -255,6 +264,7 @@ nav ui button:hover {
   width: 30px;
   height: 30px;
   min-width: 30px;
+  margin-top: -15px !important;
 }
 
 .homeCatSlider .swiper-button-prev:after,
@@ -263,11 +273,11 @@ nav ui button:hover {
 }
 
 .homeCatSlider .swiper-button-prev {
-  left: -10px !important;
+  left: 10px !important;
 }
 
 .homeCatSlider .swiper-button-next {
-  right: -10px !important;
+  right: 10px !important;
 }
 
 .homeCatSlider .item {
@@ -464,6 +474,18 @@ footer form input::placeholder {
 
 .zoomProductSliderThumbs .swiper-wrapper {
   padding-top: 20px !important;
+}
+
+.zoomProductSliderThumbs .swiper-slide {
+  padding: 4px 0 !important;
+}
+
+.productDetailModal .zoomProductSliderThumbs .swiper-slide {
+  padding: 4px 0 !important;
+}
+
+.productDetailModal .slider {
+  padding-right: 8px !important;
 }
 
 .zoomProductSliderThumbs .swiper-button-next {
