@@ -1,5 +1,5 @@
 import Button from '@mui/material/Button'
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { MdOutlineSpaceDashboard } from "react-icons/md";
 import { IoHomeOutline } from "react-icons/io5";
@@ -10,6 +10,7 @@ import { GiBoxUnpacking } from "react-icons/gi";
 import { IoIosLogOut } from "react-icons/io";
 import { FaAngleDown } from "react-icons/fa6";
 import { Collapse } from 'react-collapse';
+import { MyContext } from '../../App';
 
 const Sidebar = () => {
     const [subMenuIndex, setSubMenuIndex] = useState(null);
@@ -22,10 +23,13 @@ const Sidebar = () => {
         }
     }
 
+
+    const context = useContext(MyContext);
+
     return (
         <>
-            <div className='sidebar !fixed !top-0 !left-0 !bg-white !w-[18%] !h-full 
-    !border-r !border-[rgba(0,0,0,0.1)] !py-1 !px-5'>
+            <div className={`sidebar !fixed !top-0 !left-0 !bg-white h-full 
+    !border-r !border-[rgba(0,0,0,0.1)] !py-1 !px-5 sidebarWrapper w-[${context.isSidebarOpen === true ? '18%' : '0px'}]`}>
                 <div className='!py-2 w-full'>
                     <Link to="/">
                         <img src="https://upload.wikimedia.org/wikipedia/commons/e/ed/ECOM-logo-RGB.png"

@@ -1,12 +1,16 @@
-//import { useState } from 'react'
+import { useState } from 'react'
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 //import "../../index.css";
 import './App.css';
 import Dashboard from './Pages/Dashboard'
 import Header from './Components/Header'
 import Sidebar from './Components/Sidebar';
+import { createContext } from 'react';
 
+const MyContext = createContext();
 function App() {
+  const[isSidebarOpen,setisSidebarOpen]=useState(true)
+  
   const router = createBrowserRouter([
     {
       path: '/',
@@ -16,11 +20,11 @@ function App() {
           <section className='main'>
             <Header />
             <div className='contentMain flex'>
-              <div className='sidebarWrapper w-[18%]'>
+              <div className={`overflow-hidden sidebarWrapper ${isSidebarOpen === true ? 'w-[18%]' : 'w-[0px] opacity-0 transition-all'}`}>
                 <Sidebar />
               </div>
-              <div className='contentRight !py-4 !px-5 w-[82%]'>
-              <Dashboard/>
+              <div className={`contentRight !py-4 !px-5 ${isSidebarOpen === true ? 'w-[82%]' : 'w-[100%]'} transition-all`}>
+                <Dashboard />
               </div>
             </div>
           </section>
@@ -29,12 +33,20 @@ function App() {
     }
   ])
 
+  const values ={
+    isSidebarOpen,
+    setisSidebarOpen
+  };
+
 
   return (
     <>
-      <RouterProvider router={router} />
+      <MyContext.Provider value={values}>
+        <RouterProvider router={router} />
+      </MyContext.Provider>
     </>
   )
 }
 
-export default App
+export default App;
+export {MyContext}

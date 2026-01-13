@@ -53,7 +53,7 @@ export const ProductDetails = () => {
                     </div>
 
                     <div className='productContent w-[60%] !pr-10 !pl=10'>
-                        <ProductDetailsComponents/>
+                        <ProductDetailsComponents />
                     </div>
                 </div>
 
@@ -121,122 +121,123 @@ export const ProductDetails = () => {
                         activeTab === 1 &&
                         <div className='shadow-md w-full !py-5 !p-8 rounded-md'>
 
-                            <div class="relative overflow-x-auto bg-neutral-primary-soft !shadow-xs rounded-base !border !border-default">
-                                <table class="w-full text-sm text-left rtl:text-right text-body">
-                                    <thead class="text-sm text-body bg-neutral-secondary-soft border-b rounded-base border-default">
+                            <div className="relative overflow-x-auto bg-neutral-primary-soft !shadow-xs rounded-base !border !border-default">
+                                <table className="w-full text-sm text-left rtl:text-right text-body">
+                                    <thead className="text-sm text-body bg-neutral-secondary-soft border-b rounded-base border-default">
                                         <tr>
-                                            <th scope="col" class="!px-6 !py-3 font-medium">
-                                                Stand Up                                        </th>
-                                            <th scope="col" class="!px-6 !py-3 font-medium">
+                                            <th scope="col" className="!px-6 !py-3 font-medium">
+                                                Stand Up
+                                            </th>
+                                            <th scope="col" className="!px-6 !py-3 font-medium">
                                                 Folded (w/o wheels)
                                             </th>
-                                            <th scope="col" class="!px-6 !py-3 font-medium">
+                                            <th scope="col" className="!px-6 !py-3 font-medium">
                                                 Folded (w/ wheels)
                                             </th>
-                                            <th scope="col" class="!px-6 !py-3 font-medium">
+                                            <th scope="col" className="!px-6 !py-3 font-medium">
                                                 Door Pass Through
                                             </th>
-                                            <th scope="col" class="!px-6 !py-3 font-medium">
+                                            <th scope="col" className="!px-6 !py-3 font-medium">
                                                 Frame
                                             </th>
 
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr class="!bg-neutral-primary border-b !border-default">
+                                        <tr className="!bg-neutral-primary border-b !border-default">
 
-                                            <td class="!px-6 !py-4">
+                                            <td className="!px-6 !py-4">
                                                 35″L x 24″W x 37-45″H(front to back wheel)
                                             </td>
 
-                                            <td class="!px-6 !py-4">
+                                            <td className="!px-6 !py-4">
                                                 32.5″L x 18.5″W x 16.5″H
                                             </td>
-                                            <td class="!px-6 !py-4">
+                                            <td className="!px-6 !py-4">
                                                 32.5″L x 24″W x 18.5″H
                                             </td>
-                                            <td class="!px-6 !py-4">
+                                            <td className="!px-6 !py-4">
                                                 $24
                                             </td>
-                                            <td class="!px-6 !py-4">
+                                            <td className="!px-6 !py-4">
                                                 Aluminum
                                             </td>
                                         </tr>
 
 
-                                        <tr class="!bg-neutral-primary border-b !border-default">
+                                        <tr className="!bg-neutral-primary border-b !border-default">
 
-                                            <td class="!px-6 !py-4   font-[500]">
+                                            <td className="!px-6 !py-4   font-[500]">
                                                 35″L x 24″W x 37-45″H(front to back wheel)
                                             </td>
 
-                                            <td class="!px-6 !py-4 font-[500]">
+                                            <td className="!px-6 !py-4 font-[500]">
                                                 32.5″L x 18.5″W x 16.5″H
                                             </td>
-                                            <td class="!px-6 !py-4 font-[500]">
+                                            <td className="!px-6 !py-4 font-[500]">
                                                 32.5″L x 24″W x 18.5″H
                                             </td>
-                                            <td class="!px-6 !py-4 font-[500]">
+                                            <td className="!px-6 !py-4 font-[500]">
                                                 $24
                                             </td>
-                                            <td class="!px-6 !py-4 font-[500]">
+                                            <td className="!px-6 !py-4 font-[500]">
                                                 Aluminum
                                             </td>
                                         </tr>
-                                        <tr class="!bg-neutral-primary border-b !border-default">
+                                        <tr className="!bg-neutral-primary border-b !border-default">
 
-                                            <td class="!px-6 !py-4   font-[500]">
+                                            <td className="!px-6 !py-4   font-[500]">
                                                 35″L x 24″W x 37-45″H(front to back wheel)
                                             </td>
 
-                                            <td class="!px-6 !py-4 font-[500]">
+                                            <td className="!px-6 !py-4 font-[500]">
                                                 32.5″L x 18.5″W x 16.5″H
                                             </td>
-                                            <td class="!px-6 !py-4 font-[500]">
+                                            <td className="!px-6 !py-4 font-[500]">
                                                 32.5″L x 24″W x 18.5″H
                                             </td>
-                                            <td class="!px-6 !py-4 font-[500]">
+                                            <td className="!px-6 !py-4 font-[500]">
                                                 $24
                                             </td>
-                                            <td class="!px-6 !py-4 font-[500]">
+                                            <td className="!px-6 !py-4 font-[500]">
                                                 Aluminum
                                             </td>
                                         </tr>
-                                        <tr class="!bg-neutral-primary border-b !border-default">
+                                        <tr className="!bg-neutral-primary border-b !border-default">
 
-                                            <td class="!px-6 !py-4   font-[500]">
+                                            <td className="!px-6 !py-4   font-[500]">
                                                 35″L x 24″W x 37-45″H(front to back wheel)
                                             </td>
 
-                                            <td class="!px-6 !py-4 font-[500]">
+                                            <td className="!px-6 !py-4 font-[500]">
                                                 32.5″L x 18.5″W x 16.5″H
                                             </td>
-                                            <td class="!px-6 !py-4 font-[500]">
+                                            <td className="!px-6 !py-4 font-[500]">
                                                 32.5″L x 24″W x 18.5″H
                                             </td>
-                                            <td class="!px-6 !py-4 font-[500]">
+                                            <td className="!px-6 !py-4 font-[500]">
                                                 $24
                                             </td>
-                                            <td class="!px-6 !py-4 font-[500]">
+                                            <td className="!px-6 !py-4 font-[500]">
                                                 Aluminum
                                             </td>
                                         </tr>
-                                        <tr class="!bg-neutral-primary border-b !border-default">
+                                        <tr className="!bg-neutral-primary border-b !border-default">
 
-                                            <td class="!px-6 !py-4   font-[500]">
+                                            <td className="!px-6 !py-4   font-[500]">
                                                 35″L x 24″W x 37-45″H(front to back wheel)
                                             </td>
 
-                                            <td class="!px-6 !py-4 font-[500]">
+                                            <td className="!px-6 !py-4 font-[500]">
                                                 32.5″L x 18.5″W x 16.5″H
                                             </td>
-                                            <td class="!px-6 !py-4 font-[500]">
+                                            <td className="!px-6 !py-4 font-[500]">
                                                 32.5″L x 24″W x 18.5″H
                                             </td>
-                                            <td class="!px-6 !py-4 font-[500]">
+                                            <td className="!px-6 !py-4 font-[500]">
                                                 $24
                                             </td>
-                                            <td class="!px-6 !py-4 font-[500]">
+                                            <td className="!px-6 !py-4 font-[500]">
                                                 Aluminum
                                             </td>
                                         </tr>

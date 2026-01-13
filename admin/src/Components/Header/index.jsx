@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import Button from '@mui/material/Button'
 import { RiMenu2Line } from 'react-icons/ri'
 import Badge from '@mui/material/Badge';
@@ -14,6 +14,7 @@ import Divider from '@mui/material/Divider';
 import { MdOutlineManageAccounts } from "react-icons/md";
 import { MdLogout } from "react-icons/md";
 import { FiActivity } from "react-icons/fi";
+import { MyContext } from '../../App';
 
 const StyledBadge = styled(Badge)(({ theme }) => ({
     '& .MuiBadge-badge': {
@@ -35,11 +36,16 @@ const Header = () => {
         setAnchorMyAcc(null);
     };
 
+    const context = useContext(MyContext);
+
     return (
-        <header className='w-full !h-[auto] !py-2 !pl-64 !shadow-md !pr-7 !bg-[#fff] flex items-center justify-between'>
+        <header className={`w-full !h-[auto] !py-2 ${context.isSidebarOpen === true ? 'pl-66' : 'pl-0'} !shadow-md 
+        !pr-7 !bg-[#fff] flex items-center justify-between transition-all`}>
             <div className='part1 !pl-6'>
-                <Button className='!w-[40px] !h-[40px] !rounded-full !min-w-[40px] '>
-                    <RiMenu2Line className='text-[22px] text-[rgba(0,0,0,0.8)] '/>
+                <Button className='!w-[40px] !h-[40px] !rounded-full !min-w-[40px] !text-[rgba(0,0,0,0.8)] '
+                    onClick={() => context.setisSidebarOpen(!context.isSidebarOpen)}>
+                    <RiMenu2Line className='text-[22px] text-[rgba(0,0,0,0.8)] ' />
+
                 </Button>
             </div>
 
@@ -103,23 +109,23 @@ const Header = () => {
                                 <p className='text-[12px] font-[400] opacity-70'>srivastavaharsh1108@gmail.com</p>
                             </div>
                         </MenuItem>
-                        <Divider/>
+                        <Divider />
                         <MenuItem onClick={handleCloseMyAcc} className='flex items-center gap-3'>
-                            <RxAvatar className='text-[25px]'/>
+                            <RxAvatar className='text-[25px]' />
                             <span className='text-[22px]'>Profile</span>
                         </MenuItem>
                         <MenuItem onClick={handleCloseMyAcc} className='flex items-center gap-3'>
-                            <MdOutlineManageAccounts className='text-[25px]'/>
+                            <MdOutlineManageAccounts className='text-[25px]' />
                             <span className='text-[22px]'>Account Setting</span>
                         </MenuItem>
-                       
+
                         <MenuItem onClick={handleCloseMyAcc} className='flex items-center gap-3'>
-                            <FiActivity className='text-[25px]'/>
+                            <FiActivity className='text-[25px]' />
                             <span className='text-[22px]'>Activity Log</span>
                         </MenuItem>
-                        <Divider/>
+                        <Divider />
                         <MenuItem onClick={handleCloseMyAcc} className='flex items-center gap-3'>
-                            <MdLogout className='text-[25px]'/>
+                            <MdLogout className='text-[25px]' />
                             <span className='text-[22px]'>Sign Out</span>
                         </MenuItem>
                     </Menu>

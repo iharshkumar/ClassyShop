@@ -39,7 +39,7 @@ const Orders = () => {
                                 <table className="w-full text-sm text-left rtl:text-right text-body border-collapse">
                                     <thead className="text-sm text-body bg-[#f1f1f1] !border-b !border-[rgba(0,0,0,0.1)]">
                                         <tr>
-                                            <th scope="col" class="!px-6 !py-3 font-medium">
+                                            <th scope="col" className="!px-6 !py-3 font-medium">
                                                 &nbsp;
                                             </th>
                                             <th scope="col" className="!px-6 !py-3 font-medium whitespace-nowrap">
