@@ -873,6 +873,33 @@ const Dashboard = () => {
           <h1 className='text-[18px] font-[600]'>Products</h1>
         </div>
 
+        <div className='flex items-center w-full !pl-5 justify-between'>
+          <div className='col w-[20%] '>
+            <h4 className='font-[600] text-[12px] !mb-2'>Category by</h4>
+            <Select
+            className='w-full !mb-2'
+            size='small'
+              labelId="demo-simple-select-standard-label"
+              id="demo-simple-select-standard"
+              value={categoryFilterVal}
+              onChange={handleChangeCatFilter}
+              label="Category"
+            >
+              <MenuItem value="">
+                <em>None</em>
+              </MenuItem>
+              <MenuItem value={10}>Men</MenuItem>
+              <MenuItem value={20}>Women</MenuItem>
+              <MenuItem value={30}>Kids</MenuItem>
+            </Select>
+          </div>
+
+          <div className='col w-[29%] !ml-auto flex items-center gap-3 !px-5'>
+            <Button className='btn !bg-green-600 !text-white btn-sm flex items-center gap-2'><BiExport/>Export</Button>
+            <Button className='btn-blue !text-white btn-sm  flex items-center btn gap-2'><IoBagAddOutline/>Add Product</Button>
+          </div>
+        </div>
+
 
         <TableContainer sx={{ maxHeight: 440 }}>
           <Table stickyHeader aria-label="sticky table">
