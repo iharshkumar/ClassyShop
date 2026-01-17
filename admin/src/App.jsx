@@ -6,10 +6,13 @@ import Dashboard from './Pages/Dashboard'
 import Header from './Components/Header'
 import Sidebar from './Components/Sidebar';
 import { createContext } from 'react';
+import Login from './Pages/Login';
+import SignUp from './Pages/SignUp';
 
 const MyContext = createContext();
 function App() {
   const[isSidebarOpen,setisSidebarOpen]=useState(true)
+  const[isLogin,setIsLogin]=useState(false)
   
   const router = createBrowserRouter([
     {
@@ -30,12 +33,35 @@ function App() {
           </section>
         </>
       )
+    },
+
+
+    {
+      path: '/login',
+      exact: true,
+      element: (
+        <>
+          <Login/>
+        </>
+      )
+    },
+
+    {
+      path: '/sign-up',
+      exact: true,
+      element: (
+        <>
+          <SignUp/>
+        </>
+      )
     }
   ])
 
   const values ={
     isSidebarOpen,
-    setisSidebarOpen
+    setisSidebarOpen,
+    isLogin,
+    setIsLogin
   };
 
 

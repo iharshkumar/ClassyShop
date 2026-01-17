@@ -122,32 +122,32 @@ const Dashboard = () => {
     },
     {
       name: 'AUG',
-      TotalUsers: 3490,
-      TotalSales: 4300,
+      TotalUsers: 1490,
+      TotalSales: 6300,
       amt: 2100,
     },
     {
       name: 'SEPT',
-      TotalUsers: 3490,
-      TotalSales: 4300,
+      TotalUsers: 7290,
+      TotalSales: 3400,
       amt: 2100,
     },
     {
       name: 'OCT',
       TotalUsers: 3490,
-      TotalSales: 4300,
+      TotalSales: 5300,
       amt: 2100,
     },
     {
       name: 'NOV',
-      TotalUsers: 3490,
-      TotalSales: 4300,
+      TotalUsers: 2490,
+      TotalSales: 4500,
       amt: 2100,
     },
     {
       name: 'DEC',
-      TotalUsers: 3490,
-      TotalSales: 4300,
+      TotalUsers: 3190,
+      TotalSales: 7310,
       amt: 2100,
     }
   ]);
@@ -2942,6 +2942,7 @@ const Dashboard = () => {
 
       </div >
 
+      {/*Graph View*/}
       <div className='card !mt-5 !mb-2 !shadow-md sm:rounded-lg !bg-white' >
         <div className='flex items-center justify-between !px-5 !py-4 !mb-2 !pb-0'>
           <h1 className='text-[18px] font-[600]'>Total Users & Total Sales</h1>
