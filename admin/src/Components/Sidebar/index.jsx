@@ -146,25 +146,20 @@ const Sidebar = () => {
                         <Collapse isOpened={subMenuIndex === 4 ? true : false}>
                             <ul className='w-full'>
                                 <li className='w-full'>
-                                    <Link to="/product">
+                                    <Link to="/products">
                                         <Button className='!text-[rgba(0,0,0,0.7)] !capitalise !pl-8 !justify-start !w-full !text-[13px] !font-[500] gap-3'>
                                             <span className='block w-[5px] h-[5px] rounded-full !bg-[rgba(0,0,0,0.2)]'></span>Product List
                                         </Button>
                                     </Link>
-                                    <Link to="/product/upload">
-                                        <Button className='!text-[rgba(0,0,0,0.7)] !capitalise !pl-8 !justify-start !w-full !text-[13px] !font-[500] gap-3'>
+                                        <Button className='!text-[rgba(0,0,0,0.7)] !capitalise !pl-8 !justify-start !w-full !text-[13px] !font-[500] gap-3'
+                                        onClick={()=>context.setIsOpenFullScreenPanel({
+                                            open:true,
+                                            model:'Add Product'
+                                        })}>
                                             <span className='block w-[5px] h-[5px] rounded-full !bg-[rgba(0,0,0,0.2)]'></span>Product Upload
                                         </Button>
-                                    </Link>
-                                    <Button className='!text-[rgba(0,0,0,0.7)] !capitalise !pl-8 !justify-start !w-full !text-[13px] !font-[500] gap-3'>
-                                        <span className='block w-[5px] h-[5px] rounded-full !bg-[rgba(0,0,0,0.2)]'></span>Add Product RAMS
-                                    </Button>
-                                    <Button className='!text-[rgba(0,0,0,0.7)] !capitalise !pl-8 !justify-start !w-full !text-[13px] !font-[500] gap-3'>
-                                        <span className='block w-[5px] h-[5px] rounded-full !bg-[rgba(0,0,0,0.2)]'></span>Add Product WEIGHT
-                                    </Button>
-                                    <Button className='!text-[rgba(0,0,0,0.7)] !capitalise !pl-8 !justify-start !w-full !text-[13px] !font-[500] gap-3'>
-                                        <span className='block w-[5px] h-[5px] rounded-full !bg-[rgba(0,0,0,0.2)]'></span>Add Product SIZE
-                                    </Button>
+                                    
+                                    
                                 </li>
                             </ul>
                         </Collapse>

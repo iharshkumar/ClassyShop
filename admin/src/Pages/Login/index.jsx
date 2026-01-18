@@ -57,10 +57,9 @@ const Login = () => {
 
 
             <img
-                src="https://t3.ftcdn.net/jpg/05/88/24/10/360_F_588241010_cdQJ2QTsyDtt36jZsAFR45aAXICnPAzR.jpg"
+                src="https://static.vecteezy.com/system/resources/thumbnails/070/103/555/small/textured-white-abstract-surface-with-soft-blue-background-3-d-render-photo.jpg"
                 className="fixed inset-0 w-screen h-screen object-cover -z-10 opacity-50"
             />
-
 
             <div className='!mt-30 loginBox card w-[600px] !h-[auto] !pb-20 !mx-auto !pt-20 relative z-50'>
                 <div className='!text-center'>

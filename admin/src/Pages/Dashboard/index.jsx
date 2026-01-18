@@ -1,4 +1,4 @@
-import React, { useState, PureComponent } from 'react'
+import React, { useState, PureComponent, useContext } from 'react'
 import DashboardBoxes from '../../Components/DashboardBoxes'
 import { FaPlus } from 'react-icons/fa6';
 import { Button, Checkbox } from '@mui/material'
@@ -23,6 +23,7 @@ import TableRow from '@mui/material/TableRow';
 import { BiExport } from "react-icons/bi";
 import { IoBagAddOutline } from "react-icons/io5";
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
+import { MyContext } from '../../App';
 
 
 //const label = {inputProps : {"aria-label":"Checkbox demo"}};
@@ -60,6 +61,8 @@ const columns = [
 
 
 const Dashboard = () => {
+  const context = useContext(MyContext);
+
 
   const [isOpenOrderedProduct, setIsOpenOrderedProduct] = useState(null);
 
@@ -188,7 +191,13 @@ const Dashboard = () => {
           </h1>
           <p>Here's What happening on your store today. See the statistics at once.</p>
           <br />
-          <Button className='btn-blue !capitalise gap-3 justify-between'><FaPlus />Add Product</Button>
+          <Button className='btn-blue !capitalise gap-3 justify-between' onClick={() => context.setIsOpenFullScreenPanel({
+            open: true,
+            model: 'Add Product'
+          })}>
+            <FaPlus />
+            Add Product
+          </Button>
         </div>
 
         <img src="/shopDashboard.webp" className='w-[250px]' />
@@ -225,7 +234,14 @@ const Dashboard = () => {
 
           <div className='col w-[29%] !ml-auto flex items-center gap-3 !px-5'>
             <Button className='btn !bg-green-600 !text-white btn-sm flex items-center gap-2'><BiExport />Export</Button>
-            <Button className='btn-blue !text-white btn-sm  flex items-center btn gap-2'><IoBagAddOutline />Add Product</Button>
+            <Button className='btn-blue !text-white btn-sm  flex items-center btn gap-2'
+              onClick={() => context.setIsOpenFullScreenPanel({
+                open: true,
+                model: 'Add Product'
+              })}>
+              <IoBagAddOutline />
+              Add Product
+            </Button>
           </div>
         </div>
 
@@ -861,7 +877,7 @@ const Dashboard = () => {
           <Pagination count={10} color='primary' />
         </div>
 
-      </div >
+      </div>
 
 
       {/*Material UI Table*/}
@@ -893,7 +909,14 @@ const Dashboard = () => {
 
           <div className='col w-[29%] !ml-auto flex items-center gap-3 !px-5'>
             <Button className='btn !bg-green-600 !text-white btn-sm flex items-center gap-2'><BiExport />Export</Button>
-            <Button className='btn-blue !text-white btn-sm  flex items-center btn gap-2'><IoBagAddOutline />Add Product</Button>
+            <Button className='btn-blue !text-white btn-sm  flex items-center btn gap-2'
+              onClick={() => context.setIsOpenFullScreenPanel({
+                open: true,
+                model: 'Add Product'
+              })}>
+              <IoBagAddOutline />
+              Add Product
+            </Button>
           </div>
         </div>
 
@@ -2414,7 +2437,7 @@ const Dashboard = () => {
           onRowsPerPageChange={handleChangeRowsPerPage}
         />
 
-      </div >
+      </div>
 
       {/*Order Section*/}
       <div className='card !mt-5 !my-2 !shadow=md sm:rounded-lg !bg-white' >
@@ -2940,7 +2963,7 @@ const Dashboard = () => {
         </div>
 
 
-      </div >
+      </div>
 
       {/*Graph View*/}
       <div className='card !mt-5 !mb-2 !shadow-md sm:rounded-lg !bg-white' >

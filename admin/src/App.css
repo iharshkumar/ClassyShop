@@ -15,7 +15,8 @@ body {
 .btn {
   padding: 8px 20px !important;
 }
-.btn svg{
+
+.btn svg {
   font-size: 20px;
 }
 
@@ -56,14 +57,30 @@ th.MuiTableCell-root {
   padding-bottom: 0.5rem;
 }
 
-a.active button{
+a.active button {
   background: #e8e8e8 !important;
 }
 
-.MuiButton-icon svg{
+.MuiButton-icon svg {
   font-size: 27px !important
 }
 
-.css-rizt0-MuiTypography-root{
+.css-rizt0-MuiTypography-root {
   font-size: 14px !important;
+}
+
+.MuiAppBar-colorPrimary {
+  background: #e6e6e6 !important
+}
+
+input[type=number]::-webkit-outer-spin-button,
+input[type=number]::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  margin: 0;
+  appearance: none;
+}
+
+.MuiSelect-select{
+  background: #fff !important;
 }
