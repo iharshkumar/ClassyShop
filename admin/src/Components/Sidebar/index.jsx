@@ -66,10 +66,16 @@ const Sidebar = () => {
                         <Collapse isOpened={subMenuIndex === 1 ? true : false}>
                             <ul className='w-full'>
                                 <li className='w-full'>
-                                    <Button className='!text-[rgba(0,0,0,0.7)] !capitalise !pl-8 !justify-start !w-full !text-[13px] !font-[500] gap-3'>
-                                        <span className='block w-[5px] h-[5px] rounded-full !bg-[rgba(0,0,0,0.2)]'></span>Home Banner List
-                                    </Button>
-                                    <Button className='!text-[rgba(0,0,0,0.7)] !capitalise !pl-8 !justify-start !w-full !text-[13px] !font-[500] gap-3'>
+                                    <Link to="homeSlider/List">
+                                        <Button className='!text-[rgba(0,0,0,0.7)] !capitalise !pl-8 !justify-start !w-full !text-[13px] !font-[500] gap-3'>
+                                            <span className='block w-[5px] h-[5px] rounded-full !bg-[rgba(0,0,0,0.2)]'></span>Home Banner List
+                                        </Button>
+                                    </Link>
+                                    <Button className='!text-[rgba(0,0,0,0.7)] !capitalise !pl-8 !justify-start !w-full !text-[13px] !font-[500] gap-3'
+                                        onClick={() => context.setIsOpenFullScreenPanel({
+                                            open: true,
+                                            model: 'Add Home Slide'
+                                        })}>
                                         <span className='block w-[5px] h-[5px] rounded-full !bg-[rgba(0,0,0,0.2)]'></span>Add Home Banner Slide
                                     </Button>
                                 </li>
@@ -104,26 +110,30 @@ const Sidebar = () => {
                         <Collapse isOpened={subMenuIndex === 3 ? true : false}>
                             <ul className='w-full'>
                                 <li className='w-full'>
-                                    <Link to="/category">
+                                    <Link to="/category/list">
                                         <Button className='!text-[rgba(0,0,0,0.7)] !capitalise !pl-8 !justify-start !w-full !text-[13px] !font-[500] gap-3'>
                                             <span className='block w-[5px] h-[5px] rounded-full !bg-[rgba(0,0,0,0.2)]'></span>Category List
                                         </Button>
                                     </Link>
-                                    <Link to="/category/add">
-                                        <Button className='!text-[rgba(0,0,0,0.7)] !capitalise !pl-8 !justify-start !w-full !text-[13px] !font-[500] gap-3'>
-                                            <span className='block w-[5px] h-[5px] rounded-full !bg-[rgba(0,0,0,0.2)]'></span>Add a Category
-                                        </Button>
-                                    </Link>
-                                    <Link to="/category/subCat">
+                                    <Button className='!text-[rgba(0,0,0,0.7)] !capitalise !pl-8 !justify-start !w-full !text-[13px] !font-[500] gap-3'
+                                        onClick={() => context.setIsOpenFullScreenPanel({
+                                            open: true,
+                                            model: 'Add New Category'
+                                        })}>
+                                        <span className='block w-[5px] h-[5px] rounded-full !bg-[rgba(0,0,0,0.2)]'></span>Add a Category
+                                    </Button>
+                                    <Link to="/subCategory/list">
                                         <Button className='!text-[rgba(0,0,0,0.7)] !capitalise !pl-8 !justify-start !w-full !text-[13px] !font-[500] gap-3'>
                                             <span className='block w-[5px] h-[5px] rounded-full !bg-[rgba(0,0,0,0.2)]'></span>Sub Category List
                                         </Button>
                                     </Link>
-                                    <Link to="/category/subCat/add">
-                                        <Button className='!text-[rgba(0,0,0,0.7)] !capitalise !pl-8 !justify-start !w-full !text-[13px] !font-[500] gap-3'>
+                                        <Button className='!text-[rgba(0,0,0,0.7)] !capitalise !pl-8 !justify-start !w-full !text-[13px] !font-[500] gap-3'
+                                        onClick={() => context.setIsOpenFullScreenPanel({
+                                            open: true,
+                                            model: 'Add New Sub Category'
+                                        })}>
                                             <span className='block w-[5px] h-[5px] rounded-full !bg-[rgba(0,0,0,0.2)]'></span>Add a sub category
                                         </Button>
-                                    </Link>
                                 </li>
                             </ul>
                         </Collapse>
@@ -151,15 +161,15 @@ const Sidebar = () => {
                                             <span className='block w-[5px] h-[5px] rounded-full !bg-[rgba(0,0,0,0.2)]'></span>Product List
                                         </Button>
                                     </Link>
-                                        <Button className='!text-[rgba(0,0,0,0.7)] !capitalise !pl-8 !justify-start !w-full !text-[13px] !font-[500] gap-3'
-                                        onClick={()=>context.setIsOpenFullScreenPanel({
-                                            open:true,
-                                            model:'Add Product'
+                                    <Button className='!text-[rgba(0,0,0,0.7)] !capitalise !pl-8 !justify-start !w-full !text-[13px] !font-[500] gap-3'
+                                        onClick={() => context.setIsOpenFullScreenPanel({
+                                            open: true,
+                                            model: 'Add Product'
                                         })}>
-                                            <span className='block w-[5px] h-[5px] rounded-full !bg-[rgba(0,0,0,0.2)]'></span>Product Upload
-                                        </Button>
-                                    
-                                    
+                                        <span className='block w-[5px] h-[5px] rounded-full !bg-[rgba(0,0,0,0.2)]'></span>Product Upload
+                                    </Button>
+
+
                                 </li>
                             </ul>
                         </Collapse>
