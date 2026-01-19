@@ -49,9 +49,6 @@ const AddSubCategory = () => {
                         </Button>
                     </div>
                 </div>
-
-
-
             </form>
         </section>
     )

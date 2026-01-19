@@ -345,7 +345,7 @@ const AddProduct = () => {
       {/* Sticky Footer Button */}
       <div className='sticky bottom-0 !bg-gray-100 left-0 right-0  !p-5 !border-t !border-gray-300 z-50'>
         <Button type='button' className='btn-blue btn-lg w-full flex gap-4'>
-          <GrCloudUpload className='text-[25px] text-white'/>
+          <GrCloudUpload className='text-[25px] text-white' />
           Publish and View</Button>
       </div>
     </section>

@@ -102,7 +102,7 @@ const CategoryList = () => {
                                         <div className='img !w-full !rounded-md !overflow-hidden group'>
                                             <Link to="/product/45745">
 
-                                                <img src="/public/brand.png"
+                                                <img src="/brand.png"
                                                     className='w-full group-hover:scale-105 transition-all' />
                                             </Link>
                                         </div>
@@ -142,7 +142,7 @@ const CategoryList = () => {
                                         <div className='img !w-full !rounded-md !overflow-hidden group'>
                                             <Link to="/product/45745">
 
-                                                <img src="/public/electronics.png"
+                                                <img src="/electronics.png"
                                                     className='w-full group-hover:scale-105 transition-all' />
                                             </Link>
                                         </div>
@@ -182,7 +182,7 @@ const CategoryList = () => {
                                         <div className='img !w-full !rounded-md !overflow-hidden group'>
                                             <Link to="/product/45745">
 
-                                                <img src="/public/beauty-product.png"
+                                                <img src="/beauty-product.png"
                                                     className='w-full group-hover:scale-105 transition-all' />
                                             </Link>
                                         </div>
@@ -223,7 +223,7 @@ const CategoryList = () => {
                                         <div className='img !w-full !rounded-md !overflow-hidden group'>
                                             <Link to="/product/45745">
 
-                                                <img src="/public/footwear.png"
+                                                <img src="/footwear.png"
                                                     className='w-full group-hover:scale-105 transition-all' />
                                             </Link>
                                         </div>
@@ -264,7 +264,7 @@ const CategoryList = () => {
                                         <div className='img !w-full !rounded-md !overflow-hidden group'>
                                             <Link to="/product/45745">
 
-                                                <img src="/public/medicine.png"
+                                                <img src="/medicine.png"
                                                     className='w-full group-hover:scale-105 transition-all' />
                                             </Link>
                                         </div>
@@ -302,7 +302,7 @@ const CategoryList = () => {
                                         <div className='img !w-full !rounded-md !overflow-hidden group'>
                                             <Link to="/product/45745">
 
-                                                <img src="/public/jewelry.png"
+                                                <img src="/jewelry.png"
                                                     className='w-full group-hover:scale-105 transition-all' />
                                             </Link>
                                         </div>

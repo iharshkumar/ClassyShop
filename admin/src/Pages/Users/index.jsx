@@ -1,5 +1,5 @@
 import { Button, Checkbox } from '@mui/material'
-import React, { useContext, useState } from 'react'
+import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { IoAddOutline } from "react-icons/io5";
 
@@ -42,7 +42,7 @@ const columns =
 const Users = () => {
     const [rowsPerPage, setRowsPerPage] = useState(10);
     const [page, setPage] = useState(0);
-    const context = useContext(MyContext)
+    // const context = useContext(MyContext)
 
 
 

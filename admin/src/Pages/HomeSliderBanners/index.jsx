@@ -33,13 +33,13 @@ const columns =
 const HomeSliderBanners = () => {
     const [rowsPerPage, setRowsPerPage] = useState(10);
     const [page, setPage] = useState(0);
-    const [categoryFilterVal, setcategoryFilterVal] = React.useState('');
+    // const [categoryFilterVal, setcategoryFilterVal] = React.useState('');
 
     const context = useContext(MyContext)
 
-    const handleChangeCatFilter = (event) => {
-        setcategoryFilterVal(event.target.value);
-    };
+    // const handleChangeCatFilter = (event) => {
+    //     setcategoryFilterVal(event.target.value);
+    // };
 
 
     const handleChangePage = (event, newPage) => {

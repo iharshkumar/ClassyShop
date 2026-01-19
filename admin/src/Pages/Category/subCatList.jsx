@@ -37,13 +37,13 @@ const columns =
 const SubCategoryList = () => {
     const [rowsPerPage, setRowsPerPage] = useState(10);
     const [page, setPage] = useState(0);
-    const [categoryFilterVal, setcategoryFilterVal] = React.useState('');
+    // const [categoryFilterVal, setcategoryFilterVal] = React.useState('');
 
     const context = useContext(MyContext)
 
-    const handleChangeCatFilter = (event) => {
-        setcategoryFilterVal(event.target.value);
-    };
+    // const handleChangeCatFilter = (event) => {
+    //     setcategoryFilterVal(event.target.value);
+    // };
 
 
     const handleChangePage = (event, newPage) => {
@@ -105,7 +105,7 @@ const SubCategoryList = () => {
                                         <div className='img !w-full !rounded-md !overflow-hidden group'>
                                             <Link to="/product/45745">
 
-                                                <img src="/public/brand.png"
+                                                <img src="/brand.png"
                                                     className='w-full group-hover:scale-105 transition-all' />
                                             </Link>
                                         </div>
@@ -153,7 +153,7 @@ const SubCategoryList = () => {
                                         <div className='img !w-full !rounded-md !overflow-hidden group'>
                                             <Link to="/product/45745">
 
-                                                <img src="/public/electronics.png"
+                                                <img src="/electronics.png"
                                                     className='w-full group-hover:scale-105 transition-all' />
                                             </Link>
                                         </div>
@@ -176,47 +176,6 @@ const SubCategoryList = () => {
 
 
 
-                                <TableCell width={50}>
-                                    <div className='flex items-center gap-1'>
-                                        <Button className='!w-[35px] !h-[35px] !min-w-[35px] bg-[#f1f1f1] !border !border-[rgba(0,0,0,0.4)] !rounded-full hover:!bg-[#f1f1f1]'>
-                                            <MdOutlineModeEdit className='text-[rgba(0,0,0,0.7)] text-[20px] ' />
-                                        </Button>
-                                        
-
-                                        <Button className='!w-[35px] !h-[35px] !min-w-[35px] bg-[#f1f1f1] !border !border-[rgba(0,0,0,0.4)] !rounded-full hover:!bg-[#f1f1f1]'>
-                                            <GoTrash className='text-[rgba(0,0,0,0.7)] text-[20px] ' />
-                                        </Button>
-                                    </div>
-                                </TableCell>
-                            </TableRow>
-
-
-                            <TableRow>
-                                <TableCell >
-                                    <Checkbox size='small' />
-                                </TableCell>
-
-                                <TableCell width={100}>
-                                    <div className='flex items-center gap-4 w-[80px]'>
-                                        <div className='img !w-full !rounded-md !overflow-hidden group'>
-                                            <Link to="/product/45745">
-
-                                                <img src="/public/beauty-product.png"
-                                                    className='w-full group-hover:scale-105 transition-all' />
-                                            </Link>
-                                        </div>
-                                    </div>
-                                </TableCell>
-                                <TableCell >
-                                    <Chip label="Fashion" />
-                                </TableCell>
-                                <TableCell>
-                                    <div className='flex items-center gap-3'>
-                                        <Chip label="Men" color='primary' />
-                                        <Chip label="Women" color='primary' />
-                                        <Chip label="Kids" color='primary' />
-                                    </div>
-                                </TableCell>
                                 <TableCell width={50}>
                                     <div className='flex items-center gap-1'>
                                         <Button className='!w-[35px] !h-[35px] !min-w-[35px] bg-[#f1f1f1] !border !border-[rgba(0,0,0,0.4)] !rounded-full hover:!bg-[#f1f1f1]'>
@@ -242,7 +201,48 @@ const SubCategoryList = () => {
                                         <div className='img !w-full !rounded-md !overflow-hidden group'>
                                             <Link to="/product/45745">
 
-                                                <img src="/public/footwear.png"
+                                                <img src="/beauty-product.png"
+                                                    className='w-full group-hover:scale-105 transition-all' />
+                                            </Link>
+                                        </div>
+                                    </div>
+                                </TableCell>
+                                <TableCell >
+                                    <Chip label="Fashion" />
+                                </TableCell>
+                                <TableCell>
+                                    <div className='flex items-center gap-3'>
+                                        <Chip label="Men" color='primary' />
+                                        <Chip label="Women" color='primary' />
+                                        <Chip label="Kids" color='primary' />
+                                    </div>
+                                </TableCell>
+                                <TableCell width={50}>
+                                    <div className='flex items-center gap-1'>
+                                        <Button className='!w-[35px] !h-[35px] !min-w-[35px] bg-[#f1f1f1] !border !border-[rgba(0,0,0,0.4)] !rounded-full hover:!bg-[#f1f1f1]'>
+                                            <MdOutlineModeEdit className='text-[rgba(0,0,0,0.7)] text-[20px] ' />
+                                        </Button>
+                                        
+
+                                        <Button className='!w-[35px] !h-[35px] !min-w-[35px] bg-[#f1f1f1] !border !border-[rgba(0,0,0,0.4)] !rounded-full hover:!bg-[#f1f1f1]'>
+                                            <GoTrash className='text-[rgba(0,0,0,0.7)] text-[20px] ' />
+                                        </Button>
+                                    </div>
+                                </TableCell>
+                            </TableRow>
+
+
+                            <TableRow>
+                                <TableCell >
+                                    <Checkbox size='small' />
+                                </TableCell>
+
+                                <TableCell width={100}>
+                                    <div className='flex items-center gap-4 w-[80px]'>
+                                        <div className='img !w-full !rounded-md !overflow-hidden group'>
+                                            <Link to="/product/45745">
+
+                                                <img src="/footwear.png"
                                                     className='w-full group-hover:scale-105 transition-all' />
                                             </Link>
                                         </div>
@@ -288,7 +288,7 @@ const SubCategoryList = () => {
                                         <div className='img !w-full !rounded-md !overflow-hidden group'>
                                             <Link to="/product/45745">
 
-                                                <img src="/public/medicine.png"
+                                                <img src="/medicine.png"
                                                     className='w-full group-hover:scale-105 transition-all' />
                                             </Link>
                                         </div>
@@ -332,7 +332,7 @@ const SubCategoryList = () => {
                                         <div className='img !w-full !rounded-md !overflow-hidden group'>
                                             <Link to="/product/45745">
 
-                                                <img src="/public/jewelry.png"
+                                                <img src="/jewelry.png"
                                                     className='w-full group-hover:scale-105 transition-all' />
                                             </Link>
                                         </div>
