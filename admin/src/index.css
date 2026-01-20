@@ -1,6 +1,1 @@
 @import "tailwindcss";
-
-/* Custom Tailwind utilities */
-.MuiTableBody-root tr:nth-child(even) {
-  @apply bg-gray-50;
-}
