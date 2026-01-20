@@ -147,7 +147,7 @@ const Login = () => {
                             label="Remember Me"
                         />
 
-                        <Link to="/forget-password" className='!text-blue-500 text-[15px] font-[700] hover:underline hover:!text-[rgba(0,0,0,0.8)]'>
+                        <Link to="/forgot-password" className='!text-blue-500 text-[15px] font-[700] hover:underline hover:!text-[rgba(0,0,0,0.8)]'>
                             Forget Password?
                         </Link>
                     </div>

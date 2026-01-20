@@ -22,6 +22,8 @@ import SearchBox from '../../Components/SearchBox';
 import { MyContext } from '../../App';
 import { MdOutlineMail } from "react-icons/md";
 import { FaPhone } from "react-icons/fa6";
+import { CiCalendar } from "react-icons/ci";
+
 
 
 
@@ -35,6 +37,11 @@ const columns =
         {
             id: 'userPh',
             label: 'USER PHONE NO',
+            minWidth: 130
+        },
+        {
+            id: 'createdDate',
+            label: 'CREATED',
             minWidth: 130
         }
     ];
@@ -101,8 +108,8 @@ const Users = () => {
                                 </TableCell>
 
                                 <TableCell style={{ minWidth: columns.minWidth }}>
-                                    <div className='flex items-center gap-4 w-[100px]'>
-                                        <div className='img !w-[65px] !h-[65px] !rounded-md !overflow-hidden group'>
+                                    <div className='flex items-center gap-4 w-[70px]'>
+                                        <div className='img !w-[45px] !h-[45px] !rounded-md !overflow-hidden group'>
                                             <Link to="/product/45745">
 
                                                 <img src="https://mui.com/static/images/avatar/1.jpg"
@@ -128,12 +135,316 @@ const Users = () => {
                                     </span>
                                 </TableCell>
 
+                                <TableCell style={{ minWidth: columns.minWidth }}>
+                                    <span className='flex items-center gap-2 '>
+                                        <CiCalendar />20-01-2026
+                                    </span>
+                                </TableCell>
+
 
 
                             </TableRow>
 
+                            <TableRow>
+                                <TableCell style={{ minWidth: columns.minWidth }}>
+                                    <Checkbox size='small' />
+                                </TableCell>
+
+                                <TableCell style={{ minWidth: columns.minWidth }}>
+                                    <div className='flex items-center gap-4 w-[70px]'>
+                                        <div className='img !w-[45px] !h-[45px] !rounded-md !overflow-hidden group'>
+                                            <Link to="/product/45745">
+
+                                                <img src="https://mui.com/static/images/avatar/1.jpg"
+                                                    className='w-full group-hover:scale-105 transition-all' />
+                                            </Link>
+                                        </div>
+                                    </div>
+                                </TableCell>
+
+                                <TableCell style={{ minWidth: columns.minWidth }}>
+                                    Harsh Kumar
+                                </TableCell>
+
+                                <TableCell style={{ minWidth: columns.minWidth }}>
+                                    <span className='flex items-center gap-2 '>
+                                        <MdOutlineMail />harsh@gmail.com
+                                    </span>
+                                </TableCell>
+
+                                <TableCell style={{ minWidth: columns.minWidth }}>
+                                    <span className='flex items-center gap-2 '>
+                                        <FaPhone />5484881667
+                                    </span>
+                                </TableCell>
+
+                                <TableCell style={{ minWidth: columns.minWidth }}>
+                                    <span className='flex items-center gap-2 '>
+                                        <CiCalendar />20-01-2026
+                                    </span>
+                                </TableCell>
 
 
+
+                            </TableRow>
+
+                            <TableRow>
+                                <TableCell style={{ minWidth: columns.minWidth }}>
+                                    <Checkbox size='small' />
+                                </TableCell>
+
+                                <TableCell style={{ minWidth: columns.minWidth }}>
+                                    <div className='flex items-center gap-4 w-[70px]'>
+                                        <div className='img !w-[45px] !h-[45px] !rounded-md !overflow-hidden group'>
+                                            <Link to="/product/45745">
+
+                                                <img src="https://mui.com/static/images/avatar/1.jpg"
+                                                    className='w-full group-hover:scale-105 transition-all' />
+                                            </Link>
+                                        </div>
+                                    </div>
+                                </TableCell>
+
+                                <TableCell style={{ minWidth: columns.minWidth }}>
+                                    Harsh Kumar
+                                </TableCell>
+
+                                <TableCell style={{ minWidth: columns.minWidth }}>
+                                    <span className='flex items-center gap-2 '>
+                                        <MdOutlineMail />harsh@gmail.com
+                                    </span>
+                                </TableCell>
+
+                                <TableCell style={{ minWidth: columns.minWidth }}>
+                                    <span className='flex items-center gap-2 '>
+                                        <FaPhone />5484881667
+                                    </span>
+                                </TableCell>
+
+                                <TableCell style={{ minWidth: columns.minWidth }}>
+                                    <span className='flex items-center gap-2 '>
+                                        <CiCalendar />20-01-2026
+                                    </span>
+                                </TableCell>
+
+
+
+                            </TableRow>
+
+                            <TableRow>
+                                <TableCell style={{ minWidth: columns.minWidth }}>
+                                    <Checkbox size='small' />
+                                </TableCell>
+
+                                <TableCell style={{ minWidth: columns.minWidth }}>
+                                    <div className='flex items-center gap-4 w-[70px]'>
+                                        <div className='img !w-[45px] !h-[45px] !rounded-md !overflow-hidden group'>
+                                            <Link to="/product/45745">
+
+                                                <img src="https://mui.com/static/images/avatar/1.jpg"
+                                                    className='w-full group-hover:scale-105 transition-all' />
+                                            </Link>
+                                        </div>
+                                    </div>
+                                </TableCell>
+
+                                <TableCell style={{ minWidth: columns.minWidth }}>
+                                    Harsh Kumar
+                                </TableCell>
+
+                                <TableCell style={{ minWidth: columns.minWidth }}>
+                                    <span className='flex items-center gap-2 '>
+                                        <MdOutlineMail />harsh@gmail.com
+                                    </span>
+                                </TableCell>
+
+                                <TableCell style={{ minWidth: columns.minWidth }}>
+                                    <span className='flex items-center gap-2 '>
+                                        <FaPhone />5484881667
+                                    </span>
+                                </TableCell>
+
+                                <TableCell style={{ minWidth: columns.minWidth }}>
+                                    <span className='flex items-center gap-2 '>
+                                        <CiCalendar />20-01-2026
+                                    </span>
+                                </TableCell>
+
+
+
+                            </TableRow>
+
+                            <TableRow>
+                                <TableCell style={{ minWidth: columns.minWidth }}>
+                                    <Checkbox size='small' />
+                                </TableCell>
+
+                                <TableCell style={{ minWidth: columns.minWidth }}>
+                                    <div className='flex items-center gap-4 w-[70px]'>
+                                        <div className='img !w-[45px] !h-[45px] !rounded-md !overflow-hidden group'>
+                                            <Link to="/product/45745">
+
+                                                <img src="https://mui.com/static/images/avatar/1.jpg"
+                                                    className='w-full group-hover:scale-105 transition-all' />
+                                            </Link>
+                                        </div>
+                                    </div>
+                                </TableCell>
+
+                                <TableCell style={{ minWidth: columns.minWidth }}>
+                                    Harsh Kumar
+                                </TableCell>
+
+                                <TableCell style={{ minWidth: columns.minWidth }}>
+                                    <span className='flex items-center gap-2 '>
+                                        <MdOutlineMail />harsh@gmail.com
+                                    </span>
+                                </TableCell>
+
+                                <TableCell style={{ minWidth: columns.minWidth }}>
+                                    <span className='flex items-center gap-2 '>
+                                        <FaPhone />5484881667
+                                    </span>
+                                </TableCell>
+
+                                <TableCell style={{ minWidth: columns.minWidth }}>
+                                    <span className='flex items-center gap-2 '>
+                                        <CiCalendar />20-01-2026
+                                    </span>
+                                </TableCell>
+
+
+
+                            </TableRow>
+
+                            <TableRow>
+                                <TableCell style={{ minWidth: columns.minWidth }}>
+                                    <Checkbox size='small' />
+                                </TableCell>
+
+                                <TableCell style={{ minWidth: columns.minWidth }}>
+                                    <div className='flex items-center gap-4 w-[70px]'>
+                                        <div className='img !w-[45px] !h-[45px] !rounded-md !overflow-hidden group'>
+                                            <Link to="/product/45745">
+
+                                                <img src="https://mui.com/static/images/avatar/1.jpg"
+                                                    className='w-full group-hover:scale-105 transition-all' />
+                                            </Link>
+                                        </div>
+                                    </div>
+                                </TableCell>
+
+                                <TableCell style={{ minWidth: columns.minWidth }}>
+                                    Harsh Kumar
+                                </TableCell>
+
+                                <TableCell style={{ minWidth: columns.minWidth }}>
+                                    <span className='flex items-center gap-2 '>
+                                        <MdOutlineMail />harsh@gmail.com
+                                    </span>
+                                </TableCell>
+
+                                <TableCell style={{ minWidth: columns.minWidth }}>
+                                    <span className='flex items-center gap-2 '>
+                                        <FaPhone />5484881667
+                                    </span>
+                                </TableCell>
+
+                                <TableCell style={{ minWidth: columns.minWidth }}>
+                                    <span className='flex items-center gap-2 '>
+                                        <CiCalendar />20-01-2026
+                                    </span>
+                                </TableCell>
+
+
+
+                            </TableRow>
+
+                            <TableRow>
+                                <TableCell style={{ minWidth: columns.minWidth }}>
+                                    <Checkbox size='small' />
+                                </TableCell>
+
+                                <TableCell style={{ minWidth: columns.minWidth }}>
+                                    <div className='flex items-center gap-4 w-[70px]'>
+                                        <div className='img !w-[45px] !h-[45px] !rounded-md !overflow-hidden group'>
+                                            <Link to="/product/45745">
+
+                                                <img src="https://mui.com/static/images/avatar/1.jpg"
+                                                    className='w-full group-hover:scale-105 transition-all' />
+                                            </Link>
+                                        </div>
+                                    </div>
+                                </TableCell>
+
+                                <TableCell style={{ minWidth: columns.minWidth }}>
+                                    Harsh Kumar
+                                </TableCell>
+
+                                <TableCell style={{ minWidth: columns.minWidth }}>
+                                    <span className='flex items-center gap-2 '>
+                                        <MdOutlineMail />harsh@gmail.com
+                                    </span>
+                                </TableCell>
+
+                                <TableCell style={{ minWidth: columns.minWidth }}>
+                                    <span className='flex items-center gap-2 '>
+                                        <FaPhone />5484881667
+                                    </span>
+                                </TableCell>
+
+                                <TableCell style={{ minWidth: columns.minWidth }}>
+                                    <span className='flex items-center gap-2 '>
+                                        <CiCalendar />20-01-2026
+                                    </span>
+                                </TableCell>
+
+
+
+                            </TableRow>
+
+                            <TableRow>
+                                <TableCell style={{ minWidth: columns.minWidth }}>
+                                    <Checkbox size='small' />
+                                </TableCell>
+
+                                <TableCell style={{ minWidth: columns.minWidth }}>
+                                    <div className='flex items-center gap-4 w-[70px]'>
+                                        <div className='img !w-[45px] !h-[45px] !rounded-md !overflow-hidden group'>
+                                            <Link to="/product/45745">
+
+                                                <img src="https://mui.com/static/images/avatar/1.jpg"
+                                                    className='w-full group-hover:scale-105 transition-all' />
+                                            </Link>
+                                        </div>
+                                    </div>
+                                </TableCell>
+
+                                <TableCell style={{ minWidth: columns.minWidth }}>
+                                    Harsh Kumar
+                                </TableCell>
+
+                                <TableCell style={{ minWidth: columns.minWidth }}>
+                                    <span className='flex items-center gap-2 '>
+                                        <MdOutlineMail />harsh@gmail.com
+                                    </span>
+                                </TableCell>
+
+                                <TableCell style={{ minWidth: columns.minWidth }}>
+                                    <span className='flex items-center gap-2 '>
+                                        <FaPhone />5484881667
+                                    </span>
+                                </TableCell>
+
+                                <TableCell style={{ minWidth: columns.minWidth }}>
+                                    <span className='flex items-center gap-2 '>
+                                        <CiCalendar />20-01-2026
+                                    </span>
+                                </TableCell>
+
+
+
+                            </TableRow>
                         </TableBody>
                     </Table>
                 </TableContainer>

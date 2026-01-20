@@ -15,6 +15,7 @@ import { MdOutlineManageAccounts } from "react-icons/md";
 import { MdLogout } from "react-icons/md";
 import { FiActivity } from "react-icons/fi";
 import { MyContext } from '../../App';
+import { Link } from 'react-router-dom';
 
 const StyledBadge = styled(Badge)(({ theme }) => ({
     '& .MuiBadge-badge': {
@@ -138,7 +139,9 @@ const Header = () => {
 
                         :
 
-                        <Button className='btn-blue btn-sm !rounded-full'>Sign In</Button>
+                        <Link to='/login'>
+                            <Button className='btn-blue btn-sm !rounded-full'>Sign In</Button>
+                        </Link>
                 }
 
 
