@@ -3,6 +3,8 @@ import bcryptjs from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 import sendEmailFun from "../config/sendEmail.js"
 import VerificationEmail from '../utils/verifyEmailTemplate.js';
+import generatedAccessToken from '../utils/generateAccessToken.js';
+import generatedRefreshToken from '../utils/generateRefreshToken.js';
 
 export async function registerUserController(request, response) {
     try {
@@ -61,9 +63,9 @@ export async function registerUserController(request, response) {
         )
 
         return response.status(200).json({
-            success:true,
-            error:false,
-            message:"User registered successfully! Please verify your email.",
+            success: true,
+            error: false,
+            message: "User registered successfully! Please verify your email.",
             token: token
         })
 
@@ -74,19 +76,19 @@ export async function registerUserController(request, response) {
             success: false
         })
     }
-} 
+}
 
-export async function verifyEmailController(request,response){
-    try{
-        const {email,otp} = request.body
+export async function verifyEmailController(request, response) {
+    try {
+        const { email, otp } = request.body
 
-        const user = await UserModel.findOne({email:email})
+        const user = await UserModel.findOne({ email: email })
 
-        if(!user){
+        if (!user) {
             return response.status(400).json({
                 message: "User not found",
-                error : true,
-                success:false
+                error: true,
+                success: false
 
             })
         }
@@ -94,37 +96,143 @@ export async function verifyEmailController(request,response){
         const isCodeValid = user.otp === otp;
         const isNotExpired = user.otpExpires > Date.now();
 
-        if (isCodeValid && isNotExpired){
+        if (isCodeValid && isNotExpired) {
             user.verify_email = true;
             user.otp = null;
             user.otpExpires = null;
             await user.save();
             return response.status(200).json({
-                success:true,
-                error:false,
-                message:"Email verified successfully"
+                success: true,
+                error: false,
+                message: "Email verified successfully"
             })
 
-        }else if(!isCodeValid){
+        } else if (!isCodeValid) {
             return response.status(400).json({
-                success:false,
-                errro:true,
-                message:"Invalid OTP"
+                success: false,
+                errro: true,
+                message: "Invalid OTP"
             })
-        }else {
+        } else {
             return response.status(400).json({
-                success:false,
-                error:true,
-                message:"OTP expired"
+                success: false,
+                error: true,
+                message: "OTP expired"
             })
         }
 
     }
-    catch(error){
+    catch (error) {
         return response.status(500).json({
-            message:error.message || error,
-            error:true,
-            success:false
+            message: error.message || error,
+            error: true,
+            success: false
         })
+    }
+}
+
+
+export async function loginUserContoller(request, response) {
+    try {
+        const { email, password } = request.body;
+
+        const user = await UserModel.findOne({ email: email });
+
+        if (!user) {
+            return response.status(400).json({
+                message: "User not registered",
+                error: true,
+                success: false
+            })
+        }
+
+        if (user.status !== "Active") {
+            return response.status(400).json({
+                message: "Contact to admin",
+                error: true,
+                success: false
+            })
+        }
+
+        const checkPassword = await bcryptjs.compare(password, user.password);
+
+        if (!user) {
+            return response.status(400).json({
+                message: "Check your password",
+                error: true,
+                success: false
+            })
+        }
+
+        const accesstoken = await generatedAccessToken(user._id);
+        const refreshToken = await generatedRefreshToken(user._id);
+
+        const updateUser = await UserModel.findByIdAndUpdate(user?._id, {
+            last_login_date: new Date()
+        })
+
+        const cookiesOption = {
+            httpOnly: true,
+            secure: true,
+            sameSite: "None"
+        }
+        response.cookie('accessToken', accesstoken, cookiesOption)
+        response.cookie('refreshToken', refreshToken, cookiesOption)
+
+        return response.json({
+            message: "Login Successfully",
+            error: false,
+            succes: true,
+            data: {
+                accesstoken,
+                refreshToken
+            }
+        })
+
+    }
+    catch (error) {
+        return response.status(500).json({
+            message: error.message || error,
+            error: true,
+            success: false
+        })
+
+    }
+}
+
+
+
+//LOGOUT CONTROLLER
+export async function logoutContoller(request, response) {
+    try{
+        const userid = request.userId //middleware
+        const cookiesOption = {
+            httpOnly: true,
+            secure: true,
+            sameSite: "None"
+        }
+
+        response.clearCookie('accessToken', cookiesOption)
+        response.clearCookie('refreshToken', cookiesOption)
+
+        const removeRefreshToken = await UserModel.findByIdAndUpdate(userid,
+            {
+                refresh_token : ""
+            }
+        )
+
+        return response.json({
+            message: "Logout Successfully",
+            error: false,
+            success: true,
+        })
+    }
+    catch (error) {
+        return response.status(500).json({
+            message: error.message || error,
+            error: true,
+            success: false
+        })
+
     }
 }

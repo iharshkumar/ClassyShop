@@ -26,6 +26,10 @@ const userSchema = new mongoose.Schema({
         type: String,
         default: ""
     },
+    access_token:{
+        type:String,
+        default:""
+    },
     verify_email: {
         type: Boolean,
         default: false
