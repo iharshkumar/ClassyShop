@@ -6,6 +6,16 @@ import VerificationEmail from '../utils/verifyEmailTemplate.js';
 import generatedAccessToken from '../utils/generateAccessToken.js';
 import generatedRefreshToken from '../utils/generateRefreshToken.js';
 
+import { v2 as cloudinary } from 'cloudinary';
+import fs from "fs";
+
+cloudinary.config({
+    cloud_name: process.env.cloudinary_Config_Cloud_name,
+    api_key: process.env.cloudinary_Config_api_key,
+    api_secret: process.env.cloudinary_api_secret,
+    secure: true,
+})
+
 export async function registerUserController(request, response) {
     try {
         let user;
@@ -154,9 +164,17 @@ export async function loginUserContoller(request, response) {
             })
         }
 
+        if (user.verify_email !== true) {
+            return response.status(400).json({
+                message: "Your email is not verify yet .Please verify your email first",
+                error: true,
+                success: false
+            })
+        }
+
         const checkPassword = await bcryptjs.compare(password, user.password);
 
-        if (!user) {
+        if (!checkPassword) {
             return response.status(400).json({
                 message: "Check your password",
                 error: true,
@@ -204,7 +222,7 @@ export async function loginUserContoller(request, response) {
 
 //LOGOUT CONTROLLER
 export async function logoutContoller(request, response) {
-    try{
+    try {
         const userid = request.userId //middleware
         const cookiesOption = {
             httpOnly: true,
@@ -217,7 +235,7 @@ export async function logoutContoller(request, response) {
 
         const removeRefreshToken = await UserModel.findByIdAndUpdate(userid,
             {
-                refresh_token : ""
+                refresh_token: ""
             }
         )
 
@@ -234,5 +252,407 @@ export async function logoutContoller(request, response) {
             success: false
         })
 
+    }
+}
+
+
+//image upload
+var imagesArr = []
+export async function userAvatarController(request, response) {
+    try {
+        imagesArr = [];
+        const userId = request.userId;
+        const image = request.files;
+
+
+        const user = await UserModel.findOne({ _id: userId })
+
+        if (!user) {
+            return response.status(500).json({
+                message: "User not found",
+                error: true,
+                success: true
+            })
+        }
+
+
+        //first remove image from cloudinary
+        const imgUrl = user.avatar;
+        const urlArr = imgUrl.split("/");
+        const avatar_image = urlArr[urlArr.length - 1];
+
+        const imageName = avatar_image.split(".")[0];
+
+        if (imageName) {
+            const res = await cloudinary.uploader.destroy(
+                imageName,
+                (error, result) => {
+                    // console.log(error,res)
+                }
+            )
+
+        }
+
+
+
+        const options = {
+            use_filename: true,
+            unique_filename: false,
+            overwrite: false
+        };
+
+        for (let i = 0; i < request?.files?.length; i++) {
+
+
+            const img = await cloudinary.uploader.upload(
+                image[i].path,
+                options,
+                function (error, result) {
+                    console.log(result)
+                    imagesArr.push(result.secure_url);
+                    fs.unlinkSync(`uploads/${request.files[i].filename}`)
+                }
+            )
+        }
+
+        user.avatar = imagesArr[0];
+        await user.save();
+
+        return response.status(200).json({
+            _id: userId,
+            avtar: imagesArr[0]
+        })
+
+    } catch (error) {
+        return response.status(500).json({
+            message: error.message || error,
+            error: true,
+            success: false
+        })
+    }
+}
+
+//image removes
+export async function removeImageFromCloudinary(request, response) {
+    const imgUrl = request.query.img;
+    const urlArr = imgUrl.split("/");
+    const image = urlArr[urlArr.length - 1];
+
+    const imageName = image.split(".")[0];
+
+    if (imageName) {
+        const res = await cloudinary.uploader.destroy(
+            imageName,
+            (error, result) => {
+                // console.log(error,res)
+            }
+        )
+
+        if (res) {
+            response.status(200).send(res);
+        }
+    }
+}
+
+
+//update user details
+export async function updateUserDetails(request, response) {
+    try {
+        const userId = request.userId //auth middleware
+        const { name, email, mobile, password } = request.body
+
+        const userExist = await UserModel.findById(userId);
+
+        if (!userExist) {
+            return response.status(400).send('The user cannot be Updated!')
+        }
+
+        let verifyCode = "";
+
+        if (email !== userExist.email) {
+            verifyCode = Math.floor(10000 + Math.random() * 900000).toString();
+        }
+
+        let hashPassword = ""
+
+        if (password) {
+            const salt = await bcryptjs.genSalt(10);
+            hashPassword = await bcryptjs.hash(password, salt)
+        } else {
+            hashPassword = userExist.password;
+        }
+
+        const updateUser = await UserModel.findByIdAndUpdate(
+            userId,
+            {
+                name: name,
+                mobile: mobile,
+                email: email,
+                verify_email: email !== userExist.email ? false : true,
+                password: hashPassword,
+                otp: verifyCode !== "" ? verifyCode : null,
+                otpExpires: verifyCode !== "" ? Date.now() + 600000 : ''
+            },
+            { new: true }
+        )
+
+        //send Verification email
+        if (email !== userExist.email) {
+            await sendEmailFun({
+                sendTo: email,
+                subject: "Verify email from Ecommerce App",
+                text: "",
+                html: VerificationEmail(name, verifyCode)
+            })
+        }
+
+        return response.json({
+            message: "User Updated successfully",
+            error: false,
+            success: true,
+            user: updateUser
+        })
+    }
+    catch (error) {
+        return response.status(500).json({
+            message: error.message || error,
+            error: true,
+            success: false
+        })
+    }
+}
+
+//forgot password
+export async function forgotPasswordController(request, response) {
+    try {
+        const { email } = request.body
+
+        const user = await UserModel.findOne({ email: email })
+
+        if (!user) {
+            return response.status(400).json({
+                message: "Email not available",
+                error: true,
+                success: false
+            })
+        }
+        else {
+            let verifyCode = Math.floor(10000 + Math.random() * 900000).toString();
+
+            user.otp = verifyCode
+            user.otpExpires = Date.now() + 600000;
+
+            await user.save()
+
+
+            await sendEmailFun({
+                sendTo: email,
+                subject: "Verify email from Ecommerce App",
+                text: "",
+                html: VerificationEmail(user.name, verifyCode)
+            })
+
+            return response.json({
+                message: "Check your email",
+                error: false,
+                success: true
+            })
+
+        }
+
+    } catch (error) {
+        return response.status(500).json({
+            message: error.message || error,
+            error: true,
+            success: false
+        })
+    }
+}
+
+//
+export async function verifyForgotPasswordOtp(request, response) {
+    try {
+
+        const { email, otp } = request.body
+
+
+        const user = await UserModel.findOne({ email: email })
+
+        if (!user) {
+            return response.status(400).json({
+                message: "Email not available",
+                error: true,
+                success: false
+            })
+        }
+
+        if (!email || !otp) {
+            return response.status(400).json({
+                message: "Provide required field email,otp",
+                error: true,
+                success: false
+            })
+        }
+
+        if (otp !== user.otp) {
+            return response.status(400).json({
+                message: "OTP invalid",
+                error: true,
+                success: false
+            })
+        }
+
+        //otp expires
+        const currentTime = new Date().toISOString()
+
+        if (user.otpExpires < currentTime) {
+            return response.status(400).json({
+                message: "OTP is expired",
+                error: true,
+                success: false
+            })
+        }
+
+
+        user.otp = ""
+        user.otpExpires = ""
+
+        await user.save()
+
+        return response.status(400).json({
+            message: "OTP verified",
+            error: true,
+            success: false
+        })
+    }
+    catch (error) {
+        return response.status(500).json({
+            message: error.message || error,
+            error: true,
+            success: false
+        })
+    }
+}
+
+
+//reset password
+export async function resetpassword(request, response) {
+    try {
+        const { email, newPassword, confirmPassword } = request.body
+        if (!email || !newPassword || !confirmPassword) {
+            return response.status(400).json({
+                message: "Provide required fields email, newPassword, confirmPassword"
+            })
+        }
+
+        const user = await UserModel.findOne({ email })
+        if (!user) {
+            return response.status(400).json({
+                message: "Email is not available",
+                error: true,
+                success: false
+            })
+        }
+
+        if (newPassword !== confirmPassword) {
+            return response.status(400).json({
+                message: "newPassword and confirmPassword must be same",
+                error: true,
+                success: false
+            })
+        }
+
+        const salt = await bcryptjs.genSalt(10)
+        const hashPassword = await bcryptjs.hash(confirmPassword, salt)
+
+        user.password = hashPassword;
+        await user.save()
+
+
+        return response.json({
+            message: "Password updated successfully.",
+            error: false,
+            success: true
+        })
+
+
+
+    } catch (error) {
+        return response.status(500).json({
+            message: error.message || error,
+            error: true,
+            success: false
+        })
+    }
+}
+
+//refresh token controller
+export async function refreshToken(request, response) {
+    try {
+        const refreshToken = request.cookies.refreshToken || request?.headers?.authorization?.split("")[1]
+
+        if (!refreshToken) {
+            return response.status(401).json({
+                message: "Invalid Token",
+                error: true,
+                success: false
+            })
+        }
+
+        const verifyToken = await jwt.verify(refreshToken, process.env.SECRET_KEY_REFRESH_TOKEN)
+        if (!verifyToken) {
+            return response.status(401).json({
+                message: "Token is expired",
+                error: true,
+                success: false
+            })
+        }
+
+        const userId = verifyToken?._id
+        const newAccessToken = await generatedAccessToken(userId)
+
+        const cookiesOption = {
+            httpOnly: true,
+            secure: true,
+            sameSite: "None"
+        }
+
+        response.cookie('accessToken', newAccessToken, cookiesOption)
+        return response.json({
+            message: "New Access token generated",
+            error: false,
+            success: true
+        })
+
+
+    } catch (error) {
+        return response.status(500).json({
+            message: error.message || error,
+            error: true,
+            success: false
+        })
+    }
+}
+
+//get login user details
+export async function userDetails(request, response) {
+    try {
+        const userId = request.userId
+        //console.log(userId)
+        const user = await UserModel.findById(userId).select('-password -refresh_token')
+
+        return response.json({
+            message: "User details",
+            data: user,
+            error: false,
+            success: true
+        })
+
+    } catch (error) {
+        return response.status(500).json({
+            message: "Something is wrong",
+            error: true,
+            success: false
+        })
     }
 }
