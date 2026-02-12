@@ -266,10 +266,10 @@ export async function deleteCategory(request, response) {
             })
 
             for (let j = 0; j < thirdsubCategory.length; j++) {
-                await CategoryModel.findByIdAndDelete(thirdsubCategory[j]._id)
+                const deletedThirdSubCat=await CategoryModel.findByIdAndDelete(thirdsubCategory[j]._id)
             }
 
-            await CategoryModel.findByIdAndDelete(subCategory[i]._id)
+            const deletedThirdSubCat = await CategoryModel.findByIdAndDelete(subCategory[i]._id)
         }
 
         // Delete the main category
