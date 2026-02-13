@@ -24,15 +24,14 @@ import MyAccount from "./Pages/MyAccount/index.jsx";
 import MyList from "./Pages/MyList/index.jsx";
 import Orders from "./Pages/Orders";
 
-// const alertBox=(msg,type)=>{
-//   if(type==="success"){
-//     toast.success(msg)
-//   }
-//   if(type==="error"){
-//     toast.error(msg)
-//   }
-// }
-
+const alertBox = (type, msg) => {
+  if (type === "success") {
+    toast.success(msg);
+  }
+  if (type === "error") {
+    toast.error(msg);
+  }
+};
 
 const MyContext = createContext();
 
@@ -54,24 +53,14 @@ function App() {
     setOpenCartPanel(newOpen);
   };
 
-  const openAlertBox = (type, msg) => {
-    if (type === "Success") {
-      toast.success(msg);
-    }
-    if (type === "error") {
-      toast.error(msg);
-    }
-  }
-
   const values = {
     setOpenProductDetailsModal,
     setOpenCartPanel,
     toggleCartPanel,
     openCartPanel,
-    openAlertBox,
     isLogin,
     setIsLogin,
-    //alertBox 
+    alertBox
   }
 
   return (

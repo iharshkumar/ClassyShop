@@ -25,9 +25,8 @@ const Login = () => {
     const history = useNavigate()
 
     const forgotPassword = () => {
-        context.openAlertBox("Success","OTP Send");
-        history('/verify');
-
+        context.alertBox("success", "OTP Send")
+        history('/verify')
     }
     return (
         <section className='section !py-10'>

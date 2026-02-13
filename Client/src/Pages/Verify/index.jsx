@@ -20,12 +20,15 @@ const Verify = () => {
             email: localStorage.getItem("userEmail"),
             otp: otp
         }).then((res) => {
+            //console.log(res)
             if (res?.error === false) {
-                context.openAlertBox("success", res?.message)
-                localStorage.removeItem("userEmail")
+                // Show success message from API
+                context.alertBox("success", res?.message)
+                localStorage.removeItem("userEmail")    
                 history("/login")
             }else{
-                context.openAlertBox("error", res?.message)
+                // Show error message from API
+                context.alertBox("error", res?.message)
             }
         })
     }

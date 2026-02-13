@@ -58,26 +58,25 @@ const Register = () => {
 
         setIsLoading(true)
         if (formFields.name === "") {
-            context.openAlertBox("error", "Please add full name")
+            context.alertBox("error", "Please add full name")
             return false
         }
 
         if (formFields.email === "") {
-            context.openAlertBox("error", "Please enter email id")
+            context.alertBox("error", "Please enter email id")
             return false
         }
 
         if (formFields.password === "") {
-            context.openAlertBox("error", "Please enter password")
+            context.alertBox("error", "Please enter password")
             return false
         }
         postData("/api/user/register", formFields).then((res) => {
             console.log(res)
-
-            if (res?.error !== true) {
+            if (res?.error === false) {
                 setIsLoading(false)
-                context.openAlertBox("success", res?.message)
-                localStorage.setItem("userEmail",formFields.email)
+                context.alertBox("success", res?.message)
+                localStorage.setItem("userEmail", formFields.email)
                 setFormFields({
                     name: "",
                     email: "",
@@ -85,7 +84,7 @@ const Register = () => {
                 })
                 history("/verify")
             } else {
-                context.openAlertBox("error", res?.message);
+                context.alertBox("error", res?.message )
                 setIsLoading(false)
             }
 
