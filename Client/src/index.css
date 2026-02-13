@@ -613,6 +613,6 @@ input[type=number]::-webkit-outer-spin-button {
 }
 
  button .MuiCircularProgress-root {
-  width: 50px !important;
-  height: 50px !important
+  width: 30px !important;
+  height: 30px !important
 } 

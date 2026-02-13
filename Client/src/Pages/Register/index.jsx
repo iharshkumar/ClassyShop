@@ -216,11 +216,11 @@ const Register = () => {
 
                         <div className='flex items-center w-full !mt-3 !mb-3'>
                             <Button type='submit'
-                                disabled={!validateValue} className='btn-org btn-lg w-full flex gap-3'>
+                                disabled={!validateValue} className="btn-org btn-lg w-full !h-[40px] !min-h-[40px] !py-0">
                                 {
                                     isLoading === true ? <CircularProgress color="inherit" />
-                                        :
-                                        Register
+                                    :
+                                    "Register"
                                 }
                             </Button>
                         </div>
