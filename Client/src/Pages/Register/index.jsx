@@ -11,10 +11,17 @@ import { Link } from 'react-router-dom';
 import { FcGoogle } from "react-icons/fc";
 import { AiFillApple } from "react-icons/ai";
 import { BsFillPersonFill } from "react-icons/bs";
+import { postData } from '../../utils/api';
+import { useContext } from 'react';
+import { MyContext } from '../../App';
+import CircularProgress from '@mui/material/CircularProgress';
+import { useNavigate } from 'react-router-dom'
 
 
 
-const Login = () => {
+const Register = () => {
+
+    const [isLoading, setIsLoading] = useState(false);
 
     const [isShowPassword, setIsShowPassword] = useState(false);
     const [isShowConfirmPassword, setIsShowConfirmPassword] = useState(false);
@@ -22,6 +29,68 @@ const Login = () => {
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
     const [passwordError, setPasswordError] = useState('');
+    const [formFields, setFormFields] = useState({
+        name: "",
+        email: "",
+        password: ""
+    })
+
+    const context = useContext(MyContext)
+    const history=useNavigate()
+
+    const onChangeInput = (e) => {
+        const { name, value } = e.target;
+
+        setFormFields(() => {
+            return {
+                ...formFields,
+                [name]: value
+            }
+        });
+    };
+
+    const validateValue = Object.values(formFields).every(el => el)
+
+    // console.log(formFields)
+    const handleSubmit = (e) => {
+
+        e.preventDefault()
+
+        setIsLoading(true)
+        if (formFields.name === "") {
+            context.openAlertBox("error", "Please add full name")
+            return false
+        }
+
+        if (formFields.email === "") {
+            context.openAlertBox("error", "Please enter email id")
+            return false
+        }
+
+        if (formFields.password === "") {
+            context.openAlertBox("error", "Please enter password")
+            return false
+        }
+        postData("/api/user/register", formFields).then((res) => {
+            console.log(res)
+
+            if (res?.error !== true) {
+                setIsLoading(false)
+                context.openAlertBox("success", res?.message)
+                localStorage.setItem("userEmail",formFields.email)
+                setFormFields({
+                    name: "",
+                    email: "",
+                    password: ""
+                })
+                history("/verify")
+            } else {
+                context.openAlertBox("error", res?.message);
+                setIsLoading(false)
+            }
+
+        })
+    }
 
     return (
 
@@ -29,15 +98,21 @@ const Login = () => {
         <section className='section !py-10'>
             <div className='container'>
                 <div className='card !shadow-md !w-[400px] !m-auto !rounded-md !bg-white !p-4 !px-12'>
-                    <h3 className='text-center text-[20px] text-black'> Register with new Account</h3>
-                    <form className='w-full !mt-5'>
-                        <FormControl variant="standard" className='w-full !mt-4 relative !text-black '>
+                    <h3 className='text-center text-[20px] text-black'>
+                        Register with new Account
+                    </h3>
+                    <form className='w-full !mt-5' onSubmit={handleSubmit}>
+                        <FormControl variant="standard"
+                            className='w-full !mt-4 relative !text-black '
+                        >
                             <InputLabel htmlFor="name">
                                 Name
                             </InputLabel>
                             <Input
                                 id="Name"
                                 type="text"
+                                name="name"
+                                onChange={onChangeInput}
                                 startAdornment={
                                     <InputAdornment position="start">
                                         <BsFillPersonFill className='!absolute !right-[10px] !-top-[5px] !z-[10px] !w-[30px] !h-[20px] !min-w-[20px]  !rounded-full 
@@ -54,6 +129,8 @@ const Login = () => {
                             <Input
                                 id="email"
                                 type="email"
+                                name="email"
+                                onChange={onChangeInput}
                                 startAdornment={
                                     <InputAdornment position="start">
                                         <MdOutlineMail className='!absolute !right-[10px] !-top-[5px] !z-[10px] !w-[30px] !h-[20px] !min-w-[20px]  !rounded-full 
@@ -72,10 +149,18 @@ const Login = () => {
                             <Input
                                 id="password"
                                 type={isShowPassword === false ? 'password' : 'text'}
+                                name="password"
+                                // onChange={onChangeInput}
                                 value={password}
-                                onChange={e => {
-                                    setPassword(e.target.value);
-                                    if (confirmPassword && e.target.value !== confirmPassword) {
+                                onChange={(ev) => {
+                                    // 1. Call your generic handler
+                                    onChangeInput(ev);
+
+                                    // 2. Update local state and run validation
+                                    const val = ev.target.value;
+                                    setPassword(val);
+
+                                    if (confirmPassword && val !== confirmPassword) {
                                         setPasswordError('Passwords do not match');
                                     } else {
                                         setPasswordError('');
@@ -95,7 +180,7 @@ const Login = () => {
                             />
                         </FormControl>
 
-                        <FormControl variant="standard" className='w-full !mt-4 relative !text-black !mb-2'>
+                        {/* <FormControl variant="standard" className='w-full !mt-4 relative !text-black !mb-2'>
                             <InputLabel htmlFor="password">
                                 Confirm Password
                             </InputLabel>
@@ -127,10 +212,17 @@ const Login = () => {
                                 passwordError && (
                                     <div className="text-red-500 text-xs mt-1">{passwordError}</div>
                                 )}
-                        </FormControl>
+                        </FormControl> */}
 
                         <div className='flex items-center w-full !mt-3 !mb-3'>
-                            <Button className='btn-org btn-lg w-full '>Login</Button>
+                            <Button type='submit'
+                                disabled={!validateValue} className='btn-org btn-lg w-full flex gap-3'>
+                                {
+                                    isLoading === true ? <CircularProgress color="inherit" />
+                                        :
+                                        Register
+                                }
+                            </Button>
                         </div>
 
                         <p className='text-center'>Already Registered?  <Link className='link text-[14px] font-[5000] !text-[#ff5252]' to="/login">Login</Link></p>
@@ -146,4 +238,4 @@ const Login = () => {
     )
 }
 
-export default Login;
+export default Register;

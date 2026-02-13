@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { BrowserRouter, Routes, Route, Link } from 'react-router-dom'
-import './index.css'         
+import './index.css'
 import Header from './components/Header/index.jsx';
 import Footer from './components/Footer/index.jsx';
 import Home from './Pages/Home';
@@ -24,6 +24,14 @@ import MyAccount from "./Pages/MyAccount/index.jsx";
 import MyList from "./Pages/MyList/index.jsx";
 import Orders from "./Pages/Orders";
 
+// const alertBox=(msg,type)=>{
+//   if(type==="success"){
+//     toast.success(msg)
+//   }
+//   if(type==="error"){
+//     toast.error(msg)
+//   }
+// }
 
 
 const MyContext = createContext();
@@ -34,7 +42,8 @@ function App() {
   const [maxWidth] = React.useState('lg');
   const [fullWidth] = React.useState(true)
   const [openCartPanel, setOpenCartPanel] = useState(false);
-  const [isLogin, setIsLogin] = useState(true)
+  const [isLogin, setIsLogin] = useState(false)
+  const apiUrl = import.meta.env.VITE_API_URL;
 
 
   const handleCloseProductDetailsModal = () => {
@@ -45,11 +54,11 @@ function App() {
     setOpenCartPanel(newOpen);
   };
 
-  const openAlertBox = (status, msg) => {
-    if (status === "Success") {
+  const openAlertBox = (type, msg) => {
+    if (type === "Success") {
       toast.success(msg);
     }
-    if (status === "error") {
+    if (type === "error") {
       toast.error(msg);
     }
   }
@@ -61,7 +70,8 @@ function App() {
     openCartPanel,
     openAlertBox,
     isLogin,
-    setIsLogin
+    setIsLogin,
+    //alertBox 
   }
 
   return (
@@ -105,7 +115,7 @@ function App() {
              !absolute top-[15px] right-[15px] !bg-[#f1f1f1]" onClick={handleCloseProductDetailsModal}>
               <IoCloseSharp className="text-[20px]" /></Button>
             <div className="col1 w-[40%] !pl-3 !pr-2">
-              <ProductZoom className='w-full'/>
+              <ProductZoom className='w-full' />
             </div>
 
             <div className="col2 w-[50%] !py-5 !px-8 !pr-16 productContent">
