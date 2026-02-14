@@ -19,6 +19,7 @@ import { FaUserSecret } from "react-icons/fa";
 import { IoIosListBox } from "react-icons/io";
 import { BsBoxFill } from "react-icons/bs";
 import { IoLogOut } from "react-icons/io5";
+import { fetchDataFromApi } from "../../utils/api.js";
 
 const StyledBadge = styled(Badge)(({ theme }) => ({
     '& .MuiBadge-badge': {
@@ -36,6 +37,9 @@ const Header = () => {
 
     const [anchorEl, setAnchorEl] = useState(null);
     const open = Boolean(anchorEl);
+
+
+    const context = useContext(MyContext)
     const handleClick = (event) => {
         setAnchorEl(event.currentTarget);
     };
@@ -43,7 +47,20 @@ const Header = () => {
         setAnchorEl(null);
     };
 
-    const context = useContext(MyContext)
+
+    const logout = () => {
+        setAnchorEl(null)
+        fetchDataFromApi(`/api/user/logout?token=${localStorage.getItem('accesstoken')}`,
+            { withCredentials: true }).then((res) => {
+                console.log(res)
+                if (res?.error === false) {
+                    context.setIsLogin(false);
+                    localStorage.removeItem("accesstoken", res?.data?.accesstoken)
+                    localStorage.removeItem("refreshToken", res?.data?.refreshToken)
+                }
+            }
+            )
+    }
 
     return (
         <header className="bg-white relative z-[100]">
@@ -66,12 +83,10 @@ const Header = () => {
                                     <Link to="/Track-Your-Order"
                                         className="text-[13px] link font-[500] transition">
                                         Track Your Order
-
                                     </Link>
                                 </li>
                             </ul>
                         </div>
-
                     </div>
                 </div>
             </div>
@@ -98,15 +113,19 @@ const Header = () => {
                                     </li>
                                     : (
                                         <>
-                                            <Button className="!text-[#000] myAccountWrap flex items-center gap-3 cursor-pointer" onClick={handleClick}>
+                                            <Button className="!text-[#000] myAccountWrap flex items-center gap-3 cursor-pointer !px-7" onClick={handleClick}>
                                                 <Button className="!w-[40px] !h-[40px] !min-w-[40px] !rounded-full !bg-[#f1f1f1]">
                                                     <FaRegUser className="!text-[16px] !text-[rgba(0,0,0,0.7)]" />
                                                 </Button>
 
 
-                                                <div className="info flex flex-col">
-                                                    <h4 className="!leading-3 text-[14px] font-[500] !capitalise text-left justify-start text-[rgba(0,0,0,0.7)]">Harsh Kumar</h4>
-                                                    <span className="text-[13px] font-[400] text-left justify-start text-[rgba(0,0,0,0.7)]">srivastavaharsh1108@gmail.com</span>
+                                                <div className="info flex flex-col ">
+                                                    <h4 className="!leading-3 text-[14px]  font-[500] text-left justify-start text-[rgba(0,0,0,0.7)] !capitalize">
+                                                        {context?.userData?.name}
+                                                    </h4>
+                                                    {/* <span className="text-[13px] font-[400] text-left justify-start text-[rgba(0,0,0,0.7)] !lowercase">
+                                                        {context?.userData?.email}
+                                                    </span> */}
                                                 </div>
                                             </Button>
                                             <Menu
@@ -167,7 +186,7 @@ const Header = () => {
                                                     </MenuItem>
                                                 </Link>
 
-                                                <MenuItem onClick={handleClose} className="flex gap-2 !py-2">
+                                                <MenuItem onClick={logout} className="flex gap-2 !py-2">
                                                     <IoLogOut className="text-[18px]" />
                                                     <span className="text-[14px]">Logout</span>
                                                 </MenuItem>

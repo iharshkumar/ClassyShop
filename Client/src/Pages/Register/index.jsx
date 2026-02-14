@@ -36,7 +36,7 @@ const Register = () => {
     })
 
     const context = useContext(MyContext)
-    const history=useNavigate()
+    const history = useNavigate()
 
     const onChangeInput = (e) => {
         const { name, value } = e.target;
@@ -84,7 +84,7 @@ const Register = () => {
                 })
                 history("/verify")
             } else {
-                context.alertBox("error", res?.message )
+                context.alertBox("error", res?.message)
                 setIsLoading(false)
             }
 
@@ -111,6 +111,8 @@ const Register = () => {
                                 id="Name"
                                 type="text"
                                 name="name"
+                                value={formFields.name}
+                                disabled={isLoading === true ? true : false}
                                 onChange={onChangeInput}
                                 startAdornment={
                                     <InputAdornment position="start">
@@ -218,8 +220,8 @@ const Register = () => {
                                 disabled={!validateValue} className="btn-org btn-lg w-full !h-[40px] !min-h-[40px] !py-0">
                                 {
                                     isLoading === true ? <CircularProgress color="inherit" />
-                                    :
-                                    "Register"
+                                        :
+                                        "Register"
                                 }
                             </Button>
                         </div>

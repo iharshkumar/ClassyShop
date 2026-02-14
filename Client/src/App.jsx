@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { BrowserRouter, Routes, Route, Link } from 'react-router-dom'
 import './index.css'
 import Header from './components/Header/index.jsx';
@@ -23,6 +23,7 @@ import Checkout from "./Pages/Checkout";
 import MyAccount from "./Pages/MyAccount/index.jsx";
 import MyList from "./Pages/MyList/index.jsx";
 import Orders from "./Pages/Orders";
+import { fetchDataFromApi } from "./utils/api.js";
 
 const alertBox = (type, msg) => {
   if (type === "success") {
@@ -42,6 +43,7 @@ function App() {
   const [fullWidth] = React.useState(true)
   const [openCartPanel, setOpenCartPanel] = useState(false);
   const [isLogin, setIsLogin] = useState(false)
+  const [userData,setUserData]=useState(null)
   const apiUrl = import.meta.env.VITE_API_URL;
 
 
@@ -53,6 +55,23 @@ function App() {
     setOpenCartPanel(newOpen);
   };
 
+  useEffect(() => {
+    const token = localStorage.getItem('accesstoken')
+    if(token !== undefined && token !== null && token !==""){
+      setIsLogin(true)
+
+
+      fetchDataFromApi(`/api/user/user-details?token=${token}`).then((res)=>{
+        console.log(res)
+        setUserData(res.data)
+      })
+    }
+    else{
+      setIsLogin(false)
+    }
+
+  }, [isLogin])
+
   const values = {
     setOpenProductDetailsModal,
     setOpenCartPanel,
@@ -60,7 +79,9 @@ function App() {
     openCartPanel,
     isLogin,
     setIsLogin,
-    alertBox
+    alertBox,
+    userData,
+    setUserData
   }
 
   return (

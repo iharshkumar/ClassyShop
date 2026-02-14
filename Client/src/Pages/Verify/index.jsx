@@ -14,23 +14,48 @@ const Verify = () => {
     const history = useNavigate()
     const context = useContext(MyContext)
 
+
     const verifyOtp = (e) => {
         e.preventDefault();
-        postData("/api/user/verifyEmail", {
-            email: localStorage.getItem("userEmail"),
-            otp: otp
-        }).then((res) => {
-            //console.log(res)
-            if (res?.error === false) {
-                // Show success message from API
-                context.alertBox("success", res?.message)
-                localStorage.removeItem("userEmail")    
-                history("/login")
-            }else{
-                // Show error message from API
-                context.alertBox("error", res?.message)
-            }
-        })
+
+        const actionType = localStorage.getItem("actionType")
+        if (actionType !== "forgot-password") {
+
+            postData("/api/user/verifyEmail", {
+                email: localStorage.getItem("userEmail"),
+                otp: otp
+            }).then((res) => {
+                //console.log(res)
+                if (res?.error === false) {
+                    // Show success message from API
+                    context.alertBox("success", res?.message)
+                    localStorage.removeItem("userEmail")
+                    history("/login")
+                } else {
+                    // Show error message from API
+                    context.alertBox("error", res?.message)
+                }
+            })
+
+        } else {
+
+            postData("/api/user/verify-forgot-password-otp", {
+                email: localStorage.getItem("userEmail"),
+                otp: otp
+            }).then((res) => {
+                //console.log(res)
+                if (res?.error === false) {
+                    // Show success message from API
+                    context.alertBox("success", res?.message)
+                    history("/forgot-password")
+                } else {
+                    // Show error message from API
+                    context.alertBox("error", res?.message)
+                }
+            })
+        }
+
+
     }
 
     return (

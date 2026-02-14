@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import Input from '@mui/material/Input';
 import InputLabel from '@mui/material/InputLabel';
 import InputAdornment from '@mui/material/InputAdornment';
@@ -11,10 +11,12 @@ import { Link, useNavigate } from 'react-router-dom';
 import { FcGoogle } from "react-icons/fc";
 import { AiFillApple } from "react-icons/ai";
 import { MyContext } from '../../App';
+import CircularProgress from '@mui/material/CircularProgress';
+import { postData } from '../../utils/api';
 
 
 const Login = () => {
-
+    const [isLoading, setIsLoading] = useState(false);
     const [isShowPassword, setIsShowPassword] = useState(false);
     const [formFields, setFormFields] = useState({
         email: '',
@@ -25,15 +27,94 @@ const Login = () => {
     const history = useNavigate()
 
     const forgotPassword = () => {
-        context.alertBox("success", "OTP Send")
-        history('/verify')
+
+        if (formFields.email === "") {
+            context.alertBox("error", "Please enter email id")
+            return false
+        }
+        else {
+            context.alertBox("success", `OTP Send to your ${formFields.email}`)
+            localStorage.setItem("userEmail", formFields.email)
+            localStorage.setItem("actionType", "forgot-password")
+
+            postData("/api/user/forgot-password", {
+                email: formFields.email,
+            }).then((res) => {
+                //console.log(res)
+                if (res?.error === false) {
+                    // Show success message from API
+                    context.alertBox("success", res?.message)
+                    history("/verify")
+                } else {
+                    // Show error message from API
+                    context.alertBox("error", res?.message)
+                }
+            })
+        }
+
+
     }
+
+    const onChangeInput = (e) => {
+        const { name, value } = e.target;
+
+        setFormFields(() => {
+            return {
+                ...formFields,
+                [name]: value
+            }
+        });
+    };
+
+    const validateValue = Object.values(formFields).every(el => el)
+
+    // console.log(formFields)
+    const handleSubmit = (e) => {
+
+        e.preventDefault()
+
+        setIsLoading(true)
+        if (formFields.email === "") {
+            context.alertBox("error", "Please enter email id")
+            return false
+        }
+
+        if (formFields.password === "") {
+            context.alertBox("error", "Please enter password")
+            return false
+        }
+        postData("/api/user/login", formFields, { withCredentials: true }).then((res) => {
+            console.log(res)
+            if (res?.error === false) {
+                setIsLoading(false)
+                context.alertBox("success", res?.message)
+                setFormFields({
+                    email: "",
+                    password: ""
+                })
+
+
+                localStorage.setItem("accesstoken", res?.data?.accesstoken)
+                localStorage.setItem("refreshToken", res?.data?.refreshToken)
+
+
+                context.setIsLogin(true)
+
+                history("/")
+            } else {
+                context.alertBox("error", res?.message)
+                setIsLoading(false)
+            }
+
+        })
+    }
+
     return (
         <section className='section !py-10'>
             <div className='container'>
                 <div className='card !shadow-md !w-[400px] !m-auto !rounded-md !bg-white !p-4 !px-12'>
                     <h3 className='text-center text-[20px] text-black'> Login to your Account</h3>
-                    <form className='w-full !mt-5'>
+                    <form className='w-full !mt-5' onSubmit={handleSubmit}>
                         <FormControl variant="standard" className='w-full !mt-4 relative !text-black'>
                             <InputLabel htmlFor="email">
                                 Email Id
@@ -41,7 +122,10 @@ const Login = () => {
                             <Input
                                 id="email"
                                 type="email"
-                                name="name"
+                                name="email"
+                                value={formFields.email}
+                                disabled={isLoading === true ? true : false}
+                                onChange={onChangeInput}
                                 startAdornment={
                                     <InputAdornment position="start">
                                         <MdOutlineMail className='!absolute !right-[10px] !-top-[5px] !z-[10px] !w-[30px] !h-[20px] !min-w-[20px]  !rounded-full 
@@ -58,6 +142,9 @@ const Login = () => {
                                 id="password"
                                 type={isShowPassword === false ? 'password' : 'text'}
                                 name="password"
+                                value={formFields.password}
+                                disabled={isLoading === true ? true : false}
+                                onChange={onChangeInput}
                                 startAdornment={
                                     <InputAdornment position="start">
                                         <Button className='!absolute !right-[5px] !-top-[5px] !z-[10px] !w-[30px] !h-[30px] !min-w-[35px] !rounded-full 
@@ -75,7 +162,14 @@ const Login = () => {
                         <a className='link cursor-pointer text-[14px] font-[600]' onClick={forgotPassword}>Forgot Password?</a>
 
                         <div className='flex items-center w-full !mt-3 !mb-3'>
-                            <Button className='btn-org btn-lg w-full '>Login</Button>
+                            <Button type='submit'
+                                disabled={!validateValue} className="btn-org btn-lg w-full !h-[40px] !min-h-[40px] !py-0">
+                                {
+                                    isLoading === true ? <CircularProgress color="inherit" />
+                                        :
+                                        "Login"
+                                }
+                            </Button>
                         </div>
 
                         <p className='text-center'>Not Registered?  <Link className='link text-[14px] font-[5000] !text-[#ff5252]' to="/register">Sign Up</Link></p>
