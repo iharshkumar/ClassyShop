@@ -16,6 +16,7 @@ import { MdLogout } from "react-icons/md";
 import { FiActivity } from "react-icons/fi";
 import { MyContext } from '../../App';
 import { Link } from 'react-router-dom';
+import { fetchDataFromApi } from "../../utils/api.js";
 
 const StyledBadge = styled(Badge)(({ theme }) => ({
     '& .MuiBadge-badge': {
@@ -38,6 +39,20 @@ const Header = () => {
     };
 
     const context = useContext(MyContext);
+
+    const logout = () => {
+        setAnchorMyAcc(null)
+        fetchDataFromApi(`/api/user/logout?token=${localStorage.getItem('accesstoken')}`,
+            { withCredentials: true }).then((res) => {
+                // console.log(res)
+                if (res?.error === false) {
+                    context.setIsLogin(false);
+                    localStorage.removeItem("accesstoken", res?.data?.accesstoken)
+                    localStorage.removeItem("refreshToken", res?.data?.refreshToken)
+                }
+            }
+            )
+    }
 
     return (
         <header className={`w-full !h-[auto] !py-2 ${context.isSidebarOpen === true ? 'pl-66' : 'pl-0'} !shadow-md 
@@ -110,8 +125,8 @@ const Header = () => {
                                     </div>
 
                                     <div className='info px-4'>
-                                        <h3 className='text-[15px] font-[500] leading-5'>Harsh Kumar</h3>
-                                        <p className='text-[12px] font-[400] opacity-70'>srivastavaharsh1108@gmail.com</p>
+                                        <h3 className='text-[15px] font-[500] leading-5'>{context?.userData?.name}</h3>
+                                        <p className='text-[12px] font-[400] opacity-70'>{context?.userData?.email}</p>
                                     </div>
                                 </MenuItem>
                                 <Divider />
@@ -129,7 +144,9 @@ const Header = () => {
                                     <span className='text-[22px]'>Activity Log</span>
                                 </MenuItem>
                                 <Divider />
-                                <MenuItem onClick={handleCloseMyAcc} className='flex items-center gap-3'>
+                                <MenuItem  
+                                onClick={logout}
+                                className='flex items-center gap-3'>
                                     <MdLogout className='text-[25px]' />
                                     <span className='text-[22px]'>Sign Out</span>
                                 </MenuItem>
@@ -139,7 +156,7 @@ const Header = () => {
 
                         :
 
-                        <Link to='/login'>
+                        <Link to='/login' >
                             <Button className='btn-blue btn-sm !rounded-full'>Sign In</Button>
                         </Link>
                 }

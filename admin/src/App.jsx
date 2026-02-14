@@ -34,6 +34,20 @@ import Orders from './Pages/Orders';
 import ForgotPassword from './Pages/ForgotPassword';
 import VerifyAccount from './Pages/VerifyAccount';
 import ChangePassword from './Pages/ChangePassword';
+import { fetchDataFromApi } from "./utils/api.js";
+import toast, { Toaster } from 'react-hot-toast';
+import { useEffect } from 'react';
+
+
+const alertBox = (type, msg) => {
+  if (type === "success") {
+    toast.success(msg);
+  }
+  if (type === "error") {
+    toast.error(msg);
+  }
+};
+
 
 
 const Transition = React.forwardRef(function Transition(
@@ -45,12 +59,33 @@ const MyContext = createContext();
 function App() {
   const [isSidebarOpen, setisSidebarOpen] = useState(true)
   const [isLogin, setIsLogin] = useState(false)
+  const [userData,setUserData]=useState(null)
   const [isOpenFullScreenPanel, setIsOpenFullScreenPanel] = useState({
     open: false,
     model: ''
   })
 
+
+  useEffect(() => {
+    const token = localStorage.getItem('accesstoken')
+    if(token !== undefined && token !== null && token !==""){
+      setIsLogin(true)
+
+
+      fetchDataFromApi(`/api/user/user-details`).then((res)=>{
+        //console.log(res)
+        setUserData(res.data)
+      })
+    }
+    else{
+      setIsLogin(false)
+    }
+
+  }, [isLogin])
+
   const router = createBrowserRouter([
+
+    //home router
     {
       path: '/',
       exact: true,
@@ -72,6 +107,7 @@ function App() {
     },
 
 
+    //login router
     {
       path: '/login',
       exact: true,
@@ -82,6 +118,8 @@ function App() {
       )
     },
 
+
+    //sign-up router
     {
       path: '/sign-up',
       exact: true,
@@ -92,6 +130,42 @@ function App() {
       )
     },
 
+    //forgot-password router
+    {
+      path: '/forgot-password',
+      exact: true,
+      element: (
+        <>
+          <ForgotPassword />
+        </>
+      )
+    },
+
+    
+    //verify-account router
+    {
+      path: '/verify-account',
+      exact: true,
+      element: (
+        <>
+          <VerifyAccount />
+        </>
+      )
+    },
+
+
+    //change password router
+    {
+      path: '/change-password',
+      exact: true,
+      element: (
+        <>
+          <ChangePassword />
+        </>
+      )
+    },
+
+    // products router
     {
       path: '/products',
       exact: true,
@@ -210,36 +284,10 @@ function App() {
           </section>
         </>
       )
-    },
-
-    {
-      path: '/forgot-password',
-      exact: true,
-      element: (
-        <>
-          <ForgotPassword />
-        </>
-      )
-    },
-
-    {
-      path: '/verify-account',
-      exact: true,
-      element: (
-        <>
-          <VerifyAccount />
-        </>
-      )
-    },
-    {
-      path: '/change-password',
-      exact: true,
-      element: (
-        <>
-          <ChangePassword />
-        </>
-      )
     }
+
+
+    
 
 
 
@@ -253,7 +301,10 @@ function App() {
     isLogin,
     setIsLogin,
     isOpenFullScreenPanel,
-    setIsOpenFullScreenPanel
+    setIsOpenFullScreenPanel,
+    alertBox,
+    userData,
+    setUserData
   };
 
 
@@ -261,17 +312,6 @@ function App() {
     <>
       <MyContext.Provider value={values}>
         <RouterProvider router={router} />
-
-
-
-
-
-
-
-
-
-
-
         <Dialog
           fullScreen
           open={isOpenFullScreenPanel.open}

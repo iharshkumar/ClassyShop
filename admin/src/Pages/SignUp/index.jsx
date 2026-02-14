@@ -9,15 +9,83 @@ import { FaFacebook } from "react-icons/fa";
 import Checkbox from '@mui/material/Checkbox';
 import { FaEye } from "react-icons/fa";
 import { FaEyeSlash } from "react-icons/fa";
+import { postData } from '../../utils/api';
+import { useContext } from 'react';
+import { MyContext } from '../../App';
+import CircularProgress from '@mui/material/CircularProgress';
+import { useNavigate } from 'react-router-dom'
 
 
 
 const SignUp = () => {
-
+    const [isLoading, setIsLoading] = useState(false);
     const [loadingGoogle, setLoadingGoogle] = useState(false);
+    const [password, setPassword] = useState('');
+
     const [loadingFb, setLoadingFb] = useState(false);
     const [isPasswordShow, setIsPasswordShow] = useState(false)
+    const [confirmPassword, setConfirmPassword] = useState('');
+    const [passwordError, setPasswordError] = useState('');
 
+    const [formFields, setFormFields] = useState({
+        name: "",
+        email: "",
+        password: ""
+    })
+
+    const context = useContext(MyContext)
+    const history = useNavigate()
+    const onChangeInput = (e) => {
+        const { name, value } = e.target;
+
+        setFormFields(() => {
+            return {
+                ...formFields,
+                [name]: value
+            }
+        });
+    };
+    const validateValue = Object.values(formFields).every(el => el)
+
+    // console.log(formFields)
+    const handleSubmit = (e) => {
+
+        e.preventDefault()
+
+        setIsLoading(true)
+        if (formFields.name === "") {
+            context.alertBox("error", "Please add full name")
+            return false
+        }
+
+        if (formFields.email === "") {
+            context.alertBox("error", "Please enter email id")
+            return false
+        }
+
+        if (formFields.password === "") {
+            context.alertBox("error", "Please enter password")
+            return false
+        }
+        postData("/api/user/register", formFields).then((res) => {
+            // console.log(res)
+            if (res?.error === false) {
+                setIsLoading(false)
+                context.alertBox("success", res?.message)
+                localStorage.setItem("userEmail", formFields.email)
+                setFormFields({
+                    name: "",
+                    email: "",
+                    password: ""
+                })
+                history("/verify-account")
+            } else {
+                context.alertBox("error", res?.message)
+                setIsLoading(false)
+            }
+
+        })
+    }
 
     function handleClickGoogle() {
         setLoadingGoogle(true);
@@ -110,23 +178,52 @@ const SignUp = () => {
                 </div>
                 <br />
 
-                <form className="w-full !px-8 !mt-3">
+                <form className="w-full !px-8 !mt-3" onSubmit={handleSubmit}>
                     <div className='form-group !mb-4 w-full'>
                         <h4 className='text-[14px] font-[500] !mb-1'>Full Name</h4>
-                        <input type="text" className='w-full h-[50px] !border-2 !border-[rgba(0,0,0,0.1)] !rounded-md 
+                        <input id="Name"
+                            type="text"
+                            name="name"
+                            value={formFields.name}
+                            disabled={isLoading === true ? true : false}
+                            onChange={onChangeInput}
+                            className='w-full h-[50px] !border-2 !border-[rgba(0,0,0,0.1)] !rounded-md 
                         focus:!border-[rgba(0,0,0,0.7)] focus:!outline-none !px-3' />
                     </div>
 
                     <div className='form-group !mb-4 w-full'>
                         <h4 className='text-[14px] font-[500] !mb-1'>Email</h4>
-                        <input type="email" className='w-full h-[50px] !border-2 !border-[rgba(0,0,0,0.1)] !rounded-md 
+                        <input id="email"
+                            type="email"
+                            name="email"
+                            onChange={onChangeInput}
+                            className='w-full h-[50px] !border-2 !border-[rgba(0,0,0,0.1)] !rounded-md 
                         focus:!border-[rgba(0,0,0,0.7)] focus:!outline-none !px-3' />
                     </div>
 
                     <div className='form-group !mb-4 w-full'>
                         <h4 className='text-[14px] font-[500] !mb-1'>Password</h4>
                         <div className='relative w-full'>
-                            <input type={isPasswordShow === false ? 'password' : 'text'}
+                            <input
+                                id="password"
+                                type={isPasswordShow === false ? 'password' : 'text'}
+                                name="password"
+                                // onChange={onChangeInput}
+                                value={password}
+                                onChange={(ev) => {
+                                    // 1. Call your generic handler
+                                    onChangeInput(ev);
+
+                                    // 2. Update local state and run validation
+                                    const val = ev.target.value;
+                                    setPassword(val);
+
+                                    if (confirmPassword && val !== confirmPassword) {
+                                        setPasswordError('Passwords do not match');
+                                    } else {
+                                        setPasswordError('');
+                                    }
+                                }}
                                 className='w-full h-[50px] !border-2 !border-[rgba(0,0,0,0.1)] !rounded-md 
                         focus:!border-[rgba(0,0,0,0.7)] focus:!outline-none !px-3' />
                             <Button className='!absolute top-[7px] right-[10px] z-50 !rounded-full !w-[35px] !h-[35px] !min-w-[35px] !text-gray-500'
@@ -158,7 +255,16 @@ const SignUp = () => {
                         </Link>
                     </div>
 
-                    <Button className='btn-blue btn-lg w-full'>Sign Up</Button>
+                    <div className='flex items-center w-full !mt-3 !mb-3'>
+                        <Button type='submit'
+                            disabled={!validateValue} className="btn-blue btn-lg w-full !h-[40px] !min-h-[40px] !py-0">
+                            {
+                                isLoading === true ? <CircularProgress color="inherit" />
+                                    :
+                                    "Register"
+                            }
+                        </Button>
+                    </div>
                 </form>
             </div>
         </section>

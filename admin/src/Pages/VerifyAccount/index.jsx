@@ -10,6 +10,11 @@ import Checkbox from '@mui/material/Checkbox';
 import { FaEye } from "react-icons/fa";
 import { FaEyeSlash } from "react-icons/fa";
 import OtpBox from '../../Components/OtpBox';
+import { useContext } from 'react';
+import { MyContext } from '../../App';
+import { postData } from '../../utils/api';
+import { useNavigate } from 'react-router-dom'
+
 
 
 
@@ -19,9 +24,52 @@ const VerifyAccount = () => {
     const handleOtpChange = (value) => {
         setOtp(value);
     };
+    const history = useNavigate()
+    const context = useContext(MyContext)
 
-    
 
+    const verifyOtp = (e) => {
+        e.preventDefault();
+
+        const actionType = localStorage.getItem("actionType")
+        if (actionType !== "forgot-password") {
+
+            postData("/api/user/verifyEmail", {
+                email: localStorage.getItem("userEmail"),
+                otp: otp
+            }).then((res) => {
+                //console.log(res)
+                if (res?.error === false) {
+                    // Show success message from API
+                    context.alertBox("success", res?.message)
+                    localStorage.removeItem("userEmail")
+                    history("/login")
+                } else {
+                    // Show error message from API
+                    context.alertBox("error", res?.message)
+                }
+            })
+
+        } else {
+
+            postData("/api/user/verify-forgot-password-otp", {
+                email: localStorage.getItem("userEmail"),
+                otp: otp
+            }).then((res) => {
+                //console.log(res)
+                if (res?.error === false) {
+                    // Show success message from API
+                    context.alertBox("success", res?.message)
+                    history("/forgot-password")
+                } else {
+                    // Show error message from API
+                    context.alertBox("error", res?.message)
+                }
+            })
+        }
+
+
+    }
 
     return (
         <section className="w-full">
@@ -70,21 +118,19 @@ const VerifyAccount = () => {
                 <p className='text-center text-[15px]'>
                     Otp send to &nbsp;
                     <span className='!text-blue-500 font-bold'>
-                        srivastavaharsh1108@gmail.com
+                        {localStorage.getItem("userEmail")}
                     </span>
                 </p>
 
                 <br />
 
-                <div className='text-center flex items-center justify-center flex-col'>
+                <form onSubmit={verifyOtp}>
                     <OtpBox length={6} onChange={handleOtpChange} />
-                </div>
 
-                <br />
-
-                <div className='w-[300px] !m-auto'>
-                    <Button className='btn-blue w-full'>Verify Otp</Button>
-                </div>
+                    <div className='flex items-center justify-center !mt-5'>
+                        <Button type="submit" className="btn-blue btn-lg w-[50%]">Verify OTP</Button>
+                    </div>
+                </form>
             </div>
         </section>
     )
