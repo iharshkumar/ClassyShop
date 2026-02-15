@@ -258,7 +258,7 @@ const Login = () => {
                             label="Remember Me"
                         />
 
-<a className='link cursor-pointer text-[14px] font-[600]' onClick={forgotPassword}>Forgot Password?</a>
+                        <a className='link cursor-pointer text-[14px] font-[600]' onClick={forgotPassword}>Forgot Password?</a>
 
                     </div>
 

@@ -17,6 +17,8 @@ import { FiActivity } from "react-icons/fi";
 import { MyContext } from '../../App';
 import { Link } from 'react-router-dom';
 import { fetchDataFromApi } from "../../utils/api.js";
+import axios from 'axios'
+
 
 const StyledBadge = styled(Badge)(({ theme }) => ({
     '& .MuiBadge-badge': {
@@ -44,7 +46,7 @@ const Header = () => {
         setAnchorMyAcc(null)
         fetchDataFromApi(`/api/user/logout?token=${localStorage.getItem('accesstoken')}`,
             { withCredentials: true }).then((res) => {
-                // console.log(res)
+                console.log(res)
                 if (res?.error === false) {
                     context.setIsLogin(false);
                     localStorage.removeItem("accesstoken", res?.data?.accesstoken)
@@ -144,9 +146,9 @@ const Header = () => {
                                     <span className='text-[22px]'>Activity Log</span>
                                 </MenuItem>
                                 <Divider />
-                                <MenuItem  
-                                onClick={logout}
-                                className='flex items-center gap-3'>
+                                <MenuItem
+                                    onClick={logout}
+                                    className='flex items-center gap-3'>
                                     <MdLogout className='text-[25px]' />
                                     <span className='text-[22px]'>Sign Out</span>
                                 </MenuItem>
