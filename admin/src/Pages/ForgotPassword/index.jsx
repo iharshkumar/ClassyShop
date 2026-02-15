@@ -3,10 +3,76 @@ import React from 'react'
 import { Link, NavLink } from 'react-router-dom'
 import { CiLogin } from "react-icons/ci";
 import { CiUser } from "react-icons/ci";
-
-
+import { MyContext } from '../../App';
+import CircularProgress from '@mui/material/CircularProgress';
+import { postData } from '../../utils/api';
+import {  useNavigate } from 'react-router-dom';
+import { useContext } from 'react';
+import { useState } from 'react';
 
 const ForgotPassword = () => {
+
+    const [isLoading, setIsLoading] = useState(false);
+    const [isShowPassword, setIsShowPassword] = useState(false);
+    const [isShowPassword2, setIsShowPassword2] = useState(false);
+
+    const [formFields, setFormFields] = useState({
+        email: localStorage.getItem("userEmail"),
+        newPassword: '',
+        confirmPassword: ''
+    })
+
+    const context = useContext(MyContext);
+    const history = useNavigate()
+
+
+    const onChangeInput = (e) => {
+        const { name, value } = e.target;
+
+        setFormFields(() => {
+            return {
+                ...formFields,
+                [name]: value
+            }
+        });
+    };
+
+    
+    const validateValue = Object.values(formFields).every(el => el)
+
+    // console.log(formFields)
+    const handleSubmit = (e) => {
+
+        e.preventDefault()
+
+        setIsLoading(true)
+        if (formFields.newPassword === "") {
+            context.alertBox("error", "Please enter new password ")
+            setIsLoading(false)
+            return false
+        }
+
+        if (formFields.confirmPassword !== formFields.newPassword) {
+            context.alertBox("error", "Password and confirm password doesn't match")
+            setIsLoading(false)
+            return false
+        }
+
+
+        postData(`/api/user/reset-password`, formFields).then((res) => {
+            // console.log(res)
+            if (res?.error === false) {
+                localStorage.removeItem("userEmail")
+                localStorage.removeItem("actionType")
+                context.alertBox("success", res?.message)
+                setIsLoading(false)
+                history('/login')
+            } else {
+                context.alertBox("error", res?.message)
+            }
+
+        })
+    }
 
 
     return (
@@ -57,7 +123,7 @@ const ForgotPassword = () => {
                 <br />
 
 
-                <form className="w-full !px-8 !mt-3">
+                <form className="w-full !px-8 !mt-3" onSubmit={handleSubmit}>
                     <div className='form-group !mb-4 w-full'>
                         <h4 className='text-[14px] font-[500] !mb-1'>Email</h4>
                         <input type="email"
@@ -68,7 +134,16 @@ const ForgotPassword = () => {
 
 
 
-                    <Button className='btn-blue btn-lg w-full'>Reset Password</Button>
+                    <div className='flex items-center w-full !mt-3 !mb-3'>
+                            <Button type='submit'
+                                disabled={!validateValue} className="btn-blue btn-lg w-full !h-[40px] !min-h-[40px] !py-0">
+                                {
+                                    isLoading === true ? <CircularProgress color="inherit" />
+                                        :
+                                        "Reset Password"
+                                }
+                            </Button>
+                        </div>
                     
                     <br />
                     <br />

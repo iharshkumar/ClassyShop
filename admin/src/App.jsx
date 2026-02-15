@@ -312,6 +312,7 @@ function App() {
     <>
       <MyContext.Provider value={values}>
         <RouterProvider router={router} />
+        <Toaster />
         <Dialog
           fullScreen
           open={isOpenFullScreenPanel.open}

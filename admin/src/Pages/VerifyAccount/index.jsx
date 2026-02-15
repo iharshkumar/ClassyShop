@@ -60,7 +60,7 @@ const VerifyAccount = () => {
                 if (res?.error === false) {
                     // Show success message from API
                     context.alertBox("success", res?.message)
-                    history("/forgot-password")
+                    history("/change-password")
                 } else {
                     // Show error message from API
                     context.alertBox("error", res?.message)

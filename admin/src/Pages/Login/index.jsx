@@ -59,7 +59,7 @@ const Login = () => {
                 if (res?.error === false) {
                     // Show success message from API
                     context.alertBox("success", res?.message)
-                    history("/verify")
+                    history("/verify-account")
                 } else {
                     // Show error message from API
                     context.alertBox("error", res?.message)
@@ -258,10 +258,8 @@ const Login = () => {
                             label="Remember Me"
                         />
 
-                        <Link to="/forgot-password" className='!text-blue-500 text-[15px] font-[700] hover:underline hover:!text-[rgba(0,0,0,0.8)]' onClick={forgotPassword}>
+<a className='link cursor-pointer text-[14px] font-[600]' onClick={forgotPassword}>Forgot Password?</a>
 
-                            Forgot Password?
-                        </Link>
                     </div>
 
                     <div className='flex items-center w-full !mt-3 !mb-3'>

@@ -1,6 +1,6 @@
 import { Button, FormControlLabel } from '@mui/material'
 import React, { useState } from 'react'
-import { Link, NavLink } from 'react-router-dom'
+import { Link, NavLink, useNavigate } from 'react-router-dom'
 import { CiLogin } from "react-icons/ci";
 import { CiUser } from "react-icons/ci";
 import LoadingButton from "@mui/lab/LoadingButton";
@@ -9,16 +9,75 @@ import { FaFacebook } from "react-icons/fa";
 import Checkbox from '@mui/material/Checkbox';
 import { FaEye } from "react-icons/fa";
 import { FaEyeSlash } from "react-icons/fa";
+import { postData } from '../../utils/api';
+import { useContext } from 'react';
+import { MyContext } from '../../App';
+import CircularProgress from '@mui/material/CircularProgress';
 
 
 
 const ChangePassword = () => {
+    const [isLoading, setIsLoading] = useState(false);
 
-   const [isPasswordShow, setIsPasswordShow] = useState(false)
-   const [isPasswordShow2, setIsPasswordShow2] = useState(false)
+    const [isPasswordShow, setIsPasswordShow] = useState(false)
+    const [isPasswordShow2, setIsPasswordShow2] = useState(false)
+
+    const [formFields, setFormFields] = useState({
+        email: localStorage.getItem("userEmail"),
+        newPassword: '',
+        confirmPassword: ''
+    })
+
+    const context = useContext(MyContext);
+    const history = useNavigate()
 
 
-    
+    const onChangeInput = (e) => {
+        const { name, value } = e.target;
+
+        setFormFields(() => {
+            return {
+                ...formFields,
+                [name]: value
+            }
+        });
+    };
+    const validateValue = Object.values(formFields).every(el => el)
+
+    // console.log(formFields)
+    const handleSubmit = (e) => {
+
+        e.preventDefault()
+
+        setIsLoading(true)
+        if (formFields.newPassword === "") {
+            context.alertBox("error", "Please enter new password ")
+            setIsLoading(false)
+            return false
+        }
+
+        if (formFields.confirmPassword !== formFields.newPassword) {
+            context.alertBox("error", "Password and confirm password doesn't match")
+            setIsLoading(false)
+            return false
+        }
+
+
+        postData(`/api/user/reset-password`, formFields).then((res) => {
+            // console.log(res)
+            if (res?.error === false) {
+                localStorage.removeItem("userEmail")
+                localStorage.removeItem("actionType")
+                context.alertBox("success", res?.message)
+                setIsLoading(false)
+                history('/login')
+            } else {
+                context.alertBox("error", res?.message)
+            }
+
+        })
+    }
+
 
     return (
         <section className="w-full">
@@ -38,10 +97,10 @@ const ChangePassword = () => {
 
                     <NavLink to="/sign-up" exact={true} activeClassname="isActive">
 
-                    <Button className='!rounded-full !text-[rgba(0,0,0,0.8)] !px-5 flex gap-1'>
-                        <CiUser className='text-[18px]' />
-                        Sign Up
-                    </Button>
+                        <Button className='!rounded-full !text-[rgba(0,0,0,0.8)] !px-5 flex gap-1'>
+                            <CiUser className='text-[18px]' />
+                            Sign Up
+                        </Button>
                     </NavLink>
                 </div>
             </header>
@@ -61,20 +120,26 @@ const ChangePassword = () => {
 
                 <h1 className='text-center text-[35px] font-[800] !mt-4'>
                     Welcome Back!<br />
-                    YOu can change your password from here
+                    You can change your password from here
                 </h1>
 
 
-                <form className="w-full !px-8 !mt-3">
-                    
+                <form className="w-full !px-8 !mt-3" onSubmit={handleSubmit}>
+
                     <div className='form-group !mb-4 w-full'>
                         <h4 className='text-[14px] font-[500] !mb-1'>New Password</h4>
                         <div className='relative w-full'>
-                            <input type={isPasswordShow===false ? 'password' : 'text'} 
-                            className='w-full h-[50px] !border-2 !border-[rgba(0,0,0,0.1)] !rounded-md 
+                            <input
+                                id="password"
+                                type={isPasswordShow === false ? 'password' : 'text'}
+                                name="newPassword"
+                                value={formFields.newPassword}
+                                disabled={isLoading === true ? true : false}
+                                onChange={onChangeInput}
+                                className='w-full h-[50px] !border-2 !border-[rgba(0,0,0,0.1)] !rounded-md 
                         focus:!border-[rgba(0,0,0,0.7)] focus:!outline-none !px-3' />
                             <Button className='!absolute top-[7px] right-[10px] z-50 !rounded-full !w-[35px] !h-[35px] !min-w-[35px] !text-gray-500'
-                            onClick={()=>setIsPasswordShow(!isPasswordShow)}>
+                                onClick={() => setIsPasswordShow(!isPasswordShow)}>
                                 {
                                     isPasswordShow === false ?
                                         (
@@ -94,11 +159,17 @@ const ChangePassword = () => {
                     <div className='form-group !mb-4 w-full'>
                         <h4 className='text-[14px] font-[500] !mb-1'>Confirm Password</h4>
                         <div className='relative w-full'>
-                            <input type={isPasswordShow2===false ? 'password' : 'text'} 
-                            className='w-full h-[50px] !border-2 !border-[rgba(0,0,0,0.1)] !rounded-md 
+                            <input
+                                id="confirm_password"
+                                type={isPasswordShow2 === false ? 'password' : 'text'}
+                                name="confirmPassword"
+                                value={formFields.confirmPassword}
+                                disabled={isLoading === true ? true : false}
+                                onChange={onChangeInput}
+                                className='w-full h-[50px] !border-2 !border-[rgba(0,0,0,0.1)] !rounded-md 
                         focus:!border-[rgba(0,0,0,0.7)] focus:!outline-none !px-3' />
                             <Button className='!absolute top-[7px] right-[10px] z-50 !rounded-full !w-[35px] !h-[35px] !min-w-[35px] !text-gray-500'
-                            onClick={()=>setIsPasswordShow2(!isPasswordShow2)}>
+                                onClick={() => setIsPasswordShow2(!isPasswordShow2)}>
                                 {
                                     isPasswordShow2 === false ?
                                         (
@@ -116,9 +187,18 @@ const ChangePassword = () => {
                     </div>
 
 
-           
 
-                    <Button className='btn-blue btn-lg w-full'>Change Password</Button>
+
+                    <div className='flex items-center w-full !mt-3 !mb-3'>
+                        <Button type='submit'
+                            disabled={!validateValue} className="btn-blue    btn-lg w-full !h-[40px] !min-h-[40px] !py-0">
+                            {
+                                isLoading === true ? <CircularProgress color="inherit" />
+                                    :
+                                    "Change Password"
+                            }
+                        </Button>
+                    </div>
                 </form>
             </div>
         </section>
