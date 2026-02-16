@@ -43,7 +43,7 @@ function App() {
   const [fullWidth] = React.useState(true)
   const [openCartPanel, setOpenCartPanel] = useState(false);
   const [isLogin, setIsLogin] = useState(false)
-  const [userData,setUserData]=useState(null)
+  const [userData, setUserData] = useState(null)
   const apiUrl = import.meta.env.VITE_API_URL;
 
 
@@ -57,16 +57,24 @@ function App() {
 
   useEffect(() => {
     const token = localStorage.getItem('accesstoken')
-    if(token !== undefined && token !== null && token !==""){
+    if (token !== undefined && token !== null && token !== "") {
       setIsLogin(true)
 
 
-      fetchDataFromApi(`/api/user/user-details`).then((res)=>{
-        // console.log(res)
+      fetchDataFromApi(`/api/user/user-details`).then((res) => {
         setUserData(res.data)
+        if (res?.response?.data?.error === true) {
+          if (res?.response?.data?.message === "You have not logged in") {
+
+            localStorage.removeItem("accesstoken")
+            localStorage.removeItem("refreshToken")
+            alertBox("error", "Your session is closed please login again")
+            setIsLogin(false)
+          }
+        }
       })
     }
-    else{
+    else {
       setIsLogin(false)
     }
 
@@ -90,7 +98,7 @@ function App() {
         <MyContext.Provider value={values}>
           <Header />
           <Routes>
-            {isLogin && 
+            {isLogin &&
               <>
                 <Route path={'/'} exact={true} element={<Home />} />
                 <Route path={'/productListing'} exact={true} element={<ProductListing />} />
@@ -104,24 +112,24 @@ function App() {
                 <Route path={'/my-account'} exact={true} element={<MyAccount />} />
                 <Route path={'/my-list'} exact={true} element={<MyList />} />
                 <Route path={'/my-orders'} exact={true} element={<Orders />} />
-                </>
-              }
-              {!isLogin && 
-                <>
-                  <Route path={'/'} exact={true} element={<Home />} />
-                  <Route path={'/productListing'} exact={true} element={<ProductListing />} />
-                  <Route path={'/product/:id'} exact={true} element={<ProductDetails />} />
-                  <Route path={'/login'} exact={true} element={<Login />} />
-                  <Route path={'/register'} exact={true} element={<Register />} />
-                  <Route path={'/cart'} exact={true} element={<CartPage />} />
-                  <Route path={'/verify'} exact={true} element={<Verify />} />
-                  <Route path={'/forgot-password'} exact={true} element={<ForgotPassword />} />
-                  <Route path={'/checkout'} exact={true} element={<Checkout />} />
-                  <Route path={'/my-account'} exact={true} element={<Home />} />
-                  <Route path={'/my-list'} exact={true} element={<Home />} />
-                  <Route path={'/my-orders'} exact={true} element={<Home />} />
-                </>
-              }
+              </>
+            }
+            {!isLogin &&
+              <>
+                <Route path={'/'} exact={true} element={<Home />} />
+                <Route path={'/productListing'} exact={true} element={<ProductListing />} />
+                <Route path={'/product/:id'} exact={true} element={<ProductDetails />} />
+                <Route path={'/login'} exact={true} element={<Login />} />
+                <Route path={'/register'} exact={true} element={<Register />} />
+                <Route path={'/cart'} exact={true} element={<CartPage />} />
+                <Route path={'/verify'} exact={true} element={<Verify />} />
+                <Route path={'/forgot-password'} exact={true} element={<ForgotPassword />} />
+                <Route path={'/checkout'} exact={true} element={<Checkout />} />
+                <Route path={'/my-account'} exact={true} element={<Home />} />
+                <Route path={'/my-list'} exact={true} element={<Home />} />
+                <Route path={'/my-orders'} exact={true} element={<Home />} />
+              </>
+            }
           </Routes>
           <Footer />
         </MyContext.Provider>

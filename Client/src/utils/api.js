@@ -29,17 +29,55 @@ export const postData = async (url, formData) => {
 
 export const fetchDataFromApi = async (url) => {
     try {
-        const params={
-            headers:{
-                'Authorization':`Bearer ${localStorage.getItem("accesstoken")}`,
-                "Content-type":"application/json"
+        const params = {
+            headers: {
+                'Authorization': `Bearer ${localStorage.getItem("accesstoken")}`,
+                "Content-type": "application/json"
             }
         }
 
-        const { data } = await axios.get(apiUrl + url,params);
+        const { data } = await axios.get(apiUrl + url, params);
         return data
     } catch (error) {
         console.log(error);
         return error
     }
+}
+
+
+export const uploadImage = async (url, updatedData) => {
+
+    const params = {
+        headers: {
+            'Authorization': `Bearer ${localStorage.getItem("accesstoken")}`,
+            "Content-type": "multipart/form-data"
+        }
+    }
+
+    var response;
+    await axios.put(apiUrl + url, updatedData, params).then((res) => {
+        response = res 
+    })
+    return response;
+
+
+}
+
+
+export const editData = async (url, updatedData) => {
+
+    const params = {
+        headers: {
+            'Authorization': `Bearer ${localStorage.getItem("accesstoken")}`,
+            "Content-type": "application/json"
+        }
+    }
+
+    var response;
+    await axios.put(apiUrl + url, updatedData, params).then((res) => {
+        response = res 
+    })
+    return response;
+
+
 }

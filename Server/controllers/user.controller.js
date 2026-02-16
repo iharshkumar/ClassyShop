@@ -410,7 +410,13 @@ export async function updateUserDetails(request, response) {
             message: "User Updated successfully",
             error: false,
             success: true,
-            user: updateUser
+            user: {
+                name: updateUser?.name,
+                _id: updateUser?._id,
+                email: updateUser?.email,
+                mobile: updateUser?.mobile,
+                avatar: updateUser?.avatar,
+                }
         })
     }
     catch (error) {
