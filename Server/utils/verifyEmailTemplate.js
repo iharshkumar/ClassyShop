@@ -19,10 +19,10 @@ const VerificationEmail = (username, otp) => {
                 background:#fff;
                 padding: 20px;
                 border-radius:8px;
-                box-shadow 0 4px 6px rgba(0,0,0,0.1)
+                box-shadow: 0 4px 6px rgba(0,0,0,0.1)
         }
         .header h1{
-            color:#4CAF50
+            color:#4CAF50;
         }
         .content{
             text-align:center;
@@ -33,7 +33,7 @@ const VerificationEmail = (username, otp) => {
         }
         .otp{
             font-size:20px;
-            fonr-weight: bold;
+            font-weight: bold;
             color:#4CAF50;
             margin:20px 0;
         }

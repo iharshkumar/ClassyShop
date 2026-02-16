@@ -2,10 +2,10 @@ import jwt from "jsonwebtoken"
 
 const auth = async (request,response,next)=>{
     try{
-        var token = request.cookies.accessToken || request?.headers?.authorization?.split(" ")[1]
+        let token = request.cookies.accessToken || request?.headers?.authorization?.split(" ")[1]
         
         if(!token){
-            token=request.query.token
+            token = request.query.token
         }
         
         if(!token){
@@ -14,7 +14,7 @@ const auth = async (request,response,next)=>{
             })
         }
 
-        const decode = await jwt.verify(token,process.env.SECRET_KEY_ACCESS_TOKEN)
+        const decode = jwt.verify(token,process.env.SECRET_KEY_ACCESS_TOKEN)
 
         if(!decode){
             return response.status(401).json({
@@ -30,8 +30,9 @@ const auth = async (request,response,next)=>{
     }
     catch(error)
     {
+        console.error('Auth middleware error:', error.message);
         return response.status(500).json({
-            message:"You have not login",
+            message: error.message || "You have not login",
             error:true,
             success:false
         })

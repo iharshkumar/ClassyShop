@@ -1,5 +1,5 @@
 import React, { useContext, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Search from "../Search";
 import Navigation from "./Navigation/index.jsx";
 import Badge from '@mui/material/Badge';
@@ -40,6 +40,7 @@ const Header = () => {
 
 
     const context = useContext(MyContext)
+    const history=useNavigate()
     const handleClick = (event) => {
         setAnchorEl(event.currentTarget);
     };
@@ -52,11 +53,11 @@ const Header = () => {
         setAnchorEl(null)
         fetchDataFromApi(`/api/user/logout?token=${localStorage.getItem('accesstoken')}`,
             { withCredentials: true }).then((res) => {
-                console.log(res)
                 if (res?.error === false) {
                     context.setIsLogin(false);
                     localStorage.removeItem("accesstoken", res?.data?.accesstoken)
                     localStorage.removeItem("refreshToken", res?.data?.refreshToken)
+                    history("/")
                 }
             }
             )
@@ -186,7 +187,9 @@ const Header = () => {
                                                     </MenuItem>
                                                 </Link>
 
-                                                <MenuItem onClick={logout} className="flex gap-2 !py-2">
+                                                <MenuItem
+                                                    onClick={logout}
+                                                    className="flex gap-2 !py-2">
                                                     <IoLogOut className="text-[18px]" />
                                                     <span className="text-[14px]">Logout</span>
                                                 </MenuItem>
