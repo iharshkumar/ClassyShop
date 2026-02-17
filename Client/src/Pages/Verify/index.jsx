@@ -47,6 +47,9 @@ const Verify = () => {
                 if (res?.error === false) {
                     // Show success message from API
                     context.alertBox("success", res?.message)
+                    if (res?.resetToken) {
+                        localStorage.setItem("resetPasswordToken", res.resetToken)
+                    }
                     history("/forgot-password")
                 } else {
                     // Show error message from API

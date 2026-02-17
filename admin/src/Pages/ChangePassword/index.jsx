@@ -11,7 +11,7 @@ import { FaEye } from "react-icons/fa";
 import { FaEyeSlash } from "react-icons/fa";
 import { postData } from '../../utils/api';
 import { useContext } from 'react';
-import { MyContext } from '../../App';
+import { MyContext } from '../../App.jsx';
 import CircularProgress from '@mui/material/CircularProgress';
 
 
@@ -24,6 +24,7 @@ const ChangePassword = () => {
 
     const [formFields, setFormFields] = useState({
         email: localStorage.getItem("userEmail"),
+        resetToken: localStorage.getItem("resetPasswordToken"),
         newPassword: '',
         confirmPassword: ''
     })
@@ -68,6 +69,7 @@ const ChangePassword = () => {
             if (res?.error === false) {
                 localStorage.removeItem("userEmail")
                 localStorage.removeItem("actionType")
+                localStorage.removeItem("resetPasswordToken")
                 context.alertBox("success", res?.message)
                 setIsLoading(false)
                 history('/login')

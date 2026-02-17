@@ -20,6 +20,7 @@ const ForgotPassword = () => {
 
     const [formFields, setFormFields] = useState({
         email: localStorage.getItem("userEmail"),
+        resetToken: localStorage.getItem("resetPasswordToken"),
         newPassword: '',
         confirmPassword: ''
     })
@@ -66,6 +67,7 @@ const ForgotPassword = () => {
             if (res?.error === false) {
                 localStorage.removeItem("userEmail")
                 localStorage.removeItem("actionType")
+                localStorage.removeItem("resetPasswordToken")
                 context.alertBox("success", res?.message)
                 setIsLoading(false)
                 history('/login')

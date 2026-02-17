@@ -12,7 +12,7 @@ import { FaEyeSlash } from "react-icons/fa";
 import OtpBox from '../../Components/OtpBox';
 import { useContext } from 'react';
 import { MyContext } from '../../App';
-import { postData } from '../../utils/api';
+import { postData } from '../../utils/api.js';
 import { useNavigate } from 'react-router-dom'
 
 
@@ -60,6 +60,9 @@ const VerifyAccount = () => {
                 if (res?.error === false) {
                     // Show success message from API
                     context.alertBox("success", res?.message)
+                    if (res?.resetToken) {
+                        localStorage.setItem("resetPasswordToken", res.resetToken)
+                    }
                     history("/change-password")
                 } else {
                     // Show error message from API

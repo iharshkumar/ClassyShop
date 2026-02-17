@@ -525,10 +525,23 @@ export async function verifyForgotPasswordOtp(request, response) {
 
         await user.save()
 
+        // Issue a short-lived reset token to be used by /reset-password
+        // This avoids requiring oldPassword during the forgot-password flow.
+        const resetToken = jwt.sign(
+            {
+                _id: user?._id,
+                email: user?.email,
+                purpose: "FORGOT_PASSWORD_RESET"
+            },
+            process.env.JSON_WEB_TOKEN_SECRET_KEY,
+            { expiresIn: "10m" }
+        )
+
         return response.status(200).json({
             message: "OTP verified",
             error: false,
-            success: true
+            success: true,
+            resetToken
         })
     }
     catch (error) {
@@ -544,7 +557,7 @@ export async function verifyForgotPasswordOtp(request, response) {
 //reset password
 export async function resetpassword(request, response) {
     try {
-        const { email, oldPassword, newPassword, confirmPassword } = request.body
+        const { email, oldPassword, newPassword, confirmPassword, resetToken } = request.body
         if (!email || !newPassword || !confirmPassword) {
             return response.status(400).json({
                 error:true, 
@@ -562,13 +575,43 @@ export async function resetpassword(request, response) {
             })
         }
 
-        const checkPassword = await bcryptjs.compare(oldPassword, user.password);
-        if(!checkPassword){
-            return response.status(400).json({
-                message: "Your old password is wrong",
-                error: true,
-                success: false
-            })
+        // Two supported flows:
+        // - Logged-in change password: requires oldPassword
+        // - Forgot-password reset: requires resetToken (issued after OTP verification)
+        if (resetToken) {
+            try {
+                const decoded = jwt.verify(resetToken, process.env.JSON_WEB_TOKEN_SECRET_KEY)
+                if (decoded?.purpose !== "FORGOT_PASSWORD_RESET" || decoded?.email !== email) {
+                    return response.status(401).json({
+                        message: "Invalid reset token",
+                        error: true,
+                        success: false
+                    })
+                }
+            } catch (e) {
+                return response.status(401).json({
+                    message: "Reset token expired or invalid",
+                    error: true,
+                    success: false
+                })
+            }
+        } else {
+            if (!oldPassword) {
+                return response.status(400).json({
+                    message: "Provide required field oldPassword or resetToken",
+                    error: true,
+                    success: false
+                })
+            }
+
+            const checkPassword = await bcryptjs.compare(oldPassword, user.password);
+            if(!checkPassword){
+                return response.status(400).json({
+                    message: "Your old password is wrong",
+                    error: true,
+                    success: false
+                })
+            }
         }
 
 
