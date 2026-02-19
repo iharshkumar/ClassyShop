@@ -266,11 +266,9 @@ const Profile = () => {
                 <br />
 
                 <div className='w-[110px] h-[110px] rounded-full !overflow-hidden !relative
-                            group flex items-center justify-center bg-gray-200 '>
-
-
-
-                    {
+                            group flex items-center justify-center bg-gray-200 '> 
+                            
+                              {
                         uploading === true ? <CircularProgress color='inherit' /> :
                             <>
                                 {

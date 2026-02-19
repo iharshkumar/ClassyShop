@@ -61,7 +61,7 @@ const MyContext = createContext();
 function App() {
   const [isSidebarOpen, setisSidebarOpen] = useState(true)
   const [isLogin, setIsLogin] = useState(false)
-  const [userData,setUserData]=useState(null)
+  const [userData, setUserData] = useState(null)
   const [address, setAddress] = useState([])
   const [isOpenFullScreenPanel, setIsOpenFullScreenPanel] = useState({
     open: false,
@@ -71,23 +71,24 @@ function App() {
 
   useEffect(() => {
     const token = localStorage.getItem('accesstoken')
-    if(token !== undefined && token !== null && token !==""){
+    if (token !== undefined && token !== null && token !== "") {
       setIsLogin(true)
 
 
-      fetchDataFromApi(`/api/user/user-details`).then((res)=>{
+      fetchDataFromApi(`/api/user/user-details`).then((res) => {
+        // console.log("===== I am here ---- 1", res.status)
         //console.log(res)
         setUserData(res.data)
-        if(res?.response?.data?.message==="You have not login"){
+        if (res?.status !== 200) {
           localStorage.removeItem("accesstoken")
           localStorage.removeItem("refreshToken")
 
-          alertBox("error","Your session is closed please login again")
-          window.location.href="/login"
+          alertBox("error", "Your session is closed please login again")
+          window.location.href = "/login"
         }
       })
     }
-    else{
+    else {
       setIsLogin(false)
     }
 
@@ -151,7 +152,7 @@ function App() {
       )
     },
 
-    
+
     //verify-account router
     {
       path: '/verify-account',
@@ -296,7 +297,7 @@ function App() {
       )
     },
 
-    
+
     {
       path: '/profile',
       exact: true,
@@ -318,7 +319,7 @@ function App() {
     }
 
 
-    
+
 
 
 
@@ -391,7 +392,7 @@ function App() {
             isOpenFullScreenPanel?.model === "Add New Sub Category" && <AddSubCategory />
           }
 
-{
+          {
             isOpenFullScreenPanel?.model === "Add New Address" && <AddAddress />
           }
 

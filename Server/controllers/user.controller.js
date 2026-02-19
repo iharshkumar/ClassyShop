@@ -721,6 +721,7 @@ export async function refreshToken(request, response) {
 
 //get login user details
 export async function userDetails(request, response) {
+    // console.log("===== I am here")
     try {
         const userId = request.userId
         //console.log(userId)
@@ -730,7 +731,8 @@ export async function userDetails(request, response) {
             message: "User details",
             data: user,
             error: false,
-            success: true
+            success: true,
+            status: 200
         })
 
     } catch (error) {

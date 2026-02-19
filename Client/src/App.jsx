@@ -62,15 +62,15 @@ function App() {
     const token = localStorage.getItem('accesstoken')
     if (token !== undefined && token !== null && token !== "") {
       fetchDataFromApi(`/api/user/user-details`).then((res) => {
+        // console.log("===== I am here ---- 1", res.status)
+        //console.log(res)
         setUserData(res.data)
-        if (res?.response?.data?.error === true) {
-          if (res?.response?.data?.message === "You have not logged in") {
-            localStorage.removeItem("accesstoken")
-            localStorage.removeItem("refreshToken")
-            alertBox("error", "Your session is closed please login again")
-            window.location.href="/login"
-            setIsLogin(false)
-          }
+        if (res?.status !== 200) {
+          localStorage.removeItem("accesstoken")
+          localStorage.removeItem("refreshToken")
+
+          alertBox("error", "Your session is closed please login again")
+          window.location.href = "/login"
         }
       })
     }
