@@ -42,7 +42,10 @@ function App() {
   const [maxWidth] = React.useState('lg');
   const [fullWidth] = React.useState(true)
   const [openCartPanel, setOpenCartPanel] = useState(false);
-  const [isLogin, setIsLogin] = useState(false)
+  const [isLogin, setIsLogin] = useState(() => {
+    const token = localStorage.getItem('accesstoken');
+    return token !== undefined && token !== null && token !== "";
+  })
   const [userData, setUserData] = useState(null)
   const apiUrl = import.meta.env.VITE_API_URL;
 
@@ -58,27 +61,20 @@ function App() {
   useEffect(() => {
     const token = localStorage.getItem('accesstoken')
     if (token !== undefined && token !== null && token !== "") {
-      setIsLogin(true)
-
-
       fetchDataFromApi(`/api/user/user-details`).then((res) => {
         setUserData(res.data)
         if (res?.response?.data?.error === true) {
           if (res?.response?.data?.message === "You have not logged in") {
-
             localStorage.removeItem("accesstoken")
             localStorage.removeItem("refreshToken")
             alertBox("error", "Your session is closed please login again")
+            window.location.href="/login"
             setIsLogin(false)
           }
         }
       })
     }
-    else {
-      setIsLogin(false)
-    }
-
-  }, [isLogin])
+  }, [])
 
   const values = {
     setOpenProductDetailsModal,

@@ -8,6 +8,7 @@ import { editData, postData } from '../../utils/api';
 import CircularProgress from '@mui/material/CircularProgress';
 import { Collapse } from 'react-collapse';
 
+
 const MyAccount = () => {
 
     const [isLoading, setIsLoading] = useState(false)
@@ -107,7 +108,7 @@ const MyAccount = () => {
         setIsLoading2(true)
         if (changePassword.oldPassword === "") {
             context.alertBox("error", "Please enter Old Password")
-            return false 
+            return false
         }
 
         if (changePassword.newPassword === "") {
@@ -167,44 +168,41 @@ const MyAccount = () => {
                     <div className='card bg-white !p-5 !shadow-md !rounded-md !mb-5'>
                         <div className='flex items-center !pb-3'>
                             <h2 className='!pb-0'>My Profile</h2>
-                            <Button className='!ml-auto' onClick={()=>setIsChangePasswordFormShow(!isChangePasswordFormShow)}>Change Password</Button>
+                            <Button className='!ml-auto' onClick={() => setIsChangePasswordFormShow(!isChangePasswordFormShow)}>Change Password</Button>
                         </div>
                         <hr />
 
-                        <form className='!mt-8' onSubmit={handleSubmit}>
+                        <form className='form !mt-8' onSubmit={handleSubmit}>
                             <div className='flex items-center gap-5'>
                                 <div className='w-[100%]'>
-                                    <TextField
-                                        label="Full Name"
-                                        variant="outlined"
-                                        size='small'
+                                    <input
+                                        type="text"
+                                        className='w-full h-[40px] border border-[rgba(0,0,0,0.2)] !focus:outline-none !focus:border-[rgba(0,0,0,0.4)] !rounded-sm !p-3 !text-sm !bg-[#fafafa]'
                                         name="name"
                                         value={formFields.name}
                                         disabled={isLoading === true ? true : false}
                                         onChange={onChangeInput}
-                                        className='w-full'
                                     />
+
                                 </div>
                             </div>
 
                             <div className='flex items-center !mt-4 gap-5'>
                                 <div className='w-[100%]'>
-                                    <TextField
-                                        type='email'
-                                        label="Email"
-                                        variant="outlined"
-                                        size='small'
+                                    <input
+                                        type="email"
+                                        className='w-full h-[40px] border border-[rgba(0,0,0,0.2)] !focus:outline-none !focus:border-[rgba(0,0,0,0.4)] !rounded-sm !p-3 !text-sm !bg-[#fafafa]'
                                         name="email"
                                         value={formFields.email}
-                                        disabled={true}
+                                        disabled={isLoading === true ? true : false}
                                         onChange={onChangeInput}
-                                        className='w-full'
                                     />
                                 </div>
                             </div>
 
                             <div className='flex items-center !mt-4 gap-5'>
                                 <div className='w-[100%]'>
+                                    
                                     <TextField
                                         label="Phone Number"
                                         variant="outlined"
@@ -238,7 +236,7 @@ const MyAccount = () => {
 
 
 
-                        <Collapse isOpened={isChangePasswordFormShow}>
+                    <Collapse isOpened={isChangePasswordFormShow}>
 
                         <div className='card bg-white  !p-5 !shadow-md !rounded-md'>
                             <div className='flex items-center !pb-3'>
@@ -308,8 +306,8 @@ const MyAccount = () => {
                                 </div>
                             </form>
                         </div>
-                        </Collapse>
-                    
+                    </Collapse>
+
 
                 </div>
             </div>

@@ -132,10 +132,13 @@ const Header = () => {
                                     </div>
                                 </MenuItem>
                                 <Divider />
+
+                                <Link to="/profile">
                                 <MenuItem onClick={handleCloseMyAcc} className='flex items-center gap-3'>
                                     <RxAvatar className='text-[25px]' />
                                     <span className='text-[22px]'>Profile</span>
                                 </MenuItem>
+                                </Link>
                                 <MenuItem onClick={handleCloseMyAcc} className='flex items-center gap-3'>
                                     <MdOutlineManageAccounts className='text-[25px]' />
                                     <span className='text-[22px]'>Account Setting</span>

@@ -37,6 +37,8 @@ import ChangePassword from './Pages/ChangePassword';
 import { fetchDataFromApi } from "./utils/api.js";
 import toast, { Toaster } from 'react-hot-toast';
 import { useEffect } from 'react';
+import Profile from './Pages/Profile/index.jsx';
+import AddAddress from './Pages/Address/addAddress.jsx';
 
 
 const alertBox = (type, msg) => {
@@ -60,6 +62,7 @@ function App() {
   const [isSidebarOpen, setisSidebarOpen] = useState(true)
   const [isLogin, setIsLogin] = useState(false)
   const [userData,setUserData]=useState(null)
+  const [address, setAddress] = useState([])
   const [isOpenFullScreenPanel, setIsOpenFullScreenPanel] = useState({
     open: false,
     model: ''
@@ -75,6 +78,13 @@ function App() {
       fetchDataFromApi(`/api/user/user-details`).then((res)=>{
         //console.log(res)
         setUserData(res.data)
+        if(res?.response?.data?.message==="You have not login"){
+          localStorage.removeItem("accesstoken")
+          localStorage.removeItem("refreshToken")
+
+          alertBox("error","Your session is closed please login again")
+          window.location.href="/login"
+        }
       })
     }
     else{
@@ -284,6 +294,27 @@ function App() {
           </section>
         </>
       )
+    },
+
+    
+    {
+      path: '/profile',
+      exact: true,
+      element: (
+        <>
+          <section className='main'>
+            <Header />
+            <div className='contentMain flex'>
+              <div className={`overflow-hidden sidebarWrapper ${isSidebarOpen === true ? 'w-[18%]' : 'w-[0px] opacity-0 transition-all'}`}>
+                <Sidebar />
+              </div>
+              <div className={`contentRight !py-4 !px-5 ${isSidebarOpen === true ? 'w-[82%]' : 'w-[100%]'} transition-all`}>
+                <Profile />
+              </div>
+            </div>
+          </section>
+        </>
+      )
     }
 
 
@@ -304,7 +335,9 @@ function App() {
     setIsOpenFullScreenPanel,
     alertBox,
     userData,
-    setUserData
+    setUserData,
+    setAddress,
+    address
   };
 
 
@@ -356,6 +389,10 @@ function App() {
 
           {
             isOpenFullScreenPanel?.model === "Add New Sub Category" && <AddSubCategory />
+          }
+
+{
+            isOpenFullScreenPanel?.model === "Add New Address" && <AddAddress />
           }
 
 

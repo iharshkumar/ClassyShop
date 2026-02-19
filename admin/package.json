@@ -22,6 +22,7 @@
     "react-dom": "^19.2.0",
     "react-hot-toast": "^2.6.0",
     "react-icons": "^5.5.0",
+    "react-international-phone": "^4.7.0",
     "react-lazy-load-image-component": "^1.6.3",
     "react-router-dom": "^7.13.0",
     "recharts": "^3.6.0",

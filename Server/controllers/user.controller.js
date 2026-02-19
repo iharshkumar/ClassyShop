@@ -368,9 +368,18 @@ export async function updateUserDetails(request, response) {
         }
 
         let verifyCode = "";
+        let emailChanged = false;
+        
+        // Only check email change if email is provided in request
+        if (email !== undefined && email !== null) {
+            // Normalize emails for comparison (trim and lowercase)
+            const normalizedNewEmail = email?.trim().toLowerCase()
+            const normalizedOldEmail = userExist.email?.trim().toLowerCase()
+            emailChanged = normalizedNewEmail !== normalizedOldEmail
 
-        if (email !== userExist.email) {
-            verifyCode = Math.floor(10000 + Math.random() * 900000).toString();
+            if (emailChanged) {
+                verifyCode = Math.floor(10000 + Math.random() * 900000).toString();
+            }
         }
 
         let hashPassword = ""
@@ -382,22 +391,37 @@ export async function updateUserDetails(request, response) {
             hashPassword = userExist.password;
         }
 
+       
+        // Build update data - only include fields that are provided
+        const updateData = {
+            name: name,
+            mobile: mobile,
+            password: hashPassword
+        }
+        
+        // Only include email in update if it's provided
+        if (email !== undefined && email !== null) {
+            updateData.email = email;
+            updateData.otp = verifyCode !== "" ? verifyCode : null;
+            updateData.otpExpires = verifyCode !== "" ? Date.now() + 600000 : null;
+        }
+        
+        // Only reset verify_email if email is provided AND actually changed, otherwise preserve existing value
+        if (emailChanged) {
+            updateData.verify_email = false
+        } else {
+            // Explicitly preserve verify_email when email hasn't changed or wasn't provided
+            updateData.verify_email = userExist.verify_email
+        }
+
         const updateUser = await UserModel.findByIdAndUpdate(
             userId,
-            {
-                name: name,
-                mobile: mobile,
-                email: email,
-                verify_email: email !== userExist.email ? false : true,
-                password: hashPassword,
-                otp: verifyCode !== "" ? verifyCode : null,
-                otpExpires: verifyCode !== "" ? Date.now() + 600000 : ''
-            },
+            updateData,
             { new: true }
         )
 
         //send Verification email
-        if (email !== userExist.email) {
+        if (emailChanged) {
             await sendEmailFun({
                 sendTo: email,
                 subject: "Verify email from Ecommerce App",
