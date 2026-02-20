@@ -7,6 +7,13 @@ import { useNavigate } from 'react-router-dom';
 import { editData, postData } from '../../utils/api';
 import CircularProgress from '@mui/material/CircularProgress';
 import { Collapse } from 'react-collapse';
+import { PhoneInput } from 'react-international-phone';
+import 'react-international-phone/style.css';
+import Radio from '@mui/material/Radio';
+
+
+const label = { slotProps: { input: { 'aria-label': 'Checkbox demo' } } };
+
 
 
 const MyAccount = () => {
@@ -14,8 +21,15 @@ const MyAccount = () => {
     const [isLoading, setIsLoading] = useState(false)
     const [isLoading2, setIsLoading2] = useState(false)
     const [userId, setUserId] = useState("")
-    const [isChangePasswordFormShow, setIsChangePasswordFormShow] = useState(false)
+    const [phone, setPhone] = useState('');
+    const [address, setAddress] = useState([])
 
+    const [isChangePasswordFormShow, setIsChangePasswordFormShow] = useState(false)
+    const [selectedValue, setSelectedValue] = useState('');
+
+    const handleChange = (event) => {
+        setSelectedValue(event.target.value);
+    };
     const [formFields, setFormFields] = useState({
         name: '',
         email: '',
@@ -147,7 +161,8 @@ const MyAccount = () => {
                 email: context?.userData?.email,
                 mobile: context?.userData?.mobile
             })
-
+            const ph = `"${context?.userData?.mobile}"`
+            setPhone(ph)
 
             setChangePassword({
                 email: context?.userData?.email
@@ -192,9 +207,12 @@ const MyAccount = () => {
                                     <input
                                         type="email"
                                         className='w-full h-[40px] border border-[rgba(0,0,0,0.2)] !focus:outline-none !focus:border-[rgba(0,0,0,0.4)] !rounded-sm !p-3 !text-sm !bg-[#fafafa]'
+                                        label="Email"
+                                        variant="outlined"
+                                        size='small'
                                         name="email"
                                         value={formFields.email}
-                                        disabled={isLoading === true ? true : false}
+                                        disabled={true}
                                         onChange={onChangeInput}
                                     />
                                 </div>
@@ -202,16 +220,17 @@ const MyAccount = () => {
 
                             <div className='flex items-center !mt-4 gap-5'>
                                 <div className='w-[100%]'>
-                                    
-                                    <TextField
-                                        label="Phone Number"
-                                        variant="outlined"
-                                        size='small'
-                                        name="mobile"
-                                        value={formFields.mobile}
+
+                                    <PhoneInput
+                                        defaultCountry="in"
+                                        value={phone}
                                         disabled={isLoading === true ? true : false}
-                                        onChange={onChangeInput}
-                                        className='w-full'
+                                        onChange={(phone) => {
+                                            setPhone(phone);
+                                            setFormFields({
+                                                mobile: phone
+                                            })
+                                        }}
                                     />
                                 </div>
                             </div>
@@ -233,6 +252,9 @@ const MyAccount = () => {
                             </div>
                         </form>
                     </div>
+
+
+                    
 
 
 

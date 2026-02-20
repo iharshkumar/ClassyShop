@@ -24,6 +24,7 @@ import MyAccount from "./Pages/MyAccount/index.jsx";
 import MyList from "./Pages/MyList/index.jsx";
 import Orders from "./Pages/Orders";
 import { fetchDataFromApi } from "./utils/api.js";
+import Address from "./Pages/MyAccount/address.jsx";
 
 const alertBox = (type, msg) => {
   if (type === "success") {
@@ -108,6 +109,7 @@ function App() {
                 <Route path={'/my-account'} exact={true} element={<MyAccount />} />
                 <Route path={'/my-list'} exact={true} element={<MyList />} />
                 <Route path={'/my-orders'} exact={true} element={<Orders />} />
+                <Route path={'/address'} exact={true} element={<Address />} />
               </>
             }
             {!isLogin &&
