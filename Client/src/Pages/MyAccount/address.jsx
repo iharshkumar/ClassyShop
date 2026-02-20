@@ -1,4 +1,4 @@
-import React, { useContext } from 'react'
+import React, { useContext, useEffect } from 'react'
 import AccountSidebar from '../../components/AccountSidebar'
 import Radio from '@mui/material/Radio';
 import { MyContext } from '../../App';
@@ -12,8 +12,12 @@ import Select from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
 import Button from '@mui/material/Button';
 import { BsFillBagFill } from 'react-icons/bs';
+import { deleteData, fetchDataFromApi, postData } from '../../utils/api';
+import { useNavigate } from 'react-router-dom';
+import { FaRegTrashAlt } from "react-icons/fa";
 
-const label = { slotProps: { input: { 'aria-label': 'Checkbox demo' } } };
+
+const label = { slotProps: { input: { 'aria-label': 'Radio demo' } } };
 
 const Address = () => {
 
@@ -27,28 +31,48 @@ const Address = () => {
         setSelectedValue(event.target.value);
     };
 
+    const [phone, setPhone] = useState('');
+
     const [open, setOpen] = useState(false);
-    const [isOpenModel, setIsOpenModel]=useState(false)
+
+    const [isOpenModel, setIsOpenModel] = useState(false)
 
     const handleClickOpen = () => {
         setOpen(true);
     };
 
+    const [userId, setUserId] = useState("")
+
+    const [isLoading, setIsLoading] = useState(false)
+
+    const [status, setStatus] = useState(false);
+
+    const history = useNavigate()
+
+    useEffect(() => {
+        if (context?.userData?._id !== "" && context?.userData?._id !== undefined) {
+
+            fetchDataFromApi(`/api/address/get?userId=${context?.userData?._id}`).then((res) => {
+                setAddress(res.address)
+            })
+        }
+    }, [context?.userData])
+
     const handleClose = () => {
         setIsOpenModel(false);
     };
 
-    const [phone, setPhone] = useState('');
-
     const [formFields, setFormFields] = useState({
-        name: '',
-        email: '',
-        mobile: ''
+        address_line1: '',
+        city: '',
+        state: '',
+        pincode: '',
+        country: '',
+        mobile: '',
+        status: '',
+        userId: context.userData?._id,
+        selected: false
     })
-
-    const [isLoading, setIsLoading] = useState(false)
-    const [status, setStatus] = useState(false);
-
 
     const handleChangeStatus = (event) => {
         setStatus(event.target.value);
@@ -58,6 +82,88 @@ const Address = () => {
         }))
     };
 
+    const onChangeInput = (e) => {
+        const { name, value } = e.target
+        setFormFields(() => {
+            return {
+                ...formFields,
+                [name]: value
+            }
+        })
+
+    }
+
+    const removeaddress = (id) => {
+        deleteData(`/api/address/${id}`).then((res) => {
+            fetchDataFromApi(`/api/address/get?userId=${context?.userData?._id}`).then((res) => {
+                setAddress(res.address)
+
+            })
+        })
+
+    }
+
+    const handleSubmit = (e) => {
+
+        e.preventDefault()
+
+        setIsLoading(true)
+        if (formFields.address_line1 === "") {
+            context.alertBox("error", "Please enter Full Address")
+            return false
+        }
+
+        if (formFields.city === "") {
+            context.alertBox("error", "Please enter your City")
+            return false
+        }
+
+        if (formFields.state === "") {
+            context.alertBox("error", "Please enter State")
+            return false
+        }
+
+        if (formFields.pincode === "") {
+            context.alertBox("error", "Please enter Pincode")
+            return false
+        }
+
+        if (formFields.country === "") {
+            context.alertBox("error", "Please enter Country")
+            return false
+        }
+
+        if (phone === "") {
+            context.alertBox("error", "Please enter your 10-digit Mobile Number")
+            return false
+        }
+
+
+
+        postData(`/api/address/add`, formFields, { withCredentials: true }).then((res) => {
+            //console.log(res)
+            if (res?.error !== true) {
+                setIsLoading(false)
+
+                context.alertBox("success", res?.message)
+
+
+                setIsOpenModel(false)
+
+                fetchDataFromApi(`/api/address/get?userId=${context?.userData?._id}`).then((res) => {
+                    setAddress(res.address)
+
+                })
+
+
+                history("/address")
+            } else {
+                context.alertBox("error", res?.message)
+                setIsLoading(false)
+            }
+
+        })
+    }
     return (
         <>
             <section className='!py-10 w-full'>
@@ -88,26 +194,32 @@ const Address = () => {
                                     address?.length > 0 && address?.map((address, index) => {
                                         return (
                                             <>
-                                                <label className='addressBox !border !border-dashed !border-[rgba(0,0,0,0.2)] bg-[#f1f1f1] flex items-center justify-center !P-3 !rounded-md cursor-pointer !w-full'>
-                                                    <Radio {...label}
-                                                        name='address'
-                                                        checked=
-                                                        {
-                                                            selectedValue ===
-                                                            (address?._id)
-                                                        }
-                                                        value={address?._id}
-                                                        onChange={handleChange}
-                                                    />
-                                                    <span className="text-[12px]">
-                                                        {
-                                                            address?.address_line1 + " " +
-                                                            address?.city + " " +
-                                                            address?.country + " " +
-                                                            address?.state + " " +
-                                                            address?.pincode}
+                                                <label className='group addressBox relative !border !border-dashed !border-[rgba(0,0,0,0.2)] bg-[#f1f1f1] flex items-center justify-center !P-3 !rounded-md cursor-pointer !w-full'>
+                                                    <div className='!mr-auto'>
+                                                        <Radio {...label}
+                                                            name='address'
+                                                            checked=
+                                                            {
+                                                                selectedValue ===
+                                                                (address?._id)
+                                                            }
+                                                            value={address?._id}
+                                                            onChange={handleChange}
+                                                        />
+                                                        <span className="text-[12px]">
+                                                            {
+                                                                address?.address_line1 + " " +
+                                                                address?.city + " " +
+                                                                address?.country + " " +
+                                                                address?.state + " " +
+                                                                address?.pincode}
+                                                        </span>
+                                                    </div>
+                                                    <span onClick={() => { removeaddress(address._id) }}
+                                                        className='absolute right-1 top-1/2 -translate-y-1/2 hidden group-hover:flex items-center justify-center w-[30px] h-[30px] rounded-full bg-gray-500 text-white'>                                                        <FaRegTrashAlt />
                                                     </span>
                                                 </label>
+
                                             </>
                                         )
                                     })
@@ -125,7 +237,7 @@ const Address = () => {
 
             <Dialog open={isOpenModel}>
                 <DialogTitle>Add address</DialogTitle>
-                <form className='!p-8 !py-3'>
+                <form className='!p-8 !py-3' onSubmit={handleSubmit}>
                     <div className='flex items-center gap-5 !pb-5'>
                         <div className='col w-[100%]'>
                             <TextField
@@ -133,6 +245,9 @@ const Address = () => {
                                 label="Address_line1"
                                 variant="outlined"
                                 size='small'
+                                name="address_line1"
+                                onChange={onChangeInput}
+                                value={formFields.address_line1}
                             />
                         </div>
                     </div>
@@ -144,6 +259,9 @@ const Address = () => {
                                 label="City"
                                 variant="outlined"
                                 size='small'
+                                name="city"
+                                onChange={onChangeInput}
+                                value={formFields.city}
                             />
                         </div>
 
@@ -153,6 +271,9 @@ const Address = () => {
                                 label="State"
                                 variant="outlined"
                                 size='small'
+                                name="state"
+                                onChange={onChangeInput}
+                                value={formFields.state}
                             />
                         </div>
                     </div>
@@ -164,6 +285,9 @@ const Address = () => {
                                 label="Pincode"
                                 variant="outlined"
                                 size='small'
+                                name="pincode"
+                                onChange={onChangeInput}
+                                value={formFields.pincode}
                             />
                         </div>
 
@@ -173,6 +297,9 @@ const Address = () => {
                                 label="Country"
                                 variant="outlined"
                                 size='small'
+                                name="country"
+                                onChange={onChangeInput}
+                                value={formFields.country}
                             />
                         </div>
                     </div>
@@ -185,9 +312,10 @@ const Address = () => {
                                 disabled={isLoading === true ? true : false}
                                 onChange={(phone) => {
                                     setPhone(phone);
-                                    setFormFields({
+                                    setFormFields((prevState) => ({
+                                        ...prevState,
                                         mobile: phone
-                                    })
+                                    }))
                                 }}
                             />
                         </div>
@@ -208,12 +336,12 @@ const Address = () => {
                     </div>
 
                     <div className='flex items-center gap-5'>
-                        <Button className='!mt-4 btn-org btn-lg w-full flex gap-2'>
+                        <Button type="submit" className='!mt-4 btn-org btn-lg w-full flex gap-2'>
                             Save
                         </Button>
 
                         <Button className='!mt-4 btn-org btn-border btn-lg w-full flex gap-2'
-                        onClick={handleClose} >
+                            onClick={handleClose} >
                             Cancel
                         </Button>
                     </div>
