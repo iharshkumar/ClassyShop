@@ -14,6 +14,7 @@ cloudinary.config({
 //image upload
 var imagesArr = []
 export async function uploadImages(request, response) {
+    console.log("I AM HARSH ");
     try {
         imagesArr = [];
 
@@ -38,6 +39,7 @@ export async function uploadImages(request, response) {
                 }
             )
         }
+
 
         return response.status(200).json({
             images: imagesArr
@@ -74,7 +76,7 @@ export async function createCategory(request, response) {
 
         imagesArr = []
 
-        return response.status(500).json({
+        return response.status(200).json({
             message: "Category created",
             error: false,
             success: true,
@@ -221,7 +223,11 @@ export async function removeImageFromCloudinary(request, response) {
         )
 
         if (res) {
-            response.status(200).send(res);
+            return response.status(200).json({
+                error: true,
+                success: true,
+                message: "Image deleted successfully"
+            });
         }
     }
 }
@@ -266,7 +272,7 @@ export async function deleteCategory(request, response) {
             })
 
             for (let j = 0; j < thirdsubCategory.length; j++) {
-                const deletedThirdSubCat=await CategoryModel.findByIdAndDelete(thirdsubCategory[j]._id)
+                const deletedThirdSubCat = await CategoryModel.findByIdAndDelete(thirdsubCategory[j]._id)
             }
 
             const deletedThirdSubCat = await CategoryModel.findByIdAndDelete(subCategory[i]._id)

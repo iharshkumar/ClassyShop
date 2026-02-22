@@ -10,9 +10,9 @@ categoryRouter.post('/create',auth,createCategory);
 categoryRouter.get('/',getCategories);
 categoryRouter.get('/get/count',getCategoriesCount);
 categoryRouter.get('/get/count/subCat',getSubCategoriesCount);
+categoryRouter.delete('/deleteImage',auth,removeImageFromCloudinary);
 categoryRouter.get('/:id',getCategory);
 categoryRouter.delete('/:id',auth,deleteCategory);
-categoryRouter.delete('/deleteImage',auth,removeImageFromCloudinary);
 categoryRouter.put('/:id',auth,updatedCategory);
 
 export default categoryRouter;
