@@ -39,6 +39,7 @@ import toast, { Toaster } from 'react-hot-toast';
 import { useEffect } from 'react';
 import Profile from './Pages/Profile/index.jsx';
 import AddAddress from './Pages/Address/addAddress.jsx';
+import EditCategory from './Pages/Category/editCategory.jsx';
 
 
 const alertBox = (type, msg) => {
@@ -65,7 +66,8 @@ function App() {
   const [address, setAddress] = useState([])
   const [isOpenFullScreenPanel, setIsOpenFullScreenPanel] = useState({
     open: false,
-    model: ''
+    model: '',
+    id: ""
   })
 
 
@@ -394,6 +396,10 @@ function App() {
 
           {
             isOpenFullScreenPanel?.model === "Add New Address" && <AddAddress />
+          }
+
+          {
+            isOpenFullScreenPanel?.model === "Edit Category" && <EditCategory />
           }
 
 

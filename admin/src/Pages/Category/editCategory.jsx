@@ -1,17 +1,17 @@
-import React, { useContext, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import UploadBox from '../../Components/UploadBox'
 import { LazyLoadImage } from 'react-lazy-load-image-component'
 import { IoMdClose } from 'react-icons/io'
 import 'react-lazy-load-image-component/src/effects/blur.css'
 import { Button } from '@mui/material'
 import { GrCloudUpload } from 'react-icons/gr'
-import { deleteImage, postData } from '../../utils/api'
+import { deleteImage, editData, fetchDataFromApi, postData } from '../../utils/api'
 import { MyContext } from '../../App'
 import { useNavigate } from 'react-router-dom'
 import CircularProgress from '@mui/material/CircularProgress';
 
 
-const AddCategory = () => {
+const EditCategory = () => {
     const [isLoading, setIsLoading] = useState(false);
     const context = useContext(MyContext);
     //const history = useNavigate()
@@ -28,14 +28,24 @@ const AddCategory = () => {
             return {
                 ...formFields,
                 [name]: value
+                
             }
         });
+        formFields.images = previews
     }
 
     const setPreviewsFun = (previewsArr) => {
         setPreviews(previewsArr);
         formFields.images = previewsArr
     }
+    useEffect(()=>{
+        const id=context.isOpenFullScreenPanel?.id;
+
+        fetchDataFromApi(`/api/category/${id}`).then((res)=>{
+            formFields.name=res?.category?.name 
+            setPreviews(res?.category?.images)
+        })
+    },[])
 
     const removeImg = (image, index) => {
         var imageArr = [];
@@ -68,7 +78,7 @@ const AddCategory = () => {
             return false
         }
 
-        postData("/api/category/create", formFields, { withCredentials: true }).then((res) => {
+        editData(`/api/category/${context?.isOpenFullScreenPanel?.id}`, formFields, { withCredentials: true }).then((res) => {
             setTimeout(() => {
                 setIsLoading(false);
                 context.setIsOpenFullScreenPanel({
@@ -104,7 +114,7 @@ const AddCategory = () => {
                     <div className='grid grid-cols-7 gap-4'>
 
                         {
-                            previews.length !== 0 && previews?.map((image, index) => {
+                            previews?.length !== 0 && previews?.map((image, index) => {
                                 return (
                                     <div key={index} className='uploadBoxWrapper relative'>
                                         <span className='absolute w-[20px] h-[20px] !rounded-full !overflow-hidden !bg-red-500 -top-[5px] -right-[5px] flex items-center justify-center z-50 cursor-pointer'
@@ -149,4 +159,4 @@ const AddCategory = () => {
     )
 }
 
-export default AddCategory
+export default EditCategory

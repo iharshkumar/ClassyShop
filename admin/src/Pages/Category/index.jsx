@@ -1,5 +1,5 @@
 import { Button, Checkbox } from '@mui/material'
-import React, { useContext, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { IoAddOutline } from "react-icons/io5";
 
@@ -7,8 +7,6 @@ import Progress from '../../Components/ProgressBar';
 import { MdOutlineModeEdit } from "react-icons/md";
 import { FiEye } from "react-icons/fi";
 import { GoTrash } from "react-icons/go";
-import MenuItem from '@mui/material/MenuItem';
-import Select from '@mui/material/Select';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
@@ -18,10 +16,11 @@ import TablePagination from '@mui/material/TablePagination';
 import TableRow from '@mui/material/TableRow';
 import { BiExport } from "react-icons/bi";
 import { IoBagAddOutline } from "react-icons/io5";
-import SearchBox from '../../Components/SearchBox';
 import { MyContext } from '../../App';
+import { deleteData, fetchDataFromApi } from '../../utils/api';
 
-
+import { LazyLoadImage } from 'react-lazy-load-image-component'
+import 'react-lazy-load-image-component/src/effects/blur.css'
 
 
 const columns =
@@ -35,9 +34,18 @@ const columns =
 const CategoryList = () => {
     const [rowsPerPage, setRowsPerPage] = useState(10);
     const [page, setPage] = useState(0);
+
+    const [catData, setCatData] = useState([]);
     // const [categoryFilterVal, setcategoryFilterVal] = React.useState('');
 
     const context = useContext(MyContext)
+
+    useEffect(() => {
+        fetchDataFromApi("/api/category/").then((res) => {
+            //console.log(res?.data)
+            setCatData(res?.data)
+        })
+    }, [context?.isOpenFullScreenPanel])
 
     // const handleChangeCatFilter = (event) => {
     //     setcategoryFilterVal(event.target.value);
@@ -51,6 +59,14 @@ const CategoryList = () => {
         setRowsPerPage(+event.target.value);
         setPage(0);
     };
+
+    const deleteCat = (id) => {
+        deleteData(`/api/category/${id}`).then((res) => {
+            fetchDataFromApi("/api/category/").then((res) => {
+                setCatData(res?.data)
+            })
+        })
+    }
     return (
         <>
             <div className='flex items-center justify-between !px-2 !py-0 !mt-3'>
@@ -80,7 +96,7 @@ const CategoryList = () => {
 
                                 {columns.map((column) => (
                                     <TableCell
-                                    width={300}
+                                        width={300}
                                         key={column.minWidth}
                                         align={column.align}
                                         style={{ minWidth: column.minWidth }}
@@ -91,246 +107,60 @@ const CategoryList = () => {
                             </TableRow>
                         </TableHead>
                         <TableBody>
+                            {
+                                catData?.length !== 0 && catData?.map((item, index) => {
+                                    return (
+                                        <TableRow>
+                                            <TableCell >
+                                                <Checkbox size='small' />
+                                            </TableCell>
 
-                            <TableRow>
-                                <TableCell >
-                                    <Checkbox size='small' />
-                                </TableCell>
-
-                                <TableCell width={100}>
-                                    <div className='flex items-center gap-4 w-[80px]'>
-                                        <div className='img !w-full !rounded-md !overflow-hidden group'>
-                                            <Link to="/product/45745">
-
-                                                <img src="/brand.png"
-                                                    className='w-full group-hover:scale-105 transition-all' />
-                                            </Link>
-                                        </div>
-
-                                        
-
-                                    </div>
-                                </TableCell>
-                                <TableCell width={50}>
-                                    Fashion
-                                </TableCell>
-
-                                <TableCell width={50}>
-                                    <div className='flex items-center gap-1'>
-                                        <Button className='!w-[35px] !h-[35px] !min-w-[35px] bg-[#f1f1f1] !border !border-[rgba(0,0,0,0.4)] !rounded-full hover:!bg-[#f1f1f1]'>
-                                            <MdOutlineModeEdit className='text-[rgba(0,0,0,0.7)] text-[20px] ' />
-                                        </Button>
-                                        <Button className='!w-[35px] !h-[35px] !min-w-[35px] bg-[#f1f1f1] !border !border-[rgba(0,0,0,0.4)] !rounded-full hover:!bg-[#f1f1f1]'>
-                                            <FiEye className='text-[rgba(0,0,0,0.7)] text-[20px] ' />
-                                        </Button>
-
-                                        <Button className='!w-[35px] !h-[35px] !min-w-[35px] bg-[#f1f1f1] !border !border-[rgba(0,0,0,0.4)] !rounded-full hover:!bg-[#f1f1f1]'>
-                                            <GoTrash className='text-[rgba(0,0,0,0.7)] text-[20px] ' />
-                                        </Button>
-                                    </div>
-                                </TableCell>
-                            </TableRow>
+                                            <TableCell width={100}>
+                                                <div className='flex items-center gap-4 w-[80px]'>
+                                                    <div className='img !w-full !rounded-md !overflow-hidden group'>
+                                                        <Link to="/product/45745" data-discover="true">
+                                                            <LazyLoadImage
+                                                                className='w-full group-hover:scale-105 transition-all' alt={"image"}
+                                                                effect='blur'
+                                                                wrapperProps={{
+                                                                    style: { transitionDelay: "1s" },
+                                                                }}
+                                                                src={item?.images?.[0]} />
+                                                        </Link>
+                                                    </div>
 
 
-                            <TableRow>
-                                <TableCell >
-                                    <Checkbox size='small' />
-                                </TableCell>
 
-                                <TableCell width={100}>
-                                    <div className='flex items-center gap-4 w-[80px]'>
-                                        <div className='img !w-full !rounded-md !overflow-hidden group'>
-                                            <Link to="/product/45745">
+                                                </div>
+                                            </TableCell>
+                                            <TableCell width={50}>
+                                                {item?.name}
+                                            </TableCell>
 
-                                                <img src="/electronics.png"
-                                                    className='w-full group-hover:scale-105 transition-all' />
-                                            </Link>
-                                        </div>
+                                            <TableCell width={50}>
+                                                <div className='flex items-center gap-1'>
 
-                                        
+                                                    <Button className='!w-[35px] !h-[35px] !min-w-[35px] bg-[#f1f1f1] !border !border-[rgba(0,0,0,0.4)] !rounded-full hover:!bg-[#f1f1f1]'
+                                                        onClick={() => context.setIsOpenFullScreenPanel({
+                                                            open: true,
+                                                            model: 'Edit Category',
+                                                            id: item?._id
+                                                        })}
+                                                    >
+                                                        <MdOutlineModeEdit className='text-[rgba(0,0,0,0.7)] text-[20px] ' />
+                                                    </Button>
 
-                                    </div>
-                                </TableCell>
-                                <TableCell width={50}>
-                                    Electronics
-                                </TableCell>
+                                                    <Button className='!w-[35px] !h-[35px] !min-w-[35px] bg-[#f1f1f1] !border !border-[rgba(0,0,0,0.4)] !rounded-full hover:!bg-[#f1f1f1]'
+                                                        onClick={() => deleteCat(item?._id)}>
+                                                        <GoTrash className='text-[rgba(0,0,0,0.7)] text-[20px] ' />
+                                                    </Button>
+                                                </div>
+                                            </TableCell>
+                                        </TableRow>
 
-                                <TableCell width={50}>
-                                    <div className='flex items-center gap-1'>
-                                        <Button className='!w-[35px] !h-[35px] !min-w-[35px] bg-[#f1f1f1] !border !border-[rgba(0,0,0,0.4)] !rounded-full hover:!bg-[#f1f1f1]'>
-                                            <MdOutlineModeEdit className='text-[rgba(0,0,0,0.7)] text-[20px] ' />
-                                        </Button>
-                                        <Button className='!w-[35px] !h-[35px] !min-w-[35px] bg-[#f1f1f1] !border !border-[rgba(0,0,0,0.4)] !rounded-full hover:!bg-[#f1f1f1]'>
-                                            <FiEye className='text-[rgba(0,0,0,0.7)] text-[20px] ' />
-                                        </Button>
-
-                                        <Button className='!w-[35px] !h-[35px] !min-w-[35px] bg-[#f1f1f1] !border !border-[rgba(0,0,0,0.4)] !rounded-full hover:!bg-[#f1f1f1]'>
-                                            <GoTrash className='text-[rgba(0,0,0,0.7)] text-[20px] ' />
-                                        </Button>
-                                    </div>
-                                </TableCell>
-                            </TableRow>
-
-
-                            <TableRow>
-                                <TableCell >
-                                    <Checkbox size='small' />
-                                </TableCell>
-
-                                <TableCell width={100}>
-                                    <div className='flex items-center gap-4 w-[80px]'>
-                                        <div className='img !w-full !rounded-md !overflow-hidden group'>
-                                            <Link to="/product/45745">
-
-                                                <img src="/beauty-product.png"
-                                                    className='w-full group-hover:scale-105 transition-all' />
-                                            </Link>
-                                        </div>
-
-                                        
-
-                                    </div>
-                                </TableCell>
-
-                                <TableCell width={50}>
-                                    Beauty
-                                </TableCell>
-
-                                <TableCell width={50}>
-                                    <div className='flex items-center gap-1'>
-                                        <Button className='!w-[35px] !h-[35px] !min-w-[35px] bg-[#f1f1f1] !border !border-[rgba(0,0,0,0.4)] !rounded-full hover:!bg-[#f1f1f1]'>
-                                            <MdOutlineModeEdit className='text-[rgba(0,0,0,0.7)] text-[20px] ' />
-                                        </Button>
-                                        <Button className='!w-[35px] !h-[35px] !min-w-[35px] bg-[#f1f1f1] !border !border-[rgba(0,0,0,0.4)] !rounded-full hover:!bg-[#f1f1f1]'>
-                                            <FiEye className='text-[rgba(0,0,0,0.7)] text-[20px] ' />
-                                        </Button>
-
-                                        <Button className='!w-[35px] !h-[35px] !min-w-[35px] bg-[#f1f1f1] !border !border-[rgba(0,0,0,0.4)] !rounded-full hover:!bg-[#f1f1f1]'>
-                                            <GoTrash className='text-[rgba(0,0,0,0.7)] text-[20px] ' />
-                                        </Button>
-                                    </div>
-                                </TableCell>
-                            </TableRow>
-
-
-                             <TableRow>
-                                <TableCell >
-                                    <Checkbox size='small' />
-                                </TableCell>
-
-                                <TableCell width={100}>
-                                    <div className='flex items-center gap-4 w-[80px]'>
-                                        <div className='img !w-full !rounded-md !overflow-hidden group'>
-                                            <Link to="/product/45745">
-
-                                                <img src="/footwear.png"
-                                                    className='w-full group-hover:scale-105 transition-all' />
-                                            </Link>
-                                        </div>
-
-                                        
-
-                                    </div>
-                                </TableCell>
-
-                                <TableCell width={50}>
-                                    Footwear
-                                </TableCell>
-
-                                <TableCell width={50}>
-                                    <div className='flex items-center gap-1'>
-                                        <Button className='!w-[35px] !h-[35px] !min-w-[35px] bg-[#f1f1f1] !border !border-[rgba(0,0,0,0.4)] !rounded-full hover:!bg-[#f1f1f1]'>
-                                            <MdOutlineModeEdit className='text-[rgba(0,0,0,0.7)] text-[20px] ' />
-                                        </Button>
-                                        <Button className='!w-[35px] !h-[35px] !min-w-[35px] bg-[#f1f1f1] !border !border-[rgba(0,0,0,0.4)] !rounded-full hover:!bg-[#f1f1f1]'>
-                                            <FiEye className='text-[rgba(0,0,0,0.7)] text-[20px] ' />
-                                        </Button>
-
-                                        <Button className='!w-[35px] !h-[35px] !min-w-[35px] bg-[#f1f1f1] !border !border-[rgba(0,0,0,0.4)] !rounded-full hover:!bg-[#f1f1f1]'>
-                                            <GoTrash className='text-[rgba(0,0,0,0.7)] text-[20px] ' />
-                                        </Button>
-                                    </div>
-                                </TableCell>
-                            </TableRow>
-
-
-                             <TableRow>
-                                <TableCell >
-                                    <Checkbox size='small' />
-                                </TableCell>
-
-                                <TableCell width={100}>
-                                    <div className='flex items-center gap-4 w-[80px]'>
-                                        <div className='img !w-full !rounded-md !overflow-hidden group'>
-                                            <Link to="/product/45745">
-
-                                                <img src="/medicine.png"
-                                                    className='w-full group-hover:scale-105 transition-all' />
-                                            </Link>
-                                        </div>
-
-                                        
-
-                                    </div>
-                                </TableCell>
-                                <TableCell width={50}>
-                                    Medicine
-                                </TableCell>
-                                <TableCell width={50}>
-                                    <div className='flex items-center gap-1'>
-                                        <Button className='!w-[35px] !h-[35px] !min-w-[35px] bg-[#f1f1f1] !border !border-[rgba(0,0,0,0.4)] !rounded-full hover:!bg-[#f1f1f1]'>
-                                            <MdOutlineModeEdit className='text-[rgba(0,0,0,0.7)] text-[20px] ' />
-                                        </Button>
-                                        <Button className='!w-[35px] !h-[35px] !min-w-[35px] bg-[#f1f1f1] !border !border-[rgba(0,0,0,0.4)] !rounded-full hover:!bg-[#f1f1f1]'>
-                                            <FiEye className='text-[rgba(0,0,0,0.7)] text-[20px] ' />
-                                        </Button>
-
-                                        <Button className='!w-[35px] !h-[35px] !min-w-[35px] bg-[#f1f1f1] !border !border-[rgba(0,0,0,0.4)] !rounded-full hover:!bg-[#f1f1f1]'>
-                                            <GoTrash className='text-[rgba(0,0,0,0.7)] text-[20px] ' />
-                                        </Button>
-                                    </div>
-                                </TableCell>
-                            </TableRow>
-
-                             <TableRow>
-                                <TableCell >
-                                    <Checkbox size='small' />
-                                </TableCell>
-
-                                <TableCell width={100}>
-                                    <div className='flex items-center gap-4 w-[80px]'>
-                                        <div className='img !w-full !rounded-md !overflow-hidden group'>
-                                            <Link to="/product/45745">
-
-                                                <img src="/jewelry.png"
-                                                    className='w-full group-hover:scale-105 transition-all' />
-                                            </Link>
-                                        </div>
-
-                                        
-
-                                    </div>
-                                </TableCell>
-                                <TableCell width={50}>
-                                    Jewellery
-                                </TableCell>
-
-                                <TableCell width={50}>
-                                    <div className='flex items-center gap-1'>
-                                        <Button className='!w-[35px] !h-[35px] !min-w-[35px] bg-[#f1f1f1] !border !border-[rgba(0,0,0,0.4)] !rounded-full hover:!bg-[#f1f1f1]'>
-                                            <MdOutlineModeEdit className='text-[rgba(0,0,0,0.7)] text-[20px] ' />
-                                        </Button>
-                                        <Button className='!w-[35px] !h-[35px] !min-w-[35px] bg-[#f1f1f1] !border !border-[rgba(0,0,0,0.4)] !rounded-full hover:!bg-[#f1f1f1]'>
-                                            <FiEye className='text-[rgba(0,0,0,0.7)] text-[20px] ' />
-                                        </Button>
-
-                                        <Button className='!w-[35px] !h-[35px] !min-w-[35px] bg-[#f1f1f1] !border !border-[rgba(0,0,0,0.4)] !rounded-full hover:!bg-[#f1f1f1]'>
-                                            <GoTrash className='text-[rgba(0,0,0,0.7)] text-[20px] ' />
-                                        </Button>
-                                    </div>
-                                </TableCell>
-                            </TableRow>
-
+                                    )
+                                })
+                            }
                         </TableBody>
                     </Table>
                 </TableContainer>
