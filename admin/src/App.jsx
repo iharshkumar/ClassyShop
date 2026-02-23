@@ -11,12 +11,7 @@ import Login from './Pages/Login';
 import SignUp from './Pages/SignUp';
 import Products from './Pages/Products';
 import AddProduct from './Pages/Products/addProduct';
-import { Button } from '@mui/material'
 import Dialog from '@mui/material/Dialog';
-import ListItemText from '@mui/material/ListItemText';
-import ListItemButton from '@mui/material/ListItemButton';
-import List from '@mui/material/List';
-import Divider from '@mui/material/Divider';
 import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
 import IconButton from '@mui/material/IconButton';
@@ -64,6 +59,7 @@ function App() {
   const [isLogin, setIsLogin] = useState(false)
   const [userData, setUserData] = useState(null)
   const [address, setAddress] = useState([])
+  const [catData, setCatData] = useState([])
   const [isOpenFullScreenPanel, setIsOpenFullScreenPanel] = useState({
     open: false,
     model: '',
@@ -93,8 +89,18 @@ function App() {
     else {
       setIsLogin(false)
     }
-
   }, [isLogin])
+
+  const getCat = () => {
+    fetchDataFromApi("/api/category/").then((res) => {
+      //console.log(res?.data)
+      setCatData(res?.data)
+    })
+  }
+
+  useEffect(() => {
+    getCat()
+  }, [])
 
   const router = createBrowserRouter([
 
@@ -320,12 +326,6 @@ function App() {
       )
     }
 
-
-
-
-
-
-
   ])
 
 
@@ -340,7 +340,10 @@ function App() {
     userData,
     setUserData,
     setAddress,
-    address
+    address,
+    catData,
+    setCatData,
+    getCat
   };
 
 

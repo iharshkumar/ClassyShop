@@ -1,58 +1,31 @@
 import { Button, Checkbox } from '@mui/material'
-import React, { useContext, useState } from 'react'
-import { Link } from 'react-router-dom'
-import { IoAddOutline } from "react-icons/io5";
-
-import Progress from '../../Components/ProgressBar';
-import { MdOutlineModeEdit } from "react-icons/md";
-import { GoTrash } from "react-icons/go";
-import MenuItem from '@mui/material/MenuItem';
-import Select from '@mui/material/Select';
-import Table from '@mui/material/Table';
-import TableBody from '@mui/material/TableBody';
-import TableCell from '@mui/material/TableCell';
-import TableContainer from '@mui/material/TableContainer';
-import TableHead from '@mui/material/TableHead';
-import TablePagination from '@mui/material/TablePagination';
-import TableRow from '@mui/material/TableRow';
+import React, { useContext, useEffect, useState } from 'react'
 import { BiExport } from "react-icons/bi";
 import { IoBagAddOutline } from "react-icons/io5";
-import SearchBox from '../../Components/SearchBox';
 import { MyContext } from '../../App';
-import Badge from '../../components/Badge';
-import Chip from '@mui/material/Chip';
-import Stack from '@mui/material/Stack';
+import { fetchDataFromApi } from '../../utils/api';
+import { FaAngleDown } from 'react-icons/fa6';
+import EditSubCatBox from './EditSubCatBox';
 
-
-
-
-const columns =
-    [
-        { id: 'image', label: 'CATEGORY IMAGE', minWidth: 150 },
-        { id: 'catName', label: 'CATEGORY NAME', minWidth: 150 },
-        { id: 'subCatName', label: 'SUB CATEGORY NAME', minWidth: 400 },
-        { id: 'action', label: 'ACTION', minWidth: 100 },
-    ];
 
 const SubCategoryList = () => {
-    const [rowsPerPage, setRowsPerPage] = useState(10);
-    const [page, setPage] = useState(0);
-    // const [categoryFilterVal, setcategoryFilterVal] = React.useState('');
-
+    const [isOpen, setIsOpen] = useState(0);
     const context = useContext(MyContext)
+    useEffect(() => {
+        fetchDataFromApi("/api/category/").then((res) => {
+            context?.setCatData(res?.data)
+        })
+    }, [context?.isOpenFullScreenPanel])
 
-    // const handleChangeCatFilter = (event) => {
-    //     setcategoryFilterVal(event.target.value);
-    // };
 
-
-    const handleChangePage = (event, newPage) => {
-        setPage(newPage);
-    };
-    const handleChangeRowsPerPage = (event) => {
-        setRowsPerPage(+event.target.value);
-        setPage(0);
-    };
+    const expend = (index) => {
+        if (isOpen === index) {
+            setIsOpen(!isOpen)
+        }
+        else {
+            setIsOpen(index)
+        }
+    }
     return (
         <>
             <div className='flex items-center justify-between !px-2 !py-0 !mt-3'>
@@ -70,316 +43,85 @@ const SubCategoryList = () => {
             </div>
 
 
-            <div className='card !my-4 !pt-5 !shadow=md sm:rounded-lg !bg-white' >
-                <TableContainer sx={{ maxHeight: 440 }}>
-                    <Table stickyHeader aria-label="sticky table">
-                        <TableHead >
+            <div className='card !my-4 pt-5 !pb-5 !px-5 !shadow-md !sm:rounded-lg !bg-white'>
 
-                            <TableRow>
-                                <TableCell width={50}>
-                                    <Checkbox size='small' />
-                                </TableCell>
+                {
+                    context?.catData?.length !== 0 &&
+                    <ul className='w-full'>
+                        {
+                            context?.catData?.map((firstLevelCat, index) => {
+                                return (
+                                    <li className='w-full !mb-1' key={index}>
+                                        <div className='flex items-center w-full !p-2 !bg-[#f1f1f1] !rounded-sm !px-4'>
+                                            <span className='font-[500] flex items-center gap-4 text-[14px]'>
+                                                {firstLevelCat?.name}
+                                            </span>
 
-                                {columns.map((column) => (
-                                    <TableCell
-                                        width={300}
-                                        key={column.minWidth}
-                                        align={column.align}
-                                        style={{ minWidth: column.minWidth }}
-                                    >
-                                        {column.label}
-                                    </TableCell>
-                                ))}
-                            </TableRow>
-                        </TableHead>
-                        <TableBody>
-
-                            <TableRow>
-                                <TableCell >
-                                    <Checkbox size='small' />
-                                </TableCell>
-
-
-                                <TableCell width={100}>
-                                    <div className='flex items-center gap-4 w-[80px]'>
-                                        <div className='img !w-full !rounded-md !overflow-hidden group'>
-                                            <Link to="/product/45745">
-
-                                                <img src="/brand.png"
-                                                    className='w-full group-hover:scale-105 transition-all' />
-                                            </Link>
+                                            <Button className='!min-w-[35px] !w-[35px] !h-[35px] !rounded-full !text-black !ml-auto'
+                                                onClick={() => expend(index)}
+                                            >
+                                                <FaAngleDown />
+                                            </Button>
                                         </div>
+                                        {
+                                            isOpen === index &&
+                                            <>
+                                                {
+                                                    firstLevelCat?.children?.length !== 0 &&
+                                                    <ul className='w-full'>
+                                                        {
+                                                            firstLevelCat?.children?.map((subCat, index_) => {
+                                                                return (
+                                                                    <li className='w-full !py-1' key={index_}>
+                                                                        <EditSubCatBox
+                                                                            name={subCat.name}
+                                                                            id={subCat?._id}
+                                                                            catData={context?.catData}
+                                                                            index={index_}
+                                                                            selectedCat={subCat?.parentId}
+                                                                            selectedCatName={subCat?.parentCatName}
+                                                                        />
+                                                                        {
+                                                                            subCat?.children?.length !== 0 && 
+                                                                            <ul className='!pl-4'>
+                                                                                {
+                                                                                    subCat?.children?.map((thirdLevel,index__) => {
+                                                                                        return(
+                                                                                            <li 
+                                                                                            key={index__}
+                                                                                            className='w-full !hover:bg-[#f1f1f1]'>
+                                                                                                <EditSubCatBox
+                                                                                                name={thirdLevel.name}
+                                                                                                catData={firstLevelCat?.children}
+                                                                                                index={index__}
+                                                                                                selectedCat={thirdLevel?.parentId}
+                                                                                                selectedCatName={thirdLevel?.parentCatName}
+                                                                                                id={thirdLevel?._id}/>
+                                                                                            </li>
+                                                                                        )
+                                                                                    })
+                                                                                }
+                                                                            </ul>
+                                                                        }
+                                                                    </li>
+                                                                )
+                                                            })
+                                                        }
+                                                    </ul>
+                                                }
+                                            </>
+                                        }
 
-
-
-                                    </div>
-                                </TableCell>
-
-
-                                <TableCell >
-                                    <Chip label="Fashion" />
-                                </TableCell>
-                                <TableCell>
-                                    <div className='flex items-center gap-3'>
-                                        <Chip label="Men" color='primary' />
-                                        <Chip label="Women" color='primary' />
-                                        <Chip label="Kids" color='primary' />
-                                    </div>
-                                </TableCell>
-
-
-
-
-                                <TableCell width={50}>
-                                    <div className='flex items-center gap-1'>
-                                        <Button className='!w-[35px] !h-[35px] !min-w-[35px] bg-[#f1f1f1] !border !border-[rgba(0,0,0,0.4)] !rounded-full hover:!bg-[#f1f1f1]'>
-                                            <MdOutlineModeEdit className='text-[rgba(0,0,0,0.7)] text-[20px] ' />
-                                        </Button>
-                                        <Button className='!w-[35px] !h-[35px] !min-w-[35px] bg-[#f1f1f1] !border !border-[rgba(0,0,0,0.4)] !rounded-full hover:!bg-[#f1f1f1]'>
-                                            <GoTrash className='text-[rgba(0,0,0,0.7)] text-[20px] ' />
-                                        </Button>
-                                    </div>
-                                </TableCell>
-                            </TableRow>
-
-
-                            <TableRow>
-                                <TableCell >
-                                    <Checkbox size='small' />
-                                </TableCell>
-
-                                <TableCell width={100}>
-                                    <div className='flex items-center gap-4 w-[80px]'>
-                                        <div className='img !w-full !rounded-md !overflow-hidden group'>
-                                            <Link to="/product/45745">
-
-                                                <img src="/electronics.png"
-                                                    className='w-full group-hover:scale-105 transition-all' />
-                                            </Link>
-                                        </div>
-
-
-
-                                    </div>
-                                </TableCell>
-
-                                <TableCell >
-                                    <Chip label="Fashion" />
-                                </TableCell>
-                                <TableCell>
-                                    <div className='flex items-center gap-3'>
-                                        <Chip label="Men" color='primary' />
-                                        <Chip label="Women" color='primary' />
-                                        <Chip label="Kids" color='primary' />
-                                    </div>
-                                </TableCell>
-
-
-
-                                <TableCell width={50}>
-                                    <div className='flex items-center gap-1'>
-                                        <Button className='!w-[35px] !h-[35px] !min-w-[35px] bg-[#f1f1f1] !border !border-[rgba(0,0,0,0.4)] !rounded-full hover:!bg-[#f1f1f1]'>
-                                            <MdOutlineModeEdit className='text-[rgba(0,0,0,0.7)] text-[20px] ' />
-                                        </Button>
-                                        
-
-                                        <Button className='!w-[35px] !h-[35px] !min-w-[35px] bg-[#f1f1f1] !border !border-[rgba(0,0,0,0.4)] !rounded-full hover:!bg-[#f1f1f1]'>
-                                            <GoTrash className='text-[rgba(0,0,0,0.7)] text-[20px] ' />
-                                        </Button>
-                                    </div>
-                                </TableCell>
-                            </TableRow>
-
-
-                            <TableRow>
-                                <TableCell >
-                                    <Checkbox size='small' />
-                                </TableCell>
-
-                                <TableCell width={100}>
-                                    <div className='flex items-center gap-4 w-[80px]'>
-                                        <div className='img !w-full !rounded-md !overflow-hidden group'>
-                                            <Link to="/product/45745">
-
-                                                <img src="/beauty-product.png"
-                                                    className='w-full group-hover:scale-105 transition-all' />
-                                            </Link>
-                                        </div>
-                                    </div>
-                                </TableCell>
-                                <TableCell >
-                                    <Chip label="Fashion" />
-                                </TableCell>
-                                <TableCell>
-                                    <div className='flex items-center gap-3'>
-                                        <Chip label="Men" color='primary' />
-                                        <Chip label="Women" color='primary' />
-                                        <Chip label="Kids" color='primary' />
-                                    </div>
-                                </TableCell>
-                                <TableCell width={50}>
-                                    <div className='flex items-center gap-1'>
-                                        <Button className='!w-[35px] !h-[35px] !min-w-[35px] bg-[#f1f1f1] !border !border-[rgba(0,0,0,0.4)] !rounded-full hover:!bg-[#f1f1f1]'>
-                                            <MdOutlineModeEdit className='text-[rgba(0,0,0,0.7)] text-[20px] ' />
-                                        </Button>
-                                        
-
-                                        <Button className='!w-[35px] !h-[35px] !min-w-[35px] bg-[#f1f1f1] !border !border-[rgba(0,0,0,0.4)] !rounded-full hover:!bg-[#f1f1f1]'>
-                                            <GoTrash className='text-[rgba(0,0,0,0.7)] text-[20px] ' />
-                                        </Button>
-                                    </div>
-                                </TableCell>
-                            </TableRow>
-
-
-                            <TableRow>
-                                <TableCell >
-                                    <Checkbox size='small' />
-                                </TableCell>
-
-                                <TableCell width={100}>
-                                    <div className='flex items-center gap-4 w-[80px]'>
-                                        <div className='img !w-full !rounded-md !overflow-hidden group'>
-                                            <Link to="/product/45745">
-
-                                                <img src="/footwear.png"
-                                                    className='w-full group-hover:scale-105 transition-all' />
-                                            </Link>
-                                        </div>
-
-
-
-                                    </div>
-                                </TableCell>
-
-                                <TableCell >
-                                    <Chip label="Fashion" />
-                                </TableCell>
-                                <TableCell>
-                                    <div className='flex items-center gap-3'>
-                                        <Chip label="Men" color='primary' />
-                                        <Chip label="Women" color='primary' />
-                                        <Chip label="Kids" color='primary' />
-                                    </div>
-                                </TableCell>
-
-                                <TableCell width={50}>
-                                    <div className='flex items-center gap-1'>
-                                        <Button className='!w-[35px] !h-[35px] !min-w-[35px] bg-[#f1f1f1] !border !border-[rgba(0,0,0,0.4)] !rounded-full hover:!bg-[#f1f1f1]'>
-                                            <MdOutlineModeEdit className='text-[rgba(0,0,0,0.7)] text-[20px] ' />
-                                        </Button>
-                                       
-
-                                        <Button className='!w-[35px] !h-[35px] !min-w-[35px] bg-[#f1f1f1] !border !border-[rgba(0,0,0,0.4)] !rounded-full hover:!bg-[#f1f1f1]'>
-                                            <GoTrash className='text-[rgba(0,0,0,0.7)] text-[20px] ' />
-                                        </Button>
-                                    </div>
-                                </TableCell>
-                            </TableRow>
-
-
-                            <TableRow>
-                                <TableCell >
-                                    <Checkbox size='small' />
-                                </TableCell>
-
-                                <TableCell width={100}>
-                                    <div className='flex items-center gap-4 w-[80px]'>
-                                        <div className='img !w-full !rounded-md !overflow-hidden group'>
-                                            <Link to="/product/45745">
-
-                                                <img src="/medicine.png"
-                                                    className='w-full group-hover:scale-105 transition-all' />
-                                            </Link>
-                                        </div>
-
-
-
-                                    </div>
-                                </TableCell>
-                                <TableCell >
-                                    <Chip label="Fashion" />
-                                </TableCell>
-                                <TableCell>
-                                    <div className='flex items-center gap-3'>
-                                        <Chip label="Men" color='primary' />
-                                        <Chip label="Women" color='primary' />
-                                        <Chip label="Kids" color='primary' />
-                                    </div>
-                                </TableCell>
-
-                                <TableCell width={50}>
-                                    <div className='flex items-center gap-1'>
-                                        <Button className='!w-[35px] !h-[35px] !min-w-[35px] bg-[#f1f1f1] !border !border-[rgba(0,0,0,0.4)] !rounded-full hover:!bg-[#f1f1f1]'>
-                                            <MdOutlineModeEdit className='text-[rgba(0,0,0,0.7)] text-[20px] ' />
-                                        </Button>
-                                       
-
-                                        <Button className='!w-[35px] !h-[35px] !min-w-[35px] bg-[#f1f1f1] !border !border-[rgba(0,0,0,0.4)] !rounded-full hover:!bg-[#f1f1f1]'>
-                                            <GoTrash className='text-[rgba(0,0,0,0.7)] text-[20px] ' />
-                                        </Button>
-                                    </div>
-                                </TableCell>
-                            </TableRow>
-
-                            <TableRow>
-                                <TableCell >
-                                    <Checkbox size='small' />
-                                </TableCell>
-
-                                <TableCell width={100}>
-                                    <div className='flex items-center gap-4 w-[80px]'>
-                                        <div className='img !w-full !rounded-md !overflow-hidden group'>
-                                            <Link to="/product/45745">
-
-                                                <img src="/jewelry.png"
-                                                    className='w-full group-hover:scale-105 transition-all' />
-                                            </Link>
-                                        </div>
-
-
-
-                                    </div>
-                                </TableCell>
-                                <TableCell >
-                                    <Chip label="Fashion" />
-                                </TableCell>
-                                <TableCell>
-                                    <div className='flex items-center gap-3'>
-                                        <Chip label="Men" color='primary' />
-                                        <Chip label="Women" color='primary' />
-                                        <Chip label="Kids" color='primary' />
-                                    </div>
-                                </TableCell>
-
-                                <TableCell width={50}>
-                                    <div className='flex items-center gap-1'>
-                                        <Button className='!w-[35px] !h-[35px] !min-w-[35px] bg-[#f1f1f1] !border !border-[rgba(0,0,0,0.4)] !rounded-full hover:!bg-[#f1f1f1]'>
-                                            <MdOutlineModeEdit className='text-[rgba(0,0,0,0.7)] text-[20px] ' />
-                                        </Button>
-                                        
-
-                                        <Button className='!w-[35px] !h-[35px] !min-w-[35px] bg-[#f1f1f1] !border !border-[rgba(0,0,0,0.4)] !rounded-full hover:!bg-[#f1f1f1]'>
-                                            <GoTrash className='text-[rgba(0,0,0,0.7)] text-[20px] ' />
-                                        </Button>
-                                    </div>
-                                </TableCell>
-                            </TableRow>
-
-                        </TableBody>
-                    </Table>
-                </TableContainer>
-                <TablePagination
-                    rowsPerPageOptions={[10, 25, 100]}
-                    component="div"
-                    count={10}
-                    rowsPerPage={rowsPerPage}
-                    page={page}
-                    onPageChange={handleChangePage}
-                    onRowsPerPageChange={handleChangeRowsPerPage}
-                />
+                                    </li>
+                                )
+                            })
+                        }
+                    </ul>
+                }
 
             </div>
+
+
         </>
     )
 }
