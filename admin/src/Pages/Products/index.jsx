@@ -1,5 +1,5 @@
 import { Button, Checkbox } from '@mui/material'
-import React, { useContext, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { IoAddOutline } from "react-icons/io5";
 
@@ -20,6 +20,9 @@ import { BiExport } from "react-icons/bi";
 import { IoBagAddOutline } from "react-icons/io5";
 import SearchBox from '../../Components/SearchBox';
 import { MyContext } from '../../App';
+import { deleteData, fetchDataFromApi } from '../../utils/api';
+import { LazyLoadImage } from 'react-lazy-load-image-component'
+import 'react-lazy-load-image-component/src/effects/blur.css'
 
 
 
@@ -50,12 +53,47 @@ const Products = () => {
     const [rowsPerPage, setRowsPerPage] = useState(10);
     const [page, setPage] = useState(0);
     const [categoryFilterVal, setcategoryFilterVal] = React.useState('');
+    const [productData, setProductData] = useState([])
 
     const context = useContext(MyContext)
+
+
+    useEffect(() => {
+        getProducts();
+    }, [context?.isOpenFullScreenPanel])
+
+    const getProducts = async () => {
+        fetchDataFromApi("/api/product/getAllProducts").then((res) => {
+            if (res?.error === false) {
+                setProductData(res?.data)
+            }
+        })
+    }
+
+
+    useEffect(() => {
+        fetchDataFromApi("/api/product/getAllProducts").then((res) => {
+            if (res?.error === false) {
+                setProductData(res?.data)
+            }
+        })
+    }, [])
+
+
+
+
 
     const handleChangeCatFilter = (event) => {
         setcategoryFilterVal(event.target.value);
     };
+
+    const deleteProduct = (id) => {
+        deleteData(`/api/product/${id}`).then((res) => {
+
+            getProducts();
+            context?.alertBox("success", "Product deleted")
+        })
+    }
 
 
     const handleChangePage = (event, newPage) => {
@@ -134,1495 +172,102 @@ const Products = () => {
                             </TableRow>
                         </TableHead>
                         <TableBody>
-
-                            <TableRow>
-                                <TableCell style={{ minWidth: columns.minWidth }}>
-                                    <Checkbox size='small' />
-                                </TableCell>
-
-                                <TableCell style={{ minWidth: columns.minWidth }}>
-                                    <div className='flex items-center gap-4 w-[300px]'>
-                                        <div className='img !w-[65px] !h-[65px] !rounded-md !overflow-hidden group'>
-                                            <Link to="/product/45745">
-
-                                                <img src="https://adn-static1.nykaa.com/nykdesignstudio-images/pub/media/catalog/product/e/6/e602addAW25GGDWKS2787_1.jpg"
-                                                    className='w-full group-hover:scale-105 transition-all' />
-                                            </Link>
-                                        </div>
-
-                                        <div className='info w-[75%]'>
-                                            <h3 className='font-[600] text-[14px] leading-4 hover:text-blue-500 '>
-                                                <Link to="/product/45745">
-                                                    Teal Printed Crepe Co-Ord Set Diwalicious
-                                                </Link>
-                                            </h3>
-                                            <span className='text-[12px]'>
-                                                Gajra Gang
-                                            </span>
-                                        </div>
-
-                                    </div>
-                                </TableCell>
-
-                                <TableCell style={{ minWidth: columns.minWidth }}>
-                                    FASHION
-                                </TableCell>
-
-                                <TableCell style={{ minWidth: columns.minWidth }}>
-                                    WOMEN
-                                </TableCell>
-
-                                <TableCell style={{ minWidth: columns.minWidth }}>
-                                    <div className='flex gap-1 flex-col'>
-                                        <span className='oldPrice line-through leading-3 text-gray-500 text-[15px] font-[500]'>
-                                            ₹400.00</span>
-                                        <span className='price text-blue-500 text-[15px] font-[600]'>
-                                            ₹500.00</span>
-                                    </div>
-                                </TableCell>
-
-                                <TableCell style={{ minWidth: columns.minWidth }}>
-                                    <p className='text-[14px] w-[100px]'>
-                                        <span className='font-[600]'>
-                                            234
-                                        </span>
-                                        sales
-                                    </p>
-                                    <Progress value={50} type="warning" />
-                                </TableCell>
-
-                                <TableCell style={{ minWidth: columns.minWidth }}>
-                                    <div className='flex items-center gap-1'>
-                                        <Button className='!w-[35px] !h-[35px] !min-w-[35px] bg-[#f1f1f1] !border !border-[rgba(0,0,0,0.4)] !rounded-full hover:!bg-[#f1f1f1]'>
-                                            <MdOutlineModeEdit className='text-[rgba(0,0,0,0.7)] text-[20px] ' />
-                                        </Button>
-                                        <Button className='!w-[35px] !h-[35px] !min-w-[35px] bg-[#f1f1f1] !border !border-[rgba(0,0,0,0.4)] !rounded-full hover:!bg-[#f1f1f1]'>
-                                            <FiEye className='text-[rgba(0,0,0,0.7)] text-[20px] ' />
-                                        </Button>
-
-                                        <Button className='!w-[35px] !h-[35px] !min-w-[35px] bg-[#f1f1f1] !border !border-[rgba(0,0,0,0.4)] !rounded-full hover:!bg-[#f1f1f1]'>
-                                            <GoTrash className='text-[rgba(0,0,0,0.7)] text-[20px] ' />
-                                        </Button>
-                                    </div>
-                                </TableCell>
-
-
-                            </TableRow>
-
-                            <TableRow>
-                                <TableCell style={{ minWidth: columns.minWidth }}>
-                                    <Checkbox size='small' />
-                                </TableCell>
-
-                                <TableCell style={{ minWidth: columns.minWidth }}>
-                                    <div className='flex items-center gap-4 w-[300px]'>
-                                        <div className='img !w-[65px] !h-[65px] !rounded-md !overflow-hidden group'>
-                                            <Link to="/product/45745">
-
-                                                <img src="https://adn-static1.nykaa.com/nykdesignstudio-images/pub/media/catalog/product/e/6/e602addAW25GGDWKS2787_1.jpg"
-                                                    className='w-full group-hover:scale-105 transition-all' />
-                                            </Link>
-                                        </div>
-
-                                        <div className='info w-[75%]'>
-                                            <h3 className='font-[600] text-[14px] leading-4 hover:text-blue-500 '>
-                                                <Link to="/product/45745">
-                                                    Teal Printed Crepe Co-Ord Set Diwalicious
-                                                </Link>
-                                            </h3>
-                                            <span className='text-[12px]'>
-                                                Gajra Gang
-                                            </span>
-                                        </div>
-
-                                    </div>
-                                </TableCell>
-
-                                <TableCell style={{ minWidth: columns.minWidth }}>
-                                    FASHION
-                                </TableCell>
-
-                                <TableCell style={{ minWidth: columns.minWidth }}>
-                                    WOMEN
-                                </TableCell>
-
-                                <TableCell style={{ minWidth: columns.minWidth }}>
-                                    <div className='flex gap-1 flex-col'>
-                                        <span className='oldPrice line-through leading-3 text-gray-500 text-[15px] font-[500]'>
-                                            ₹400.00</span>
-                                        <span className='price text-blue-500 text-[15px] font-[600]'>
-                                            ₹500.00</span>
-                                    </div>
-                                </TableCell>
-
-                                <TableCell style={{ minWidth: columns.minWidth }}>
-                                    <p className='text-[14px] w-[100px]'>
-                                        <span className='font-[600]'>
-                                            234
-                                        </span>
-                                        sales
-                                    </p>
-                                    <Progress value={50} type="warning" />
-                                </TableCell>
-
-                                <TableCell style={{ minWidth: columns.minWidth }}>
-                                    <div className='flex items-center gap-1'>
-                                        <Button className='!w-[35px] !h-[35px] !min-w-[35px] bg-[#f1f1f1] !border !border-[rgba(0,0,0,0.4)] !rounded-full hover:!bg-[#f1f1f1]'>
-                                            <MdOutlineModeEdit className='text-[rgba(0,0,0,0.7)] text-[20px] ' />
-                                        </Button>
-                                        <Button className='!w-[35px] !h-[35px] !min-w-[35px] bg-[#f1f1f1] !border !border-[rgba(0,0,0,0.4)] !rounded-full hover:!bg-[#f1f1f1]'>
-                                            <FiEye className='text-[rgba(0,0,0,0.7)] text-[20px] ' />
-                                        </Button>
-
-                                        <Button className='!w-[35px] !h-[35px] !min-w-[35px] bg-[#f1f1f1] !border !border-[rgba(0,0,0,0.4)] !rounded-full hover:!bg-[#f1f1f1]'>
-                                            <GoTrash className='text-[rgba(0,0,0,0.7)] text-[20px] ' />
-                                        </Button>
-                                    </div>
-                                </TableCell>
-
-
-                            </TableRow>
-
-                            <TableRow>
-                                <TableCell style={{ minWidth: columns.minWidth }}>
-                                    <Checkbox size='small' />
-                                </TableCell>
-
-                                <TableCell style={{ minWidth: columns.minWidth }}>
-                                    <div className='flex items-center gap-4 w-[300px]'>
-                                        <div className='img !w-[65px] !h-[65px] !rounded-md !overflow-hidden group'>
-                                            <Link to="/product/45745">
-
-                                                <img src="https://adn-static1.nykaa.com/nykdesignstudio-images/pub/media/catalog/product/e/6/e602addAW25GGDWKS2787_1.jpg"
-                                                    className='w-full group-hover:scale-105 transition-all' />
-                                            </Link>
-                                        </div>
-
-                                        <div className='info w-[75%]'>
-                                            <h3 className='font-[600] text-[14px] leading-4 hover:text-blue-500 '>
-                                                <Link to="/product/45745">
-                                                    Teal Printed Crepe Co-Ord Set Diwalicious
-                                                </Link>
-                                            </h3>
-                                            <span className='text-[12px]'>
-                                                Gajra Gang
-                                            </span>
-                                        </div>
-
-                                    </div>
-                                </TableCell>
-
-                                <TableCell style={{ minWidth: columns.minWidth }}>
-                                    FASHION
-                                </TableCell>
-
-                                <TableCell style={{ minWidth: columns.minWidth }}>
-                                    WOMEN
-                                </TableCell>
-
-                                <TableCell style={{ minWidth: columns.minWidth }}>
-                                    <div className='flex gap-1 flex-col'>
-                                        <span className='oldPrice line-through leading-3 text-gray-500 text-[15px] font-[500]'>
-                                            ₹400.00</span>
-                                        <span className='price text-blue-500 text-[15px] font-[600]'>
-                                            ₹500.00</span>
-                                    </div>
-                                </TableCell>
-
-                                <TableCell style={{ minWidth: columns.minWidth }}>
-                                    <p className='text-[14px] w-[100px]'>
-                                        <span className='font-[600]'>
-                                            234
-                                        </span>
-                                        sales
-                                    </p>
-                                    <Progress value={50} type="warning" />
-                                </TableCell>
-
-                                <TableCell style={{ minWidth: columns.minWidth }}>
-                                    <div className='flex items-center gap-1'>
-                                        <Button className='!w-[35px] !h-[35px] !min-w-[35px] bg-[#f1f1f1] !border !border-[rgba(0,0,0,0.4)] !rounded-full hover:!bg-[#f1f1f1]'>
-                                            <MdOutlineModeEdit className='text-[rgba(0,0,0,0.7)] text-[20px] ' />
-                                        </Button>
-                                        <Button className='!w-[35px] !h-[35px] !min-w-[35px] bg-[#f1f1f1] !border !border-[rgba(0,0,0,0.4)] !rounded-full hover:!bg-[#f1f1f1]'>
-                                            <FiEye className='text-[rgba(0,0,0,0.7)] text-[20px] ' />
-                                        </Button>
-
-                                        <Button className='!w-[35px] !h-[35px] !min-w-[35px] bg-[#f1f1f1] !border !border-[rgba(0,0,0,0.4)] !rounded-full hover:!bg-[#f1f1f1]'>
-                                            <GoTrash className='text-[rgba(0,0,0,0.7)] text-[20px] ' />
-                                        </Button>
-                                    </div>
-                                </TableCell>
-
-
-                            </TableRow>
-
-                            <TableRow>
-                                <TableCell style={{ minWidth: columns.minWidth }}>
-                                    <Checkbox size='small' />
-                                </TableCell>
-
-                                <TableCell style={{ minWidth: columns.minWidth }}>
-                                    <div className='flex items-center gap-4 w-[300px]'>
-                                        <div className='img !w-[65px] !h-[65px] !rounded-md !overflow-hidden group'>
-                                            <Link to="/product/45745">
-
-                                                <img src="https://adn-static1.nykaa.com/nykdesignstudio-images/pub/media/catalog/product/e/6/e602addAW25GGDWKS2787_1.jpg"
-                                                    className='w-full group-hover:scale-105 transition-all' />
-                                            </Link>
-                                        </div>
-
-                                        <div className='info w-[75%]'>
-                                            <h3 className='font-[600] text-[14px] leading-4 hover:text-blue-500 '>
-                                                <Link to="/product/45745">
-                                                    Teal Printed Crepe Co-Ord Set Diwalicious
-                                                </Link>
-                                            </h3>
-                                            <span className='text-[12px]'>
-                                                Gajra Gang
-                                            </span>
-                                        </div>
-
-                                    </div>
-                                </TableCell>
-
-                                <TableCell style={{ minWidth: columns.minWidth }}>
-                                    FASHION
-                                </TableCell>
-
-                                <TableCell style={{ minWidth: columns.minWidth }}>
-                                    WOMEN
-                                </TableCell>
-
-                                <TableCell style={{ minWidth: columns.minWidth }}>
-                                    <div className='flex gap-1 flex-col'>
-                                        <span className='oldPrice line-through leading-3 text-gray-500 text-[15px] font-[500]'>
-                                            ₹400.00</span>
-                                        <span className='price text-blue-500 text-[15px] font-[600]'>
-                                            ₹500.00</span>
-                                    </div>
-                                </TableCell>
-
-                                <TableCell style={{ minWidth: columns.minWidth }}>
-                                    <p className='text-[14px] w-[100px]'>
-                                        <span className='font-[600]'>
-                                            234
-                                        </span>
-                                        sales
-                                    </p>
-                                    <Progress value={50} type="warning" />
-                                </TableCell>
-
-                                <TableCell style={{ minWidth: columns.minWidth }}>
-                                    <div className='flex items-center gap-1'>
-                                        <Button className='!w-[35px] !h-[35px] !min-w-[35px] bg-[#f1f1f1] !border !border-[rgba(0,0,0,0.4)] !rounded-full hover:!bg-[#f1f1f1]'>
-                                            <MdOutlineModeEdit className='text-[rgba(0,0,0,0.7)] text-[20px] ' />
-                                        </Button>
-                                        <Button className='!w-[35px] !h-[35px] !min-w-[35px] bg-[#f1f1f1] !border !border-[rgba(0,0,0,0.4)] !rounded-full hover:!bg-[#f1f1f1]'>
-                                            <FiEye className='text-[rgba(0,0,0,0.7)] text-[20px] ' />
-                                        </Button>
-
-                                        <Button className='!w-[35px] !h-[35px] !min-w-[35px] bg-[#f1f1f1] !border !border-[rgba(0,0,0,0.4)] !rounded-full hover:!bg-[#f1f1f1]'>
-                                            <GoTrash className='text-[rgba(0,0,0,0.7)] text-[20px] ' />
-                                        </Button>
-                                    </div>
-                                </TableCell>
-
-
-                            </TableRow>
-
-                            <TableRow>
-                                <TableCell style={{ minWidth: columns.minWidth }}>
-                                    <Checkbox size='small' />
-                                </TableCell>
-
-                                <TableCell style={{ minWidth: columns.minWidth }}>
-                                    <div className='flex items-center gap-4 w-[300px]'>
-                                        <div className='img !w-[65px] !h-[65px] !rounded-md !overflow-hidden group'>
-                                            <Link to="/product/45745">
-
-                                                <img src="https://adn-static1.nykaa.com/nykdesignstudio-images/pub/media/catalog/product/e/6/e602addAW25GGDWKS2787_1.jpg"
-                                                    className='w-full group-hover:scale-105 transition-all' />
-                                            </Link>
-                                        </div>
-
-                                        <div className='info w-[75%]'>
-                                            <h3 className='font-[600] text-[14px] leading-4 hover:text-blue-500 '>
-                                                <Link to="/product/45745">
-                                                    Teal Printed Crepe Co-Ord Set Diwalicious
-                                                </Link>
-                                            </h3>
-                                            <span className='text-[12px]'>
-                                                Gajra Gang
-                                            </span>
-                                        </div>
-
-                                    </div>
-                                </TableCell>
-
-                                <TableCell style={{ minWidth: columns.minWidth }}>
-                                    FASHION
-                                </TableCell>
-
-                                <TableCell style={{ minWidth: columns.minWidth }}>
-                                    WOMEN
-                                </TableCell>
-
-                                <TableCell style={{ minWidth: columns.minWidth }}>
-                                    <div className='flex gap-1 flex-col'>
-                                        <span className='oldPrice line-through leading-3 text-gray-500 text-[15px] font-[500]'>
-                                            ₹400.00</span>
-                                        <span className='price text-blue-500 text-[15px] font-[600]'>
-                                            ₹500.00</span>
-                                    </div>
-                                </TableCell>
-
-                                <TableCell style={{ minWidth: columns.minWidth }}>
-                                    <p className='text-[14px] w-[100px]'>
-                                        <span className='font-[600]'>
-                                            234
-                                        </span>
-                                        sales
-                                    </p>
-                                    <Progress value={50} type="warning" />
-                                </TableCell>
-
-                                <TableCell style={{ minWidth: columns.minWidth }}>
-                                    <div className='flex items-center gap-1'>
-                                        <Button className='!w-[35px] !h-[35px] !min-w-[35px] bg-[#f1f1f1] !border !border-[rgba(0,0,0,0.4)] !rounded-full hover:!bg-[#f1f1f1]'>
-                                            <MdOutlineModeEdit className='text-[rgba(0,0,0,0.7)] text-[20px] ' />
-                                        </Button>
-                                        <Button className='!w-[35px] !h-[35px] !min-w-[35px] bg-[#f1f1f1] !border !border-[rgba(0,0,0,0.4)] !rounded-full hover:!bg-[#f1f1f1]'>
-                                            <FiEye className='text-[rgba(0,0,0,0.7)] text-[20px] ' />
-                                        </Button>
-
-                                        <Button className='!w-[35px] !h-[35px] !min-w-[35px] bg-[#f1f1f1] !border !border-[rgba(0,0,0,0.4)] !rounded-full hover:!bg-[#f1f1f1]'>
-                                            <GoTrash className='text-[rgba(0,0,0,0.7)] text-[20px] ' />
-                                        </Button>
-                                    </div>
-                                </TableCell>
-
-
-                            </TableRow>
-
-                            <TableRow>
-                                <TableCell style={{ minWidth: columns.minWidth }}>
-                                    <Checkbox size='small' />
-                                </TableCell>
-
-                                <TableCell style={{ minWidth: columns.minWidth }}>
-                                    <div className='flex items-center gap-4 w-[300px]'>
-                                        <div className='img !w-[65px] !h-[65px] !rounded-md !overflow-hidden group'>
-                                            <Link to="/product/45745">
-
-                                                <img src="https://adn-static1.nykaa.com/nykdesignstudio-images/pub/media/catalog/product/e/6/e602addAW25GGDWKS2787_1.jpg"
-                                                    className='w-full group-hover:scale-105 transition-all' />
-                                            </Link>
-                                        </div>
-
-                                        <div className='info w-[75%]'>
-                                            <h3 className='font-[600] text-[14px] leading-4 hover:text-blue-500 '>
-                                                <Link to="/product/45745">
-                                                    Teal Printed Crepe Co-Ord Set Diwalicious
-                                                </Link>
-                                            </h3>
-                                            <span className='text-[12px]'>
-                                                Gajra Gang
-                                            </span>
-                                        </div>
-
-                                    </div>
-                                </TableCell>
-
-                                <TableCell style={{ minWidth: columns.minWidth }}>
-                                    FASHION
-                                </TableCell>
-
-                                <TableCell style={{ minWidth: columns.minWidth }}>
-                                    WOMEN
-                                </TableCell>
-
-                                <TableCell style={{ minWidth: columns.minWidth }}>
-                                    <div className='flex gap-1 flex-col'>
-                                        <span className='oldPrice line-through leading-3 text-gray-500 text-[15px] font-[500]'>
-                                            ₹400.00</span>
-                                        <span className='price text-blue-500 text-[15px] font-[600]'>
-                                            ₹500.00</span>
-                                    </div>
-                                </TableCell>
-
-                                <TableCell style={{ minWidth: columns.minWidth }}>
-                                    <p className='text-[14px] w-[100px]'>
-                                        <span className='font-[600]'>
-                                            234
-                                        </span>
-                                        sales
-                                    </p>
-                                    <Progress value={50} type="warning" />
-                                </TableCell>
-
-                                <TableCell style={{ minWidth: columns.minWidth }}>
-                                    <div className='flex items-center gap-1'>
-                                        <Button className='!w-[35px] !h-[35px] !min-w-[35px] bg-[#f1f1f1] !border !border-[rgba(0,0,0,0.4)] !rounded-full hover:!bg-[#f1f1f1]'>
-                                            <MdOutlineModeEdit className='text-[rgba(0,0,0,0.7)] text-[20px] ' />
-                                        </Button>
-                                        <Button className='!w-[35px] !h-[35px] !min-w-[35px] bg-[#f1f1f1] !border !border-[rgba(0,0,0,0.4)] !rounded-full hover:!bg-[#f1f1f1]'>
-                                            <FiEye className='text-[rgba(0,0,0,0.7)] text-[20px] ' />
-                                        </Button>
-
-                                        <Button className='!w-[35px] !h-[35px] !min-w-[35px] bg-[#f1f1f1] !border !border-[rgba(0,0,0,0.4)] !rounded-full hover:!bg-[#f1f1f1]'>
-                                            <GoTrash className='text-[rgba(0,0,0,0.7)] text-[20px] ' />
-                                        </Button>
-                                    </div>
-                                </TableCell>
-
-
-                            </TableRow>
-
-                            <TableRow>
-                                <TableCell style={{ minWidth: columns.minWidth }}>
-                                    <Checkbox size='small' />
-                                </TableCell>
-
-                                <TableCell style={{ minWidth: columns.minWidth }}>
-                                    <div className='flex items-center gap-4 w-[300px]'>
-                                        <div className='img !w-[65px] !h-[65px] !rounded-md !overflow-hidden group'>
-                                            <Link to="/product/45745">
-
-                                                <img src="https://adn-static1.nykaa.com/nykdesignstudio-images/pub/media/catalog/product/e/6/e602addAW25GGDWKS2787_1.jpg"
-                                                    className='w-full group-hover:scale-105 transition-all' />
-                                            </Link>
-                                        </div>
-
-                                        <div className='info w-[75%]'>
-                                            <h3 className='font-[600] text-[14px] leading-4 hover:text-blue-500 '>
-                                                <Link to="/product/45745">
-                                                    Teal Printed Crepe Co-Ord Set Diwalicious
-                                                </Link>
-                                            </h3>
-                                            <span className='text-[12px]'>
-                                                Gajra Gang
-                                            </span>
-                                        </div>
-
-                                    </div>
-                                </TableCell>
-
-                                <TableCell style={{ minWidth: columns.minWidth }}>
-                                    FASHION
-                                </TableCell>
-
-                                <TableCell style={{ minWidth: columns.minWidth }}>
-                                    WOMEN
-                                </TableCell>
-
-                                <TableCell style={{ minWidth: columns.minWidth }}>
-                                    <div className='flex gap-1 flex-col'>
-                                        <span className='oldPrice line-through leading-3 text-gray-500 text-[15px] font-[500]'>
-                                            ₹400.00</span>
-                                        <span className='price text-blue-500 text-[15px] font-[600]'>
-                                            ₹500.00</span>
-                                    </div>
-                                </TableCell>
-
-                                <TableCell style={{ minWidth: columns.minWidth }}>
-                                    <p className='text-[14px] w-[100px]'>
-                                        <span className='font-[600]'>
-                                            234
-                                        </span>
-                                        sales
-                                    </p>
-                                    <Progress value={50} type="warning" />
-                                </TableCell>
-
-                                <TableCell style={{ minWidth: columns.minWidth }}>
-                                    <div className='flex items-center gap-1'>
-                                        <Button className='!w-[35px] !h-[35px] !min-w-[35px] bg-[#f1f1f1] !border !border-[rgba(0,0,0,0.4)] !rounded-full hover:!bg-[#f1f1f1]'>
-                                            <MdOutlineModeEdit className='text-[rgba(0,0,0,0.7)] text-[20px] ' />
-                                        </Button>
-                                        <Button className='!w-[35px] !h-[35px] !min-w-[35px] bg-[#f1f1f1] !border !border-[rgba(0,0,0,0.4)] !rounded-full hover:!bg-[#f1f1f1]'>
-                                            <FiEye className='text-[rgba(0,0,0,0.7)] text-[20px] ' />
-                                        </Button>
-
-                                        <Button className='!w-[35px] !h-[35px] !min-w-[35px] bg-[#f1f1f1] !border !border-[rgba(0,0,0,0.4)] !rounded-full hover:!bg-[#f1f1f1]'>
-                                            <GoTrash className='text-[rgba(0,0,0,0.7)] text-[20px] ' />
-                                        </Button>
-                                    </div>
-                                </TableCell>
-
-
-                            </TableRow>
-
-                            <TableRow>
-                                <TableCell style={{ minWidth: columns.minWidth }}>
-                                    <Checkbox size='small' />
-                                </TableCell>
-
-                                <TableCell style={{ minWidth: columns.minWidth }}>
-                                    <div className='flex items-center gap-4 w-[300px]'>
-                                        <div className='img !w-[65px] !h-[65px] !rounded-md !overflow-hidden group'>
-                                            <Link to="/product/45745">
-
-                                                <img src="https://adn-static1.nykaa.com/nykdesignstudio-images/pub/media/catalog/product/e/6/e602addAW25GGDWKS2787_1.jpg"
-                                                    className='w-full group-hover:scale-105 transition-all' />
-                                            </Link>
-                                        </div>
-
-                                        <div className='info w-[75%]'>
-                                            <h3 className='font-[600] text-[14px] leading-4 hover:text-blue-500 '>
-                                                <Link to="/product/45745">
-                                                    Teal Printed Crepe Co-Ord Set Diwalicious
-                                                </Link>
-                                            </h3>
-                                            <span className='text-[12px]'>
-                                                Gajra Gang
-                                            </span>
-                                        </div>
-
-                                    </div>
-                                </TableCell>
-
-                                <TableCell style={{ minWidth: columns.minWidth }}>
-                                    FASHION
-                                </TableCell>
-
-                                <TableCell style={{ minWidth: columns.minWidth }}>
-                                    WOMEN
-                                </TableCell>
-
-                                <TableCell style={{ minWidth: columns.minWidth }}>
-                                    <div className='flex gap-1 flex-col'>
-                                        <span className='oldPrice line-through leading-3 text-gray-500 text-[15px] font-[500]'>
-                                            ₹400.00</span>
-                                        <span className='price text-blue-500 text-[15px] font-[600]'>
-                                            ₹500.00</span>
-                                    </div>
-                                </TableCell>
-
-                                <TableCell style={{ minWidth: columns.minWidth }}>
-                                    <p className='text-[14px] w-[100px]'>
-                                        <span className='font-[600]'>
-                                            234
-                                        </span>
-                                        sales
-                                    </p>
-                                    <Progress value={50} type="warning" />
-                                </TableCell>
-
-                                <TableCell style={{ minWidth: columns.minWidth }}>
-                                    <div className='flex items-center gap-1'>
-                                        <Button className='!w-[35px] !h-[35px] !min-w-[35px] bg-[#f1f1f1] !border !border-[rgba(0,0,0,0.4)] !rounded-full hover:!bg-[#f1f1f1]'>
-                                            <MdOutlineModeEdit className='text-[rgba(0,0,0,0.7)] text-[20px] ' />
-                                        </Button>
-                                        <Button className='!w-[35px] !h-[35px] !min-w-[35px] bg-[#f1f1f1] !border !border-[rgba(0,0,0,0.4)] !rounded-full hover:!bg-[#f1f1f1]'>
-                                            <FiEye className='text-[rgba(0,0,0,0.7)] text-[20px] ' />
-                                        </Button>
-
-                                        <Button className='!w-[35px] !h-[35px] !min-w-[35px] bg-[#f1f1f1] !border !border-[rgba(0,0,0,0.4)] !rounded-full hover:!bg-[#f1f1f1]'>
-                                            <GoTrash className='text-[rgba(0,0,0,0.7)] text-[20px] ' />
-                                        </Button>
-                                    </div>
-                                </TableCell>
-
-
-                            </TableRow>
-
-                            <TableRow>
-                                <TableCell style={{ minWidth: columns.minWidth }}>
-                                    <Checkbox size='small' />
-                                </TableCell>
-
-                                <TableCell style={{ minWidth: columns.minWidth }}>
-                                    <div className='flex items-center gap-4 w-[300px]'>
-                                        <div className='img !w-[65px] !h-[65px] !rounded-md !overflow-hidden group'>
-                                            <Link to="/product/45745">
-
-                                                <img src="https://adn-static1.nykaa.com/nykdesignstudio-images/pub/media/catalog/product/e/6/e602addAW25GGDWKS2787_1.jpg"
-                                                    className='w-full group-hover:scale-105 transition-all' />
-                                            </Link>
-                                        </div>
-
-                                        <div className='info w-[75%]'>
-                                            <h3 className='font-[600] text-[14px] leading-4 hover:text-blue-500 '>
-                                                <Link to="/product/45745">
-                                                    Teal Printed Crepe Co-Ord Set Diwalicious
-                                                </Link>
-                                            </h3>
-                                            <span className='text-[12px]'>
-                                                Gajra Gang
-                                            </span>
-                                        </div>
-
-                                    </div>
-                                </TableCell>
-
-                                <TableCell style={{ minWidth: columns.minWidth }}>
-                                    FASHION
-                                </TableCell>
-
-                                <TableCell style={{ minWidth: columns.minWidth }}>
-                                    WOMEN
-                                </TableCell>
-
-                                <TableCell style={{ minWidth: columns.minWidth }}>
-                                    <div className='flex gap-1 flex-col'>
-                                        <span className='oldPrice line-through leading-3 text-gray-500 text-[15px] font-[500]'>
-                                            ₹400.00</span>
-                                        <span className='price text-blue-500 text-[15px] font-[600]'>
-                                            ₹500.00</span>
-                                    </div>
-                                </TableCell>
-
-                                <TableCell style={{ minWidth: columns.minWidth }}>
-                                    <p className='text-[14px] w-[100px]'>
-                                        <span className='font-[600]'>
-                                            234
-                                        </span>
-                                        sales
-                                    </p>
-                                    <Progress value={50} type="warning" />
-                                </TableCell>
-
-                                <TableCell style={{ minWidth: columns.minWidth }}>
-                                    <div className='flex items-center gap-1'>
-                                        <Button className='!w-[35px] !h-[35px] !min-w-[35px] bg-[#f1f1f1] !border !border-[rgba(0,0,0,0.4)] !rounded-full hover:!bg-[#f1f1f1]'>
-                                            <MdOutlineModeEdit className='text-[rgba(0,0,0,0.7)] text-[20px] ' />
-                                        </Button>
-                                        <Button className='!w-[35px] !h-[35px] !min-w-[35px] bg-[#f1f1f1] !border !border-[rgba(0,0,0,0.4)] !rounded-full hover:!bg-[#f1f1f1]'>
-                                            <FiEye className='text-[rgba(0,0,0,0.7)] text-[20px] ' />
-                                        </Button>
-
-                                        <Button className='!w-[35px] !h-[35px] !min-w-[35px] bg-[#f1f1f1] !border !border-[rgba(0,0,0,0.4)] !rounded-full hover:!bg-[#f1f1f1]'>
-                                            <GoTrash className='text-[rgba(0,0,0,0.7)] text-[20px] ' />
-                                        </Button>
-                                    </div>
-                                </TableCell>
-
-
-                            </TableRow>
-
-                            <TableRow>
-                                <TableCell style={{ minWidth: columns.minWidth }}>
-                                    <Checkbox size='small' />
-                                </TableCell>
-
-                                <TableCell style={{ minWidth: columns.minWidth }}>
-                                    <div className='flex items-center gap-4 w-[300px]'>
-                                        <div className='img !w-[65px] !h-[65px] !rounded-md !overflow-hidden group'>
-                                            <Link to="/product/45745">
-
-                                                <img src="https://adn-static1.nykaa.com/nykdesignstudio-images/pub/media/catalog/product/e/6/e602addAW25GGDWKS2787_1.jpg"
-                                                    className='w-full group-hover:scale-105 transition-all' />
-                                            </Link>
-                                        </div>
-
-                                        <div className='info w-[75%]'>
-                                            <h3 className='font-[600] text-[14px] leading-4 hover:text-blue-500 '>
-                                                <Link to="/product/45745">
-                                                    Teal Printed Crepe Co-Ord Set Diwalicious
-                                                </Link>
-                                            </h3>
-                                            <span className='text-[12px]'>
-                                                Gajra Gang
-                                            </span>
-                                        </div>
-
-                                    </div>
-                                </TableCell>
-
-                                <TableCell style={{ minWidth: columns.minWidth }}>
-                                    FASHION
-                                </TableCell>
-
-                                <TableCell style={{ minWidth: columns.minWidth }}>
-                                    WOMEN
-                                </TableCell>
-
-                                <TableCell style={{ minWidth: columns.minWidth }}>
-                                    <div className='flex gap-1 flex-col'>
-                                        <span className='oldPrice line-through leading-3 text-gray-500 text-[15px] font-[500]'>
-                                            ₹400.00</span>
-                                        <span className='price text-blue-500 text-[15px] font-[600]'>
-                                            ₹500.00</span>
-                                    </div>
-                                </TableCell>
-
-                                <TableCell style={{ minWidth: columns.minWidth }}>
-                                    <p className='text-[14px] w-[100px]'>
-                                        <span className='font-[600]'>
-                                            234
-                                        </span>
-                                        sales
-                                    </p>
-                                    <Progress value={50} type="warning" />
-                                </TableCell>
-
-                                <TableCell style={{ minWidth: columns.minWidth }}>
-                                    <div className='flex items-center gap-1'>
-                                        <Button className='!w-[35px] !h-[35px] !min-w-[35px] bg-[#f1f1f1] !border !border-[rgba(0,0,0,0.4)] !rounded-full hover:!bg-[#f1f1f1]'>
-                                            <MdOutlineModeEdit className='text-[rgba(0,0,0,0.7)] text-[20px] ' />
-                                        </Button>
-                                        <Button className='!w-[35px] !h-[35px] !min-w-[35px] bg-[#f1f1f1] !border !border-[rgba(0,0,0,0.4)] !rounded-full hover:!bg-[#f1f1f1]'>
-                                            <FiEye className='text-[rgba(0,0,0,0.7)] text-[20px] ' />
-                                        </Button>
-
-                                        <Button className='!w-[35px] !h-[35px] !min-w-[35px] bg-[#f1f1f1] !border !border-[rgba(0,0,0,0.4)] !rounded-full hover:!bg-[#f1f1f1]'>
-                                            <GoTrash className='text-[rgba(0,0,0,0.7)] text-[20px] ' />
-                                        </Button>
-                                    </div>
-                                </TableCell>
-
-
-                            </TableRow>
-
-                            <TableRow>
-                                <TableCell style={{ minWidth: columns.minWidth }}>
-                                    <Checkbox size='small' />
-                                </TableCell>
-
-                                <TableCell style={{ minWidth: columns.minWidth }}>
-                                    <div className='flex items-center gap-4 w-[300px]'>
-                                        <div className='img !w-[65px] !h-[65px] !rounded-md !overflow-hidden group'>
-                                            <Link to="/product/45745">
-
-                                                <img src="https://adn-static1.nykaa.com/nykdesignstudio-images/pub/media/catalog/product/e/6/e602addAW25GGDWKS2787_1.jpg"
-                                                    className='w-full group-hover:scale-105 transition-all' />
-                                            </Link>
-                                        </div>
-
-                                        <div className='info w-[75%]'>
-                                            <h3 className='font-[600] text-[14px] leading-4 hover:text-blue-500 '>
-                                                <Link to="/product/45745">
-                                                    Teal Printed Crepe Co-Ord Set Diwalicious
-                                                </Link>
-                                            </h3>
-                                            <span className='text-[12px]'>
-                                                Gajra Gang
-                                            </span>
-                                        </div>
-
-                                    </div>
-                                </TableCell>
-
-                                <TableCell style={{ minWidth: columns.minWidth }}>
-                                    FASHION
-                                </TableCell>
-
-                                <TableCell style={{ minWidth: columns.minWidth }}>
-                                    WOMEN
-                                </TableCell>
-
-                                <TableCell style={{ minWidth: columns.minWidth }}>
-                                    <div className='flex gap-1 flex-col'>
-                                        <span className='oldPrice line-through leading-3 text-gray-500 text-[15px] font-[500]'>
-                                            ₹400.00</span>
-                                        <span className='price text-blue-500 text-[15px] font-[600]'>
-                                            ₹500.00</span>
-                                    </div>
-                                </TableCell>
-
-                                <TableCell style={{ minWidth: columns.minWidth }}>
-                                    <p className='text-[14px] w-[100px]'>
-                                        <span className='font-[600]'>
-                                            234
-                                        </span>
-                                        sales
-                                    </p>
-                                    <Progress value={50} type="warning" />
-                                </TableCell>
-
-                                <TableCell style={{ minWidth: columns.minWidth }}>
-                                    <div className='flex items-center gap-1'>
-                                        <Button className='!w-[35px] !h-[35px] !min-w-[35px] bg-[#f1f1f1] !border !border-[rgba(0,0,0,0.4)] !rounded-full hover:!bg-[#f1f1f1]'>
-                                            <MdOutlineModeEdit className='text-[rgba(0,0,0,0.7)] text-[20px] ' />
-                                        </Button>
-                                        <Button className='!w-[35px] !h-[35px] !min-w-[35px] bg-[#f1f1f1] !border !border-[rgba(0,0,0,0.4)] !rounded-full hover:!bg-[#f1f1f1]'>
-                                            <FiEye className='text-[rgba(0,0,0,0.7)] text-[20px] ' />
-                                        </Button>
-
-                                        <Button className='!w-[35px] !h-[35px] !min-w-[35px] bg-[#f1f1f1] !border !border-[rgba(0,0,0,0.4)] !rounded-full hover:!bg-[#f1f1f1]'>
-                                            <GoTrash className='text-[rgba(0,0,0,0.7)] text-[20px] ' />
-                                        </Button>
-                                    </div>
-                                </TableCell>
-
-
-                            </TableRow>
-
-                            <TableRow>
-                                <TableCell style={{ minWidth: columns.minWidth }}>
-                                    <Checkbox size='small' />
-                                </TableCell>
-
-                                <TableCell style={{ minWidth: columns.minWidth }}>
-                                    <div className='flex items-center gap-4 w-[300px]'>
-                                        <div className='img !w-[65px] !h-[65px] !rounded-md !overflow-hidden group'>
-                                            <Link to="/product/45745">
-
-                                                <img src="https://adn-static1.nykaa.com/nykdesignstudio-images/pub/media/catalog/product/e/6/e602addAW25GGDWKS2787_1.jpg"
-                                                    className='w-full group-hover:scale-105 transition-all' />
-                                            </Link>
-                                        </div>
-
-                                        <div className='info w-[75%]'>
-                                            <h3 className='font-[600] text-[14px] leading-4 hover:text-blue-500 '>
-                                                <Link to="/product/45745">
-                                                    Teal Printed Crepe Co-Ord Set Diwalicious
-                                                </Link>
-                                            </h3>
-                                            <span className='text-[12px]'>
-                                                Gajra Gang
-                                            </span>
-                                        </div>
-
-                                    </div>
-                                </TableCell>
-
-                                <TableCell style={{ minWidth: columns.minWidth }}>
-                                    FASHION
-                                </TableCell>
-
-                                <TableCell style={{ minWidth: columns.minWidth }}>
-                                    WOMEN
-                                </TableCell>
-
-                                <TableCell style={{ minWidth: columns.minWidth }}>
-                                    <div className='flex gap-1 flex-col'>
-                                        <span className='oldPrice line-through leading-3 text-gray-500 text-[15px] font-[500]'>
-                                            ₹400.00</span>
-                                        <span className='price text-blue-500 text-[15px] font-[600]'>
-                                            ₹500.00</span>
-                                    </div>
-                                </TableCell>
-
-                                <TableCell style={{ minWidth: columns.minWidth }}>
-                                    <p className='text-[14px] w-[100px]'>
-                                        <span className='font-[600]'>
-                                            234
-                                        </span>
-                                        sales
-                                    </p>
-                                    <Progress value={50} type="warning" />
-                                </TableCell>
-
-                                <TableCell style={{ minWidth: columns.minWidth }}>
-                                    <div className='flex items-center gap-1'>
-                                        <Button className='!w-[35px] !h-[35px] !min-w-[35px] bg-[#f1f1f1] !border !border-[rgba(0,0,0,0.4)] !rounded-full hover:!bg-[#f1f1f1]'>
-                                            <MdOutlineModeEdit className='text-[rgba(0,0,0,0.7)] text-[20px] ' />
-                                        </Button>
-                                        <Button className='!w-[35px] !h-[35px] !min-w-[35px] bg-[#f1f1f1] !border !border-[rgba(0,0,0,0.4)] !rounded-full hover:!bg-[#f1f1f1]'>
-                                            <FiEye className='text-[rgba(0,0,0,0.7)] text-[20px] ' />
-                                        </Button>
-
-                                        <Button className='!w-[35px] !h-[35px] !min-w-[35px] bg-[#f1f1f1] !border !border-[rgba(0,0,0,0.4)] !rounded-full hover:!bg-[#f1f1f1]'>
-                                            <GoTrash className='text-[rgba(0,0,0,0.7)] text-[20px] ' />
-                                        </Button>
-                                    </div>
-                                </TableCell>
-
-
-                            </TableRow>
-
-                            <TableRow>
-                                <TableCell style={{ minWidth: columns.minWidth }}>
-                                    <Checkbox size='small' />
-                                </TableCell>
-
-                                <TableCell style={{ minWidth: columns.minWidth }}>
-                                    <div className='flex items-center gap-4 w-[300px]'>
-                                        <div className='img !w-[65px] !h-[65px] !rounded-md !overflow-hidden group'>
-                                            <Link to="/product/45745">
-
-                                                <img src="https://adn-static1.nykaa.com/nykdesignstudio-images/pub/media/catalog/product/e/6/e602addAW25GGDWKS2787_1.jpg"
-                                                    className='w-full group-hover:scale-105 transition-all' />
-                                            </Link>
-                                        </div>
-
-                                        <div className='info w-[75%]'>
-                                            <h3 className='font-[600] text-[14px] leading-4 hover:text-blue-500 '>
-                                                <Link to="/product/45745">
-                                                    Teal Printed Crepe Co-Ord Set Diwalicious
-                                                </Link>
-                                            </h3>
-                                            <span className='text-[12px]'>
-                                                Gajra Gang
-                                            </span>
-                                        </div>
-
-                                    </div>
-                                </TableCell>
-
-                                <TableCell style={{ minWidth: columns.minWidth }}>
-                                    FASHION
-                                </TableCell>
-
-                                <TableCell style={{ minWidth: columns.minWidth }}>
-                                    WOMEN
-                                </TableCell>
-
-                                <TableCell style={{ minWidth: columns.minWidth }}>
-                                    <div className='flex gap-1 flex-col'>
-                                        <span className='oldPrice line-through leading-3 text-gray-500 text-[15px] font-[500]'>
-                                            ₹400.00</span>
-                                        <span className='price text-blue-500 text-[15px] font-[600]'>
-                                            ₹500.00</span>
-                                    </div>
-                                </TableCell>
-
-                                <TableCell style={{ minWidth: columns.minWidth }}>
-                                    <p className='text-[14px] w-[100px]'>
-                                        <span className='font-[600]'>
-                                            234
-                                        </span>
-                                        sales
-                                    </p>
-                                    <Progress value={50} type="warning" />
-                                </TableCell>
-
-                                <TableCell style={{ minWidth: columns.minWidth }}>
-                                    <div className='flex items-center gap-1'>
-                                        <Button className='!w-[35px] !h-[35px] !min-w-[35px] bg-[#f1f1f1] !border !border-[rgba(0,0,0,0.4)] !rounded-full hover:!bg-[#f1f1f1]'>
-                                            <MdOutlineModeEdit className='text-[rgba(0,0,0,0.7)] text-[20px] ' />
-                                        </Button>
-                                        <Button className='!w-[35px] !h-[35px] !min-w-[35px] bg-[#f1f1f1] !border !border-[rgba(0,0,0,0.4)] !rounded-full hover:!bg-[#f1f1f1]'>
-                                            <FiEye className='text-[rgba(0,0,0,0.7)] text-[20px] ' />
-                                        </Button>
-
-                                        <Button className='!w-[35px] !h-[35px] !min-w-[35px] bg-[#f1f1f1] !border !border-[rgba(0,0,0,0.4)] !rounded-full hover:!bg-[#f1f1f1]'>
-                                            <GoTrash className='text-[rgba(0,0,0,0.7)] text-[20px] ' />
-                                        </Button>
-                                    </div>
-                                </TableCell>
-
-
-                            </TableRow>
-
-                            <TableRow>
-                                <TableCell style={{ minWidth: columns.minWidth }}>
-                                    <Checkbox size='small' />
-                                </TableCell>
-
-                                <TableCell style={{ minWidth: columns.minWidth }}>
-                                    <div className='flex items-center gap-4 w-[300px]'>
-                                        <div className='img !w-[65px] !h-[65px] !rounded-md !overflow-hidden group'>
-                                            <Link to="/product/45745">
-
-                                                <img src="https://adn-static1.nykaa.com/nykdesignstudio-images/pub/media/catalog/product/e/6/e602addAW25GGDWKS2787_1.jpg"
-                                                    className='w-full group-hover:scale-105 transition-all' />
-                                            </Link>
-                                        </div>
-
-                                        <div className='info w-[75%]'>
-                                            <h3 className='font-[600] text-[14px] leading-4 hover:text-blue-500 '>
-                                                <Link to="/product/45745">
-                                                    Teal Printed Crepe Co-Ord Set Diwalicious
-                                                </Link>
-                                            </h3>
-                                            <span className='text-[12px]'>
-                                                Gajra Gang
-                                            </span>
-                                        </div>
-
-                                    </div>
-                                </TableCell>
-
-                                <TableCell style={{ minWidth: columns.minWidth }}>
-                                    FASHION
-                                </TableCell>
-
-                                <TableCell style={{ minWidth: columns.minWidth }}>
-                                    WOMEN
-                                </TableCell>
-
-                                <TableCell style={{ minWidth: columns.minWidth }}>
-                                    <div className='flex gap-1 flex-col'>
-                                        <span className='oldPrice line-through leading-3 text-gray-500 text-[15px] font-[500]'>
-                                            ₹400.00</span>
-                                        <span className='price text-blue-500 text-[15px] font-[600]'>
-                                            ₹500.00</span>
-                                    </div>
-                                </TableCell>
-
-                                <TableCell style={{ minWidth: columns.minWidth }}>
-                                    <p className='text-[14px] w-[100px]'>
-                                        <span className='font-[600]'>
-                                            234
-                                        </span>
-                                        sales
-                                    </p>
-                                    <Progress value={50} type="warning" />
-                                </TableCell>
-
-                                <TableCell style={{ minWidth: columns.minWidth }}>
-                                    <div className='flex items-center gap-1'>
-                                        <Button className='!w-[35px] !h-[35px] !min-w-[35px] bg-[#f1f1f1] !border !border-[rgba(0,0,0,0.4)] !rounded-full hover:!bg-[#f1f1f1]'>
-                                            <MdOutlineModeEdit className='text-[rgba(0,0,0,0.7)] text-[20px] ' />
-                                        </Button>
-                                        <Button className='!w-[35px] !h-[35px] !min-w-[35px] bg-[#f1f1f1] !border !border-[rgba(0,0,0,0.4)] !rounded-full hover:!bg-[#f1f1f1]'>
-                                            <FiEye className='text-[rgba(0,0,0,0.7)] text-[20px] ' />
-                                        </Button>
-
-                                        <Button className='!w-[35px] !h-[35px] !min-w-[35px] bg-[#f1f1f1] !border !border-[rgba(0,0,0,0.4)] !rounded-full hover:!bg-[#f1f1f1]'>
-                                            <GoTrash className='text-[rgba(0,0,0,0.7)] text-[20px] ' />
-                                        </Button>
-                                    </div>
-                                </TableCell>
-
-
-                            </TableRow>
-
-                            <TableRow>
-                                <TableCell style={{ minWidth: columns.minWidth }}>
-                                    <Checkbox size='small' />
-                                </TableCell>
-
-                                <TableCell style={{ minWidth: columns.minWidth }}>
-                                    <div className='flex items-center gap-4 w-[300px]'>
-                                        <div className='img !w-[65px] !h-[65px] !rounded-md !overflow-hidden group'>
-                                            <Link to="/product/45745">
-
-                                                <img src="https://adn-static1.nykaa.com/nykdesignstudio-images/pub/media/catalog/product/e/6/e602addAW25GGDWKS2787_1.jpg"
-                                                    className='w-full group-hover:scale-105 transition-all' />
-                                            </Link>
-                                        </div>
-
-                                        <div className='info w-[75%]'>
-                                            <h3 className='font-[600] text-[14px] leading-4 hover:text-blue-500 '>
-                                                <Link to="/product/45745">
-                                                    Teal Printed Crepe Co-Ord Set Diwalicious
-                                                </Link>
-                                            </h3>
-                                            <span className='text-[12px]'>
-                                                Gajra Gang
-                                            </span>
-                                        </div>
-
-                                    </div>
-                                </TableCell>
-
-                                <TableCell style={{ minWidth: columns.minWidth }}>
-                                    FASHION
-                                </TableCell>
-
-                                <TableCell style={{ minWidth: columns.minWidth }}>
-                                    WOMEN
-                                </TableCell>
-
-                                <TableCell style={{ minWidth: columns.minWidth }}>
-                                    <div className='flex gap-1 flex-col'>
-                                        <span className='oldPrice line-through leading-3 text-gray-500 text-[15px] font-[500]'>
-                                            ₹400.00</span>
-                                        <span className='price text-blue-500 text-[15px] font-[600]'>
-                                            ₹500.00</span>
-                                    </div>
-                                </TableCell>
-
-                                <TableCell style={{ minWidth: columns.minWidth }}>
-                                    <p className='text-[14px] w-[100px]'>
-                                        <span className='font-[600]'>
-                                            234
-                                        </span>
-                                        sales
-                                    </p>
-                                    <Progress value={50} type="warning" />
-                                </TableCell>
-
-                                <TableCell style={{ minWidth: columns.minWidth }}>
-                                    <div className='flex items-center gap-1'>
-                                        <Button className='!w-[35px] !h-[35px] !min-w-[35px] bg-[#f1f1f1] !border !border-[rgba(0,0,0,0.4)] !rounded-full hover:!bg-[#f1f1f1]'>
-                                            <MdOutlineModeEdit className='text-[rgba(0,0,0,0.7)] text-[20px] ' />
-                                        </Button>
-                                        <Button className='!w-[35px] !h-[35px] !min-w-[35px] bg-[#f1f1f1] !border !border-[rgba(0,0,0,0.4)] !rounded-full hover:!bg-[#f1f1f1]'>
-                                            <FiEye className='text-[rgba(0,0,0,0.7)] text-[20px] ' />
-                                        </Button>
-
-                                        <Button className='!w-[35px] !h-[35px] !min-w-[35px] bg-[#f1f1f1] !border !border-[rgba(0,0,0,0.4)] !rounded-full hover:!bg-[#f1f1f1]'>
-                                            <GoTrash className='text-[rgba(0,0,0,0.7)] text-[20px] ' />
-                                        </Button>
-                                    </div>
-                                </TableCell>
-
-
-                            </TableRow>
-
-                            <TableRow>
-                                <TableCell style={{ minWidth: columns.minWidth }}>
-                                    <Checkbox size='small' />
-                                </TableCell>
-
-                                <TableCell style={{ minWidth: columns.minWidth }}>
-                                    <div className='flex items-center gap-4 w-[300px]'>
-                                        <div className='img !w-[65px] !h-[65px] !rounded-md !overflow-hidden group'>
-                                            <Link to="/product/45745">
-
-                                                <img src="https://adn-static1.nykaa.com/nykdesignstudio-images/pub/media/catalog/product/e/6/e602addAW25GGDWKS2787_1.jpg"
-                                                    className='w-full group-hover:scale-105 transition-all' />
-                                            </Link>
-                                        </div>
-
-                                        <div className='info w-[75%]'>
-                                            <h3 className='font-[600] text-[14px] leading-4 hover:text-blue-500 '>
-                                                <Link to="/product/45745">
-                                                    Teal Printed Crepe Co-Ord Set Diwalicious
-                                                </Link>
-                                            </h3>
-                                            <span className='text-[12px]'>
-                                                Gajra Gang
-                                            </span>
-                                        </div>
-
-                                    </div>
-                                </TableCell>
-
-                                <TableCell style={{ minWidth: columns.minWidth }}>
-                                    FASHION
-                                </TableCell>
-
-                                <TableCell style={{ minWidth: columns.minWidth }}>
-                                    WOMEN
-                                </TableCell>
-
-                                <TableCell style={{ minWidth: columns.minWidth }}>
-                                    <div className='flex gap-1 flex-col'>
-                                        <span className='oldPrice line-through leading-3 text-gray-500 text-[15px] font-[500]'>
-                                            ₹400.00</span>
-                                        <span className='price text-blue-500 text-[15px] font-[600]'>
-                                            ₹500.00</span>
-                                    </div>
-                                </TableCell>
-
-                                <TableCell style={{ minWidth: columns.minWidth }}>
-                                    <p className='text-[14px] w-[100px]'>
-                                        <span className='font-[600]'>
-                                            234
-                                        </span>
-                                        sales
-                                    </p>
-                                    <Progress value={50} type="warning" />
-                                </TableCell>
-
-                                <TableCell style={{ minWidth: columns.minWidth }}>
-                                    <div className='flex items-center gap-1'>
-                                        <Button className='!w-[35px] !h-[35px] !min-w-[35px] bg-[#f1f1f1] !border !border-[rgba(0,0,0,0.4)] !rounded-full hover:!bg-[#f1f1f1]'>
-                                            <MdOutlineModeEdit className='text-[rgba(0,0,0,0.7)] text-[20px] ' />
-                                        </Button>
-                                        <Button className='!w-[35px] !h-[35px] !min-w-[35px] bg-[#f1f1f1] !border !border-[rgba(0,0,0,0.4)] !rounded-full hover:!bg-[#f1f1f1]'>
-                                            <FiEye className='text-[rgba(0,0,0,0.7)] text-[20px] ' />
-                                        </Button>
-
-                                        <Button className='!w-[35px] !h-[35px] !min-w-[35px] bg-[#f1f1f1] !border !border-[rgba(0,0,0,0.4)] !rounded-full hover:!bg-[#f1f1f1]'>
-                                            <GoTrash className='text-[rgba(0,0,0,0.7)] text-[20px] ' />
-                                        </Button>
-                                    </div>
-                                </TableCell>
-
-
-                            </TableRow>
-
-                            <TableRow>
-                                <TableCell style={{ minWidth: columns.minWidth }}>
-                                    <Checkbox size='small' />
-                                </TableCell>
-
-                                <TableCell style={{ minWidth: columns.minWidth }}>
-                                    <div className='flex items-center gap-4 w-[300px]'>
-                                        <div className='img !w-[65px] !h-[65px] !rounded-md !overflow-hidden group'>
-                                            <Link to="/product/45745">
-
-                                                <img src="https://adn-static1.nykaa.com/nykdesignstudio-images/pub/media/catalog/product/e/6/e602addAW25GGDWKS2787_1.jpg"
-                                                    className='w-full group-hover:scale-105 transition-all' />
-                                            </Link>
-                                        </div>
-
-                                        <div className='info w-[75%]'>
-                                            <h3 className='font-[600] text-[14px] leading-4 hover:text-blue-500 '>
-                                                <Link to="/product/45745">
-                                                    Teal Printed Crepe Co-Ord Set Diwalicious
-                                                </Link>
-                                            </h3>
-                                            <span className='text-[12px]'>
-                                                Gajra Gang
-                                            </span>
-                                        </div>
-
-                                    </div>
-                                </TableCell>
-
-                                <TableCell style={{ minWidth: columns.minWidth }}>
-                                    FASHION
-                                </TableCell>
-
-                                <TableCell style={{ minWidth: columns.minWidth }}>
-                                    WOMEN
-                                </TableCell>
-
-                                <TableCell style={{ minWidth: columns.minWidth }}>
-                                    <div className='flex gap-1 flex-col'>
-                                        <span className='oldPrice line-through leading-3 text-gray-500 text-[15px] font-[500]'>
-                                            ₹400.00</span>
-                                        <span className='price text-blue-500 text-[15px] font-[600]'>
-                                            ₹500.00</span>
-                                    </div>
-                                </TableCell>
-
-                                <TableCell style={{ minWidth: columns.minWidth }}>
-                                    <p className='text-[14px] w-[100px]'>
-                                        <span className='font-[600]'>
-                                            234
-                                        </span>
-                                        sales
-                                    </p>
-                                    <Progress value={50} type="warning" />
-                                </TableCell>
-
-                                <TableCell style={{ minWidth: columns.minWidth }}>
-                                    <div className='flex items-center gap-1'>
-                                        <Button className='!w-[35px] !h-[35px] !min-w-[35px] bg-[#f1f1f1] !border !border-[rgba(0,0,0,0.4)] !rounded-full hover:!bg-[#f1f1f1]'>
-                                            <MdOutlineModeEdit className='text-[rgba(0,0,0,0.7)] text-[20px] ' />
-                                        </Button>
-                                        <Button className='!w-[35px] !h-[35px] !min-w-[35px] bg-[#f1f1f1] !border !border-[rgba(0,0,0,0.4)] !rounded-full hover:!bg-[#f1f1f1]'>
-                                            <FiEye className='text-[rgba(0,0,0,0.7)] text-[20px] ' />
-                                        </Button>
-
-                                        <Button className='!w-[35px] !h-[35px] !min-w-[35px] bg-[#f1f1f1] !border !border-[rgba(0,0,0,0.4)] !rounded-full hover:!bg-[#f1f1f1]'>
-                                            <GoTrash className='text-[rgba(0,0,0,0.7)] text-[20px] ' />
-                                        </Button>
-                                    </div>
-                                </TableCell>
-
-
-                            </TableRow>
-
-                            <TableRow>
-                                <TableCell style={{ minWidth: columns.minWidth }}>
-                                    <Checkbox size='small' />
-                                </TableCell>
-
-                                <TableCell style={{ minWidth: columns.minWidth }}>
-                                    <div className='flex items-center gap-4 w-[300px]'>
-                                        <div className='img !w-[65px] !h-[65px] !rounded-md !overflow-hidden group'>
-                                            <Link to="/product/45745">
-
-                                                <img src="https://adn-static1.nykaa.com/nykdesignstudio-images/pub/media/catalog/product/e/6/e602addAW25GGDWKS2787_1.jpg"
-                                                    className='w-full group-hover:scale-105 transition-all' />
-                                            </Link>
-                                        </div>
-
-                                        <div className='info w-[75%]'>
-                                            <h3 className='font-[600] text-[14px] leading-4 hover:text-blue-500 '>
-                                                <Link to="/product/45745">
-                                                    Teal Printed Crepe Co-Ord Set Diwalicious
-                                                </Link>
-                                            </h3>
-                                            <span className='text-[12px]'>
-                                                Gajra Gang
-                                            </span>
-                                        </div>
-
-                                    </div>
-                                </TableCell>
-
-                                <TableCell style={{ minWidth: columns.minWidth }}>
-                                    FASHION
-                                </TableCell>
-
-                                <TableCell style={{ minWidth: columns.minWidth }}>
-                                    WOMEN
-                                </TableCell>
-
-                                <TableCell style={{ minWidth: columns.minWidth }}>
-                                    <div className='flex gap-1 flex-col'>
-                                        <span className='oldPrice line-through leading-3 text-gray-500 text-[15px] font-[500]'>
-                                            ₹400.00</span>
-                                        <span className='price text-blue-500 text-[15px] font-[600]'>
-                                            ₹500.00</span>
-                                    </div>
-                                </TableCell>
-
-                                <TableCell style={{ minWidth: columns.minWidth }}>
-                                    <p className='text-[14px] w-[100px]'>
-                                        <span className='font-[600]'>
-                                            234
-                                        </span>
-                                        sales
-                                    </p>
-                                    <Progress value={50} type="warning" />
-                                </TableCell>
-
-                                <TableCell style={{ minWidth: columns.minWidth }}>
-                                    <div className='flex items-center gap-1'>
-                                        <Button className='!w-[35px] !h-[35px] !min-w-[35px] bg-[#f1f1f1] !border !border-[rgba(0,0,0,0.4)] !rounded-full hover:!bg-[#f1f1f1]'>
-                                            <MdOutlineModeEdit className='text-[rgba(0,0,0,0.7)] text-[20px] ' />
-                                        </Button>
-                                        <Button className='!w-[35px] !h-[35px] !min-w-[35px] bg-[#f1f1f1] !border !border-[rgba(0,0,0,0.4)] !rounded-full hover:!bg-[#f1f1f1]'>
-                                            <FiEye className='text-[rgba(0,0,0,0.7)] text-[20px] ' />
-                                        </Button>
-
-                                        <Button className='!w-[35px] !h-[35px] !min-w-[35px] bg-[#f1f1f1] !border !border-[rgba(0,0,0,0.4)] !rounded-full hover:!bg-[#f1f1f1]'>
-                                            <GoTrash className='text-[rgba(0,0,0,0.7)] text-[20px] ' />
-                                        </Button>
-                                    </div>
-                                </TableCell>
-
-
-                            </TableRow>
-
-                            <TableRow>
-                                <TableCell style={{ minWidth: columns.minWidth }}>
-                                    <Checkbox size='small' />
-                                </TableCell>
-
-                                <TableCell style={{ minWidth: columns.minWidth }}>
-                                    <div className='flex items-center gap-4 w-[300px]'>
-                                        <div className='img !w-[65px] !h-[65px] !rounded-md !overflow-hidden group'>
-                                            <Link to="/product/45745">
-
-                                                <img src="https://adn-static1.nykaa.com/nykdesignstudio-images/pub/media/catalog/product/e/6/e602addAW25GGDWKS2787_1.jpg"
-                                                    className='w-full group-hover:scale-105 transition-all' />
-                                            </Link>
-                                        </div>
-
-                                        <div className='info w-[75%]'>
-                                            <h3 className='font-[600] text-[14px] leading-4 hover:text-blue-500 '>
-                                                <Link to="/product/45745">
-                                                    Teal Printed Crepe Co-Ord Set Diwalicious
-                                                </Link>
-                                            </h3>
-                                            <span className='text-[12px]'>
-                                                Gajra Gang
-                                            </span>
-                                        </div>
-
-                                    </div>
-                                </TableCell>
-
-                                <TableCell style={{ minWidth: columns.minWidth }}>
-                                    FASHION
-                                </TableCell>
-
-                                <TableCell style={{ minWidth: columns.minWidth }}>
-                                    WOMEN
-                                </TableCell>
-
-                                <TableCell style={{ minWidth: columns.minWidth }}>
-                                    <div className='flex gap-1 flex-col'>
-                                        <span className='oldPrice line-through leading-3 text-gray-500 text-[15px] font-[500]'>
-                                            ₹400.00</span>
-                                        <span className='price text-blue-500 text-[15px] font-[600]'>
-                                            ₹500.00</span>
-                                    </div>
-                                </TableCell>
-
-                                <TableCell style={{ minWidth: columns.minWidth }}>
-                                    <p className='text-[14px] w-[100px]'>
-                                        <span className='font-[600]'>
-                                            234
-                                        </span>
-                                        sales
-                                    </p>
-                                    <Progress value={50} type="warning" />
-                                </TableCell>
-
-                                <TableCell style={{ minWidth: columns.minWidth }}>
-                                    <div className='flex items-center gap-1'>
-                                        <Button className='!w-[35px] !h-[35px] !min-w-[35px] bg-[#f1f1f1] !border !border-[rgba(0,0,0,0.4)] !rounded-full hover:!bg-[#f1f1f1]'>
-                                            <MdOutlineModeEdit className='text-[rgba(0,0,0,0.7)] text-[20px] ' />
-                                        </Button>
-                                        <Button className='!w-[35px] !h-[35px] !min-w-[35px] bg-[#f1f1f1] !border !border-[rgba(0,0,0,0.4)] !rounded-full hover:!bg-[#f1f1f1]'>
-                                            <FiEye className='text-[rgba(0,0,0,0.7)] text-[20px] ' />
-                                        </Button>
-
-                                        <Button className='!w-[35px] !h-[35px] !min-w-[35px] bg-[#f1f1f1] !border !border-[rgba(0,0,0,0.4)] !rounded-full hover:!bg-[#f1f1f1]'>
-                                            <GoTrash className='text-[rgba(0,0,0,0.7)] text-[20px] ' />
-                                        </Button>
-                                    </div>
-                                </TableCell>
-
-
-                            </TableRow>
-
-                            <TableRow>
-                                <TableCell style={{ minWidth: columns.minWidth }}>
-                                    <Checkbox size='small' />
-                                </TableCell>
-
-                                <TableCell style={{ minWidth: columns.minWidth }}>
-                                    <div className='flex items-center gap-4 w-[300px]'>
-                                        <div className='img !w-[65px] !h-[65px] !rounded-md !overflow-hidden group'>
-                                            <Link to="/product/45745">
-
-                                                <img src="https://adn-static1.nykaa.com/nykdesignstudio-images/pub/media/catalog/product/e/6/e602addAW25GGDWKS2787_1.jpg"
-                                                    className='w-full group-hover:scale-105 transition-all' />
-                                            </Link>
-                                        </div>
-
-                                        <div className='info w-[75%]'>
-                                            <h3 className='font-[600] text-[14px] leading-4 hover:text-blue-500 '>
-                                                <Link to="/product/45745">
-                                                    Teal Printed Crepe Co-Ord Set Diwalicious
-                                                </Link>
-                                            </h3>
-                                            <span className='text-[12px]'>
-                                                Gajra Gang
-                                            </span>
-                                        </div>
-
-                                    </div>
-                                </TableCell>
-
-                                <TableCell style={{ minWidth: columns.minWidth }}>
-                                    FASHION
-                                </TableCell>
-
-                                <TableCell style={{ minWidth: columns.minWidth }}>
-                                    WOMEN
-                                </TableCell>
-
-                                <TableCell style={{ minWidth: columns.minWidth }}>
-                                    <div className='flex gap-1 flex-col'>
-                                        <span className='oldPrice line-through leading-3 text-gray-500 text-[15px] font-[500]'>
-                                            ₹400.00</span>
-                                        <span className='price text-blue-500 text-[15px] font-[600]'>
-                                            ₹500.00</span>
-                                    </div>
-                                </TableCell>
-
-                                <TableCell style={{ minWidth: columns.minWidth }}>
-                                    <p className='text-[14px] w-[100px]'>
-                                        <span className='font-[600]'>
-                                            234
-                                        </span>
-                                        sales
-                                    </p>
-                                    <Progress value={50} type="warning" />
-                                </TableCell>
-
-                                <TableCell style={{ minWidth: columns.minWidth }}>
-                                    <div className='flex items-center gap-1'>
-                                        <Button className='!w-[35px] !h-[35px] !min-w-[35px] bg-[#f1f1f1] !border !border-[rgba(0,0,0,0.4)] !rounded-full hover:!bg-[#f1f1f1]'>
-                                            <MdOutlineModeEdit className='text-[rgba(0,0,0,0.7)] text-[20px] ' />
-                                        </Button>
-
-                                        <Button className='!w-[35px] !h-[35px] !min-w-[35px] bg-[#f1f1f1] !border !border-[rgba(0,0,0,0.4)] !rounded-full hover:!bg-[#f1f1f1]'>
-                                            <FiEye className='text-[rgba(0,0,0,0.7)] text-[20px] ' />
-                                        </Button>
-
-                                        <Button className='!w-[35px] !h-[35px] !min-w-[35px] bg-[#f1f1f1] !border !border-[rgba(0,0,0,0.4)] !rounded-full hover:!bg-[#f1f1f1]'>
-                                            <GoTrash className='text-[rgba(0,0,0,0.7)] text-[20px] ' />
-                                        </Button>
-                                    </div>
-                                </TableCell>
-
-
-                            </TableRow>
-
+                            {
+                                productData?.length !== 0 && productData
+                                    ?.slice(
+                                        page * rowsPerPage,
+                                        page * rowsPerPage + rowsPerPage
+                                    )?.map((product, index) => {
+                                        return (
+                                            <TableRow key={product?._id || index}>
+                                                <TableCell style={{ minWidth: columns.minWidth }}>
+                                                    <Checkbox size='small' />
+                                                </TableCell>
+
+                                                <TableCell style={{ minWidth: columns.minWidth }}>
+                                                    <div className='flex items-center gap-4 w-[300px]'>
+                                                        <div className='img !w-[65px] !h-[65px] !rounded-md !overflow-hidden group'>
+                                                            <Link to={`/product/${product?._id}`}>
+                                                                <LazyLoadImage
+                                                                    alt={product?.name}
+                                                                    effect='blur'
+                                                                    className='w-full group-hover:scale-105 transition-all'
+                                                                    src={product?.images?.[0]}
+                                                                />
+                                                            </Link>
+                                                        </div>
+
+                                                        <div className='info w-[75%]'>
+                                                            <h3 className='font-[600] text-[14px] leading-4 hover:text-blue-500 '>
+                                                                <Link to={`/product/${product?._id}`}>
+                                                                    {product?.name}                                                            </Link>
+                                                            </h3>
+                                                            <span className='text-[12px]'>
+                                                                {product?.brand}
+                                                            </span>
+                                                        </div>
+
+                                                    </div>
+                                                </TableCell>
+
+                                                <TableCell style={{ minWidth: columns.minWidth }}>
+                                                    {product?.catName}
+                                                </TableCell>
+
+                                                <TableCell style={{ minWidth: columns.minWidth }}>
+                                                    {product?.subCat}
+                                                </TableCell>
+
+                                                <TableCell style={{ minWidth: columns.minWidth }}>
+                                                    <div className='flex gap-1 flex-col'>
+                                                        <span className='oldPrice line-through leading-3 text-gray-500 text-[15px] font-[500]'>
+                                                            &#8377; {product?.oldPrice}</span>
+                                                        <span className='price text-blue-500 text-[15px] font-[600]'>
+                                                            &#8377; {product?.price}</span>
+                                                    </div>
+                                                </TableCell>
+
+                                                <TableCell style={{ minWidth: columns.minWidth }}>
+                                                    <p className='text-[14px] w-[100px]'>
+                                                        <span className='font-[600]'>
+                                                            {product?.sale}
+                                                        </span>
+                                                        sale
+                                                    </p>
+                                                </TableCell>
+
+                                                <TableCell style={{ minWidth: columns.minWidth }}>
+                                                    <div className='flex items-center gap-1'>
+                                                        <Button className='!w-[35px] !h-[35px] !min-w-[35px] bg-[#f1f1f1] !border !border-[rgba(0,0,0,0.4)] !rounded-full hover:!bg-[#f1f1f1]'
+                                                            onClick={() => context.setIsOpenFullScreenPanel({
+                                                                open: true,
+                                                                model: 'Edit Product',
+                                                                id:product?._id
+                                                            })}>
+                                                            <MdOutlineModeEdit className='text-[rgba(0,0,0,0.7)] text-[20px] ' />
+                                                        </Button>
+                                                        <Button className='!w-[35px] !h-[35px] !min-w-[35px] bg-[#f1f1f1] !border !border-[rgba(0,0,0,0.4)] !rounded-full hover:!bg-[#f1f1f1]'>
+                                                            <FiEye className='text-[rgba(0,0,0,0.7)] text-[20px] ' />
+                                                        </Button>
+
+                                                        <Button className='!w-[35px] !h-[35px] !min-w-[35px] bg-[#f1f1f1] !border !border-[rgba(0,0,0,0.4)] !rounded-full hover:!bg-[#f1f1f1]'
+                                                            onClick={() => { deleteProduct(product?._id) }}>
+                                                            <GoTrash className='text-[rgba(0,0,0,0.7)] text-[20px] ' />
+                                                        </Button>
+                                                    </div>
+                                                </TableCell>
+                                            </TableRow>
+
+                                        )
+                                    })
+                            }
                         </TableBody>
                     </Table>
                 </TableContainer>
                 <TablePagination
                     rowsPerPageOptions={[10, 25, 100]}
                     component="div"
-                    count={10}
+                    count={productData?.length}
                     rowsPerPage={rowsPerPage}
                     page={page}
                     onPageChange={handleChangePage}

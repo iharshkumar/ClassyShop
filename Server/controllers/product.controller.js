@@ -93,7 +93,7 @@ export async function createProduct(request, response) {
         imagesArr = []
 
         response.status(200).json({
-            message: "Product created successfull",
+            message: "Product created successfully",
             error: false,
             success: true,
             product: product

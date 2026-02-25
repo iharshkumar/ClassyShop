@@ -7,6 +7,7 @@ import Select from '@mui/material/Select';
 import { MyContext } from '../../App';
 import { postData } from '../../utils/api';
 import CircularProgress from '@mui/material/CircularProgress';
+import { useNavigate } from 'react-router-dom';
 
 
 const AddSubCategory = () => {
@@ -27,6 +28,7 @@ const AddSubCategory = () => {
         parentId: null
     })
     const context = useContext(MyContext)
+    const history = useNavigate()
 
     const handleChangeProductCat = (event) => {
         const value = event.target.value;
@@ -93,7 +95,7 @@ const AddSubCategory = () => {
         e.preventDefault()
 
         setIsLoading(true)
-        if (formFields.name === "" ) {
+        if (formFields.name === "") {
             context.alertBox("error", "Please enter Category name");
             setIsLoading(false);
             return false
@@ -122,7 +124,7 @@ const AddSubCategory = () => {
         e.preventDefault()
 
         setIsLoading2(true)
-        if (formFields2.name === "" ) {
+        if (formFields2.name === "") {
             context.alertBox("error", "Please enter Category name");
             setIsLoading2(false);
             return false
@@ -141,6 +143,7 @@ const AddSubCategory = () => {
                     open: false,
                 })
                 context?.getCat()
+                history("/subCategory/list")
             }, 1500);
         })
     }
@@ -259,7 +262,7 @@ const AddSubCategory = () => {
                     <br />
                     <div className='w-[250px]'>
                         <Button type='submit' className='btn-blue btn-lg w-full flex gap-2 '>
-                        {
+                            {
                                 isLoading2 === true ? <CircularProgress color="inherit" />
                                     :
                                     <>

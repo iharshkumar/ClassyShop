@@ -14,7 +14,7 @@ import CircularProgress from '@mui/material/CircularProgress';
 const AddCategory = () => {
     const [isLoading, setIsLoading] = useState(false);
     const context = useContext(MyContext);
-    //const history = useNavigate()
+    const history = useNavigate()
     const [previews, setPreviews] = useState([])
 
     const [formFields, setFormFields] = useState({
@@ -74,6 +74,8 @@ const AddCategory = () => {
                 context.setIsOpenFullScreenPanel({
                     open: false,
                 })
+                context?.getCat();
+                history("/category/list")
             }, 1500);
         })
     }

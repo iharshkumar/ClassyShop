@@ -13,15 +13,57 @@ import { Button, CircularProgress } from '@mui/material';
 import { GrCloudUpload } from "react-icons/gr";
 import { MyContext } from '../../App';
 import { useContext } from 'react';
-import { deleteImage, postData } from '../../utils/api';
+import { deleteImage, fetchDataFromApi, editData } from '../../utils/api';
 import { useNavigate } from 'react-router-dom';
 
-const AddProduct = () => {
+const EditProduct = () => {
   const [isLoading, setIsLoading] = useState(false)
   const history = useNavigate();
   const context = useContext(MyContext);
   const [previews, setPreviews] = useState([])
+  
+  useEffect(() => {
+    const id = context?.isOpenFullScreenPanel?.id;
+    if (!id) return;
 
+    fetchDataFromApi(`/api/product/${id}`).then((res) => {
+      if (res?.error === false && res?.product) {
+        const p = res.product;
+
+        setFormFields({
+          name: p.name || '',
+          description: p.description || '',
+          images: p.images || [],
+          brand: p.brand || '',
+          price: p.price || '',
+          oldPrice: p.oldPrice || '',
+          category: p.category || '',
+          catName: p.catName || '',
+          catId: p.catId || '',
+          subCatId: p.subCatId || '',
+          subCat: p.subCat || '',
+          thirdsubCat: p.thirdsubCat || '',
+          thirdsubCatId: p.thirdsubCatId || '',
+          countInStock: p.countInStock || '',
+          rating: p.rating || '',
+          isFeatured: p.isFeatured || false,
+          discount: p.discount || '',
+          productRam: p.productRam || [],
+          size: p.size || [],
+          productWeight: p.productWeight || [],
+        });
+
+        setPreviews(p.images || []);
+        setProductCat(p.catId || '');
+        setProductSubCat(p.subCatId || '');
+        setProductThirdLevelCat(p.thirdsubCatId || '');
+        setProductFeatured(p.isFeatured || false);
+        setProductRams(p.productRam || []);
+        setProductWeight(p.productWeight || []);
+        setProductSize(p.size || []);
+      }
+    });
+  }, [])
   
 
   const [formFields, setFormFields] = useState({
@@ -245,19 +287,21 @@ const AddProduct = () => {
 
 
     setIsLoading(true);
-    postData("/api/product/create", formFields).then((res) => {
-      if (res?.error === false) {
-        context.alertBox("success", res?.message);
+    editData(`/api/product/updateProduct/${context?.isOpenFullScreenPanel?.id}`, formFields).then((response) => {
+      if (response?.data?.error === false) {
+        context.alertBox("success", response?.data?.message || "Product updated successfully");
         setTimeout(() => {
           setIsLoading(false);
           context.setIsOpenFullScreenPanel({
-            open: false
+            open: false,
+            model: '',
+            id: ''
           })
           history("/products")
         }, 1000);
-      }else{
+      } else {
         setIsLoading(false)
-        context.alertBox("error", res?.message); 
+        context.alertBox("error", response?.data?.message || "Failed to update product");
       }
     })
   }
@@ -599,4 +643,4 @@ const AddProduct = () => {
   )
 }
 
-export default AddProduct
+export default EditProduct

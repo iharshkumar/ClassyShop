@@ -34,7 +34,7 @@ productRouter.get('/getAllFeaturedProducts',getAllFeaturedProducts);
 productRouter.delete('/:id',deleteProduct);
 productRouter.get('/:id',getProduct);
 productRouter.delete('/deleteImage',auth,removeImageFromCloudinary);
-productRouter.delete('/updateProduct/:id',auth,updateProduct);
+productRouter.put('/updateProduct/:id',auth,updateProduct);
 
 
 export default productRouter
