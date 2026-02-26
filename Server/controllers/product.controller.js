@@ -676,6 +676,56 @@ export async function deleteProduct(request, response) {
     })
 }
 
+//delete multiple products 
+export async function deleteMultipleProduct(request, response) {
+    const { ids } = request.body;
+
+    if (!ids || !Array.isArray(ids)) {
+        return response.status(400).json({
+            error: true,
+            success: false,
+            message: "Invalid input"
+        })
+    }
+
+    for (let i = 0; i < ids?.length; i++) {
+        const product = await ProductModel.findById(ids[i]);
+        const images = product.images;
+
+        let img = "";
+        for (img of images) {
+            const imgUrl = img;
+            const urlArr = imgUrl.split("/");
+            const image = urlArr[urlArr.length - 1];
+
+            const imageName = image.split(".")[0];
+
+            if (imageName) {
+                cloudinary.uploader.destroy(imageName, (error, result) => {
+                    //console.log(error,result);
+                })
+            }
+        }
+    }
+
+    try {
+        await ProductModel.deleteMany({
+            _id: { $in: ids }
+        });
+        return response.status(200).json({
+            message: "Product delete successfully",
+            success: true,
+            error: false
+        })
+    } catch (error) {
+        return response.status(500).json({
+            message: error.message || error,
+            success: false,
+            error: true
+        })
+    }
+}
+
 export async function getProduct(request, response) {
     try {
         const product = await ProductModel.findById(request.params.id).populate("category")
@@ -757,19 +807,19 @@ export async function updateProduct(request, response) {
         )
 
 
-        if(!product){
+        if (!product) {
             return response.status(404).json({
-                message:"The product is not updated",
-                status:false
+                message: "The product is not updated",
+                status: false
             })
         }
 
-        imagesArr=[];
+        imagesArr = [];
 
         return response.status(200).json({
-            message:"The product is updated",
-            error:false,
-            success:true
+            message: "The product is updated",
+            error: false,
+            success: true
         })
 
     } catch (error) {

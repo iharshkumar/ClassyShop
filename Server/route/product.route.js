@@ -12,7 +12,8 @@ import { uploadImages,  createProduct, getAllProducts,
     deleteProduct,
     getProduct,
     removeImageFromCloudinary,
-    updateProduct
+    updateProduct,
+    deleteMultipleProduct
 } from "../controllers/product.controller.js";
 
 
@@ -32,6 +33,7 @@ productRouter.get('/getAllProductsByRating',getAllProductsByRating);
 productRouter.get('/getAllProductsCount',getProductsCount);
 productRouter.get('/getAllFeaturedProducts',getAllFeaturedProducts);
 productRouter.delete('/:id',deleteProduct);
+productRouter.delete('/deleteMultiple',deleteMultipleProduct);
 productRouter.get('/:id',getProduct);
 productRouter.delete('/deleteImage',auth,removeImageFromCloudinary);
 productRouter.put('/updateProduct/:id',auth,updateProduct);
