@@ -1,9 +1,6 @@
 import { Button, Checkbox } from '@mui/material'
 import React, { useContext, useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
-import { IoAddOutline } from "react-icons/io5";
-
-import Progress from '../../Components/ProgressBar';
 import { MdOutlineModeEdit } from "react-icons/md";
 import { FiEye } from "react-icons/fi";
 import { GoTrash } from "react-icons/go";
@@ -54,7 +51,9 @@ const Products = () => {
     const [page, setPage] = useState(0);
     const [categoryFilterVal, setcategoryFilterVal] = React.useState('');
     const [productData, setProductData] = useState([])
-
+    const [productCat, setProductCat] = useState('');
+    const [productSubCat, setProductSubCat] = useState('')
+    const [productThirdLevelCat, setProductThirdLevelCat] = useState('');
     const context = useContext(MyContext)
 
 
@@ -79,13 +78,42 @@ const Products = () => {
         })
     }, [])
 
+    const handleChangeProductCat = (event) => {
+        setProductCat(event.target.value);
 
-
-
-
-    const handleChangeCatFilter = (event) => {
-        setcategoryFilterVal(event.target.value);
+        fetchDataFromApi(`/api/product/getAllProductsByCatId/${event.target.value}`).then((res) => {
+            if (res?.error === false) {
+                setProductData(res?.data)
+            }
+        })
     };
+    // const selectCatByName = (name) => {
+    //     formFields.catName = name;
+    //   }
+
+    const handleChangeProductSubCat = (event) => {
+        setProductSubCat(event.target.value);
+        fetchDataFromApi(`/api/product/getAllProductsBySubCatId/${event.target.value}`).then((res) => {
+            if (res?.error === false) {
+                setProductData(res?.data)
+            }
+        })
+    };
+    // const selectSubCatByName = (name) => {
+    //     formFields.subCat = name;
+    //   }
+    const handleChangeProductThirdLevelCat = (event) => {
+        setProductThirdLevelCat(event.target.value);
+        fetchDataFromApi(`/api/product/getAllProductsByThirdLevelCat/${event.target.value}`).then((res) => {
+            if (res?.error === false) {
+                setProductData(res?.data)
+            }
+        })
+    };
+    // const selectSubCatThirdLevel = (name) => {
+    //     formFields.thirdsubCat = name;
+    //   }    
+
 
     const deleteProduct = (id) => {
         deleteData(`/api/product/${id}`).then((res) => {
@@ -94,6 +122,25 @@ const Products = () => {
             context?.alertBox("success", "Product deleted")
         })
     }
+
+    // const deleteMultipleProduct = () => {
+
+    //     if (sortedIds.length === 0) {
+    //         context?.alertBox("error", "Please select items to delete.");
+    //         return
+    //     }
+
+    //     try {
+    //         deleteMultipleData(`/api/product/deleteMultiple`, {
+    //             data: { ids: sortedIds },
+    //         }).then((res) => {
+    //             getProducts();
+    //             context.alertBox("success", "Product Deleted");
+    //         })
+    //     } catch (error) {
+    //         context.alertBox("error", "Error deleting item")
+    //     }
+    // }
 
 
     const handleChangePage = (event, newPage) => {
@@ -122,25 +169,107 @@ const Products = () => {
 
             <div className='card !my-4 !pt-5 !shadow=md sm:rounded-lg !bg-white' >
 
-                <div className='flex items-center w-full !px-5 justify-between'>
-                    <div className='col w-[20%] '>
+                <div className='flex items-center w-full !px-5 justify-between gap-4 !mb-2'>
+                    <div className='col w-[15%] '>
                         <h4 className='font-[600] text-[12px] !mb-2'>Category by</h4>
-                        <Select
-                            className='w-full !mb-2'
-                            size='small'
-                            labelId="demo-simple-select-standard-label"
-                            id="demo-simple-select-standard"
-                            value={categoryFilterVal}
-                            onChange={handleChangeCatFilter}
-                            label="Category"
-                        >
-                            <MenuItem value="">
-                                <em>None</em>
-                            </MenuItem>
-                            <MenuItem value={10}>Men</MenuItem>
-                            <MenuItem value={20}>Women</MenuItem>
-                            <MenuItem value={30}>Kids</MenuItem>
-                        </Select>
+                        {
+                            context?.catData.length !== 0 &&
+                            <Select
+                                style={{ zoom: '80%' }}
+                                labelId="demo-simple-select-label"
+                                id="productCatDrop"
+                                size='small'
+                                className='w-full !bg-[#fafafa]'
+                                value={productCat}
+                                label="Category"
+                                onChange={handleChangeProductCat}
+                            >
+                                {
+                                    context?.catData.map((cat, index) => {
+                                        return (
+                                            <MenuItem value={cat?._id}
+                                            // onClick={() =>
+                                            //     selectCatByName(cat?.name)
+                                            // }
+                                            >{cat?.name}</MenuItem>
+                                        )
+                                    })
+                                }
+                            </Select>
+                        }
+                    </div>
+
+                    <div className='col w-[15%] '>
+                        <h4 className='font-[600] text-[12px] !mb-2'>Sub Category by</h4>
+                        {
+                            context?.catData.length !== 0 &&
+                            <Select
+                                labelId="demo-simple-select-label"
+                                style={{ zoom: '80%' }}
+                                id="productSubCatDrop"
+                                size='small'
+                                className='w-full !bg-[#fafafa]'
+                                value={productSubCat}
+                                label="Sub Category"
+                                onChange={handleChangeProductSubCat}
+                            >
+                                {
+                                    context?.catData.map((cat, index) => {
+                                        return (
+                                            cat?.children?.length !== 0 && cat?.children?.map((subCat, index_) => {
+                                                return (
+                                                    <MenuItem value={subCat?._id}
+                                                    // onClick={() =>
+                                                    //     selectSubCatByName(cat?.name)
+                                                    // }
+                                                    >{subCat?.name}</MenuItem>
+                                                )
+                                            })
+                                        )
+                                    })
+                                }
+                            </Select>
+                        }
+                    </div>
+
+                    <div className='col w-[20%] '>
+                        <h4 className='font-[600] text-[12px] !mb-2'>Third Level Category by</h4>
+                        {
+                            context?.catData.length !== 0 &&
+                            <Select
+                                style={{ zoom: '80%' }}
+                                labelId="demo-simple-select-label"
+                                id="productThirdLevelCatDrop"
+                                size='small'
+                                className='w-full !bg-[#fafafa]'
+                                value={productThirdLevelCat}
+                                label="Third Level Category"
+                                onChange={handleChangeProductThirdLevelCat}
+                            >
+                                {
+                                    context?.catData.map((cat) => {
+                                        return (
+                                            cat?.children?.length !== 0 && cat?.children?.map((subCat) => {
+                                                return (
+                                                    subCat?.children?.length !== 0 && subCat?.children?.map((thirdLevelCat, index) => {
+                                                        return (
+                                                            <MenuItem
+                                                                value={thirdLevelCat?._id}
+                                                                key={index}
+                                                            // onClick={() =>
+                                                            //     selectSubCatThirdLevel
+                                                            // }
+                                                            >
+                                                                {thirdLevelCat?.name}</MenuItem>
+                                                        )
+                                                    })
+                                                )
+                                            })
+                                        )
+                                    })
+                                }
+                            </Select>
+                        }
                     </div>
 
                     <div className='col w-[20%] !ml-auto'>
@@ -242,7 +371,7 @@ const Products = () => {
                                                             onClick={() => context.setIsOpenFullScreenPanel({
                                                                 open: true,
                                                                 model: 'Edit Product',
-                                                                id:product?._id
+                                                                id: product?._id
                                                             })}>
                                                             <MdOutlineModeEdit className='text-[rgba(0,0,0,0.7)] text-[20px] ' />
                                                         </Button>

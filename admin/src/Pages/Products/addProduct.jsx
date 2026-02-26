@@ -1,8 +1,6 @@
-import React, { useEffect, useState } from 'react'
-import Box from '@mui/material/Box';
+import React, { useState } from 'react'
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
-import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 import Rating from '@mui/material/Rating';
 import UploadBox from '../../Components/UploadBox';
@@ -157,7 +155,7 @@ const AddProduct = () => {
   const removeImg = (image, index) => {
     var imageArr = [];
     imageArr = previews
-    deleteImage(`/api/category/deleteImage?img=${image}`).then((res) => {
+    deleteImage(`/api/category/deleteImage?img=${image}`).then(() => {
       imageArr.splice(index, 1);
       setPreviews([]);
 
@@ -312,9 +310,9 @@ const AddProduct = () => {
                   onChange={handleChangeProductCat}
                 >
                   {
-                    context?.catData.map((cat, index) => {
+                    context?.catData.map((cat) => {
                       return (
-                        <MenuItem value={cat?._id}
+                        <MenuItem key={cat?._id} value={cat?._id}
                           onClick={() =>
                             selectCatByName(cat?.name)
                           }>{cat?.name}</MenuItem>
@@ -342,13 +340,13 @@ const AddProduct = () => {
                   onChange={handleChangeProductSubCat}
                 >
                   {
-                    context?.catData.map((cat, index) => {
+                    context?.catData.map((cat) => {
                       return (
-                        cat?.children?.length !== 0 && cat?.children?.map((subCat, index_) => {
+                        cat?.children?.length !== 0 && cat?.children?.map((subCat) => {
                           return (
-                            <MenuItem value={subCat?._id}
+                            <MenuItem key={subCat?._id} value={subCat?._id}
                               onClick={() =>
-                                selectSubCatByName(cat?.name)
+                                selectSubCatByName(subCat?.name)
                               }
                             >{subCat?.name}</MenuItem>
                           )
@@ -379,14 +377,12 @@ const AddProduct = () => {
                       return (
                         cat?.children?.length !== 0 && cat?.children?.map((subCat) => {
                           return (
-                            subCat?.children?.length !== 0 && subCat?.children?.map((thirdLevelCat, index) => {
+                            subCat?.children?.length !== 0 && subCat?.children?.map((thirdLevelCat) => {
                               return (
                                 <MenuItem
                                   value={thirdLevelCat?._id}
-                                  key={index}
-                                  onClick={() =>
-                                    selectSubCatThirdLevel
-                                  }
+                                  key={thirdLevelCat?._id}
+                                  onClick={() => selectSubCatThirdLevel(thirdLevelCat?.name)}
                                 >
                                   {thirdLevelCat?.name}</MenuItem>
                               )
