@@ -375,9 +375,12 @@ const Products = () => {
                                                             })}>
                                                             <MdOutlineModeEdit className='text-[rgba(0,0,0,0.7)] text-[20px] ' />
                                                         </Button>
-                                                        <Button className='!w-[35px] !h-[35px] !min-w-[35px] bg-[#f1f1f1] !border !border-[rgba(0,0,0,0.4)] !rounded-full hover:!bg-[#f1f1f1]'>
-                                                            <FiEye className='text-[rgba(0,0,0,0.7)] text-[20px] ' />
-                                                        </Button>
+
+                                                        <Link to={`/products/${product?._id}`}>
+                                                            <Button className='!w-[35px] !h-[35px] !min-w-[35px] bg-[#f1f1f1] !border !border-[rgba(0,0,0,0.4)] !rounded-full hover:!bg-[#f1f1f1]'>
+                                                                <FiEye className='text-[rgba(0,0,0,0.7)] text-[20px] ' />
+                                                            </Button>
+                                                        </Link>
 
                                                         <Button className='!w-[35px] !h-[35px] !min-w-[35px] bg-[#f1f1f1] !border !border-[rgba(0,0,0,0.4)] !rounded-full hover:!bg-[#f1f1f1]'
                                                             onClick={() => { deleteProduct(product?._id) }}>

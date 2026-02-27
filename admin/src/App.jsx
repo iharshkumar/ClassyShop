@@ -30,6 +30,7 @@ import { useEffect } from 'react';
 import Profile from './Pages/Profile/index.jsx';
 import AddAddress from './Pages/Address/addAddress.jsx';
 import EditCategory from './Pages/Category/editCategory.jsx';
+import ProductDetails from './Pages/Products/productDetails.jsx';
 
 
 const alertBox = (type, msg) => {
@@ -311,6 +312,26 @@ function App() {
               </div>
               <div className={`contentRight !py-4 !px-5 ${isSidebarOpen === true ? 'w-[82%]' : 'w-[100%]'} transition-all`}>
                 <Profile />
+              </div>
+            </div>
+          </section>
+        </>
+      )
+    },
+
+    {
+      path: '/products/:id',
+      exact: true,
+      element: (
+        <>
+          <section className='main'>
+            <Header />
+            <div className='contentMain flex'>
+              <div className={`overflow-hidden sidebarWrapper ${isSidebarOpen === true ? 'w-[18%]' : 'w-[0px] opacity-0 transition-all'}`}>
+                <Sidebar />
+              </div>
+              <div className={`contentRight !py-4 !px-5 ${isSidebarOpen === true ? 'w-[82%]' : 'w-[100%]'} transition-all`}>
+                <ProductDetails />
               </div>
             </div>
           </section>
