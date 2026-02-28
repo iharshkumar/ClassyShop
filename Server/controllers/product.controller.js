@@ -32,7 +32,7 @@ export async function uploadImages(request, response) {
                 image[i].path,
                 options,
                 function (error, result) {
-                    console.log(result)
+                    //console.log(result)
                     imagesArr.push(result.secure_url);
                     fs.unlinkSync(`uploads/${request.files[i].filename}`)
                 }
