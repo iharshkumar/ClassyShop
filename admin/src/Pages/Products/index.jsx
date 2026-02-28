@@ -17,7 +17,7 @@ import { BiExport } from "react-icons/bi";
 import { IoBagAddOutline } from "react-icons/io5";
 import SearchBox from '../../Components/SearchBox';
 import { MyContext } from '../../App';
-import { deleteData, fetchDataFromApi } from '../../utils/api';
+import { deleteData, deleteMultipleData, fetchDataFromApi } from '../../utils/api';
 import { LazyLoadImage } from 'react-lazy-load-image-component'
 import 'react-lazy-load-image-component/src/effects/blur.css'
 
@@ -55,16 +55,53 @@ const Products = () => {
     const [productSubCat, setProductSubCat] = useState('')
     const [productThirdLevelCat, setProductThirdLevelCat] = useState('');
     const context = useContext(MyContext)
+    const [sortedIds, setSortedIds] = useState([])
 
 
     useEffect(() => {
         getProducts();
     }, [context?.isOpenFullScreenPanel])
 
+    const handleSelectAll = (e) => {
+        const isChecked = e.target.checked;
+
+        const updatedItems = productData.map((item) => ({
+            ...item,
+            checked: isChecked,
+        }));
+        setProductData(updatedItems);
+
+        if (isChecked) {
+            const ids = updatedItems.map((item) => item._id).sort((a, b) => a - b)
+            setSortedIds(ids);
+        } else {
+            setSortedIds([]);
+        }
+    }
+
+    const handleCheckboxChange = (e, id, index) => {
+        const updatedItems = productData.map((item) =>
+            item._id === id ? { ...item, checked: !item.checked } : item
+        );
+        setProductData(updatedItems);
+
+        const selectedIds = updatedItems
+            .filter((item) => item.checked)
+            .map((item) => item._id)
+            .sort((a, b) => a - b);
+        setSortedIds(selectedIds);
+    };
+
     const getProducts = async () => {
         fetchDataFromApi("/api/product/getAllProducts").then((res) => {
+            let productArr = [];
             if (res?.error === false) {
-                setProductData(res?.data)
+                for (let i = 0; i < res?.data?.length; i++) {
+                    productArr[i] = res?.data[i];
+                    productArr[i].checked = false;
+                }
+                setProductData(productArr)
+                // console.log(productArr)
             }
         })
     }
@@ -123,24 +160,24 @@ const Products = () => {
         })
     }
 
-    // const deleteMultipleProduct = () => {
+    const deleteMultipleProduct = () => {
 
-    //     if (sortedIds.length === 0) {
-    //         context?.alertBox("error", "Please select items to delete.");
-    //         return
-    //     }
+        if (sortedIds.length === 0) {
+            context?.alertBox("error", "Please select items to delete.");
+            return
+        }
 
-    //     try {
-    //         deleteMultipleData(`/api/product/deleteMultiple`, {
-    //             data: { ids: sortedIds },
-    //         }).then((res) => {
-    //             getProducts();
-    //             context.alertBox("success", "Product Deleted");
-    //         })
-    //     } catch (error) {
-    //         context.alertBox("error", "Error deleting item")
-    //     }
-    // }
+        try {
+            deleteMultipleData(`/api/product/deleteMultiple`, {
+                data: { ids: sortedIds },
+            }).then((res) => {
+                getProducts();
+                context.alertBox("success", "Product Deleted");
+            })
+        } catch (error) {
+            context.alertBox("error", "Error deleting item")
+        }
+    }
 
 
     const handleChangePage = (event, newPage) => {
@@ -154,7 +191,17 @@ const Products = () => {
         <>
             <div className='flex items-center justify-between !px-2 !py-0 !mt-3'>
                 <h1 className='text-[20px] font-[600]'>Products</h1>
-                <div className='col w-[29%] !ml-auto flex items-center !justify-end gap-3 '>
+                <div className='col w-[50%] !ml-auto flex items-center !justify-end gap-3 '>
+                    {
+                        sortedIds?.length !== 0 &&
+                        <Button
+                            variant="contained"
+                            className="btn-sm"
+                            size='small' color='error'
+                            onClick={deleteMultipleProduct}>
+                            Delete
+                        </Button>
+                    }
                     <Button className='btn !bg-green-600 !text-white btn-sm flex items-center gap-2'><BiExport />Export</Button>
                     <Button className='btn-blue !text-white btn-sm flex items-center btn gap-2'
                         onClick={() => context.setIsOpenFullScreenPanel({
@@ -286,7 +333,9 @@ const Products = () => {
 
                             <TableRow>
                                 <TableCell >
-                                    <Checkbox size='small' />
+                                    <Checkbox size='small'
+                                        onChange={handleSelectAll}
+                                        checked={productData?.length > 0 ? productData.every((item) => item.checked) : false} />
                                 </TableCell>
 
                                 {columns.map((column) => (
@@ -310,7 +359,9 @@ const Products = () => {
                                         return (
                                             <TableRow key={product?._id || index}>
                                                 <TableCell style={{ minWidth: columns.minWidth }}>
-                                                    <Checkbox size='small' />
+                                                    <Checkbox size='small'
+                                                        checked={product.checked === true ? true : false}
+                                                        onChange={(e) => handleCheckboxChange(e, product._id, index)} />
                                                 </TableCell>
 
                                                 <TableCell style={{ minWidth: columns.minWidth }}>

@@ -134,3 +134,23 @@ export const deleteData = async (url) => {
         throw error;
     }
 }
+
+export const deleteMultipleData = async (url, data) => {
+    try {
+        // Extract data property if nested, otherwise use data directly
+        const requestData = data?.data || data;
+        const response = await axios({
+            method: 'DELETE',
+            url: apiUrl + url,
+            headers: {
+                'Authorization': `Bearer ${localStorage.getItem("accesstoken")}`,
+                "Content-type": "application/json"
+            },
+            data: requestData
+        });
+        return response;
+    } catch (error) {
+        console.error("Delete multiple data error:", error);
+        throw error;
+    }
+}

@@ -678,51 +678,61 @@ export async function deleteProduct(request, response) {
 
 //delete multiple products 
 export async function deleteMultipleProduct(request, response) {
-    const { ids } = request.body;
-
-    if (!ids || !Array.isArray(ids)) {
-        return response.status(400).json({
-            error: true,
-            success: false,
-            message: "Invalid input"
-        })
-    }
-
-    for (let i = 0; i < ids?.length; i++) {
-        const product = await ProductModel.findById(ids[i]);
-        const images = product.images;
-
-        let img = "";
-        for (img of images) {
-            const imgUrl = img;
-            const urlArr = imgUrl.split("/");
-            const image = urlArr[urlArr.length - 1];
-
-            const imageName = image.split(".")[0];
-
-            if (imageName) {
-                cloudinary.uploader.destroy(imageName, (error, result) => {
-                    //console.log(error,result);
-                })
-            }
-        }
-    }
-
     try {
+        const { ids } = request.body;
+
+        if (!ids || !Array.isArray(ids)) {
+            return response.status(400).json({
+                error: true,
+                success: false,
+                message: "Invalid input"
+            });
+        }
+
+        // Fetch all products at once
+        const products = await ProductModel.find({
+            _id: { $in: ids }
+        });
+
+        // Collect all public IDs
+        const publicIds = [];
+
+        products.forEach(product => {
+            if (product.images && Array.isArray(product.images)) {
+                product.images.forEach(imgUrl => {
+                    const urlParts = imgUrl.split("/");
+                    const fileWithExtension = urlParts.pop();
+                    const publicId = fileWithExtension.split(".")[0];
+                    
+                    if (publicId) {
+                        publicIds.push(publicId);
+                    }
+                });
+            }
+        });
+
+        // Delete images from Cloudinary (await properly)
+        await Promise.all(
+            publicIds.map(id => cloudinary.uploader.destroy(id))
+        );
+
+        // Delete products from DB
         await ProductModel.deleteMany({
             _id: { $in: ids }
         });
+
         return response.status(200).json({
-            message: "Product delete successfully",
+            message: "Products deleted successfully",
             success: true,
             error: false
-        })
+        });
+
     } catch (error) {
         return response.status(500).json({
             message: error.message || error,
             success: false,
             error: true
-        })
+        });
     }
 }
 
