@@ -13,7 +13,13 @@ import { uploadImages,  createProduct, getAllProducts,
     getProduct,
     removeImageFromCloudinary,
     updateProduct,
-    deleteMultipleProduct
+    deleteMultipleProduct,
+    createProductRAMS,
+    deleteProductRAM,
+    updateProductRAM,
+    deleteMultipleProductRAMS,
+    getProductRAM,
+    getProductRAMId
 } from "../controllers/product.controller.js";
 
 
@@ -37,6 +43,13 @@ productRouter.delete('/:id',deleteProduct);
 productRouter.get('/:id',getProduct);
 productRouter.delete('/deleteImage',auth,removeImageFromCloudinary);
 productRouter.put('/updateProduct/:id',auth,updateProduct);
+productRouter.post('/productRAMS/create',auth,createProductRAMS);
+productRouter.delete('/productRAMS/deleteMultipleRAMS',auth,deleteMultipleProductRAMS);
+productRouter.delete('/productRAMS/:id',auth,deleteProductRAM)
+productRouter.put('/productRAMS/:id',auth,updateProductRAM);
+productRouter.get('/productRAMS/get',getProductRAM);
+productRouter.get('/productRAMS/:id',getProductRAMId);
+
 
 
 export default productRouter
