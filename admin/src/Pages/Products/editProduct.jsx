@@ -21,8 +21,39 @@ const EditProduct = () => {
   const history = useNavigate();
   const context = useContext(MyContext);
   const [previews, setPreviews] = useState([])
-  
+  const [productRams, setProductRams] = useState([]);
+  const [productRamsData, setProductRamsData] = useState([]);
+  const [productWeight, setProductWeight] = useState([]);
+  const [productWeightData, setProductWeightData] = useState([]);
+  const [productSize, setProductSize] = useState([]);
+  const [productSizeData, setProductSizeData] = useState([]);
+  const [productCat, setProductCat] = useState('');
+  const [productSubCat, setProductSubCat] = useState('');
+  const [productFeatured, setProductFeatured] = useState('');
+  const [productThirdLevelCat, setProductThirdLevelCat] = useState('');
+
   useEffect(() => {
+
+    fetchDataFromApi(`/api/product/productRAMS/get`).then((res) => {
+      if (res?.error === false) {
+        setProductRamsData(res?.data);
+      }
+    })
+
+    fetchDataFromApi(`/api/product/productWEIGHT/get`).then((res) => {
+      if (res?.error === false) {
+        setProductWeightData(res?.data);
+      }
+    })
+
+
+    fetchDataFromApi(`/api/product/productSIZE/get`).then((res) => {
+      if (res?.error === false) {
+        setProductSizeData(res?.data);
+      }
+    })
+
+
     const id = context?.isOpenFullScreenPanel?.id;
     if (!id) return;
 
@@ -64,7 +95,7 @@ const EditProduct = () => {
       }
     });
   }, [context?.isOpenFullScreenPanel?.id])
-  
+
 
   const [formFields, setFormFields] = useState({
     name: '',
@@ -73,7 +104,7 @@ const EditProduct = () => {
     brand: '',
     price: '',
     oldPrice: '',
-    category:"",
+    category: "",
     catName: '',
     catId: '',
     subCatId: '',
@@ -89,18 +120,6 @@ const EditProduct = () => {
     productWeight: [],
   })
 
-
-
-
-  const [productCat, setProductCat] = useState('');
-  const [productSubCat, setProductSubCat] = useState('');
-  const [productFeatured, setProductFeatured] = useState('');
-  const [productRams, setProductRams] = useState([]);
-
-  const [productWeight, setProductWeight] = useState([]);
-  const [productSize, setProductSize] = useState([]);
-
-  const [productThirdLevelCat, setProductThirdLevelCat] = useState('');
 
   const handleChangeProductCat = (event) => {
     setProductCat(event.target.value);
@@ -192,8 +211,8 @@ const EditProduct = () => {
 
 
   const setPreviewsFun = (previewsArr) => {
-    const imgArr=previews;
-    for(let i=0 ; i< previewsArr.length ; i++){
+    const imgArr = previews;
+    for (let i = 0; i < previewsArr.length; i++) {
       imgArr.push(previewsArr[i])
     }
     setPreviews([])
@@ -325,8 +344,7 @@ const EditProduct = () => {
               <h3 className='text-[14px] font-[500] !mb-1'>Product Name</h3>
               <input
                 type="text"
-                className='w-full h-[40px] border border-[rgba(0,0,0,0.2)]
-          !focus:outline-none !focus:border-[rgba(0,0,0,0.4)] !rounded-sm !p-3 !text-sm !bg-[#fafafa]'
+                className='w-full h-[40px] border border-[rgba(0,0,0,0.2)] !focus:outline-none !focus:border-[rgba(0,0,0,0.4)] !rounded-sm !p-3 !text-sm !bg-[#fafafa]'
                 name="name"
                 value={formFields.name}
                 onChange={onChangeInput}
@@ -340,8 +358,7 @@ const EditProduct = () => {
               <h3 className='text-[14px] font-[500] !mb-1'>Product Description</h3>
               <textarea
                 type="text"
-                className='w-full h-[140px] border border-[rgba(0,0,0,0.2)]
-          !focus:outline-none !focus:border-[rgba(0,0,0,0.4)] !rounded-sm !p-3 !text-sm !bg-[#fff]'
+                className='w-full h-[140px] border border-[rgba(0,0,0,0.2)] !focus:outline-none !focus:border-[rgba(0,0,0,0.4)] !rounded-sm !p-3 !text-sm !bg-[#fff]'
                 name="description"
                 value={formFields.description}
                 onChange={onChangeInput} />
@@ -455,8 +472,7 @@ const EditProduct = () => {
               <h3 className='text-[14px] font-[500] !mb-1 !text-black'>Price</h3>
               <input
                 type="number"
-                className='w-full h-[40px] border border-[rgba(0,0,0,0.2)]
-          !focus:outline-none !focus:border-[rgba(0,0,0,0.4)] !rounded-sm !p-3 !text-sm !bg-[#fff]'
+                className='w-full h-[40px] border border-[rgba(0,0,0,0.2)] !focus:outline-none !focus:border-[rgba(0,0,0,0.4)] !rounded-sm !p-3 !text-sm !bg-[#fff]'
                 name="price"
                 value={formFields.price}
                 onChange={onChangeInput} />
@@ -466,8 +482,7 @@ const EditProduct = () => {
               <h3 className='text-[14px] font-[500] !mb-1 '>Product Old Price</h3>
               <input
                 type="number"
-                className='w-full h-[40px] border border-[rgba(0,0,0,0.2)]
-          !focus:outline-none !focus:border-[rgba(0,0,0,0.4)] !rounded-sm !p-3 !text-sm !bg-[#fff]'
+                className='w-full h-[40px] border border-[rgba(0,0,0,0.2)] !focus:outline-none !focus:border-[rgba(0,0,0,0.4)] !rounded-sm !p-3 !text-sm !bg-[#fff]'
                 name="oldPrice"
                 value={formFields.oldPrice}
                 onChange={onChangeInput} />
@@ -493,8 +508,7 @@ const EditProduct = () => {
               <h3 className='text-[14px] font-[500] !mb-1 !text-black'>Product Stock</h3>
               <input
                 type="number"
-                className='w-full h-[40px] border border-[rgba(0,0,0,0.2)]
-          !focus:outline-none !focus:border-[rgba(0,0,0,0.4)] !rounded-sm !p-3 !text-sm !bg-[#fff]'
+                className='w-full h-[40px] border border-[rgba(0,0,0,0.2)] !focus:outline-none !focus:border-[rgba(0,0,0,0.4)] !rounded-sm !p-3 !text-sm !bg-[#fff]'
                 name="countInStock"
                 value={formFields.countInStock}
                 onChange={onChangeInput}
@@ -505,8 +519,7 @@ const EditProduct = () => {
               <h3 className='text-[14px] font-[500] !mb-1 !text-black'>Brand</h3>
               <input
                 type="text"
-                className='w-full h-[40px] border border-[rgba(0,0,0,0.2)]
-          !focus:outline-none !focus:border-[rgba(0,0,0,0.4)] !rounded-sm !p-3 !text-sm !bg-[#fff]'
+                className='w-full h-[40px] border border-[rgba(0,0,0,0.2)] !focus:outline-none !focus:border-[rgba(0,0,0,0.4)] !rounded-sm !p-3 !text-sm !bg-[#fff]'
                 name="brand"
                 value={formFields.brand}
                 onChange={onChangeInput} />
@@ -517,8 +530,7 @@ const EditProduct = () => {
               <h3 className='text-[14px] font-[500] !mb-1 !text-black'>Discount</h3>
               <input
                 type="number"
-                className='w-full h-[40px] border border-[rgba(0,0,0,0.2)]
-          !focus:outline-none !focus:border-[rgba(0,0,0,0.4)] !rounded-sm !p-3 !text-sm !bg-[#fff]'
+                className='w-full h-[40px] border border-[rgba(0,0,0,0.2)] !focus:outline-none !focus:border-[rgba(0,0,0,0.4)] !rounded-sm !p-3 !text-sm !bg-[#fff]'
                 name="discount"
                 value={formFields.discount}
                 onChange={onChangeInput} />
@@ -526,60 +538,80 @@ const EditProduct = () => {
 
             <div className='col'>
               <h3 className='text-[14px] font-[500] !mb-1'>Product RAMS</h3>
-              <Select
-                multiple
-                labelId="demo-simple-select-label"
-                id="productCatDrop"
-                size='small'
-                className='w-full !bg-[#fafafa]'
-                value={productRams}
-                label="Category"
-                onChange={handleChangeProductRams}
-              >
-                <MenuItem value={'4GB'}>4GB</MenuItem>
-                <MenuItem value={'6GB'}>6GB</MenuItem>
-                <MenuItem value={'8GB'}>8GB</MenuItem>
-              </Select>
+              {
+                productRamsData?.length !== 0 &&
+
+                <Select
+                  multiple
+                  labelId="demo-simple-select-label"
+                  id="productCatDrop"
+                  size='small'
+                  className='w-full !bg-[#fafafa]'
+                  value={productRams}
+                  label="Category"
+                  onChange={handleChangeProductRams}
+                >
+                  {
+                    productRamsData?.map((item, index) => {
+                      return <MenuItem key={index} value={item?.name}>{item.name}</MenuItem>
+                    })
+                  }
+                </Select>
+              }
+
             </div>
 
 
 
             <div className='col'>
               <h3 className='text-[14px] font-[500] !mb-1'>Product Weight</h3>
-              <Select
-                multiple
-                labelId="demo-simple-select-label"
-                id="productSubCatDrop"
-                size='small'
-                className='w-full !bg-[#fafafa]'
-                value={productWeight}
-                label="Category"
-                onChange={handleChangeProductWeight}
-              >
-                <MenuItem value={10}>2KG</MenuItem>
-                <MenuItem value={20}>4KG</MenuItem>
-                <MenuItem value={30}>5KG</MenuItem>
-              </Select>
+              {
+                productWeightData?.length !== 0 &&
+                <Select
+                  multiple
+                  labelId="demo-simple-select-label"
+                  id="productSubCatDrop"
+                  size='small'
+                  className='w-full !bg-[#fafafa]'
+                  value={productWeight}
+                  label="Category"
+                  onChange={handleChangeProductWeight}
+                >
+                  {
+                    productWeightData?.map((item, index) => {
+                      return <MenuItem key={index} value={item?.name}>{item?.name}</MenuItem>
+
+                    })
+                  }
+                </Select>
+              }
+
             </div>
 
 
             <div className='col'>
               <h3 className='text-[14px] font-[500] !mb-1'>Product Size</h3>
-              <Select
-                multiple
-                labelId="demo-simple-select-label"
-                id="productSubCatDrop"
-                size='small'
-                className='w-full !bg-[#fafafa]'
-                value={productSize}
-                label="Category"
-                onChange={handleChangeProductSize}
-              >
-                <MenuItem value={'S'}>S</MenuItem>
-                <MenuItem value={'M'}>M</MenuItem>
-                <MenuItem value={'L'}>L</MenuItem>
-                <MenuItem value={'XL'}>XL</MenuItem>
-              </Select>
+              {
+                productWeightData?.length !== 0 &&
+                <Select
+                  multiple
+                  labelId="demo-simple-select-label"
+                  id="productSubCatDrop"
+                  size='small'
+                  className='w-full !bg-[#fafafa]'
+                  value={productSize}
+                  label="Category"
+                  onChange={handleChangeProductSize}
+                >
+                  {
+                    productSizeData?.map((item, index) => {
+                      return <MenuItem key={index} value={item?.name}>{item?.name}</MenuItem>
+
+                    })
+                  }
+                </Select>
+              }
+
             </div>
           </div>
 

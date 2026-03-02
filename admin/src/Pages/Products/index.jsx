@@ -1,4 +1,5 @@
 import { Button, Checkbox } from '@mui/material'
+import Rating from '@mui/material/Rating';
 import React, { useContext, useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { MdOutlineModeEdit } from "react-icons/md";
@@ -34,6 +35,11 @@ const columns =
             id: 'price',
             label: 'PRICE',
             minWidth: 100
+        },
+        {
+            id: 'Sale',
+            label: 'SALES',
+            minWidth: 80,
         },
         {
             id: 'rating',
@@ -441,6 +447,18 @@ const Products = () => {
                                                         {product?.sale}
                                                     </span>
                                                     sale
+                                                </p>
+                                            </TableCell>
+
+                                            <TableCell style={{ minWidth: columns.minWidth }}>
+                                                <p className='text-[14px] w-[100px]'>
+                                                    <Rating
+                                                        name="half-rating"
+                                                        size='small'
+                                                        defaultValue={product?.rating}
+                                                        precision={0.5}
+                                                    />
+
                                                 </p>
                                             </TableCell>
 

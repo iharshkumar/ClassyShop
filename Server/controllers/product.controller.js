@@ -1,7 +1,8 @@
 import { error } from "console";
 import ProductModel from "../models/product.model.js";
 import ProductRAMSModel from "../models/productRAM.model.js";
-
+import productWEIGHTModel from "../models/productWEIGHT.model.js";
+import productSIZEModel from "../models/productSIZE.model.js";
 import { v2 as cloudinary } from 'cloudinary';
 import fs from "fs";
 
@@ -844,6 +845,8 @@ export async function updateProduct(request, response) {
 }
 
 
+
+{/* RAMS FUNCTIONALITY */}
 //create Product RAM
 export async function createProductRAMS(request, response) {
     try {
@@ -905,39 +908,6 @@ export async function deleteProductRAM(request, response) {
         error: false,
         message: "Product RAM Deleted!"
     })
-}
-
-//delete multiple product RAMS 
-export async function deleteMultipleProductRAMS(request, response) {
-    try {
-        const { ids } = request.body;
-
-        if (!ids || !Array.isArray(ids)) {
-            return response.status(400).json({
-                error: true,
-                success: false,
-                message: "Invalid input"
-            });
-        }
-
-        // Delete products from DB
-        await ProductRAMSModel.deleteMany({
-            _id: { $in: ids }
-        });
-
-        return response.status(200).json({
-            message: "Product RAMS deleted successfully",
-            success: true,
-            error: false
-        });
-
-    } catch (error) {
-        return response.status(500).json({
-            message: error.message || error,
-            success: false,
-            error: true
-        });
-    }
 }
 
 //update the product RAM
@@ -1017,6 +987,311 @@ export async function getProductRAMId(request, response) {
             error: false,
             success: true,
             data: productRAM
+        })
+    } catch (error) {
+        return response.status(500).json({
+            message: error.message || error,
+            error: true,
+            success: false
+        })
+    }
+}
+
+
+{/* Weight FUNCTIONALITY */}
+//create Product WEIGHT
+export async function createProductWEIGHT(request, response) {
+    try {
+        let productWeight = new productWEIGHTModel({
+            name: request.body.name
+        })
+        productWeight = await productWeight.save()
+
+        if (!productWeight) {
+            return response.status(404).json({
+                message: "Product Weight not created",
+                error: true,
+                success: false
+            })
+        }
+
+        return response.status(200).json({
+            message: "Product Weight created successfully",
+            error: false,
+            success: true,
+            productWeight: productWeight
+        })
+    } catch (error) {
+        return response.status(500).json({
+            message: error.message || error,
+            error: true,
+            success: false
+        })
+    }
+}
+
+//delete product WEIGHT
+export async function deleteProductWEIGHT(request, response) {
+    const productWeight = await productWEIGHTModel.findById
+        (request.params.id)
+
+
+    if (!productWeight) {
+        return response.status(404).json({
+            message: "Item not found",
+            error: true,
+            success: false
+        })
+    }
+
+
+    const deletedProductWeight = await productWEIGHTModel.findByIdAndDelete(request.params.id);
+
+    if (!deletedProductWeight) {
+        response.status(404).json({
+            message: "Item not deleted!",
+            success: false,
+            error: true
+        })
+    }
+
+    return response.status(200).json({
+        success: true,
+        error: false,
+        message: "Product Weight Deleted!"
+    })
+}
+
+//update the product WEIGHT
+export async function updateProductWEIGHT(request, response) {
+    try {
+        const productWEIGHT = await productWEIGHTModel.findByIdAndUpdate(
+            request.params.id,
+            {
+                name: request.body.name,   
+            },
+            { new: true }
+        )
+
+
+        if (!productWEIGHT) {
+            return response.status(404).json({
+                message: "The product WEIGHT can not be updated",
+                status: false
+            })
+        }
+
+        return response.status(200).json({
+            message: "The product WEIGHT is updated",
+            error: false,
+            success: true
+        })
+
+    } catch (error) {
+        return response.status(500).json({
+            message: error.message || error,
+            error: true,
+            success: false
+        })
+    }
+}
+
+//get all products
+export async function getProductWEIGHT(request, response) {
+    try {
+        const productWEIGHT = await productWEIGHTModel.find()
+            
+
+        if (!productWEIGHT) {
+            response.status(500).json({
+                error: true,
+                success: false
+            })
+        }
+
+        return response.status(200).json({
+            error: false,
+            success: true,
+            data: productWEIGHT
+        })
+    } catch (error) {
+        return response.status(500).json({
+            message: error.message || error,
+            error: true,
+            success: false
+        })
+    }
+}
+
+export async function getProductWEIGHTById(request, response) {
+    try {
+        const productWEIGHT = await productWEIGHTModel.findById(request.params.id)
+            
+
+        if (!productWEIGHT) {
+            response.status(500).json({
+                error: true,
+                success: false
+            })
+        }
+
+        return response.status(200).json({
+            error: false,
+            success: true,
+            data: productWEIGHT
+        })
+    } catch (error) {
+        return response.status(500).json({
+            message: error.message || error,
+            error: true,
+            success: false
+        })
+    }
+}
+
+
+
+{/* SIZE FUNCTIONALITY */}
+//create Product SIZE
+export async function createProductSIZE(request, response) {
+    try {
+        let productSize = new productSIZEModel({
+            name: request.body.name
+        })
+        productSize = await productSize.save()
+
+        if (!productSize) {
+            return response.status(404).json({
+                message: "Product Size not created",
+                error: true,
+                success: false
+            })
+        }
+
+        return response.status(200).json({
+            message: "Product Size created successfully",
+            error: false,
+            success: true,
+            productSize: productSize
+        })
+    } catch (error) {
+        return response.status(500).json({
+            message: error.message || error,
+            error: true,
+            success: false
+        })
+    }
+}
+
+//delete product SIZE
+export async function deleteProductSIZE(request, response) {
+    const productSize = await productSIZEModel.findById
+        (request.params.id)
+
+
+    if (!productSize) {
+        return response.status(404).json({
+            message: "Item not found",
+            error: true,
+            success: false
+        })
+    }
+
+
+    const deletedProductSize = await productSIZEModel.findByIdAndDelete(request.params.id);
+
+    if (!deletedProductSize) {
+        response.status(404).json({
+            message: "Item not deleted!",
+            success: false,
+            error: true
+        })
+    }
+
+    return response.status(200).json({
+        success: true,
+        error: false,
+        message: "Product Size Deleted!"
+    })
+}
+
+//update the product SIZE
+export async function updateProductSIZE(request, response) {
+    try {
+        const productSize = await productSIZEModel.findByIdAndUpdate(
+            request.params.id,
+            {
+                name: request.body.name,   
+            },
+            { new: true }
+        )
+
+
+        if (!productSize) {
+            return response.status(404).json({
+                message: "The product SIZE can not be updated",
+                status: false
+            })
+        }
+
+        return response.status(200).json({
+            message: "The product SIZE is updated",
+            error: false,
+            success: true
+        })
+
+    } catch (error) {
+        return response.status(500).json({
+            message: error.message || error,
+            error: true,
+            success: false
+        })
+    }
+}
+
+//get all products
+export async function getProductSIZE(request, response) {
+    try {
+        const productSize = await productSIZEModel.find()
+            
+
+        if (!productSize) {
+            response.status(500).json({
+                error: true,
+                success: false
+            })
+        }
+
+        return response.status(200).json({
+            error: false,
+            success: true,
+            data: productSize
+        })
+    } catch (error) {
+        return response.status(500).json({
+            message: error.message || error,
+            error: true,
+            success: false
+        })
+    }
+}
+
+export async function getProductSIZEById(request, response) {
+    try {
+        const productSize = await productSIZEModel.findById(request.params.id)
+            
+
+        if (!productSize) {
+            response.status(500).json({
+                error: true,
+                success: false
+            })
+        }
+
+        return response.status(200).json({
+            error: false,
+            success: true,
+            data: productSize
         })
     } catch (error) {
         return response.status(500).json({

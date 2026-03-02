@@ -17,9 +17,20 @@ import { uploadImages,  createProduct, getAllProducts,
     createProductRAMS,
     deleteProductRAM,
     updateProductRAM,
-    deleteMultipleProductRAMS,
     getProductRAM,
-    getProductRAMId
+    getProductRAMId,
+
+    createProductWEIGHT,
+    deleteProductWEIGHT,
+    updateProductWEIGHT,
+    getProductWEIGHT,
+    getProductWEIGHTById,
+
+    createProductSIZE,
+    deleteProductSIZE,
+    updateProductSIZE,
+    getProductSIZE,
+    getProductSIZEById
 } from "../controllers/product.controller.js";
 
 
@@ -43,12 +54,27 @@ productRouter.delete('/:id',deleteProduct);
 productRouter.get('/:id',getProduct);
 productRouter.delete('/deleteImage',auth,removeImageFromCloudinary);
 productRouter.put('/updateProduct/:id',auth,updateProduct);
+
+{/*PRODUCT RAM ROUTES */}
 productRouter.post('/productRAMS/create',auth,createProductRAMS);
-productRouter.delete('/productRAMS/deleteMultipleRAMS',auth,deleteMultipleProductRAMS);
 productRouter.delete('/productRAMS/:id',auth,deleteProductRAM)
 productRouter.put('/productRAMS/:id',auth,updateProductRAM);
 productRouter.get('/productRAMS/get',getProductRAM);
 productRouter.get('/productRAMS/:id',getProductRAMId);
+
+{/*PRODUCT WEIGHT ROUTES */}
+productRouter.post('/productWEIGHT/create',auth,createProductWEIGHT);
+productRouter.delete('/productWEIGHT/:id',auth,deleteProductWEIGHT)
+productRouter.put('/productWEIGHT/:id',auth,updateProductWEIGHT);
+productRouter.get('/productWEIGHT/get',getProductWEIGHT);
+productRouter.get('/productWEIGHT/:id',getProductWEIGHTById);
+
+{/*PRODUCT SIZE ROUTES */}
+productRouter.post('/productSIZE/create',auth,createProductSIZE);
+productRouter.delete('/productSIZE/:id',auth,deleteProductSIZE)
+productRouter.put('/productSIZE/:id',auth,updateProductSIZE);
+productRouter.get('/productSIZE/get',getProductSIZE);
+productRouter.get('/productSIZE/:id',getProductSIZEById);
 
 
 

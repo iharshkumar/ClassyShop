@@ -180,6 +180,23 @@ const Sidebar = () => {
                                         </Button>
                                     </Link>
                                 </li> 
+
+
+                                <li className='w-full'>
+                                    <Link to="/products/addWeight">
+                                        <Button className='!text-[rgba(0,0,0,0.7)] !capitalise !pl-8 !justify-start !w-full !text-[13px] !font-[500] gap-3'>
+                                            <span className='block w-[5px] h-[5px] rounded-full !bg-[rgba(0,0,0,0.2)]'></span>Add Product WEIGHT
+                                        </Button>
+                                    </Link>
+                                </li> 
+
+                                <li className='w-full'>
+                                    <Link to="/products/addSize">
+                                        <Button className='!text-[rgba(0,0,0,0.7)] !capitalise !pl-8 !justify-start !w-full !text-[13px] !font-[500] gap-3'>
+                                            <span className='block w-[5px] h-[5px] rounded-full !bg-[rgba(0,0,0,0.2)]'></span>Add Product SIZE
+                                        </Button>
+                                    </Link>
+                                </li> 
                             </ul>
                         </Collapse>
 

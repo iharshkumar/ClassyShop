@@ -32,6 +32,8 @@ import AddAddress from './Pages/Address/addAddress.jsx';
 import EditCategory from './Pages/Category/editCategory.jsx';
 import ProductDetails from './Pages/Products/productDetails.jsx';
 import AddRAMS from './Pages/Products/addRAM.jsx';
+import AddWEIGHT from './Pages/Products/addWEIGHT.jsx';
+import AddSIZE from './Pages/Products/addSIZE.jsx';
 
 
 const alertBox = (type, msg) => {
@@ -340,6 +342,7 @@ function App() {
       )
     },
 
+    //Product Ram route
     {
       path: '/products/addRAMS',
       exact: true,
@@ -353,6 +356,48 @@ function App() {
               </div>
               <div className={`contentRight !py-4 !px-5 ${isSidebarOpen === true ? 'w-[82%]' : 'w-[100%]'} transition-all`}>
                 <AddRAMS />
+              </div>
+            </div>
+          </section>
+        </>
+      )
+    },
+
+    //Product Weight route
+    {
+      path: '/products/addWeight',
+      exact: true,
+      element: (
+        <>
+          <section className='main'>
+            <Header />
+            <div className='contentMain flex'>
+              <div className={`overflow-hidden sidebarWrapper ${isSidebarOpen === true ? 'w-[18%]' : 'w-[0px] opacity-0 transition-all'}`}>
+                <Sidebar />
+              </div>
+              <div className={`contentRight !py-4 !px-5 ${isSidebarOpen === true ? 'w-[82%]' : 'w-[100%]'} transition-all`}>
+                <AddWEIGHT />
+              </div>
+            </div>
+          </section>
+        </>
+      )
+    },
+
+    //Product Size route
+    {
+      path: '/products/addSize',
+      exact: true,
+      element: (
+        <>
+          <section className='main'>
+            <Header />
+            <div className='contentMain flex'>
+              <div className={`overflow-hidden sidebarWrapper ${isSidebarOpen === true ? 'w-[18%]' : 'w-[0px] opacity-0 transition-all'}`}>
+                <Sidebar />
+              </div>
+              <div className={`contentRight !py-4 !px-5 ${isSidebarOpen === true ? 'w-[82%]' : 'w-[100%]'} transition-all`}>
+                <AddSIZE />
               </div>
             </div>
           </section>
