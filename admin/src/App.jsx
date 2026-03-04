@@ -192,7 +192,7 @@ function App() {
               <div className={`overflow-hidden sidebarWrapper ${isSidebarOpen === true ? 'w-[18%]' : 'w-[0px] opacity-0 transition-all'}`}>
                 <Sidebar />
               </div>
-              <div className={`contentRight !py-4 !px-5 ${isSidebarOpen === true ? 'w-[82%]' : 'w-[100%]'} transition-all`}>
+              <div className={`contentRight !py-4  !mt-15 !px-5 ${isSidebarOpen === true ? 'w-[82%]' : 'w-[100%]'} transition-all`}>
                 <Products />
               </div>
             </div>
@@ -212,7 +212,7 @@ function App() {
               <div className={`overflow-hidden sidebarWrapper ${isSidebarOpen === true ? 'w-[18%]' : 'w-[0px] opacity-0 transition-all'}`}>
                 <Sidebar />
               </div>
-              <div className={`contentRight !py-4 !px-5 ${isSidebarOpen === true ? 'w-[82%]' : 'w-[100%]'} transition-all`}>
+              <div className={`contentRight !py-4  !mt-15 !px-5 ${isSidebarOpen === true ? 'w-[82%]' : 'w-[100%]'} transition-all`}>
                 <HomeSliderBanners />
               </div>
             </div>
@@ -232,7 +232,7 @@ function App() {
               <div className={`overflow-hidden sidebarWrapper ${isSidebarOpen === true ? 'w-[18%]' : 'w-[0px] opacity-0 transition-all'}`}>
                 <Sidebar />
               </div>
-              <div className={`contentRight !py-4 !px-5 ${isSidebarOpen === true ? 'w-[82%]' : 'w-[100%]'} transition-all`}>
+              <div className={`contentRight !py-4 !mt-15 !px-5 ${isSidebarOpen === true ? 'w-[82%]' : 'w-[100%]'} transition-all`}>
                 <CategoryList />
               </div>
             </div>
@@ -252,7 +252,7 @@ function App() {
               <div className={`overflow-hidden sidebarWrapper ${isSidebarOpen === true ? 'w-[18%]' : 'w-[0px] opacity-0 transition-all'}`}>
                 <Sidebar />
               </div>
-              <div className={`contentRight !py-4 !px-5 ${isSidebarOpen === true ? 'w-[82%]' : 'w-[100%]'} transition-all`}>
+              <div className={`contentRight !py-4 !mt-15 !px-5 ${isSidebarOpen === true ? 'w-[82%]' : 'w-[100%]'} transition-all`}>
                 <SubCategoryList />
               </div>
             </div>

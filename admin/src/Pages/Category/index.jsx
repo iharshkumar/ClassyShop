@@ -1,4 +1,4 @@
-import { Button, Checkbox } from '@mui/material'
+import { Button } from '@mui/material'
 import React, { useContext, useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { IoAddOutline } from "react-icons/io5";
@@ -25,7 +25,7 @@ import 'react-lazy-load-image-component/src/effects/blur.css'
 
 const columns =
     [
-        { id: 'image', label: 'IMAGE', minWidth: 150 },
+        { id: 'image', label: 'IMAGE', minWidth: 200 },
         { id: 'catName', label: 'CATEGORY NAME', minWidth: 150 },
 
         { id: 'action', label: 'ACTION', minWidth: 100 },
@@ -88,10 +88,6 @@ const CategoryList = () => {
                         <TableHead >
 
                             <TableRow>
-                                <TableCell width={50}>
-                                    <Checkbox size='small' />
-                                </TableCell>
-
                                 {columns.map((column) => (
                                     <TableCell
                                         width={300}
@@ -109,12 +105,8 @@ const CategoryList = () => {
                                 context?.catData?.length !== 0 && context?.catData?.map((item, index) => {
                                     return (
                                         <TableRow key={index}>
-                                            <TableCell >
-                                                <Checkbox size='small' />
-                                            </TableCell>
-
                                             <TableCell width={100}>
-                                                <div className='flex items-center gap-4 w-[80px]'>
+                                                <div className='flex items-center gap-4 !px-5 w-[120px]'>
                                                     <div className='img !w-full !rounded-md !overflow-hidden group'>
                                                         <Link to="/product/45745" data-discover="true">
                                                             <LazyLoadImage
