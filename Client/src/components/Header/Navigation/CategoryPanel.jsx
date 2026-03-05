@@ -10,42 +10,21 @@ import { FiMinusSquare } from 'react-icons/fi';
 import { CategoryCollapse } from '../../CategoryCollapse';
 
 const CategoryPanel = (props) => {
-
-    const [submenuIndex, setSubmenuIndex] = useState(null);
-    const [innerSubmenuIndex, setInnerSubmenuIndex] = useState(null);
-
     const toggleDrawer = (newOpen) => () => {
         props.setIsOpenCatPanel(newOpen);
     }
 
-
-    const openSubmenu = (index) => {
-        if (submenuIndex === index) {
-            setSubmenuIndex(null);
-        } else {
-            setSubmenuIndex(index);
-        };
-    }
-
-    const openInnerSubmenu = (index) => {
-        if (innerSubmenuIndex === index) {
-            setInnerSubmenuIndex(null);
-        } else {
-            setInnerSubmenuIndex(index);
-        };
-    }
-
     const DrawerList = (
-        <Box sx={{ width: 250, paddingX: 2, paddingTop: 2 }} role="presentation" clasName="categoryPanel" >
+        <Box sx={{ width: 300, paddingX: 2, paddingTop: 2 }} role="presentation" clasName="categoryPanel" >
 
-            <h3 className='text-[22px] font-[500] flex items-center justify-between gap-2'>
+            <h3 className='text-[20px] !py-2 !mb-2 font-[500] flex items-center justify-between gap-4'>
                 Shop By Categories
                 <IoCloseSharp onClick={toggleDrawer(false)} className='cursor-pointer text-[20px] p-2' />
             </h3>
 
-            <CategoryCollapse/>
-
-
+            {
+                props?.data?.length !== 0 && <CategoryCollapse data={props?.data}/>
+            }
 
         </Box>
     );

@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import HomeSlider from '../../components/HomeSlider';
 import HomeCatSlider from '../../components/HomeCatSlider';
 import { LiaShippingFastSolid } from 'react-icons/lia';
@@ -14,21 +14,36 @@ import BlogItem from '../../components/BlogItem';
 import HomeSliderV2 from '../../components/HomeSliderV2';
 import BannerBoxV2 from '../../components/bannerBoxV2';
 import AdsBannerSliderV2 from '../../components/AdsBannerSliderV2';
+import { fetchDataFromApi } from '../../utils/api';
+//import { useNavigate } from 'react-router-dom';
+import { MyContext } from '../../App';
 
 
 
 const Home = () => {
   const [value, setValue] = React.useState(0);
-
+  const [homeSlidesData, setHomeSlidesData] = useState([])
+  const context = useContext(MyContext);
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
 
+  useEffect(() => {
+    fetchDataFromApi("/api/homeSlides/").then((res) => {
+      setHomeSlidesData(res?.data)
+    })
+  }, []);
+
   return (
     <>
-      {/* <HomeSlider /> */}
+
+      {
+        homeSlidesData?.length !== 0 && <HomeSlider data={homeSlidesData} />
+      }
 
 
+
+      {/* 
       <section className='py-6' style={{ paddingTop: '20px' }}>
         <div className='container flex w-[50%] mx-auto justify-start gap-5'>
           <div className='part1 w-[70%] ' >
@@ -58,9 +73,13 @@ const Home = () => {
           </div>
 
         </div>
-      </section>
+      </section> */}
 
-      <HomeCatSlider />
+
+      {
+        context?.catData?.length !== 0 && <HomeCatSlider data={context?.catData} />
+      }
+
 
       <section className='bg-white pt-12 md:pt-16 pb-8 md:pb-12'>
         <div className='container'>
@@ -187,7 +206,7 @@ const Home = () => {
 
       </section>
 
-    
+
     </>
   )
 }

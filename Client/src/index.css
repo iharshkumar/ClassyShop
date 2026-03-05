@@ -144,13 +144,20 @@ nav ui button:hover {
 
 /* Slide items */
 .sliderHome .item {
-  border-radius: 10px;
+  border-radius: 24px;
   overflow: hidden;
   position: relative;
+  width: 2300px;
+}
+
+/* Add side padding so previous & next slides are visibly separate */
+.sliderHome .swiper-slide {
+  padding: 0 5px;
+  box-sizing: border-box;
 }
 
 .sliderHome .item img {
-  width: 100%;
+  width: 1250px;
   height: 350px;
   object-fit: cover;
   transition: transform 0.4s ease;
@@ -159,7 +166,7 @@ nav ui button:hover {
 
 /* Hover zoom effect */
 .sliderHome .item:hover img {
-  transform: scale(1.03);
+  transform: scale(1.01);
 }
 
 

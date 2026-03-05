@@ -58,13 +58,13 @@ function App() {
   const toggleCartPanel = (newOpen) => {
     setOpenCartPanel(newOpen);
   };
+  const [catData, setCatData] = useState([]);
 
   useEffect(() => {
     const token = localStorage.getItem('accesstoken')
     if (token !== undefined && token !== null && token !== "") {
       fetchDataFromApi(`/api/user/user-details`).then((res) => {
-        // console.log("===== I am here ---- 1", res.status)
-        //console.log(res)
+
         setUserData(res.data)
         if (res?.status !== 200) {
           localStorage.removeItem("accesstoken")
@@ -77,6 +77,14 @@ function App() {
     }
   }, [])
 
+  useEffect(() => {
+    fetchDataFromApi("/api/category").then((res) => {
+      if (res?.error === false) {
+        setCatData(res?.data)
+      }
+    })
+  }, [])
+  
   const values = {
     setOpenProductDetailsModal,
     setOpenCartPanel,
@@ -86,7 +94,9 @@ function App() {
     setIsLogin,
     alertBox,
     userData,
-    setUserData
+    setUserData,
+    setCatData,
+    catData
   }
 
   return (

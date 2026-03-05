@@ -87,6 +87,8 @@ function App() {
     }
   }, [isLogin])
 
+ 
+
   const getCat = () => {
     fetchDataFromApi("/api/category/").then((res) => {
       //console.log(res?.data)

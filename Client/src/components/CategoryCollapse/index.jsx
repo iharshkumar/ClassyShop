@@ -6,25 +6,28 @@ import { IoCloseSharp } from 'react-icons/io5';
 import { FaRegSquarePlus } from 'react-icons/fa6';
 import { FiMinusSquare } from 'react-icons/fi';
 
-export const CategoryCollapse = () => {
+export const CategoryCollapse = (props) => {
 
     const [submenuIndex, setSubmenuIndex] = useState(null);
-    const [innerSubmenuIndex, setInnerSubmenuIndex] = useState(null);
+    // Track inner submenu per parent category to avoid "auto-open" when switching categories
+    const [innerSubmenuIndex, setInnerSubmenuIndex] = useState({ parent: null, child: null });
 
 
     const openSubmenu = (index) => {
         if (submenuIndex === index) {
             setSubmenuIndex(null);
+            setInnerSubmenuIndex({ parent: null, child: null });
         } else {
             setSubmenuIndex(index);
+            setInnerSubmenuIndex({ parent: null, child: null });
         };
     }
 
-    const openInnerSubmenu = (index) => {
-        if (innerSubmenuIndex === index) {
-            setInnerSubmenuIndex(null);
+    const openInnerSubmenu = (parentIndex, childIndex) => {
+        if (innerSubmenuIndex.parent === parentIndex && innerSubmenuIndex.child === childIndex) {
+            setInnerSubmenuIndex({ parent: null, child: null });
         } else {
-            setInnerSubmenuIndex(index);
+            setInnerSubmenuIndex({ parent: parentIndex, child: childIndex });
         };
     }
 
@@ -33,237 +36,79 @@ export const CategoryCollapse = () => {
         <>
             <div className="scroll">
                 <ul className="w-full space-y-4">
+                    {
+                        props?.data?.length !== 0 && props?.data?.map((cat, index) => {
 
-                    {/* Fashion */}
-                    <li className="list-none">
+                            return (
+                                <li className="list-none" key={index}>
+                                    <div className="flex items-center justify-between gap-2">
+                                        <Link to="/productListing" className="flex-1">
+                                            <Button className="!px-1 !min-w-0 !text-left !justify-start !w-full !text-[rgba(0,0,0,2)]">
+                                                {cat?.name}
+                                            </Button>
+                                        </Link>
 
-                        <Link className="flex items-center justify-between">
-                            <Button className="!px-1 !min-w-0 !text-left !text-[rgba(0,0,0,2)]">
-                                Fashion
-                            </Button>
-
-                            {submenuIndex === 0 ? (
-                                <FiMinusSquare className="cursor-pointer" onClick={() => openSubmenu(0)} />
-                            ) : (
-                                <FaRegSquarePlus className="cursor-pointer" onClick={() => openSubmenu(0)} />
-                            )}
-                        </Link>
-
-                        {/* FIRST SUBMENU → AUTO EXPAND */}
-                        {submenuIndex === 0 && (
-                            <ul className="pl-4 mt-2 space-y-3">
-
-                                <li className="list-none">
-
-                                    <div className="flex items-center justify-between ">
-                                        <Button className="translate-x-2 !px-1 !min-w-0 !text-left !text-[rgba(0,0,0,0.8)]">
-                                            Appreal
-                                        </Button>
-
-                                        {innerSubmenuIndex === 0 ? (
-                                            <FiMinusSquare className="cursor-pointer" onClick={() => openInnerSubmenu(0)} />
-                                        ) : (
-                                            <FaRegSquarePlus className="cursor-pointer" onClick={() => openInnerSubmenu(0)} />
-                                        )}
+                                        <button
+                                            type="button"
+                                            className="shrink-0"
+                                            onClick={() => openSubmenu(index)}
+                                            aria-label={submenuIndex === index ? "Collapse category" : "Expand category"}
+                                        >
+                                            {submenuIndex === index ? (
+                                                <FiMinusSquare className="cursor-pointer" />
+                                            ) : (
+                                                <FaRegSquarePlus className="cursor-pointer" />
+                                            )}
+                                        </button>
                                     </div>
 
-                                    {/* INNER SUBMENU → AUTO EXPAND */}
-                                    {innerSubmenuIndex === 0 && (
-                                        <ul className="pl-4 mt-2 translate-x-6 text-[15px] pb-3 mb-4">
-                                            <li><Link to="/" className=" link block px-1">Smart Tablet</Link></li>
-                                            <li><Link to="/" className=" link block px-1">Crepe T-Shirt</Link></li>
-                                            <li><Link to="/" className=" link block px-1">Leather Watch</Link></li>
-                                            <li><Link to="/" className=" link block px-1">Rolling Diamond</Link></li>
+                                    {/* FIRST SUBMENU → AUTO EXPAND */}
+                                    {submenuIndex === index && (
+                                        <ul className="pl-4 mt-2 space-y-3">
+                                            {
+                                                cat?.children?.length !== 0 && cat?.children?.map((subCat, index_) => {
+                                                    return (
+                                                        <li className="list-none relative" key={index_}>
+                                                            <div className="flex items-center justify-between ">
+                                                                <Button className=" !px-1 !min-w-0 !text-left !text-[rgba(0,0,0,0.8)]">
+                                                                    {subCat?.name}
+                                                                </Button>
+
+                                                                {innerSubmenuIndex.parent === index && innerSubmenuIndex.child === index_ ? (
+                                                                    <FiMinusSquare className="cursor-pointer" onClick={() => openInnerSubmenu(index, index_)} />
+                                                                ) : (
+                                                                    <FaRegSquarePlus className="cursor-pointer" onClick={() => openInnerSubmenu(index, index_)} />
+                                                                )}
+                                                            </div>
+
+                                                            {/* INNER SUBMENU → AUTO EXPAND */}
+                                                            {innerSubmenuIndex.parent === index && innerSubmenuIndex.child === index_ && (
+                                                                <ul className="pl-4 mt-2 translate-x-6 text-[15px] pb-3 mb-4">
+                                                                    {
+                                                                        subCat?.children?.length !== 0 && subCat?.children?.map((thirdLevelCat, index__) => {
+                                                                            return (
+                                                                                <li className='list-none relative !mb-1' key={index__}>
+                                                                                    <Link to="/productListing" className=" link w-full !text-left !justify-start !px-3 transition !text-[14px] block">
+                                                                                        {thirdLevelCat?.name}
+                                                                                    </Link>
+                                                                                </li>
+                                                                            )
+                                                                        })
+                                                                    }
+                                                                </ul>
+                                                            )}
+                                                        </li>
+                                                    )
+                                                })
+                                            }
                                         </ul>
                                     )}
-
                                 </li>
-                            </ul>
-                        )}
-                    </li>
-
-                    <li className="list-none">
-
-                        <div className="flex items-center justify-between pr-2">
-                            <Button className="!px-1 !min-w-0 !text-left !text-[rgba(0,0,0,2)]">
-                                Electronics
-                            </Button>
-
-                            {submenuIndex === 1 ? (
-                                <FiMinusSquare className="cursor-pointer" onClick={() => openSubmenu(1)} />
-                            ) : (
-                                <FaRegSquarePlus className="cursor-pointer" onClick={() => openSubmenu(1)} />
-                            )}
-
-                        </div>
-
-                        {/* FIRST SUBMENU → AUTO EXPAND */}
-                        {submenuIndex === 1 && (
-                            <ul className="pl-5 mt-2 space-y-3">
-
-                                <li className="list-none">
-                                    <Button className="translate-x-2 !px-1 !min-w-0 !text-left !text-[rgba(0,0,0,0.8)]">
-                                        Smart Watch
-                                    </Button>
-                                </li>
-                                <li className="list-none">
-                                    <Button className="translate-x-2  !px-1 !min-w-0 !text-left !text-[rgba(0,0,0,0.8)]">
-                                        Laptops
-                                    </Button>
-                                </li>
-                                <li className="list-none">
-
-                                    <Button className="translate-x-2 !px-1 !min-w-0 !text-left !text-[rgba(0,0,0,0.8)]">
-                                        Mobiles
-                                    </Button>
-                                </li>
-                            </ul>
-                        )}
-                    </li>
-
-                    <li className="list-none">
-
-                        <div className="flex items-center justify-between pr-2">
-                            <Button className="!px-1 !min-w-0 !text-left !text-[rgba(0,0,0,2)]">
-                                Bags
-                            </Button>
-
-                            {submenuIndex === 2 ? (
-                                <FiMinusSquare className="cursor-pointer" onClick={() => openSubmenu(2)} />
-                            ) : (
-                                <FaRegSquarePlus className="cursor-pointer" onClick={() => openSubmenu(2)} />
-                            )}
-
-                        </div>
-
-                        {/* FIRST SUBMENU → AUTO EXPAND */}
-                        {submenuIndex === 2 && (
-                            <ul className="pl-5 mt-2 space-y-3">
-
-                                <li className="list-none">
-                                    <Button className="translate-x-2 !px-1 !min-w-0 !text-left !text-[rgba(0,0,0,0.8)]">
-                                        Women Bags                                    </Button>
-                                </li>
-                                <li className="list-none">
-                                    <Button className="translate-x-2  !px-1 !min-w-0 !text-left !text-[rgba(0,0,0,0.8)]">
-                                        Men Bags
-                                    </Button>
-                                </li>
-
-                            </ul>
-                        )}
-                    </li>
-
-                    <li className="list-none">
-
-                        <div className="flex items-center justify-between pr-2">
-                            <Button className="!px-1 !min-w-0 !text-left !text-[rgba(0,0,0,2)]">
-                                FootWear
-                            </Button>
-
-                            {submenuIndex === 3 ? (
-                                <FiMinusSquare className="cursor-pointer" onClick={() => openSubmenu(3)} />
-                            ) : (
-                                <FaRegSquarePlus className="cursor-pointer" onClick={() => openSubmenu(3)} />
-                            )}
-
-                        </div>
-
-                        {/* FIRST SUBMENU → AUTO EXPAND */}
-                        {submenuIndex === 3 && (
-                            <ul className="pl-5 mt-2 space-y-3">
-
-                                <li className="list-none">
-                                    <Button className="translate-x-2 !px-1 !min-w-0 !text-left !text-[rgba(0,0,0,0.8)]">
-                                        Women FootWears
-                                    </Button>
-                                </li>
-                                <li className="list-none">
-                                    <Button className="translate-x-2  !px-1 !min-w-0 !text-left !text-[rgba(0,0,0,0.8)]">
-                                        Men FootWears
-                                    </Button>
-                                </li>
-
-                            </ul>
-                        )}
-                    </li>
-
-                    <li className="list-none">
-
-                        <div className="flex items-center justify-between pr-2">
-                            <Button className="!px-1 !min-w-0 !text-left !text-[rgba(0,0,0,2)]">
-                                Groceries
-                            </Button>
-
-                            {submenuIndex === 4 ? (
-                                <FiMinusSquare className="cursor-pointer" onClick={() => openSubmenu(4)} />
-                            ) : (
-                                <FaRegSquarePlus className="cursor-pointer" onClick={() => openSubmenu(4)} />
-                            )}
-
-                        </div>
-
-
-                    </li>
-
-                    <li className="list-none">
-
-                        <div className="flex items-center justify-between pr-2">
-                            <Button className="!px-1 !min-w-0 !text-left !text-[rgba(0,0,0,2)]">
-                                Beauty
-                            </Button>
-
-                            {submenuIndex === 5 ? (
-                                <FiMinusSquare className="cursor-pointer" onClick={() => openSubmenu(5)} />
-                            ) : (
-                                <FaRegSquarePlus className="cursor-pointer" onClick={() => openSubmenu(5)} />
-                            )}
-
-                        </div>
-
-
-                    </li>
-
-                    <li className="list-none">
-
-                        <div className="flex items-center justify-between pr-2">
-                            <Button className="!px-1 !min-w-0 !text-left !text-[rgba(0,0,0,2)]">
-                                Wellness
-                            </Button>
-
-                            {submenuIndex === 6 ? (
-                                <FiMinusSquare className="cursor-pointer" onClick={() => openSubmenu(6)} />
-                            ) : (
-                                <FaRegSquarePlus className="cursor-pointer" onClick={() => openSubmenu(6)} />
-                            )}
-
-                        </div>
-
-
-                    </li>
-
-                    <li className="list-none">
-
-                        <div className="flex items-center justify-between pr-2">
-                            <Button className="!px-1 !min-w-0 !text-left !text-[rgba(0,0,0,2)]">
-                                Jewellery
-                            </Button>
-
-                            {submenuIndex === 6 ? (
-                                <FiMinusSquare className="cursor-pointer" onClick={() => openSubmenu(6)} />
-                            ) : (
-                                <FaRegSquarePlus className="cursor-pointer" onClick={() => openSubmenu(6)} />
-                            )}
-
-                        </div>
-
-
-                    </li>
-
-
-
+                            )
+                        })
+                    }
                 </ul>
-            </div>
+            </div >
         </>
     )
 }
