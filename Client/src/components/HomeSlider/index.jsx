@@ -22,21 +22,22 @@ const HomeSlider = (props) => {
                         disableOnInteraction: false
                     }}
                     centeredSlides={true}
-                    slidesPerView={1}
+                    slidesPerView={1.1}
                     breakpoints={{
                         1024: { slidesPerView: 1.1 },
                     }}
-                    speed={700}
                     className="sliderHome"
                 >
                     {
                         props?.data?.length !== 0 && props?.data?.map((item, index) => {
+                            const imgSrc = Array.isArray(item?.images) ? item?.images?.[0] : item?.images;
                             return (
                                 <SwiperSlide key={index}>
                                     <div className='item rounded-[20px] overflow-hidden'>
-                                        <img src={item?.images}
+                                        <img src={imgSrc}
                                             alt="Banner Slide"
                                             className='w-full'
+                                            loading="lazy"
                                         />
                                     </div>
                                 </SwiperSlide>

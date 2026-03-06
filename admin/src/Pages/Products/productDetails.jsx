@@ -203,7 +203,7 @@ const ProductDetails = () => {
                                 }
                             </div>
                         </div>
-                        
+
                         <h2 className='text-[18px] font-[500] !mt-3'>Customer Reviews</h2>
                         <div className='reviewWrap !mt-3'>
                             <div className='w-full !h-auto !mb-3 !p-4 !bg-white !rounded-sm !shadow-md flex items-center justify-between'>

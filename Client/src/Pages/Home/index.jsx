@@ -24,6 +24,10 @@ const Home = () => {
   const [value, setValue] = React.useState(0);
   const [homeSlidesData, setHomeSlidesData] = useState([])
   const context = useContext(MyContext);
+  const [popularProductData, setPopularProductData] = useState([]);
+  const [allProductsData, setAllProductsData] = useState([]);
+  const [featuredProducts, setFeaturedProducts] = useState([]);
+
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
@@ -32,7 +36,31 @@ const Home = () => {
     fetchDataFromApi("/api/homeSlides/").then((res) => {
       setHomeSlidesData(res?.data)
     })
+    fetchDataFromApi("/api/product/getAllProducts").then((res) => {
+      setAllProductsData(res?.data)
+    })
+    fetchDataFromApi("/api/product/getAllFeaturedProducts").then((res) => {
+      setFeaturedProducts(res?.products)
+    })
+
+
   }, []);
+
+  useEffect(() => {
+    fetchDataFromApi(`/api/product/getAllProductsByCatId/${context?.catData[0]?._id}`).then((res) => {
+      if (res?.error === false) {
+        setPopularProductData(res?.data)
+      }
+    })
+  }, [context?.catData])
+
+  const filterByCatId = (id) => {
+    fetchDataFromApi(`/api/product/getAllProductsByCatId/${id}`).then((res) => {
+      if (res?.error === false) {
+        setPopularProductData(res?.data)
+      }
+    })
+  }
 
   return (
     <>
@@ -86,7 +114,7 @@ const Home = () => {
           <div className='flex flex-col md:flex-row items-start md:items-center justify-between gap-4 mb-6'>
             <div className='leftSec'>
               <h2 className='text-[20px] font-[600] !mt-3'>Popular Products </h2>
-              <p className='text-[15px] font-[300] !-mt-2'>Do not miss the current offers until the end of March</p>
+              <p className='text-[15px] font-[300] !mt-2'>Do not miss the current offers until the end of March</p>
             </div>
 
             <div className='rightSec w-full md:w-[60%]'>
@@ -96,21 +124,22 @@ const Home = () => {
                 variant="scrollable"
                 scrollButtons="auto"
                 aria-label="scrollable auto tabs example"
+
               >
-                <Tab label="Fashion" />
-                <Tab label="Electronics" />
-                <Tab label="Bags" />
-                <Tab label="Footwears" />
-                <Tab label="Groceries" />
-                <Tab label="Beauty" />
-                <Tab label="Wellness" />
-                <Tab label="Jewellwey" />
+                {
+                  context?.catData?.length !== 0 && context?.catData?.map((cat) => (
+                    <Tab key={cat?._id} label={cat?.name} onClick={() => filterByCatId(cat?._id)} />
+                  ))
+                }
+
               </Tabs>
             </div>
 
           </div>
+          {
+            popularProductData?.length !== 0 && <ProductsSlider items={6} data={popularProductData} />
+          }
 
-          <ProductsSlider items={6} />
         </div>
 
       </section>
@@ -145,7 +174,11 @@ const Home = () => {
         <div className='container bg-white flex flex-col gap-6'>
           <h2 className='text-[20px] font-[600]' style={{ paddingTop: '30px' }}>Latest Products </h2>
           <div className='flex flex-col gap-6'>
-            <ProductsSlider items={6} />
+
+            {
+              allProductsData?.length !== 0 && <ProductsSlider items={6} data={allProductsData} />
+            }
+
             <AdsBannerSlider items={3} />
           </div>
         </div>
@@ -155,7 +188,10 @@ const Home = () => {
         <div className='container bg-white flex flex-col gap-6'>
           <h2 className='text-[20px] font-[600]' style={{ paddingTop: '30px' }}>Featured Products</h2>
           <div className='flex flex-col gap-6'>
-            <ProductsSlider items={6} />
+
+            {
+              featuredProducts?.length !== 0 && <ProductsSlider items={6} data={featuredProducts} />
+            }
             <AdsBannerSlider items={3} />
           </div>
         </div>

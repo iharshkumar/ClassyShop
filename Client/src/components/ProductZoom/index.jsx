@@ -8,7 +8,7 @@ import 'swiper/css/navigation';
 import { Navigation } from "swiper/modules";
 
 
-export const ProductZoom = () => {
+export const ProductZoom = (props) => {
 
     const [slideIndex, setSlideIndex] = useState(0);
     const zoomSliderBig = useRef();
@@ -39,56 +39,28 @@ export const ProductZoom = () => {
                         spaceBetween={0}
                         navigation={true}
                         modules={[Navigation]}
-                        className="zoomProductSliderThumbs !h-[440px] !overflow-hidden"
-
+                        className={`zoomProductSliderThumbs !h-[440px] !overflow-hidden  ${props?.images?.length > 5 && 'space'}`}
                     >
-                        <SwiperSlide>
-                            <div className={`item !rounded-md !overflow-hidden cursor-pointer group transition-all ${slideIndex === 0 ? 'opacity-100 !border-2 !border-[#ff5252] !shadow-md' : 'opacity-30 !border-2 !border-transparent'}`} onClick={() => goto(0)}>
-                                <img src="https://adn-static1.nykaa.com/nykdesignstudio-images/pub/media/catalog/product/6/3/63be811GQAZMI00000629_1.jpg"
-                                    className='w-full transition-all group-hover:scale-105' />
-                                {slideIndex === 0 && <div className='absolute inset-0 !bg-[#ff5252] opacity-20 rounded-md'></div>}
-                            </div>
-                        </SwiperSlide>
-                        
-                        <SwiperSlide>
-                            <div className={`item !rounded-md !overflow-hidden cursor-pointer group transition-all ${slideIndex === 1 ? 'opacity-100 !border-2 !border-[#ff5252] !shadow-md' : 'opacity-30 !border-2 !border-transparent'}`} onClick={() => goto(1)}>
-                                <img src="https://adn-static1.nykaa.com/nykdesignstudio-images/pub/media/catalog/product/6/3/63be811GQAZMI00000629_2.jpg"
-                                    className='w-full transition-all group-hover:scale-105' />
-                            </div>
-                        </SwiperSlide><SwiperSlide>
-                            <div className={`item !rounded-md !overflow-hidden cursor-pointer group transition-all ${slideIndex === 2 ? 'opacity-100 !border-2 !border-[#ff5252] !shadow-md' : 'opacity-30 !border-2 !border-transparent'}`} onClick={() => goto(2)}>
-                                <img src="https://adn-static1.nykaa.com/nykdesignstudio-images/pub/media/catalog/product/6/3/63be811GQAZMI00000629_3.jpg"
-                                    className='w-full transition-all group-hover:scale-105' />
-                            </div>
-                        </SwiperSlide>
-                        <SwiperSlide>
-                            <div className={`item !rounded-md !overflow-hidden cursor-pointer group transition-all ${slideIndex === 3 ? 'opacity-100 !border-2 !border-[#ff5252] !shadow-md' : 'opacity-30 !border-2 !border-transparent'}`} onClick={() => goto(3)}>
-                                <img src="https://adn-static1.nykaa.com/nykdesignstudio-images/pub/media/catalog/product/6/3/63be811GQAZMI00000629_4.jpg"
-                                    className='w-full transition-all group-hover:scale-105' />
-                            </div>
-                        </SwiperSlide>
-                        <SwiperSlide>
-                            <div className={`item !rounded-md !overflow-hidden cursor-pointer group transition-all ${slideIndex === 4 ? 'opacity-100 !border-2 !border-[#ff5252] !shadow-md' : 'opacity-30 !border-2 !border-transparent'}`} onClick={() => goto(4)}>
-                                <img src="https://adn-static1.nykaa.com/nykdesignstudio-images/pub/media/catalog/product/6/3/63be811GQAZMI00000629_5.jpg"
-                                    className='w-full transition-all group-hover:scale-105' />
-                            </div>
-                        </SwiperSlide>
-                        <SwiperSlide>
-                            <div className={`item !rounded-md !overflow-hidden cursor-pointer group transition-all ${slideIndex === 5 ? 'opacity-100 !border-2 !border-[#ff5252] !shadow-md' : 'opacity-30 !border-2 !border-transparent'}`} onClick={() => goto(5)}>
-                                <img src="https://adn-static1.nykaa.com/nykdesignstudio-images/pub/media/catalog/product/6/3/63be811GQAZMI00000629_6.jpg"
-                                    className='w-full transition-all group-hover:scale-105' />
-                            </div>
-                        </SwiperSlide>
-                        <SwiperSlide>
-                            <div className={`item !rounded-md !overflow-hidden cursor-pointer group transition-all ${slideIndex === 6 ? 'opacity-100 !border-2 !border-[#ff5252] !shadow-md' : 'opacity-30 !border-2 !border-transparent'}`} onClick={() => goto(6)}>
-                                <img src="https://adn-static1.nykaa.com/nykdesignstudio-images/pub/media/catalog/product/6/3/63be811GQAZMI00000629_7.jpg"
-                                    className='w-full transition-all group-hover:scale-105' />
-                            </div>
-                        </SwiperSlide>
+                        {
+                            props?.images?.map((item, index) => {
+                                return (
+                                    <SwiperSlide key={index}>
+                                        <div className={`item !rounded-md !overflow-hidden cursor-pointer group transition-all 
+                                         ${slideIndex === index ? '!opacity-100' : '!opacity-30 '}`}
+                                            onClick={() => goto(index)}>
+                                            <img src={item}
+                                                className='w-full transition-all group-hover:scale-105'
+                                            />
+                                        </div>
+                                    </SwiperSlide>
+
+                                )
+                            })
+                        }
                     </Swiper>
                 </div>
 
-                <div className='zoomContainer w-[80%] !h-[450px] overflow-hidden !rounded-md'>
+                <div className='zoomContainer w-[80%] !h-[460px] overflow-hidden !rounded-md'>
                     <Swiper
                         ref={zoomSliderBig}
                         slidesPerView={1}
@@ -96,48 +68,20 @@ export const ProductZoom = () => {
                         navigation={false}
                         onSlideChange={handleSlideChange}
                     >
-                        <SwiperSlide>
-                            <InnerImageZoom
-                                zoomType="hover"
-                                zoomScale={1}
-                                src={'https://adn-static1.nykaa.com/nykdesignstudio-images/pub/media/catalog/product/6/3/63be811GQAZMI00000629_1.jpg'} />
-                        </SwiperSlide>
-                        <SwiperSlide>
-                            <InnerImageZoom
-                                zoomType="hover"
-                                zoomScale={1}
-                                src={'https://adn-static1.nykaa.com/nykdesignstudio-images/pub/media/catalog/product/6/3/63be811GQAZMI00000629_2.jpg'} />
-                        </SwiperSlide>
-                        <SwiperSlide>
-                            <InnerImageZoom
-                                zoomType="hover"
-                                zoomScale={1}
-                                src={'https://adn-static1.nykaa.com/nykdesignstudio-images/pub/media/catalog/product/6/3/63be811GQAZMI00000629_3.jpg'} />
-                        </SwiperSlide>
-                        <SwiperSlide>
-                            <InnerImageZoom
-                                zoomType="hover"
-                                zoomScale={1}
-                                src={'https://adn-static1.nykaa.com/nykdesignstudio-images/pub/media/catalog/product/6/3/63be811GQAZMI00000629_4.jpg'} />
-                        </SwiperSlide>
-                        <SwiperSlide>
-                            <InnerImageZoom
-                                zoomType="hover"
-                                zoomScale={1}
-                                src={'https://adn-static1.nykaa.com/nykdesignstudio-images/pub/media/catalog/product/6/3/63be811GQAZMI00000629_5.jpg'} />
-                        </SwiperSlide>
-                        <SwiperSlide>
-                            <InnerImageZoom
-                                zoomType="hover"
-                                zoomScale={1}
-                                src={'https://adn-static1.nykaa.com/nykdesignstudio-images/pub/media/catalog/product/6/3/63be811GQAZMI00000629_6.jpg'} />
-                        </SwiperSlide>
-                        <SwiperSlide>
-                            <InnerImageZoom
-                                zoomType="hover"
-                                zoomScale={1}
-                                src={'https://adn-static1.nykaa.com/nykdesignstudio-images/pub/media/catalog/product/6/3/63be811GQAZMI00000629_7.jpg'} />
-                        </SwiperSlide>
+
+                        {
+                            props?.images?.map((item, index) => (
+                                <SwiperSlide key={index}>
+                                    <InnerImageZoom
+                                        zoomType="hover"
+                                        zoomScale={1}
+                                        src={item}
+                                    />
+                                </SwiperSlide>
+                            ))
+                        }
+
+
                     </Swiper>
                 </div>
             </div>

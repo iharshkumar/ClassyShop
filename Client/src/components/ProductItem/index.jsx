@@ -7,33 +7,34 @@ import { FaRegHeart } from 'react-icons/fa';
 import { IoGitCompareOutline } from 'react-icons/io5';
 import { MdZoomOutMap } from 'react-icons/md';
 import { MyContext } from '../../App';
+import { InsertEmoticonSharp } from '@mui/icons-material';
 
-const ProductItem = () => {
+const ProductItem = (props) => {
 
     const context = useContext(MyContext);
 
     return (
         <div className='productItem'>
             <div className="productItem__imageWrapper">
-                <Link to="/product/84758" className="productItem__imageLink">
+                <Link to={`/product/${props?.item?._id}`} className="productItem__imageLink">
                     <div className='productItem__imageContainer'>
                         <img
-                            src='https://adn-static1.nykaa.com/nykdesignstudio-images/pub/media/catalog/product/4/4/444700450699SS131913_3.jpg'
+                            src={props?.item?.images[0]}
                             alt="Product"
                             className='productItem__image productItem__image--primary'
                         />
                         <img
-                            src='https://adn-static1.nykaa.com/nykdesignstudio-images/pub/media/catalog/product/4/4/444700450699SS131913_2.jpg'
+                            src={props?.item?.images[1]}
                             alt="Product alternate view"
                             className='!w-full productItem__image productItem__image--secondary'
                         />
                     </div>
                 </Link>
                 <span className="productItem__discount">
-                    10%
+                    {props?.item?.discount}%
                 </span>
                 <div className='productItem__actions'>
-                    <Button className='productItem__actionBtn' title="Quick View" onClick={() => context.setOpenProductDetailsModal(true)}>
+                    <Button className='productItem__actionBtn' title="Quick View" onClick={() => context.handleOpenProductDetailsModal(true, props?.item)}>
                         <MdZoomOutMap />
                     </Button>
                     <Button className='productItem__actionBtn' title="Compare">
@@ -46,24 +47,24 @@ const ProductItem = () => {
             </div>
             <div className='productItem__info'>
                 <h6 className='productItem__category !font-[400]'>
-                    <Link to="/product/84758" className='productItem__link'>
-                        Soylent Green
-                    </Link>
+                    <span className='productItem__link'>
+                        {props?.item?.brand}
+                    </span>
                 </h6>
                 <h3 className='productItem__title'>
-                    <Link to="/product/84758" className='productItem__link'>
-                        Women Multi-Color Floral Pure Cotton Midi Dress
+                    <Link to={`/product/${props?.item?._id}`} className='productItem__link'>
+                        {props?.item?.name}
                     </Link>
                 </h3>
                 <div className='productItem__rating'>
-                    <Rating name="size-small" defaultValue={4} size="small" readOnly />
+                    <Rating name="size-small" defaultValue={props?.item?.rating} precision={0.5} size="small" readOnly />
                 </div>
                 <div className='productItem__priceWrapper'>
                     <span className='productItem__oldPrice'>
-                        $45.00
+                        &#8377; {props?.item?.oldPrice}
                     </span>
                     <span className='productItem__price'>
-                        $34.00
+                        &#8377; {props?.item?.price}
                     </span>
                 </div>
             </div>

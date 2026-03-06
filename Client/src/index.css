@@ -501,7 +501,7 @@ footer form input::placeholder {
   bottom: 0px !important;
   right: 0 !important;
   left: 0 !important;
-  top: 420px !important;
+  top: 430px !important;
   width: 100% !important;
   height: 25px !important;
   border-radius: 0px !important;
@@ -533,7 +533,7 @@ footer form input::placeholder {
 }
 
 .zoomProductSliderThumbs .swiper-slide .item {
-  opacity: 0.3;
+  opacity: 0.6;
 }
 
 
@@ -637,6 +637,11 @@ button .MuiCircularProgress-root {
 }
 
 .MuiDialog-paper {
-    width: 800px !important;
+  width: 800px !important;
   max-width: 800px !important;
+}
+
+.productDetailModal .MuiDialog-paper {
+  width: 1200px !important;
+  max-width: 1200px !important;
 }

@@ -39,7 +39,10 @@ const MyContext = createContext();
 
 function App() {
 
-  const [openProductDetailsModal, setOpenProductDetailsModal] = useState(false);
+  const [openProductDetailsModal, setOpenProductDetailsModal] = useState({
+    open: false,
+    item: {}
+  });
   const [maxWidth] = React.useState('lg');
   const [fullWidth] = React.useState(true)
   const [openCartPanel, setOpenCartPanel] = useState(false);
@@ -51,8 +54,18 @@ function App() {
   const apiUrl = import.meta.env.VITE_API_URL;
 
 
+  const handleOpenProductDetailsModal = (status, item) => {
+    setOpenProductDetailsModal({
+      open: status,
+      item: item
+    });
+  };
+
   const handleCloseProductDetailsModal = () => {
-    setOpenProductDetailsModal(false);
+    setOpenProductDetailsModal({
+      open: false,
+      item: {}
+    });
   };
 
   const toggleCartPanel = (newOpen) => {
@@ -84,8 +97,9 @@ function App() {
       }
     })
   }, [])
-  
+
   const values = {
+    handleOpenProductDetailsModal,
     setOpenProductDetailsModal,
     setOpenCartPanel,
     toggleCartPanel,
@@ -146,7 +160,7 @@ function App() {
       <Toaster />
 
       <Dialog
-        open={openProductDetailsModal}
+        open={openProductDetailsModal.open}
         fullWidth={fullWidth}
         maxWidth={maxWidth}
         onClose={handleCloseProductDetailsModal}
@@ -159,14 +173,23 @@ function App() {
           <div className="flex items-center w-full productDetailModalContainer relative">
             <Button className="w-[40px] !h-[40px] !min-w-[40px] !rounded-full !text-[#000]
              !absolute top-[15px] right-[15px] !bg-[#f1f1f1]" onClick={handleCloseProductDetailsModal}>
-              <IoCloseSharp className="text-[20px]" /></Button>
-            <div className="col1 w-[40%] !pl-3 !pr-2">
-              <ProductZoom className='w-full' />
-            </div>
+              <IoCloseSharp className="text-[20px]" />
+            </Button>
 
-            <div className="col2 w-[50%] !py-5 !px-8 !pr-16 productContent">
-              <ProductDetailsComponents />
-            </div>
+            {
+              openProductDetailsModal?.item?.length !== 0 &&
+              <>
+                <div className="col1 w-[40%] !pl-3 !pr-2">
+                  <ProductZoom images={openProductDetailsModal?.item?.images} className='w-full' />
+                </div>
+
+                <div className="col2 w-[60%] !py-5 !px-8 !pr-16 productContent overflow-y-auto max-h-[70vh]">
+                  <ProductDetailsComponents item={openProductDetailsModal?.item} />
+                </div>
+
+              </>
+            }
+
           </div>
         </DialogContent>
       </Dialog>
