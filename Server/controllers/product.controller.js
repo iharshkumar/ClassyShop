@@ -63,6 +63,9 @@ export async function createProduct(request, response) {
             name: request.body.name,
             description: request.body.description,
             images: imagesArr,
+            bannerImages: bannerImage,
+            bannerTitlename: request.body.bannerTitlename,
+            isDisplayOnHomeBanner: request.body.isDisplayOnHomeBanner,
             brand: request.body.brand,
             price: request.body.price,
             oldPrice: request.body.oldPrice,
@@ -602,11 +605,9 @@ export async function getProductsCount(request, response) {
 //get all features products
 export async function getAllFeaturedProducts(request, response) {
     try {
-
         const products = await ProductModel.find({
             isFeatured: true
-        })
-            .populate("category")
+        }).populate("category")
 
         if (!products) {
             response.status(500).json({
@@ -706,7 +707,7 @@ export async function deleteMultipleProduct(request, response) {
                     const urlParts = imgUrl.split("/");
                     const fileWithExtension = urlParts.pop();
                     const publicId = fileWithExtension.split(".")[0];
-                    
+
                     if (publicId) {
                         publicIds.push(publicId);
                     }
@@ -797,6 +798,9 @@ export async function updateProduct(request, response) {
                 name: request.body.name,
                 description: request.body.description,
                 images: request.body.images,
+                bannerImages: request.body.bannerImages,
+                bannerTitlename: request.body.bannerTitlename,
+                isDisplayOnHomeBanner: request.body.isDisplayOnHomeBanner,
                 brand: request.body.brand,
                 price: request.body.price,
                 oldPrice: request.body.oldPrice,
@@ -846,7 +850,7 @@ export async function updateProduct(request, response) {
 
 
 
-{/* RAMS FUNCTIONALITY */}
+{/* RAMS FUNCTIONALITY */ }
 //create Product RAM
 export async function createProductRAMS(request, response) {
     try {
@@ -916,7 +920,7 @@ export async function updateProductRAM(request, response) {
         const productRAM = await ProductRAMSModel.findByIdAndUpdate(
             request.params.id,
             {
-                name: request.body.name,   
+                name: request.body.name,
             },
             { new: true }
         )
@@ -948,7 +952,7 @@ export async function updateProductRAM(request, response) {
 export async function getProductRAM(request, response) {
     try {
         const productRAM = await ProductRAMSModel.find()
-            
+
 
         if (!productRAM) {
             response.status(500).json({
@@ -974,7 +978,7 @@ export async function getProductRAM(request, response) {
 export async function getProductRAMId(request, response) {
     try {
         const productRAM = await ProductRAMSModel.findById(request.params.id)
-            
+
 
         if (!productRAM) {
             response.status(500).json({
@@ -998,7 +1002,7 @@ export async function getProductRAMId(request, response) {
 }
 
 
-{/* Weight FUNCTIONALITY */}
+{/* Weight FUNCTIONALITY */ }
 //create Product WEIGHT
 export async function createProductWEIGHT(request, response) {
     try {
@@ -1068,7 +1072,7 @@ export async function updateProductWEIGHT(request, response) {
         const productWEIGHT = await productWEIGHTModel.findByIdAndUpdate(
             request.params.id,
             {
-                name: request.body.name,   
+                name: request.body.name,
             },
             { new: true }
         )
@@ -1100,7 +1104,7 @@ export async function updateProductWEIGHT(request, response) {
 export async function getProductWEIGHT(request, response) {
     try {
         const productWEIGHT = await productWEIGHTModel.find()
-            
+
 
         if (!productWEIGHT) {
             response.status(500).json({
@@ -1126,7 +1130,7 @@ export async function getProductWEIGHT(request, response) {
 export async function getProductWEIGHTById(request, response) {
     try {
         const productWEIGHT = await productWEIGHTModel.findById(request.params.id)
-            
+
 
         if (!productWEIGHT) {
             response.status(500).json({
@@ -1151,7 +1155,7 @@ export async function getProductWEIGHTById(request, response) {
 
 
 
-{/* SIZE FUNCTIONALITY */}
+{/* SIZE FUNCTIONALITY */ }
 //create Product SIZE
 export async function createProductSIZE(request, response) {
     try {
@@ -1221,7 +1225,7 @@ export async function updateProductSIZE(request, response) {
         const productSize = await productSIZEModel.findByIdAndUpdate(
             request.params.id,
             {
-                name: request.body.name,   
+                name: request.body.name,
             },
             { new: true }
         )
@@ -1253,7 +1257,7 @@ export async function updateProductSIZE(request, response) {
 export async function getProductSIZE(request, response) {
     try {
         const productSize = await productSIZEModel.find()
-            
+
 
         if (!productSize) {
             response.status(500).json({
@@ -1279,7 +1283,7 @@ export async function getProductSIZE(request, response) {
 export async function getProductSIZEById(request, response) {
     try {
         const productSize = await productSIZEModel.findById(request.params.id)
-            
+
 
         if (!productSize) {
             response.status(500).json({
@@ -1293,6 +1297,47 @@ export async function getProductSIZEById(request, response) {
             success: true,
             data: productSize
         })
+    } catch (error) {
+        return response.status(500).json({
+            message: error.message || error,
+            error: true,
+            success: false
+        })
+    }
+}
+
+
+var bannerImage = [];
+export async function uploadBannerImages(request, response) {
+    try {
+        bannerImage = [];
+
+        const image = request.files;
+
+        const options = {
+            use_filename: true,
+            unique_filename: false,
+            overwrite: false
+        };
+
+        for (let i = 0; i < request?.files?.length; i++) {
+
+
+            const img = await cloudinary.uploader.upload(
+                image[i].path,
+                options,
+                function (error, result) {
+                    //console.log(result)
+                    bannerImage.push(result.secure_url);
+                    fs.unlinkSync(`uploads/${request.files[i].filename}`)
+                }
+            )
+        }
+
+        return response.status(200).json({
+            images: bannerImage
+        })
+
     } catch (error) {
         return response.status(500).json({
             message: error.message || error,

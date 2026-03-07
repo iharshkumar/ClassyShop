@@ -11,7 +11,6 @@ import { uploadImages,  createProduct, getAllProducts,
     getAllFeaturedProducts,
     deleteProduct,
     getProduct,
-    removeImageFromCloudinary,
     updateProduct,
     deleteMultipleProduct,
     createProductRAMS,
@@ -30,13 +29,16 @@ import { uploadImages,  createProduct, getAllProducts,
     deleteProductSIZE,
     updateProductSIZE,
     getProductSIZE,
-    getProductSIZEById
+    getProductSIZEById,
+    uploadBannerImages
 } from "../controllers/product.controller.js";
 
+import {removeImageFromCloudinary} from "../controllers/category.controller.js";
 
 const productRouter = Router();
 
 productRouter.post('/uploadImages',auth,upload.array('images'),uploadImages);
+productRouter.post('/uploadBannerImages',auth,upload.array('bannerImages'),uploadBannerImages);
 productRouter.post('/create',auth,createProduct);
 productRouter.get('/getAllProducts',getAllProducts);
 productRouter.get('/getAllProductsByCatId/:id',getAllProductsByCatId);
@@ -49,10 +51,12 @@ productRouter.get('/getAllProductsByPrice',getAllProductsByPrice);
 productRouter.get('/getAllProductsByRating',getAllProductsByRating);
 productRouter.get('/getAllProductsCount',getProductsCount);
 productRouter.get('/getAllFeaturedProducts',getAllFeaturedProducts);
+// Delete image must be defined before parameterized :id routes,
+// otherwise "deleteImage" will be treated as an :id and hit deleteProduct.
+productRouter.delete('/deleteImage',auth,removeImageFromCloudinary);
 productRouter.delete('/deleteMultiple',deleteMultipleProduct);
 productRouter.delete('/:id',deleteProduct);
 productRouter.get('/:id',getProduct);
-productRouter.delete('/deleteImage',auth,removeImageFromCloudinary);
 productRouter.put('/updateProduct/:id',auth,updateProduct);
 
 {/*PRODUCT RAM ROUTES */}

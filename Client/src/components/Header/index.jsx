@@ -13,7 +13,6 @@ import { MyContext } from "../../App.jsx";
 import { FaRegUser } from "react-icons/fa";
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
-import ListItemIcon from '@mui/material/ListItemIcon';
 import Divider from '@mui/material/Divider';
 import { FaUserSecret } from "react-icons/fa";
 import { IoIosListBox } from "react-icons/io";
@@ -64,7 +63,7 @@ const Header = () => {
     }
 
     return (
-        <header className="bg-white relative z-[100]">
+        <header className="bg-white relative  sticky -top-[110px] !z-50">
             <div className="top-strip py-2 border-t-[1px] border-grey-250 border-b-[1px] mb-4 ">
                 <div className="container">
                     <div className="flex items-center justify-between">

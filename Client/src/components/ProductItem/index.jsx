@@ -14,7 +14,7 @@ const ProductItem = (props) => {
     const context = useContext(MyContext);
 
     return (
-        <div className='productItem'>
+        <div className='productItem '>
             <div className="productItem__imageWrapper">
                 <Link to={`/product/${props?.item?._id}`} className="productItem__imageLink">
                     <div className='productItem__imageContainer'>

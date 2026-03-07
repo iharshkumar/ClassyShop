@@ -13,13 +13,18 @@ import { MyContext } from '../../App';
 import { useContext } from 'react';
 import { deleteImage, fetchDataFromApi, postData } from '../../utils/api';
 import { useNavigate } from 'react-router-dom';
+import Switch from '@mui/material/Switch';
+
+
+const label = { inputProps: { 'aria-label': 'Switch demo' } };
 
 const AddProduct = () => {
-  const [isLoading, setIsLoading] = useState(false)
+  const [isLoading, setIsLoading] = useState(false);
   const history = useNavigate();
   const context = useContext(MyContext);
-  const [previews, setPreviews] = useState([])
-
+  const [previews, setPreviews] = useState([]);
+  const [bannerPreviews, setBannerPreviews] = useState([]);
+  const [checkedSwitch, setCheckedSwitch] = useState(false);
 
 
   const [formFields, setFormFields] = useState({
@@ -43,10 +48,10 @@ const AddProduct = () => {
     productRam: [],
     size: [],
     productWeight: [],
+    bannerTitlename: '',
+    bannerImages: [],
+    isDisplayOnHomeBanner: false
   })
-
-
-
 
   const [productCat, setProductCat] = useState('');
   const [productSubCat, setProductSubCat] = useState('');
@@ -173,8 +178,30 @@ const AddProduct = () => {
 
 
   const setPreviewsFun = (previewsArr) => {
-    setPreviews(previewsArr);
-    formFields.images = previewsArr
+    const imgArr = previews;
+    for (let i = 0; i < previewsArr.length; i++) {
+      imgArr.push(previews[i])
+    }
+    setPreviews([])
+    setTimeout(() => {
+      setPreviews(imgArr);
+      formFields.images = imgArr
+    }, 10);
+
+  }
+
+
+  const setBannerImagesFun = (previewsArr) => {
+    const imgArr = bannerPreviews;
+    for (let i = 0; i < previewsArr.length; i++) {
+      imgArr.push(previews[i])
+    }
+    setBannerPreviews([])
+    setTimeout(() => {
+      setBannerPreviews(imgArr);
+      formFields.bannerImages = imgArr
+    }, 10);
+
   }
 
   const removeImg = (image, index) => {
@@ -190,6 +217,31 @@ const AddProduct = () => {
       }, 100)
     })
   }
+
+  const removeBannerImg = (image, index) => {
+    var imageArr = [];
+    imageArr = bannerPreviews
+    deleteImage(`/api/category/deleteImage?img=${image}`).then(() => {
+      imageArr.splice(index, 1);
+      setBannerPreviews([]);
+
+      setTimeout(() => {
+        setBannerPreviews(imageArr);
+        formFields.bannerImages = imageArr
+      }, 100)
+    })
+  }
+
+
+
+  const handleChangeSwitch = (event) => {
+    const checked = !!event.target.checked;
+    setCheckedSwitch(checked);
+    setFormFields(formFields => ({
+      ...formFields,
+      isDisplayOnHomeBanner: checked,
+    }));
+  };
 
   const handleSubmit = (e) => {
     e.preventDefault(0);
@@ -586,9 +638,7 @@ const AddProduct = () => {
           <div className='col w-full !p-5 !px-0'>
             <h3 className='text-[18px] font-[700] !mb-4'>Media & Images</h3>
 
-
             <div className='grid grid-cols-7 gap-4'>
-
               {
                 previews.length !== 0 && previews?.map((image, index) => {
                   return (
@@ -612,6 +662,57 @@ const AddProduct = () => {
             </div>
 
           </div>
+
+
+          <div className='shadow-md bg-white !p-4 w-full'>
+            <div className='col w-full !p-5 !px-0'>
+              <div className='flex items-center gap-8'>
+                <h3 className='text-[18px] font-[700] !mb-4'>Banner Images</h3>
+                <Switch {...label}
+                  onChange={handleChangeSwitch}
+                  checked={checkedSwitch}
+                />
+              </div>
+
+              <div className='grid grid-cols-7 gap-4'>
+                {
+                  bannerPreviews.length !== 0 && bannerPreviews?.map((image, index) => {
+                    return (
+                      <div key={index} className='uploadBoxWrapper relative'>
+                        <span className='absolute w-[20px] h-[20px] !rounded-full !overflow-hidden !bg-red-500 -top-[5px] -right-[5px] flex items-center justify-center z-50 cursor-pointer'
+                          onClick={() => removeBannerImg(image, index)}>
+                          <IoMdClose className='text-white text-[17px]' />
+                        </span>
+                        <div className='uploadBox !p-0 !rounded-md !overflow-hidden !border  !border-dashed !border-[rgba(0,0,0,0.3)] h-[150px] w-[100%] !bg-gray-100 cursor-pointer hover:!bg-gray-200 flex items-center justify-center flex-col relative'>
+                          <img src={image} className='w-100' />
+                        </div>
+                      </div>
+                    )
+                  })
+                }
+
+
+
+                <UploadBox multiple={true}
+                  name="bannerImages"
+                  url="/api/product/uploadBannerImages"
+                  setPreviewsFun={setBannerImagesFun}
+                />
+
+              </div>
+              <br />
+
+              <h3 className='text-[18px] font-[700] !mb-4'>Banner Title</h3>
+              <input
+                type="text"
+                className='w-full h-[40px] border border-[rgba(0,0,0,0.2)] !focus:outline-none !focus:border-[rgba(0,0,0,0.4)] !rounded-sm !p-3 !text-sm !bg-[#fafafa]'
+                name="bannerTitlename"
+                value={formFields.bannerTitlename}
+                onChange={onChangeInput}
+              />
+            </div>
+          </div>
+
 
         </div>
         <div className='sticky bottom-0 !bg-gray-100 left-0 right-0  !p-5 !border-t !border-gray-300 z-50'>

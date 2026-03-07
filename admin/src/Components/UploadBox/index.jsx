@@ -18,6 +18,7 @@ const UploadBox = (props) => {
             }
 
             const formdata = new FormData(); // Create new FormData for each upload
+            const fieldName = props?.name || 'images';
 
             // First, validate all files
             for (var i = 0; i < files.length; i++) {
@@ -28,7 +29,7 @@ const UploadBox = (props) => {
                 ) {
                     const file = files[i];
                     selectedImages.push(file);
-                    formdata.append('images', file);
+                    formdata.append(fieldName, file);
                 }
                 else {
                     context.alertBox("error", "Please select a valid JPG , JPEG or PNG image file")
@@ -43,7 +44,7 @@ const UploadBox = (props) => {
                 if (res?.data?.images) {
                     //props.setPreviews(res.data.images);
                     setUploading(false)
-                    props.setPreviewsFun(res.data.images);
+                    props.setPreviewsFun(res?.data?.images);
 
                 } else {
                     context.alertBox("error", "Upload failed. Please try again.");
@@ -79,7 +80,7 @@ const UploadBox = (props) => {
                             }
                             className='absolute top-0 left-0 w-full h-full !z-50 !opacity-0'
                             onChange={(e) => onChangeFile(e, props?.url)}
-                            name="images" />
+                            name={props?.name} />
                     </>
             }
         </div>

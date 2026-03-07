@@ -17,6 +17,7 @@ import AdsBannerSliderV2 from '../../components/AdsBannerSliderV2';
 import { fetchDataFromApi } from '../../utils/api';
 //import { useNavigate } from 'react-router-dom';
 import { MyContext } from '../../App';
+import ProductLoading from '../../components/ProductLoading';
 
 
 
@@ -55,6 +56,7 @@ const Home = () => {
   }, [context?.catData])
 
   const filterByCatId = (id) => {
+    setPopularProductData([])
     fetchDataFromApi(`/api/product/getAllProductsByCatId/${id}`).then((res) => {
       if (res?.error === false) {
         setPopularProductData(res?.data)
@@ -71,16 +73,68 @@ const Home = () => {
 
 
 
-      {/* 
-      <section className='py-6' style={{ paddingTop: '20px' }}>
-        <div className='container flex w-[50%] mx-auto justify-start gap-5'>
-          <div className='part1 w-[70%] ' >
-            <HomeSliderV2 />
+
+
+
+
+      {
+        context?.catData?.length !== 0 && <HomeCatSlider data={context?.catData} />
+      }
+
+
+      <section className='bg-white !mt-0 !pb-4'>
+        <div className='container'>
+          <div className='flex flex-col md:flex-row items-start md:items-center justify-between gap-4 mb-6'>
+            <div className='leftSec'>
+              <h2 className='text-[20px] font-[600] !mt-3 !mb-0'>Popular Products </h2>
+              <p className='text-[15px] font-[300] !mt-0'>Do not miss the current offers until the end of March</p>
+            </div>
+
+            <div className='rightSec w-full md:w-[60%]'>
+              <Tabs
+                value={value}
+                onChange={handleChange}
+                variant="scrollable"
+                scrollButtons="auto"
+                aria-label="scrollable auto tabs example"
+              >
+                {
+                  context?.catData?.length !== 0 && context?.catData?.map((cat) => (
+                    <Tab
+                      key={cat?._id}
+                      label={cat?.name}
+                      onClick={() => filterByCatId(cat?._id)}
+                    />
+                  ))
+                }
+
+              </Tabs>
+            </div>
           </div>
 
-          <div className='part2 w-[30%] pl-5 flex items-center gap-5 justify-between flex-col'>
-            <BannerBoxV2 
-              info="Left" 
+          {
+            popularProductData?.length === 0 && <ProductLoading />
+          }
+
+          {
+            popularProductData?.length !== 0 && <ProductsSlider items={6} data={popularProductData} />
+          }
+
+        </div>
+
+      </section>
+
+      <section className='!py-6 !pb-0 !mb-0 !pb-5'>
+        <div className='container flex w-[50%] mx-auto justify-start gap-5'>
+          <div className='part1 w-[70%]'>
+            {
+              allProductsData?.length !== 0 && <HomeSliderV2 data={allProductsData} />
+            }
+          </div>
+
+          <div className='part2 w-[30%] pl-5 flex items-center gap-5 justify-between flex-col '>
+            <BannerBoxV2
+              info="Left"
               image={'https://serviceapi.spicezgold.com/download/1757183705017_1737020250515_New_Project_47.jpg'}
               title="Iphone 16 Pro Max"
               subtitle="Apple"
@@ -88,9 +142,9 @@ const Home = () => {
               linkText="SHOP NOW"
               linkTo="/"
             />
-            
-            <BannerBoxV2 
-              info="right" 
+
+            <BannerBoxV2
+              info="right"
               image={'https://serviceapi.spicezgold.com/download/1760160666204_1737020916820_New_Project_52.jpg'}
               title="Summer Collection"
               subtitle="Nike"
@@ -101,47 +155,6 @@ const Home = () => {
           </div>
 
         </div>
-      </section> */}
-
-
-      {
-        context?.catData?.length !== 0 && <HomeCatSlider data={context?.catData} />
-      }
-
-
-      <section className='bg-white pt-12 md:pt-16 pb-8 md:pb-12'>
-        <div className='container'>
-          <div className='flex flex-col md:flex-row items-start md:items-center justify-between gap-4 mb-6'>
-            <div className='leftSec'>
-              <h2 className='text-[20px] font-[600] !mt-3'>Popular Products </h2>
-              <p className='text-[15px] font-[300] !mt-2'>Do not miss the current offers until the end of March</p>
-            </div>
-
-            <div className='rightSec w-full md:w-[60%]'>
-              <Tabs
-                value={value}
-                onChange={handleChange}
-                variant="scrollable"
-                scrollButtons="auto"
-                aria-label="scrollable auto tabs example"
-
-              >
-                {
-                  context?.catData?.length !== 0 && context?.catData?.map((cat) => (
-                    <Tab key={cat?._id} label={cat?.name} onClick={() => filterByCatId(cat?._id)} />
-                  ))
-                }
-
-              </Tabs>
-            </div>
-
-          </div>
-          {
-            popularProductData?.length !== 0 && <ProductsSlider items={6} data={popularProductData} />
-          }
-
-        </div>
-
       </section>
 
       <section className="!w-full bg-white pt-12 md:pt-16 pb-8 md:pb-12" style={{ paddingTop: '30px' }}>
@@ -176,6 +189,10 @@ const Home = () => {
           <div className='flex flex-col gap-6'>
 
             {
+              allProductsData?.length === 0 && <ProductLoading />
+            }
+
+            {
               allProductsData?.length !== 0 && <ProductsSlider items={6} data={allProductsData} />
             }
 
@@ -188,6 +205,10 @@ const Home = () => {
         <div className='container bg-white flex flex-col gap-6'>
           <h2 className='text-[20px] font-[600]' style={{ paddingTop: '30px' }}>Featured Products</h2>
           <div className='flex flex-col gap-6'>
+
+            {
+              featuredProducts?.length === 0 && <ProductLoading />
+            }
 
             {
               featuredProducts?.length !== 0 && <ProductsSlider items={6} data={featuredProducts} />
