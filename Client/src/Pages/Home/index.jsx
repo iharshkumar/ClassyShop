@@ -160,32 +160,32 @@ const Home = () => {
           <div className='part2 w-[30%] pl-5 flex items-center gap-5 justify-between flex-col '>
             {
               bannerV2Data?.length !== 0 && (() => {
-                const leftBanner = bannerV2Data.find(b => b.alignInfo === 'left');
-                const rightBanner = bannerV2Data.find(b => b.alignInfo === 'right');
+                const leftBanner = bannerV2Data[0];
+                const rightBanner = bannerV2Data[1];
 
                 return (
                   <>
-                    <div className="z-10 flex gap-4">
-  {leftBanner && (
-    <BannerBoxV2
-      info="left"
-      image={leftBanner?.images?.[0]}
-      item={leftBanner}
-      linkText="SHOP NOW"
-      linkTo="/products"
-    />
-  )}
+                    <div className="z-10 flex flex-col gap-4">
+                      {leftBanner && (
+                        <BannerBoxV2
+                          info={leftBanner?.alignInfo}
+                          image={leftBanner?.images?.[0]}
+                          item={leftBanner}
+                          linkText="SHOP NOW"
+                          linkTo="/products"
+                        />
+                      )}
 
-  {rightBanner && (
-    <BannerBoxV2
-      info="right"
-      image={rightBanner?.images?.[0]}
-      item={rightBanner}
-      linkText="EXPLORE"
-      linkTo="/products"
-    />
-  )}
-</div>
+                      {rightBanner && (
+                        <BannerBoxV2
+                          info={rightBanner?.alignInfo}
+                          image={rightBanner?.images?.[0]}
+                          item={rightBanner}
+                          linkText="EXPLORE"
+                          linkTo="/products"
+                        />
+                      )}
+                    </div>
                   </>
                 );
               })()

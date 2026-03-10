@@ -5,7 +5,9 @@ import { MdOutlineSpaceDashboard } from "react-icons/md";
 import { IoHomeOutline } from "react-icons/io5";
 import { LuUsersRound } from "react-icons/lu";
 import { TbCategoryPlus } from "react-icons/tb";
-import { IoCartOutline } from "react-icons/io5";
+import { IoImageOutline } from "react-icons/io5";
+import { FaBoxOpen } from "react-icons/fa6";
+import { HiOutlinePencilAlt } from "react-icons/hi";
 import { GiBoxUnpacking } from "react-icons/gi";
 import { IoIosLogOut } from "react-icons/io";
 import { FaAngleDown } from "react-icons/fa6";
@@ -144,7 +146,7 @@ const Sidebar = () => {
                         <Link to="/">
                             <Button className='w-full !capitalise !justify-start 
                         flex gap-3 text-[14px] !font-[500] !text-[rgba(0,0,0,0.8)] items-center !py-2 !hover:bg-[#f1f1f1]' onClick={() => isOpenSubMenu(4)}>
-                                <IoCartOutline className='text-[20px] ' />
+                                <FaBoxOpen  className='text-[20px] ' />
                                 <span>Products</span>
                                 <span className='!ml-auto !w-[30px] !h-[30px] flex items-center justfy-center'
                                 >
@@ -218,7 +220,7 @@ const Sidebar = () => {
                             <Button className='w-full !capitalise !justify-start flex gap-3 text-[14px] !font-[500] !text-[rgba(0,0,0,0.8)] items-center !py-2 !hover:bg-[#f1f1f1]'
                                 onClick={() => isOpenSubMenu(5)}
                             >
-                                <IoCartOutline className='text-[20px]' />
+                                <IoImageOutline className='text-[20px]' />
                                 <span>Banners</span>
                                 <span className='!ml-auto !w-[30px] !h-[30px] flex items-center justfy-center'>
                                     <FaAngleDown className={`transition-all ${subMenuIndex === 5 ? 'rotate-180' : ''}`} />
@@ -252,7 +254,7 @@ const Sidebar = () => {
                             <Button className='w-full !capitalise !justify-start flex gap-3 text-[14px] !font-[500] !text-[rgba(0,0,0,0.8)] items-center !py-2 !hover:bg-[#f1f1f1]'
                                 onClick={() => isOpenSubMenu(6)}
                             >
-                                <IoCartOutline className='text-[20px]' />
+                                <HiOutlinePencilAlt  className='text-[20px]' />
                                 <span>Blogs</span>
                                 <span className='!ml-auto !w-[30px] !h-[30px] flex items-center justfy-center'>
                                     <FaAngleDown className={`transition-all ${subMenuIndex === 6 ? 'rotate-180' : ''}`} />
@@ -286,7 +288,7 @@ const Sidebar = () => {
                             <Button className='w-full !capitalise !justify-start flex gap-3 text-[14px] !font-[500] !text-[rgba(0,0,0,0.8)] items-center !py-2 !hover:bg-[#f1f1f1]'
                                 onClick={() => isOpenSubMenu(7)}
                             >
-                                <IoCartOutline className='text-[20px]' />
+                                    <IoImageOutline className='text-[20px]' />
                                 <span>Banners V2</span>
                                 <span className='!ml-auto !w-[30px] !h-[30px] flex items-center justfy-center'>
                                     <FaAngleDown className={`transition-all ${subMenuIndex === 7 ? 'rotate-180' : ''}`} />
@@ -307,7 +309,7 @@ const Sidebar = () => {
                                             open: true,
                                             model: 'Add Banners V2'
                                         })}>
-                                        <span className='block w-[5px] h-[5px] rounded-full !bg-[rgba(0,0,0,0.2)]'></span>Add Blog
+                                        <span className='block w-[5px] h-[5px] rounded-full !bg-[rgba(0,0,0,0.2)]'></span>Add Banners V2
                                     </Button>
                                 </li>
                             </ul>
@@ -320,8 +322,8 @@ const Sidebar = () => {
                             <Button className='w-full !capitalise !justify-start flex gap-3 text-[14px] !font-[500] !text-[rgba(0,0,0,0.8)] items-center !py-2 !hover:bg-[#f1f1f1]'
                                 onClick={() => isOpenSubMenu(8)}
                             >
-                                <IoCartOutline className='text-[20px]' />
-                                <span>Ads Banners</span>
+                                    <IoImageOutline className='text-[20px]' />
+                                <span>Ads Banner V1</span>
                                 <span className='!ml-auto !w-[30px] !h-[30px] flex items-center justfy-center'>
                                     <FaAngleDown className={`transition-all ${subMenuIndex === 8 ? 'rotate-180' : ''}`} />
                                 </span>
