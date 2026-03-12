@@ -14,7 +14,7 @@ const HomeSlider = (props) => {
 
                 <Swiper
                     loop={true}
-                    spaceBetween={10}
+                    spaceBetween={30}
                     navigation={true}
                     modules={[Navigation, Autoplay]}
                     autoplay={{
@@ -26,7 +26,7 @@ const HomeSlider = (props) => {
                     breakpoints={{
                         1024: { slidesPerView: 1.1 },
                     }}
-                    className="sliderHome"
+                    className="sliderHome !overflow-visible"
                 >
                     {
                         props?.data?.length !== 0 && props?.data?.map((item, index) => {
@@ -36,7 +36,7 @@ const HomeSlider = (props) => {
                                     <div className='item rounded-[20px] overflow-hidden'>
                                         <img src={imgSrc}
                                             alt="Banner Slide"
-                                            className='w-full'
+                                            className='w-full h-full object-cover'
                                             loading="lazy"
                                         />
                                     </div>

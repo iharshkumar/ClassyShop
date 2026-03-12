@@ -1465,7 +1465,7 @@ export async function filter(request, response) {
 }
 
 
-const sortItems = (produtcs, sortBy, order) => {
+const sortItems = (products, sortBy, order) => {
     return products.sort((a, b) => {
         if (sortBy === 'name') {
             return order === 'asc' ? a.name.localeCompare(b.name) : b.name.localeCompare(a.name)
@@ -1473,16 +1473,14 @@ const sortItems = (produtcs, sortBy, order) => {
         if (sortBy === 'price') {
             return order === 'asc' ? a.price - b.price : b.price - a.price
         }
-        return;
+        return 0; // Return 0 to keep original order if no match
     })
-
-
 }
 
 export async function sortBy(request, response) {
     const { products, sortBy, order } = request.body;
 
-    const sortedItems = sortItems([...products?.products], sortBy, order);
+    const sortedItems = sortItems([...(products || [])], sortBy, order);
 
     return response.status(200).json({
         error: false,

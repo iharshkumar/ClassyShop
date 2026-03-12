@@ -2,20 +2,35 @@ import React, { useState } from 'react';
 import Breadcrumbs from '@mui/material/Breadcrumbs';
 import { Link } from 'react-router-dom';
 import { ProductZoom } from '../../components/ProductZoom';
-import Rating from '@mui/material/Rating';
 import Button from '@mui/material/Button'
-import QtyBox from '../../components/QtyBox';
-import { MdOutlineShoppingCart } from 'react-icons/md';
-import { IoGitCompareOutline } from 'react-icons/io5'
-import { FaRegHeart } from 'react-icons/fa';
-import TextField from '@mui/material/TextField';
-import ProductsSlider from '../../components/ProductsSlider';
-import AdsBannerSlider from '../../components/AdsBannerSlider';
 import ProductDetailsComponents from '../../components/ProductDetails';
+import { useParams } from 'react-router-dom';
+import { useEffect } from 'react';
+import { fetchDataFromApi } from '../../utils/api';
+import ProductLoading from '../../components/ProductLoading';
+import ProductsSlider from '../../components/ProductsSlider';
 
 export const ProductDetails = () => {
 
     const [activeTab, setActiveTab] = useState(0);
+    const { id } = useParams();
+    const [productData, setProductData] = useState(null);
+
+    useEffect(() => {
+        if (id) {
+            window.scrollTo(0, 0);
+            fetchDataFromApi(`/api/product/${id}`).then((res) => {
+                if (res?.error === false) {
+                    setProductData(res?.product);
+                }
+            });
+        }
+    }, [id]);
+
+    if (!productData) {
+        return <div className="text-center py-10"><ProductLoading /></div>;
+    }
+
     return (
         <>
             <div className='!py-4 !pb-0'>
@@ -27,16 +42,16 @@ export const ProductDetails = () => {
                         <Link
                             underline="hover"
                             color="inherit"
-                            href="/"
+                            href={`/products?catId=${productData?.catId}`}
                             className='link transition !text-[14px]'
                         >
-                            Fashion
+                            {productData?.category?.name || 'Category'}
                         </Link>
                         <Link
                             underline="hover"
                             className='link transition text-[14px]'
                         >
-                            Cotton Dye Tracksuit
+                            {productData?.name}
                         </Link>
                     </Breadcrumbs>
                 </div>
@@ -49,11 +64,11 @@ export const ProductDetails = () => {
             <section className='!bg-white !py-5' >
                 <div className='container flex gap-8 items-center'>
                     <div className='productZoomContainer w-[30%] '>
-                        <ProductZoom />
+                        <ProductZoom images={productData?.images} />
                     </div>
 
                     <div className='productContent w-[60%] !pr-10 !pl=10'>
-                        <ProductDetailsComponents />
+                        <ProductDetailsComponents item={productData} />
                     </div>
                 </div>
 
@@ -77,43 +92,7 @@ export const ProductDetails = () => {
                     {
                         activeTab === 0 &&
                         <div className='shadow-md w-full !py-5 !p-8 rounded-md'>
-                            <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry.
-                                Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,
-                                when an unknown printer took a galley of type and scrambled it to make a
-                                type specimen book.ac
-                            </p>
-
-
-                            <h4>Lightweight Design</h4>
-                            <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry.
-                                Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,
-                                when an unknown printer took a galley of type and scrambled it to make a
-                                type specimen book.ac
-                            </p>
-
-                            <h4>Free Shipping & Return</h4>
-                            <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry.
-                                Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,
-                                when an unknown printer took a galley of type and scrambled it to make a
-                                type specimen book.ac
-                            </p>
-
-                            <h4>Money Back Gurantee</h4>
-                            <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry.
-                                Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,
-                                when an unknown printer took a galley of type and scrambled it to make a
-                                type specimen book.ac
-                            </p>
-
-                            <h4>Online Support</h4>
-                            <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry.
-                                Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,
-                                when an unknown printer took a galley of type and scrambled it to make a
-                                type specimen book.ac
-                            </p>
-
-
-
+                            <p>{productData?.description}</p>
                         </div>
                     }
 

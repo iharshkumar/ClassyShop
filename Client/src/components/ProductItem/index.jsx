@@ -3,7 +3,7 @@ import "../ProductItem/style.css";
 import { Link } from 'react-router-dom';
 import Rating from '@mui/material/Rating';
 import Button from '@mui/material/Button';
-import { FaRegHeart } from 'react-icons/fa';
+import { FaRegHeart, FaShoppingCart } from 'react-icons/fa';
 import { IoGitCompareOutline } from 'react-icons/io5';
 import { MdZoomOutMap } from 'react-icons/md';
 import { MyContext } from '../../App';
@@ -67,6 +67,13 @@ const ProductItem = (props) => {
                         &#8377; {props?.item?.price}
                     </span>
                 </div>
+                <Button
+                    className='btn-org btn-border !text-red !px-6 !py-2 btn-sm hover:!text-white rounded-full flex items-center gap-2 !mt-2 !w-full'
+                    title="Add to Cart"
+                >
+                    <FaShoppingCart className='text-sm' />
+                    <span className='text-sm'>Add to Cart</span>
+                </Button>
             </div>
         </div>
     )

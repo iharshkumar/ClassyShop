@@ -39,7 +39,7 @@ const ProductDetailsComponents = (props) => {
 
 
             <p className='!mt-3 !mb-5'>
-                {props?.item?.description}
+                {props?.item?.description?.substr(0, 40) + '...'}
             </p>
 
             {
@@ -92,7 +92,7 @@ const ProductDetailsComponents = (props) => {
                 </div>
             }
 
-            
+
 
 
             <p className='text-[14px] !mt-3 !mb-3'>Free Shipping (Est. Delivery Time 2-3 Days)</p>

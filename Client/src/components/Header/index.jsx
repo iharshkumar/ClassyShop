@@ -39,7 +39,7 @@ const Header = () => {
 
 
     const context = useContext(MyContext)
-    const history=useNavigate()
+    const history = useNavigate()
     const handleClick = (event) => {
         setAnchorEl(event.currentTarget);
     };
@@ -63,8 +63,8 @@ const Header = () => {
     }
 
     return (
-        <header className="bg-white relative  sticky -top-[110px] !z-50">
-            <div className="top-strip py-2 border-t-[1px] border-grey-250 border-b-[1px] mb-4 ">
+        <header className="bg-white relative sticky -top-[110px] !z-[100]">
+            <div className="top-strip py-2 border-t-[1px] border-grey-250 border-b-[1px] ">
                 <div className="container">
                     <div className="flex items-center justify-between">
                         <div className="col1 w-[50%]">
@@ -91,7 +91,7 @@ const Header = () => {
                 </div>
             </div>
 
-            <div className="header border-b-[1px] border-grey-250 mb-4 pt-1 ">
+            <div className="header border-b-[1px] border-grey-250 pt-1 ">
                 <div className="container flex items-center justify-between py-2 px-4 gap-6 h-16">
                     <div className="col1 w-[25%] ">
                         <Link to="/">

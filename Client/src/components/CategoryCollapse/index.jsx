@@ -42,7 +42,7 @@ export const CategoryCollapse = (props) => {
                             return (
                                 <li className="list-none" key={index}>
                                     <div className="flex items-center justify-between gap-2">
-                                        <Link to="/productListing" className="flex-1">
+                                        <Link to={`/products?catId=${cat?._id}`} className="flex-1">
                                             <Button className="!px-1 !min-w-0 !text-left !justify-start !w-full !text-[rgba(0,0,0,2)]">
                                                 {cat?.name}
                                             </Button>
@@ -88,7 +88,7 @@ export const CategoryCollapse = (props) => {
                                                                         subCat?.children?.length !== 0 && subCat?.children?.map((thirdLevelCat, index__) => {
                                                                             return (
                                                                                 <li className='list-none relative !mb-1' key={index__}>
-                                                                                    <Link to="/productListing" className=" link w-full !text-left !justify-start !px-3 transition !text-[14px] block">
+                                                                                    <Link to={`/products?thirdLevelCatId=${thirdLevelCat?._id}`} className=" link w-full !text-left !justify-start !px-3 transition !text-[14px] block">
                                                                                         {thirdLevelCat?.name}
                                                                                     </Link>
                                                                                 </li>
