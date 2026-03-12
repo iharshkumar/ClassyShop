@@ -39,6 +39,7 @@ const Home = () => {
   };
 
   useEffect(() => {
+    window.scrollTo(0, 0);
     fetchDataFromApi("/api/homeSlides/").then((res) => {
       setHomeSlidesData(res?.data)
     })

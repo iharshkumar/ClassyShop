@@ -16,8 +16,12 @@ import { useContext } from 'react';
 import { MyContext } from '../../App';
 import CircularProgress from '@mui/material/CircularProgress';
 import { useNavigate } from 'react-router-dom'
+import { getAuth, signInWithPopup, GoogleAuthProvider } from "firebase/auth";
+import { firebaseApp } from '../../firebase.jsx';
 
 
+const auth = getAuth(firebaseApp);
+const googleProvider = new GoogleAuthProvider();
 
 const Register = () => {
 
@@ -89,6 +93,47 @@ const Register = () => {
             }
 
         })
+    }
+
+    const authWithGoogle = () => {
+        signInWithPopup(auth, googleProvider)
+            .then((result) => {
+                // This gives you a Google Access Token. You can use it to access the Google API.
+                const credential = GoogleAuthProvider.credentialFromResult(result);
+                const token = credential.accessToken;
+                // The signed-in user info.
+                const user = result.user;
+                const fields = {
+                    name: user.providerData[0].displayName,
+                    email: user.providerData[0].email,
+                    password: null,
+                    avatar: user.providerData[0].photoURL,
+                    mobile: user.providerData[0].phoneNumber,
+                    role: "USER"
+                }
+
+                postData("/api/user/authWithGoogle", fields).then((res) => {
+                    console.log(res)
+                    if (res?.error === false) {
+                        setIsLoading(false);
+                        context.alertBox("success", res?.message);
+                        localStorage.setItem("userEmail", fields.email);
+                        localStorage.setItem("accesstoken", res?.data?.accesstoken);
+                        localStorage.setItem("refreshToken", res?.data?.refreshToken);
+                        context.setIsLogin(true)
+                        history("/");
+                    } else {
+                        context.alertBox("error", res?.message);
+                        setIsLoading(false);
+                    }
+
+                })
+            }).catch((error) => {
+                const errorCode = error.code;
+                const errorMessage = error.message;
+                const email = error.customData.email;
+                const credential = GoogleAuthProvider.credentialFromError(error);
+            });
     }
 
     return (
@@ -181,39 +226,6 @@ const Register = () => {
                             />
                         </FormControl>
 
-                        {/* <FormControl variant="standard" className='w-full !mt-4 relative !text-black !mb-2'>
-                            <InputLabel htmlFor="password">
-                                Confirm Password
-                            </InputLabel>
-                            <Input
-                                id="confirm_password"
-                                type={isShowConfirmPassword === false ? 'password' : 'text'}
-                                value={confirmPassword}
-                                onChange={e => {
-                                    setConfirmPassword(e.target.value);
-                                    if (password && e.target.value !== password) {
-                                        setPasswordError('Passwords do not match');
-                                    } else {
-                                        setPasswordError('');
-                                    }
-                                }}
-                                startAdornment={
-                                    <InputAdornment position="start">
-                                        <Button className='!absolute !right-[5px] !-top-[5px] !z-[10px] !w-[30px] !h-[30px] !min-w-[35px] !rounded-full 
-                                       !text-black' onClick={() => setIsShowConfirmPassword(!isShowConfirmPassword)}>
-                                            {
-                                                isShowConfirmPassword === false ? <FaRegEyeSlash className='text-[20px] opacity-75' /> :
-                                                    <IoEyeOutline className='text-[20px] opacity-75' />
-                                            }
-                                        </Button>
-                                    </InputAdornment>
-                                }
-                            />
-                            {
-                                passwordError && (
-                                    <div className="text-red-500 text-xs mt-1">{passwordError}</div>
-                                )}
-                        </FormControl> */}
 
                         <div className='flex items-center w-full !mt-3 !mb-3'>
                             <Button type='submit'
@@ -229,8 +241,8 @@ const Register = () => {
                         <p className='text-center'>Already Registered?  <Link className='link text-[14px] font-[5000] !text-[#ff5252]' to="/login">Login</Link></p>
 
                         <p className='text-center font-[500] !mb-5'> Or continue with social account</p>
-                        <Button className='flex w-full gap-3 !bg-[#f1f1f1] btn-lg !text-black !mb-3'> <FcGoogle className='text-[20px]' /> Login With Google</Button>
-                        <Button className='flex w-full gap-3 !bg-[#f1f1f1] btn-lg !text-black !mb-3'> <AiFillApple className='text-[20px]' /> Login With Apple Id</Button>
+                        <Button className='flex w-full gap-3 !bg-[#f1f1f1] btn-lg !text-black !mb-3' onClick={authWithGoogle}> <FcGoogle className='text-[20px]' /> Sign In With Google</Button>
+                        {/* <Button className='flex w-full gap-3 !bg-[#f1f1f1] btn-lg !text-black !mb-3'> <AiFillApple className='text-[20px]' /> Login With Apple Id</Button> */}
 
                     </form>
                 </div>

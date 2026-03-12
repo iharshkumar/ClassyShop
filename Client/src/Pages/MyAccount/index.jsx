@@ -254,7 +254,7 @@ const MyAccount = () => {
                     </div>
 
 
-                    
+
 
 
 
@@ -267,23 +267,25 @@ const MyAccount = () => {
                             <hr />
 
                             <form className='!mt-8' onSubmit={handleSubmitChangePassword}>
-                                <div className='flex items-center gap-5'>
-                                    <div className='w-[100%]'>
-                                        <TextField
-                                            label="Old Password"
-                                            variant="outlined"
-                                            size='small'
-                                            name="oldPassword"
-                                            value={changePassword.oldPassword}
-                                            disabled={isLoading2 === true ? true : false}
-                                            onChange={onChangeInput}
-                                            className='w-full'
-                                        />
-                                    </div>
-                                </div>
+                                <div className='grid grid-cols-2 gap-5'>
+                                    {
+                                        context?.userData?.signUpWithGoogle === false &&
+                                        <div className='col'>
+                                            <TextField
+                                                label="Old Password"
+                                                variant="outlined"
+                                                size='small'
+                                                name="oldPassword"
+                                                value={changePassword.oldPassword}
+                                                disabled={isLoading2 === true ? true : false}
+                                                onChange={onChangeInput}
+                                                className='w-full'
+                                            />
+                                        </div>
+                                    }
 
-                                <div className='flex items-center !mt-4 gap-5'>
-                                    <div className='w-[100%]'>
+
+                                    <div className='col'>
                                         <TextField
                                             type='text'
                                             label="New Password"
@@ -295,10 +297,8 @@ const MyAccount = () => {
                                             className='w-full'
                                         />
                                     </div>
-                                </div>
 
-                                <div className='flex items-center !mt-4 gap-5'>
-                                    <div className='w-[100%]'>
+                                    <div className='col'>
                                         <TextField
                                             label="Confirm Password"
                                             variant="outlined"
@@ -311,11 +311,13 @@ const MyAccount = () => {
                                     </div>
                                 </div>
 
+
+
                                 <br />
 
                                 <div className='flex items-center gap-4'>
                                     <Button type="submit"
-                                        disabled={!validateValue2}
+
                                         className='btn-org btn-lg w-[250px]'>
 
                                         {
