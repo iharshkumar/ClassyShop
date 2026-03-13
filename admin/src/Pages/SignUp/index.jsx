@@ -14,6 +14,12 @@ import { useContext } from 'react';
 import { MyContext } from '../../App';
 import CircularProgress from '@mui/material/CircularProgress';
 import { useNavigate } from 'react-router-dom'
+import { getAuth, signInWithPopup, GoogleAuthProvider } from "firebase/auth";
+import { firebaseApp } from '../../firebase.jsx';
+
+
+const auth = getAuth(firebaseApp);
+const googleProvider = new GoogleAuthProvider();
 
 
 
@@ -95,6 +101,47 @@ const SignUp = () => {
         setLoadingFb(true);
     }
 
+    const authWithGoogle = () => {
+        signInWithPopup(auth, googleProvider)
+            .then((result) => {
+                // This gives you a Google Access Token. You can use it to access the Google API.
+                const credential = GoogleAuthProvider.credentialFromResult(result);
+                const token = credential.accessToken;
+                // The signed-in user info.
+                const user = result.user;
+                const fields = {
+                    name: user.providerData[0].displayName,
+                    email: user.providerData[0].email,
+                    password: null,
+                    avatar: user.providerData[0].photoURL,
+                    mobile: user.providerData[0].phoneNumber,
+                    role: "ADMIN"
+                }
+
+                postData("/api/user/authWithGoogle", fields).then((res) => {
+                    console.log(res)
+                    if (res?.error === false) {
+                        setIsLoading(false);
+                        context.alertBox("success", res?.message);
+                        localStorage.setItem("userEmail", fields.email);
+                        localStorage.setItem("accesstoken", res?.data?.accesstoken);
+                        localStorage.setItem("refreshToken", res?.data?.refreshToken);
+                        context.setIsLogin(true)
+                        history("/");
+                    } else {
+                        context.alertBox("error", res?.message);
+                        setIsLoading(false);
+                    }
+
+                })
+            }).catch((error) => {
+                const errorCode = error.code;
+                const errorMessage = error.message;
+                const email = error.customData.email;
+                const credential = GoogleAuthProvider.credentialFromError(error);
+            });
+    }
+
     return (
         <section className="w-full">
             <header className=' w-full fixed !top-0 !left-0 !px-4 !py-3 flex !items-center !justify-between !z-50'>
@@ -144,11 +191,12 @@ const SignUp = () => {
 
                     <LoadingButton
                         size="small"
-                        onClick={handleClickGoogle}
+                        onClick={authWithGoogle}
                         endIcon={<FcGoogle />}
                         loading={loadingGoogle}
                         loadingPosition="end"
                         variant="outlined"
+                        disabled={isLoading === true ? true : false}
                         className='!bg-none !py-2  !text-[16px] !capitalize !px-5 !text-[rgba(0,0,0,0.8)]'
 
                     >
@@ -162,6 +210,7 @@ const SignUp = () => {
                         loading={loadingFb}
                         loadingPosition="end"
                         variant="outlined"
+                        disabled={isLoading === true ? true : false}
                         className='!bg-none !py-2 !text-[16px] !capitalize !px-5 !text-[rgba(0,0,0,0.8)]'
 
                     >

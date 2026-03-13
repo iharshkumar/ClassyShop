@@ -60,9 +60,6 @@ const Profile = () => {
         if (token === null) {
             history("/")
         }
-
-
-
     }, [context?.isLogin])
 
     const onChangeInput = (e) => {
@@ -201,7 +198,7 @@ const Profile = () => {
         e.preventDefault()
 
         setIsLoading2(true)
-        if (changePassword.oldPassword === "") {
+        if (context?.userData?.signUpWithGoogle === false && changePassword.oldPassword === "") {
             context.alertBox("error", "Please enter Old Password")
             return false
         }
@@ -266,9 +263,9 @@ const Profile = () => {
                 <br />
 
                 <div className='w-[110px] h-[110px] rounded-full !overflow-hidden !relative
-                            group flex items-center justify-center bg-gray-200 '> 
-                            
-                              {
+                            group flex items-center justify-center bg-gray-200 '>
+
+                    {
                         uploading === true ? <CircularProgress color='inherit' /> :
                             <>
                                 {
@@ -401,8 +398,7 @@ const Profile = () => {
                     <div className='flex items-center gap-4'>
                         <Button type="submit"
                             disabled={!validateValue}
-                            className='btn-blue btn-lg w-[250px]'>
-
+                            className='btn-blue btn-lg w-[250px] !mt-5'>
                             {
                                 isLoading === true ? <CircularProgress color="inherit" />
                                     :
@@ -417,7 +413,6 @@ const Profile = () => {
             </div >
 
             <Collapse isOpened={isChangePasswordFormShow} >
-
                 <div className='card bg-white !mt-5 !w-[75%] !p-5 !shadow-md !rounded-md'>
                     <div className='flex items-center !pb-3'>
                         <h2 className='!pb-0'>Change Password</h2>
@@ -425,24 +420,26 @@ const Profile = () => {
                     <hr />
 
                     <form className='!mt-8' onSubmit={handleSubmitChangePassword}>
-                        <div className='flex items-center gap-5'>
-                            <div className='w-[100%]'>
-                                <TextField
-                                    label="Old Password"
-                                    variant="outlined"
-                                    size='small'
-                                    name="oldPassword"
-                                    type="password"
-                                    value={changePassword.oldPassword}
-                                    disabled={isLoading2 === true ? true : false}
-                                    onChange={onChangePasswordInput}
-                                    className='w-full'
-                                />
-                            </div>
-                        </div>
+                        <div className='grid grid-cols-2  gap-5'>
+                            {
+                                context?.userData?.signUpWithGoogle === false &&
+                                <div className='col'>
+                                    <TextField
+                                        label="Old Password"
+                                        variant="outlined"
+                                        size='small'
+                                        name="oldPassword"
+                                        type="password"
+                                        value={changePassword.oldPassword}
+                                        disabled={isLoading2 === true ? true : false}
+                                        onChange={onChangePasswordInput}
+                                        className='w-full'
+                                    />
+                                </div>
+                            }
 
-                        <div className='flex items-center !mt-4 gap-5'>
-                            <div className='w-[100%]'>
+
+                            <div className='col'>
                                 <TextField
                                     type='password'
                                     label="New Password"
@@ -454,10 +451,8 @@ const Profile = () => {
                                     className='w-full'
                                 />
                             </div>
-                        </div>
 
-                        <div className='flex items-center !mt-4 gap-5'>
-                            <div className='w-[100%]'>
+                            <div className='col'>
                                 <TextField
                                     type='password'
                                     label="Confirm Password"
@@ -475,7 +470,6 @@ const Profile = () => {
 
                         <div className='flex items-center gap-4'>
                             <Button type="submit"
-                                disabled={!validateValue2}
                                 className='btn-blue btn-lg w-[250px]'>
 
                                 {

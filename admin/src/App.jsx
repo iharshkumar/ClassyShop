@@ -92,7 +92,7 @@ function App() {
     }
   }, [isLogin])
 
- 
+
 
   const getCat = () => {
     fetchDataFromApi("/api/category/").then((res) => {
@@ -135,7 +135,7 @@ function App() {
       exact: true,
       element: (
         <>
-          <Login />
+          <div className='!mt-15'><Login /></div>
         </>
       )
     },
@@ -320,7 +320,7 @@ function App() {
               <div className={`overflow-hidden sidebarWrapper ${isSidebarOpen === true ? 'w-[18%]' : 'w-[0px] opacity-0 transition-all'}`}>
                 <Sidebar />
               </div>
-              <div className={`contentRight !py-4 !px-5 ${isSidebarOpen === true ? 'w-[82%]' : 'w-[100%]'} transition-all`}>
+              <div className={`contentRight !py-4 !mt-15 !px-5 ${isSidebarOpen === true ? 'w-[82%]' : 'w-[100%]'} transition-all`}>
                 <Profile />
               </div>
             </div>
@@ -340,7 +340,7 @@ function App() {
               <div className={`overflow-hidden sidebarWrapper ${isSidebarOpen === true ? 'w-[18%]' : 'w-[0px] opacity-0 transition-all'}`}>
                 <Sidebar />
               </div>
-              <div className={`contentRight !py-4 !px-5 ${isSidebarOpen === true ? 'w-[82%]' : 'w-[100%]'} transition-all`}>
+              <div className={`contentRight !py-4 !mt-15 !px-5 ${isSidebarOpen === true ? 'w-[82%]' : 'w-[100%]'} transition-all`}>
                 <ProductDetails />
               </div>
             </div>
@@ -533,7 +533,7 @@ function App() {
       <MyContext.Provider value={values}>
         <RouterProvider router={router} />
         <Toaster />
-        
+
       </MyContext.Provider>
     </>
   )
