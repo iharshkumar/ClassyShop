@@ -8,6 +8,7 @@ import generatedRefreshToken from '../utils/generateRefreshToken.js';
 
 import { v2 as cloudinary } from 'cloudinary';
 import fs from "fs";
+import ReviewModel from '../models/reviews.model.js';
 
 cloudinary.config({
     cloud_name: process.env.cloudinary_Config_Cloud_name,
@@ -696,7 +697,7 @@ export async function resetpassword(request, response) {
                 })
             }
         } else {
-            if (!oldPassword) {
+            if (user.signUpWithGoogle === false && !oldPassword) {
                 return response.status(400).json({
                     message: "Provide required field oldPassword or resetToken",
                     error: true,
@@ -823,3 +824,72 @@ export async function userDetails(request, response) {
         })
     }
 }
+
+
+//add review
+export async function addReview(request, response) {
+    try {
+        const { image, userName, rating, review, productId } = request.body
+        if (!image || !userName || !rating || !review || !productId) {
+            return response.status(400).json({
+                message: "Provide required fields image, userName, rating, review, productId",
+                error: true,
+                success: false
+            })
+        }
+
+        const userReview = new ReviewModel({
+            image: image,
+            userName: userName,
+            rating: rating,
+            review: review,
+            productId: productId,
+            userId: request.userId
+        })
+
+        await userReview.save();
+
+        return response.json({
+            message: "Review added successfully",
+            data: userReview,
+            error: false,
+            success: true
+        })
+    } catch (error) {
+        return response.status(500).json({
+            message: error.message || error,
+            error: true,
+            success: false
+        })
+    }
+}
+
+//getReview
+export async function getReview(request, response) {
+    try {
+        const productId = request.query.productId;
+
+        const reviews = await ReviewModel.find({ productId: productId }).sort({ createdAt: -1 })
+
+        if (!reviews) {
+            return response.status(404).json({
+                message: "Review not found",
+                error: true,
+                success: false
+            })
+        }
+        return response.status(200).json({
+            message: "Review fetched successfully",
+            reviews: reviews,
+            error: false,
+            success: true
+        })
+    } catch (error) {
+        return response.status(500).json({
+            message: error.message || error,
+            error: true,
+            success: false
+        })
+    }
+}
+

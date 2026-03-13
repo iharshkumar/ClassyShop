@@ -505,7 +505,7 @@ footer form input::placeholder {
   bottom: 0px !important;
   right: 0 !important;
   left: 0 !important;
-  top: 430px !important;
+  top: 420px !important;
   width: 100% !important;
   height: 25px !important;
   border-radius: 0px !important;
@@ -652,4 +652,8 @@ button .MuiCircularProgress-root {
 
 header {
   box-shadow: 0px 1px 5px #0000001a !important;
+}
+
+.MuiCircularProgress-root {
+  color: #ff5252 !important;
 }

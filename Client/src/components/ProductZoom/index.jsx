@@ -35,7 +35,7 @@ export const ProductZoom = (props) => {
                     <Swiper
                         ref={zoomSliderSml}
                         direction={'vertical'}
-                        slidesPerView={5}
+                        slidesPerView={4}
                         spaceBetween={0}
                         navigation={true}
                         modules={[Navigation]}

@@ -120,7 +120,7 @@ const MyAccount = () => {
         e.preventDefault()
 
         setIsLoading2(true)
-        if (changePassword.oldPassword === "") {
+        if (context?.userData?.signUpWithGoogle === false && changePassword.oldPassword === "") {
             context.alertBox("error", "Please enter Old Password")
             return false
         }

@@ -24,7 +24,7 @@ const ProductDetailsComponents = (props) => {
 
 
                 <Rating name="size-small" defaultValue={props?.item?.rating} precision={0.5} size="small" readOnly />
-                <span className='text-[13px] cursor-poointer'>Review (5)</span>
+                <span className='text-[13px] cursor-pointer' onClick={props?.gotoReviewSection}>Review ({props?.reviewCount})</span>
 
             </div>
             <div className='productItem__priceWrapper !mt-4'>

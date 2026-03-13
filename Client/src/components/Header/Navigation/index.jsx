@@ -60,7 +60,7 @@ const Navigation = () => {
                                                 <div className='submenu absolute top-full left-0 min-w-[150px] bg-white shadow-md 
                                                 opacity-0 invisible translate-y-2
                                                 group-hover:opacity-100 group-hover:visible group-hover:translate-y-0
-                                                transition-all duration-300 z-[999]'>
+                                                transition-all duration-300 z-[9999]'>
                                                     <ul>
                                                         {
                                                             cat?.children?.map((subCat, index_) => {
