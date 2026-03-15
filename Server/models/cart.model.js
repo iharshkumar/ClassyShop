@@ -21,21 +21,6 @@ const cartProductSchema = new mongoose.Schema({
         type: Number,
         required: true
     },
-    oldPrice: {
-        type: Number,
-    },
-    discount: {
-        type: Number,
-    },
-    size: {
-        type: String,
-    },
-    weight: {
-        type: String,
-    },
-    ram: {
-        type: String,
-    },
     subTotal: {
         type: Number,
         required: true
@@ -51,9 +36,6 @@ const cartProductSchema = new mongoose.Schema({
     userId: {
         type: String,
         required: true
-    },
-    brand: {
-        type: String,
     }
 }, {
     timestamps: true
@@ -61,6 +43,6 @@ const cartProductSchema = new mongoose.Schema({
 
 
 
-const CartProductModel = mongoose.model("cartProduct", cartProductSchema)
+const CartModel = mongoose.model("cart", cartProductSchema)
 
-export default CartProductModel
+export default CartModel

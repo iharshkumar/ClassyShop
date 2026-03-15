@@ -1,11 +1,11 @@
 import CartProductModel from "../models/cartProduct.model.js";
-import UserModel from "../models/user.model.js";
+import ProductModel from "../models/product.model.js";
 
 
 export const addToCartItemController = async (request, response) => {
     try {
-        const userId = request.userId
-        const { productId } = request.body
+        const userId = request.userId //middleware
+        const { productTitle, image, rating, price, oldPrice, brand, discount, size, weight, ram, quantity, subTotal, countInStock, productId } = request.body
 
         if (!productId) {
             return response.status(402).json({
@@ -17,7 +17,10 @@ export const addToCartItemController = async (request, response) => {
 
         const checkItemCart = await CartProductModel.findOne({
             userId: userId,
-            productId: productId
+            productId: productId,
+            size: size,
+            weight: weight,
+            ram: ram
         })
 
         if (checkItemCart) {
@@ -27,18 +30,24 @@ export const addToCartItemController = async (request, response) => {
         }
 
         const cartItem = new CartProductModel({
-            quantity: 1,
-            userId: userId,
-            productId: productId
+            productTitle: productTitle,
+            image: image,
+            rating: rating,
+            price: price,
+            oldPrice: oldPrice,
+            discount: discount,
+            brand: brand,
+            size: size,
+            weight: weight,
+            ram: ram,
+            quantity: quantity,
+            subTotal: subTotal,
+            countInStock: countInStock,
+            productId: productId,
+            userId: userId
         })
 
         const save = await cartItem.save()
-
-        const updateCartUser = await UserModel.updateOne({ _id: userId }, {
-            $push: {
-                shopping_cart: productId
-            }
-        })
 
         return response.status(200).json({
             data: save,
@@ -59,12 +68,23 @@ export const getCartItemController = async (request, response) => {
     try {
         const userId = request.userId
 
-        const cartItem = await CartProductModel.find({
+        const cartItems = await CartProductModel.find({
             userId: userId
-        }).populate("productId")
+        })
+
+        // Fetch available variations for each product
+        const cartItemsWithVariations = await Promise.all(cartItems.map(async (item) => {
+            const product = await ProductModel.findById(item.productId);
+            return {
+                ...item._doc,
+                productRams: product?.productRam || [],
+                productSizes: product?.size || [],
+                productWeights: product?.productWeight || []
+            }
+        }));
 
         return response.json({
-            data: cartItem,
+            data: cartItemsWithVariations,
             error: false,
             success: true
         })
@@ -78,29 +98,35 @@ export const getCartItemController = async (request, response) => {
     }
 }
 
-export const updateCartItemQtyController = async (request, response) => {
+export const updateCartItemController = async (request, response) => {
     try {
         const userId = request.userId
-        const { _id, qty } = request.body
+        const { _id, quantity, size, weight, ram, subTotal } = request.body
 
-        if (!_id || !qty) {
+        if (!_id) {
             return response.status(400).json({
-                message: "Provide _id, qty"
+                message: "Provide _id"
             })
         }
 
-        const updateCartItem = await CartProductModel.updateOne(
+        const updateData = {};
+        if (quantity !== undefined) updateData.quantity = quantity;
+        if (size !== undefined) updateData.size = size;
+        if (weight !== undefined) updateData.weight = weight;
+        if (ram !== undefined) updateData.ram = ram;
+        if (subTotal !== undefined) updateData.subTotal = subTotal;
+
+        const updateCartItem = await CartProductModel.findOneAndUpdate(
             {
                 _id: _id,
                 userId: userId
             },
-            {
-                quantity: qty
-            }
+            updateData,
+            { new: true }
         )
 
         return response.json({
-            message: "Update cart",
+            message: "Cart updated successfully",
             success: true,
             error: false,
             data: updateCartItem
@@ -117,8 +143,8 @@ export const updateCartItemQtyController = async (request, response) => {
 export const deleteCartItemQtyController = async (request, response) => {
     try {
         const userId = request.userId
-        const { _id, productId } = request.body
-        if (!_id) {
+        const { id } = request.params
+        if (!id) {
             return response.status(400).json({
                 message: "Provide _id",
                 error: true,
@@ -128,7 +154,7 @@ export const deleteCartItemQtyController = async (request, response) => {
 
         const deleteCartItem = await CartProductModel.deleteOne(
             {
-                _id: _id,
+                _id: id,
                 userId: userId
             }
         )
@@ -141,24 +167,10 @@ export const deleteCartItemQtyController = async (request, response) => {
             })
         }
 
-
-        const user = await UserModel.findOne({
-            _id: userId
-        })
-
-        const cartItems = user?.shopping_cart
-
-        const updatedUserCart = [...cartItems.slice(0, cartItems.indexOf(productId)),
-        ...cartItems.slice(cartItems.indexOf(productId) + 1)]
-
-        user.shopping_cart=updatedUserCart;
-        await user.save()
-
-
         return response.json({
             message: "Item remove",
             error: false,
-            success: false,
+            success: true,
             data: deleteCartItem
         })
 
