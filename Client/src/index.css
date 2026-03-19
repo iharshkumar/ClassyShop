@@ -106,8 +106,11 @@ h6 {
 }
 
 
-.link:hover {
-  color: #ff5252;
+.link:hover,
+.Mui-checked,
+.Mui-checked svg,
+.Mui-checked svg path {
+  color: #ff5252 !important;
 }
 
 .MuiBadge-badge {
@@ -570,6 +573,11 @@ input[type=number]::-webkit-outer-spin-button {
 
 .cartPanel .MuiPaper-root {
   width: 500px !important;
+}
+
+.addAddressPanel .MuiPaper-root {
+  width: 800px !important;
+  overflow: hidden !important;
 }
 
 #size-menu .MuiButtonBase-root {

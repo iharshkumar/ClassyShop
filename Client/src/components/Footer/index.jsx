@@ -7,7 +7,6 @@ import { TbTruckReturn } from "react-icons/tb";
 import { Link } from 'react-router-dom';
 import { IoChatboxOutline } from 'react-icons/io5';
 import Button from '@mui/material/Button';
-import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
 import { CiFacebook } from "react-icons/ci";
 import { RiTwitterXLine } from "react-icons/ri";
@@ -22,10 +21,17 @@ import Dialog from '@mui/material/Dialog';
 import DialogContent from '@mui/material/DialogContent';
 import { ProductZoom } from "../ProductZoom/index.jsx";
 import ProductDetailsComponents from "../ProductDetails/index.jsx";
-
+import TextField from '@mui/material/TextField';
+import RadioGroup from '@mui/material/RadioGroup';
+import FormControl from '@mui/material/FormControl';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import FormLabel from '@mui/material/FormLabel';
+import CircularProgress from '@mui/material/CircularProgress';
+import AddAddress from '../../Pages/MyAccount/addAddress.jsx';
 
 const Footer = () => {
     const context = useContext(MyContext)
+
     return (
         <>
             <footer className='bg-white w-full border-t border-[rgba(0,0,0,0.1)] pt-12 md:pt-16' style={{ paddingTop: '50px' }}>
@@ -232,6 +238,25 @@ const Footer = () => {
                             </>
                     }
                 </div>
+            </Drawer>
+
+
+            {/*Address Panel*/}
+            <Drawer open={context.openAddressPanel} onClose={() => context.setOpenAddressPanel(false)} anchor={"right"}
+                className="cartPanel">
+                <div className='flex flex-col h-full max-h-screen overflow-hidden'>
+                    <div className="flex items-center justify-between !py-3 !px-4 gap-3 border-b border-[rgba(0,0,0,0.1)] flex-shrink-0">
+                        <h4>Add Delivery Address</h4>
+                        <IoCloseSharp className="text-[20px] cursor-pointer" onClick={() => context.setOpenAddressPanel(false)} />
+                    </div>
+
+
+                    <div className="flex-grow overflow-y-auto !p-4">
+                        <AddAddress />
+                    </div>
+
+                </div>
+
             </Drawer>
 
             <Dialog

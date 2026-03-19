@@ -40,6 +40,7 @@ function App() {
   const [maxWidth] = React.useState('lg');
   const [fullWidth] = React.useState(true)
   const [openCartPanel, setOpenCartPanel] = useState(false);
+  const [openAddressPanel, setOpenAddressPanel] = useState(false);
   const [isLogin, setIsLogin] = useState(() => {
     const token = localStorage.getItem('accesstoken');
     return token !== undefined && token !== null && token !== "";
@@ -48,6 +49,9 @@ function App() {
   const apiUrl = import.meta.env.VITE_API_URL;
   const [cartData, setCartData] = useState([]);
   const [myListData, setMyListData] = useState([]);
+  const [catData, setCatData] = useState([]);
+  const [address, setAddress] = useState([]);
+  const [editId, setEditId] = useState(null);
 
   const handleOpenProductDetailsModal = (status, item) => {
     setOpenProductDetailsModal({
@@ -66,7 +70,10 @@ function App() {
   const toggleCartPanel = (newOpen) => {
     setOpenCartPanel(newOpen);
   };
-  const [catData, setCatData] = useState([]);
+
+  const toggleAddressPanel = (newOpen) => {
+    setOpenAddressPanel(newOpen);
+  };
 
   useEffect(() => {
     const token = localStorage.getItem('accesstoken')
@@ -165,6 +172,20 @@ function App() {
     })
   }
 
+  const getAddresses = () => {
+    if (userData?._id !== "" && userData?._id !== undefined) {
+      fetchDataFromApi(`/api/address/get?userId=${userData?._id}`).then((res) => {
+        setAddress(res.address)
+      })
+    }
+  }
+
+  useEffect(() => {
+    if (userData?._id !== null) {
+      getAddresses();
+    }
+  }, [userData])
+
   const values = {
     handleOpenProductDetailsModal,
     setOpenProductDetailsModal,
@@ -189,7 +210,15 @@ function App() {
     setCartData,
     myListData,
     setMyListData,
-    getMyListData
+    getMyListData,
+    toggleAddressPanel,
+    openAddressPanel,
+    setOpenAddressPanel,
+    address,
+    setAddress,
+    getAddresses,
+    editId,
+    setEditId
   }
 
   return (

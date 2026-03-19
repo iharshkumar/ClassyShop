@@ -2,6 +2,10 @@ import mongoose from "mongoose";
 
 const addressSchema = mongoose.Schema({
 
+    fullName: {
+        type: String,
+        default: ""
+    },
     address_line1: {
         type: String,
         default: ""
@@ -24,16 +28,20 @@ const addressSchema = mongoose.Schema({
         type: Number,
         default: null
     },
-    status: {
-        type: Boolean,
-        default: true
-    },
     selected: {
         type: Boolean,
         default: true
     },
+    landmark: {
+        type: String,
+    },
+    addressType: {
+        type: String,
+        enum: ["home", "work"],
+        lowercase: true
+    },
     userId: {
-        type: mongoose.Schema.ObjectId,
+        type: String,
         default: ""
     }
 
