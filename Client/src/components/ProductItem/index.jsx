@@ -125,13 +125,13 @@ const ProductItem = (props) => {
         }
     }, [context?.cartData, context?.myListData])
 
-    const updateCartQty = (id, qty) => {
+    const updateCartQty = (id, quantity) => {
         const obj = {
             _id: id,
-            qty: qty,
-            subTotal: parseInt(Number(props?.item?.price) * qty)
+            quantity: parseInt(quantity),
+            subTotal: parseInt(Number(props?.item?.price) * quantity)
         }
-        editData(`/api/cart/update-qty`, obj).then((res) => {
+        editData(`/api/cart/update`, obj).then((res) => {
             if (res?.error === false) {
                 context.alertBox("success", res?.message)
                 context.getCartItems()

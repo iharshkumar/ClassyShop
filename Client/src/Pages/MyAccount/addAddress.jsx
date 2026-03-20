@@ -51,6 +51,7 @@ const AddAddress = (props) => {
                 if (res?.success) {
                     setFormFields({
                         _id: res.address._id,
+                        fullName: res.address.fullName,
                         address_line1: res.address.address_line1,
                         city: res.address.city,
                         state: res.address.state,
@@ -217,7 +218,6 @@ const AddAddress = (props) => {
     }
 
     return (
-
         <form className='!p-8 !py-3' onSubmit={handleSubmit}>
             <div className='flex items-center gap-5 !pb-5'>
                 <div className='col w-[100%]'>

@@ -243,10 +243,10 @@ const Footer = () => {
 
             {/*Address Panel*/}
             <Drawer open={context.openAddressPanel} onClose={() => context.setOpenAddressPanel(false)} anchor={"right"}
-                className="cartPanel">
+                className="addressPanel">
                 <div className='flex flex-col h-full max-h-screen overflow-hidden'>
                     <div className="flex items-center justify-between !py-3 !px-4 gap-3 border-b border-[rgba(0,0,0,0.1)] flex-shrink-0">
-                        <h4>Add Delivery Address</h4>
+                        <h4>{context?.editId ? "Edit" : "Add"} Delivery Address</h4>
                         <IoCloseSharp className="text-[20px] cursor-pointer" onClick={() => context.setOpenAddressPanel(false)} />
                     </div>
 
@@ -271,8 +271,7 @@ const Footer = () => {
 
                 <DialogContent>
                     <div className="flex items-center w-full productDetailModalContainer relative">
-                        <Button className="w-[40px] !h-[40px] !min-w-[40px] !rounded-full !text-[#000]
-             !absolute top-[15px] right-[15px] !bg-[#f1f1f1]" onClick={context?.handleCloseProductDetailsModal}>
+                        <Button className="w-[40px] !h-[40px] !min-w-[40px] !rounded-full !text-[#000] !absolute top-[15px] right-[15px] !bg-[#f1f1f1]" onClick={context?.handleCloseProductDetailsModal}>
                             <IoCloseSharp className="text-[20px]" />
                         </Button>
 
