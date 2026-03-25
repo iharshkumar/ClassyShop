@@ -39,8 +39,13 @@ const Checkout = () => {
 
     useEffect(() => {
         window.scrollTo(0, 0);
-        setSelectedAddress(context?.userData?.address_details[0]?._id);
-    }, [context?.userData])
+        if (context?.address?.length > 0) {
+            setSelectedAddress(context?.address[0]?._id);
+        } else if (context?.userData?.address_details?.length > 0) {
+            const firstAddr = context?.userData?.address_details[0];
+            setSelectedAddress(typeof firstAddr === 'object' ? firstAddr?._id : firstAddr);
+        }
+    }, [context?.userData, context?.address])
 
     useEffect(() => {
         const total = context?.cartData?.length !== 0 ?

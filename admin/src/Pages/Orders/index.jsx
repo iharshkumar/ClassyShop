@@ -3,10 +3,14 @@ import React, { useState } from 'react'
 import { FaAngleDown, FaAngleUp } from 'react-icons/fa6'
 import Badge from '../../components/Badge';
 import SearchBox from '../../Components/SearchBox';
+import { useEffect } from 'react';
+import { fetchDataFromApi } from '../../../../Client/src/utils/api';
 
 const Orders = () => {
 
     const [isOpenOrderedProduct, setIsOpenOrderedProduct] = useState(null);
+    const [orders, setOrders] = useState([]);
+
 
     const isShowOrderedProduct = (index) => {
         if (isOpenOrderedProduct === index) {
@@ -17,15 +21,23 @@ const Orders = () => {
         }
     }
 
+    useEffect(() => {
+        fetchDataFromApi("/api/order/order-list").then((res) => {
+            if (res?.error === false) {
+                setOrders(res?.data)
+            }
+        })
+    }, [])
+
     return (
         <div className='card !mt-5 !my-2 !shadow=md sm:rounded-lg !bg-white' >
             <div className='flex items-center justify-between !px-5 !py-5'>
                 <h1 className='text-[18px] font-[600]'>Recent Orders</h1>
-                <div className='w-[40%]'><SearchBox/></div>
+                <div className='w-[40%]'><SearchBox /></div>
             </div>
 
 
-            <div className="relative overflow-x-auto bg-white !shadow-xs rounded-md !border !border-[rgba(0,0,0,0.1)] !pb-5">
+            <div className="relative overflow-x-auto !mt-5 bg-white !shadow-xs rounded-md !border !border-[rgba(0,0,0,0.1)]">
                 <table className="w-full text-sm text-left rtl:text-right text-body border-collapse">
                     <thead className="text-sm text-body bg-[#f1f1f1] !border-b !border-[rgba(0,0,0,0.1)]">
                         <tr>
@@ -69,474 +81,151 @@ const Orders = () => {
                         </tr>
                     </thead>
                     <tbody>
-                        <tr className="!bg-white !border-b !border-[rgba(0,0,0,0.1)] hover:!bg-gray-50">
-                            <td className="!px-6 !py-4">
-                                <Button className='!w-[35px] !h-[35px] !min-w-[35px] !rounded-full !bg-[#f1f1f1]'
-                                    onClick={() => isShowOrderedProduct(0)}>
-                                    {
-                                        isOpenOrderedProduct === 0 ?
-                                            <FaAngleUp className='text-[16px] text-[rgba(0,0,0,0.7)]' /> :
-                                            <FaAngleDown className='text-[16px] text-[rgba(0,0,0,0.7)]' />
-                                    }
-                                </Button>
-                            </td>
-
-                            <td className="!px-6 !py-4">
-                                <span className='text-[#3872fa]'>6732kjhfjksah32ggfd</span>
-                            </td>
-
-                            <td className="!px-6 !py-4">
-                                <span className='text-[#3872fa]'>pay_id63r87265sgf</span>
-                            </td>
-
-                            <td className="!px-6 !py-4 whitespace-nowrap">
-                                Harsh Kumar
-                            </td>
-
-                            <td className="!px-6 !py-4">
-                                3562372422
-                            </td>
-
-                            <td className="!px-6 !py-4">
-                                <span className='block w-[400px]'> Sector 17, Buddha colony, Uttam Nagar, NewDelhi, 100001, India</span>
-                            </td>
-
-                            <td className="!px-6 !py-4">
-                                571401
-                            </td>
-                            <td className="!px-6 !py-4">
-                                5000.00
-                            </td>
-
-                            <td className="!px-6 !py-4">
-                                iaefweu@gmail.com
-                            </td>
-
-                            <td className="!px-6 !py-4">
-                                <span className='text-[#3872fa]'>763589263hjcgdhs9089</span>
-                            </td>
-
-                            <td className="!px-6 !py-4">
-                                <Badge status="pending" />
-
-                            </td>
-
-                            <td className="!px-6 !py-4 whitespace-nowrap">
-                                2024-12-04
-                            </td>
-                        </tr>
-
 
                         {
-                            isOpenOrderedProduct === 0 && (
-                                <tr>
-                                    <td className='!pl-25 !py-4' colSpan="12">
-                                        <div className="relative overflow-x-auto bg-white !shadow-xs rounded-md !border !border-[rgba(0,0,0,0.1)]">
-                                            <table className="w-full text-sm text-left rtl:text-right text-body border-collapse">
-                                                <thead className="text-sm text-body bg-[#f1f1f1] !border-b !border-[rgba(0,0,0,0.1)]">
-                                                    <tr>
-                                                        <th scope="col" className="!px-6 !py-3 font-medium whitespace-nowrap">
-                                                            Product Id
-                                                        </th>
-                                                        <th scope="col" className="!px-6 !py-3 font-medium whitespace-nowrap">
-                                                            Product Details
-                                                        </th>
-
-                                                        <th scope="col" className="!px-6 !py-3 font-medium whitespace-nowrap">
-                                                            Image
-                                                        </th>
-                                                        <th scope="col" className="!px-6 !py-3 font-medium whitespace-nowrap">
-                                                            Quantity
-                                                        </th>
-                                                        <th scope="col" className="!px-6 !py-3 font-medium whitespace-nowrap">
-                                                            Price
-                                                        </th>
-                                                        <th scope="col" className="!px-6 !py-3 font-medium whitespace-nowrap">
-                                                            Sub Total
-                                                        </th>
-
-
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-                                                    <tr className="!bg-white !border-b !border-[rgba(0,0,0,0.1)] hover:!bg-gray-50">
-                                                        <td className="!px-6 !py-4">
-                                                            <span className='text-gray-600'>6732kjhfjksah32ggfd</span>
-                                                        </td>
-
-                                                        <td className="!px-6 !py-4">
-                                                            <span className='text-gray-600'>Cotton Set-Tie & Dye...</span>
-                                                        </td>
-
-                                                        <td className="!px-6 !py-4 whitespace-nowrap">
-                                                            <img src="https://media.cnn.com/api/v1/images/stellar/prod/gettyimages-2239341361.jpg?c=16x9&q=w_1479,c_fill"
-                                                                className='w-[40px] h-[40px] object-cover whitespace-nowrap !rounded-md' />                                                                </td>
-
-                                                        <td className="!px-6 !py-4">
-                                                            2
-                                                        </td>
-
-                                                        <td className="!px-6 !py-4">
-                                                            <span className='block'> 3000.00</span>
-                                                        </td>
-
-                                                        <td className="!px-6 !py-4">
-                                                            3000.00
-                                                        </td>
-                                                    </tr>
-
-                                                    <tr className="!bg-white !border-b !border-[rgba(0,0,0,0.1)] hover:!bg-gray-50">
-                                                        <td className="!px-6 !py-4">
-                                                            <span className='text-gray-600'>6732kjhfjksah32ggfd</span>
-                                                        </td>
-
-                                                        <td className="!px-6 !py-4">
-                                                            <span className='text-gray-600'>Cotton Set-Tie & Dye...</span>
-                                                        </td>
-
-                                                        <td className="!px-6 !py-4 whitespace-nowrap">
-                                                            <img src="https://media.cnn.com/api/v1/images/stellar/prod/gettyimages-2239341361.jpg?c=16x9&q=w_1479,c_fill"
-                                                                className='w-[40px] h-[40px] object-cover whitespace-nowrap !rounded-md' />                                                                </td>
-
-                                                        <td className="!px-6 !py-4">
-                                                            2
-                                                        </td>
-
-                                                        <td className="!px-6 !py-4">
-                                                            <span className='block'> 3000.00</span>
-                                                        </td>
-
-                                                        <td className="!px-6 !py-4">
-                                                            3000.00
-                                                        </td>
-                                                    </tr>
-
-
-                                                    <tr>
-                                                        <td className='bg-[#f1f1f1]' colSpan="12">
-
-                                                        </td>
-                                                    </tr>
-                                                </tbody>
-                                            </table>
-                                        </div>
-                                    </td>
-                                </tr>
-                            )}
-
-
-
-                        <tr className="!bg-white !border-b !border-[rgba(0,0,0,0.1)] hover:!bg-gray-50">
-                            <td className="!px-6 !py-4">
-                                <Button className='!w-[35px] !h-[35px] !min-w-[35px] !rounded-full !bg-[#f1f1f1]'
-                                    onClick={() => isShowOrderedProduct(1)}>
-                                    {
-                                        isOpenOrderedProduct === 1 ?
-                                            <FaAngleUp className='text-[16px] text-[rgba(0,0,0,0.7)]' /> :
-                                            <FaAngleDown className='text-[16px] text-[rgba(0,0,0,0.7)]' />
-                                    }
-                                </Button>
-                            </td>
-
-                            <td className="!px-6 !py-4">
-                                <span className='text-[#3872fa]'>6732kjhfjksah32ggfd</span>
-                            </td>
-
-                            <td className="!px-6 !py-4">
-                                <span className='text-[#3872fa]'>pay_id63r87265sgf</span>
-                            </td>
-
-                            <td className="!px-6 !py-4 whitespace-nowrap">
-                                Harsh Kumar
-                            </td>
-
-                            <td className="!px-6 !py-4">
-                                3562372422
-                            </td>
-
-                            <td className="!px-6 !py-4">
-                                <span className='block w-[400px]'> Sector 17, Buddha colony, Uttam Nagar, NewDelhi, 100001, India</span>
-                            </td>
-
-                            <td className="!px-6 !py-4">
-                                571401
-                            </td>
-                            <td className="!px-6 !py-4">
-                                5000.00
-                            </td>
-
-                            <td className="!px-6 !py-4">
-                                iaefweu@gmail.com
-                            </td>
-
-                            <td className="!px-6 !py-4">
-                                <span className='text-[#3872fa]'>763589263hjcgdhs9089</span>
-                            </td>
-
-                            <td className="!px-6 !py-4">
-                                <Badge status="pending" />
-
-                            </td>
-
-                            <td className="!px-6 !py-4 whitespace-nowrap">
-                                2024-12-04
-                            </td>
-                        </tr>
-
-
-                        {
-                            isOpenOrderedProduct === 1 && (
-                                <tr>
-                                    <td className='!pl-25 !py-4' colSpan="12">
-                                        <div className="relative overflow-x-auto bg-white !shadow-xs rounded-md !border !border-[rgba(0,0,0,0.1)]">
-                                            <table className="w-full text-sm text-left rtl:text-right text-body border-collapse">
-                                                <thead className="text-sm text-body bg-[#f1f1f1] !border-b !border-[rgba(0,0,0,0.1)]">
-                                                    <tr>
-                                                        <th scope="col" className="!px-6 !py-3 font-medium whitespace-nowrap">
-                                                            Product Id
-                                                        </th>
-                                                        <th scope="col" className="!px-6 !py-3 font-medium whitespace-nowrap">
-                                                            Product Details
-                                                        </th>
-
-                                                        <th scope="col" className="!px-6 !py-3 font-medium whitespace-nowrap">
-                                                            Image
-                                                        </th>
-                                                        <th scope="col" className="!px-6 !py-3 font-medium whitespace-nowrap">
-                                                            Quantity
-                                                        </th>
-                                                        <th scope="col" className="!px-6 !py-3 font-medium whitespace-nowrap">
-                                                            Price
-                                                        </th>
-                                                        <th scope="col" className="!px-6 !py-3 font-medium whitespace-nowrap">
-                                                            Sub Total
-                                                        </th>
-
-
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-                                                    <tr className="!bg-white !border-b !border-[rgba(0,0,0,0.1)] hover:!bg-gray-50">
-                                                        <td className="!px-6 !py-4">
-                                                            <span className='text-gray-600'>6732kjhfjksah32ggfd</span>
-                                                        </td>
-
-                                                        <td className="!px-6 !py-4">
-                                                            <span className='text-gray-600'>Cotton Set-Tie & Dye...</span>
-                                                        </td>
-
-                                                        <td className="!px-6 !py-4 whitespace-nowrap">
-                                                            <img src="https://media.cnn.com/api/v1/images/stellar/prod/gettyimages-2239341361.jpg?c=16x9&q=w_1479,c_fill"
-                                                                className='w-[40px] h-[40px] object-cover whitespace-nowrap !rounded-md' />                                                                </td>
-
-                                                        <td className="!px-6 !py-4">
-                                                            2
-                                                        </td>
-
-                                                        <td className="!px-6 !py-4">
-                                                            <span className='block'> 3000.00</span>
-                                                        </td>
-
-                                                        <td className="!px-6 !py-4">
-                                                            3000.00
-                                                        </td>
-                                                    </tr>
-
-                                                    <tr className="!bg-white !border-b !border-[rgba(0,0,0,0.1)] hover:!bg-gray-50">
-                                                        <td className="!px-6 !py-4">
-                                                            <span className='text-gray-600'>6732kjhfjksah32ggfd</span>
-                                                        </td>
-
-                                                        <td className="!px-6 !py-4">
-                                                            <span className='text-gray-600'>Cotton Set-Tie & Dye...</span>
-                                                        </td>
-
-                                                        <td className="!px-6 !py-4 whitespace-nowrap">
-                                                            <img src="https://media.cnn.com/api/v1/images/stellar/prod/gettyimages-2239341361.jpg?c=16x9&q=w_1479,c_fill"
-                                                                className='w-[40px] h-[40px] object-cover whitespace-nowrap !rounded-md' />                                                                </td>
-
-                                                        <td className="!px-6 !py-4">
-                                                            2
-                                                        </td>
-
-                                                        <td className="!px-6 !py-4">
-                                                            <span className='block'> 3000.00</span>
-                                                        </td>
-
-                                                        <td className="!px-6 !py-4">
-                                                            3000.00
-                                                        </td>
-                                                    </tr>
-
-
-                                                    <tr>
-                                                        <td className='bg-[#f1f1f1]' colSpan="12">
-
-                                                        </td>
-                                                    </tr>
-                                                </tbody>
-                                            </table>
-                                        </div>
-                                    </td>
-                                </tr>
-                            )}
-
-
-
-                        <tr className="!bg-white !border-b !border-[rgba(0,0,0,0.1)] hover:!bg-gray-50">
-                            <td className="!px-6 !py-4">
-                                <Button className='!w-[35px] !h-[35px] !min-w-[35px] !rounded-full !bg-[#f1f1f1]'
-                                    onClick={() => isShowOrderedProduct(2)}>
-                                    {
-                                        isOpenOrderedProduct === 2 ?
-                                            <FaAngleUp className='text-[16px] text-[rgba(0,0,0,0.7)]' /> :
-                                            <FaAngleDown className='text-[16px] text-[rgba(0,0,0,0.7)]' />
-                                    }
-                                </Button>
-                            </td>
-
-                            <td className="!px-6 !py-4">
-                                <span className='text-[#3872fa]'>6732kjhfjksah32ggfd</span>
-                            </td>
-
-                            <td className="!px-6 !py-4">
-                                <span className='text-[#3872fa]'>pay_id63r87265sgf</span>
-                            </td>
-
-                            <td className="!px-6 !py-4 whitespace-nowrap">
-                                Harsh Kumar
-                            </td>
-
-                            <td className="!px-6 !py-4">
-                                3562372422
-                            </td>
-
-                            <td className="!px-6 !py-4">
-                                <span className='block w-[400px]'> Sector 17, Buddha colony, Uttam Nagar, NewDelhi, 100001, India</span>
-                            </td>
-
-                            <td className="!px-6 !py-4">
-                                571401
-                            </td>
-                            <td className="!px-6 !py-4">
-                                5000.00
-                            </td>
-
-                            <td className="!px-6 !py-4">
-                                iaefweu@gmail.com
-                            </td>
-
-                            <td className="!px-6 !py-4">
-                                <span className='text-[#3872fa]'>763589263hjcgdhs9089</span>
-                            </td>
-
-                            <td className="!px-6 !py-4">
-                                <Badge status="pending" />
-
-                            </td>
-
-                            <td className="!px-6 !py-4 whitespace-nowrap">
-                                2024-12-04
-                            </td>
-                        </tr>
-
-
-                        {
-                            isOpenOrderedProduct === 2 && (
-                                <tr>
-                                    <td className='!pl-25 !py-4' colSpan="12">
-                                        <div className="relative overflow-x-auto bg-white !shadow-xs rounded-md !border !border-[rgba(0,0,0,0.1)]">
-                                            <table className="w-full text-sm text-left rtl:text-right text-body border-collapse">
-                                                <thead className="text-sm text-body bg-[#f1f1f1] !border-b !border-[rgba(0,0,0,0.1)]">
-                                                    <tr>
-                                                        <th scope="col" className="!px-6 !py-3 font-medium whitespace-nowrap">
-                                                            Product Id
-                                                        </th>
-                                                        <th scope="col" className="!px-6 !py-3 font-medium whitespace-nowrap">
-                                                            Product Details
-                                                        </th>
-
-                                                        <th scope="col" className="!px-6 !py-3 font-medium whitespace-nowrap">
-                                                            Image
-                                                        </th>
-                                                        <th scope="col" className="!px-6 !py-3 font-medium whitespace-nowrap">
-                                                            Quantity
-                                                        </th>
-                                                        <th scope="col" className="!px-6 !py-3 font-medium whitespace-nowrap">
-                                                            Price
-                                                        </th>
-                                                        <th scope="col" className="!px-6 !py-3 font-medium whitespace-nowrap">
-                                                            Sub Total
-                                                        </th>
-
-
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-                                                    <tr className="!bg-white !border-b !border-[rgba(0,0,0,0.1)] hover:!bg-gray-50">
-                                                        <td className="!px-6 !py-4">
-                                                            <span className='text-gray-600'>6732kjhfjksah32ggfd</span>
-                                                        </td>
-
-                                                        <td className="!px-6 !py-4">
-                                                            <span className='text-gray-600'>Cotton Set-Tie & Dye...</span>
-                                                        </td>
-
-                                                        <td className="!px-6 !py-4 whitespace-nowrap">
-                                                            <img src="https://media.cnn.com/api/v1/images/stellar/prod/gettyimages-2239341361.jpg?c=16x9&q=w_1479,c_fill"
-                                                                className='w-[40px] h-[40px] object-cover whitespace-nowrap !rounded-md' />                                                                </td>
-
-                                                        <td className="!px-6 !py-4">
-                                                            2
-                                                        </td>
-
-                                                        <td className="!px-6 !py-4">
-                                                            <span className='block'> 3000.00</span>
-                                                        </td>
-
-                                                        <td className="!px-6 !py-4">
-                                                            3000.00
-                                                        </td>
-                                                    </tr>
-
-                                                    <tr className="!bg-white !border-b !border-[rgba(0,0,0,0.1)] hover:!bg-gray-50">
-                                                        <td className="!px-6 !py-4">
-                                                            <span className='text-gray-600'>6732kjhfjksah32ggfd</span>
-                                                        </td>
-
-                                                        <td className="!px-6 !py-4">
-                                                            <span className='text-gray-600'>Cotton Set-Tie & Dye...</span>
-                                                        </td>
-
-                                                        <td className="!px-6 !py-4 whitespace-nowrap">
-                                                            <img src="https://media.cnn.com/api/v1/images/stellar/prod/gettyimages-2239341361.jpg?c=16x9&q=w_1479,c_fill"
-                                                                className='w-[40px] h-[40px] object-cover whitespace-nowrap !rounded-md' />                                                                </td>
-
-                                                        <td className="!px-6 !py-4">
-                                                            2
-                                                        </td>
-
-                                                        <td className="!px-6 !py-4">
-                                                            <span className='block'> 3000.00</span>
-                                                        </td>
-
-                                                        <td className="!px-6 !py-4">
-                                                            3000.00
-                                                        </td>
-                                                    </tr>
-
-
-                                                    <tr>
-                                                        <td className='bg-[#f1f1f1]' colSpan="12">
-
-                                                        </td>
-                                                    </tr>
-                                                </tbody>
-                                            </table>
-                                        </div>
-                                    </td>
-                                </tr>
-                            )}
+                            orders?.length !== 0 && orders?.map((order, index) => {
+                                return (
+                                    <>
+                                        <tr className="!bg-white !border-b !border-[rgba(0,0,0,0.1)] hover:!bg-gray-50">
+                                            <td className="!px-6 !py-4">
+                                                <Button className='!w-[35px] !h-[35px] !min-w-[35px] !rounded-full !bg-[#f1f1f1]'
+                                                    onClick={() => isShowOrderedProduct(index)}>
+                                                    {
+                                                        isOpenOrderedProduct === index ?
+                                                            <FaAngleUp className='text-[16px] text-[rgba(0,0,0,0.7)]' /> :
+                                                            <FaAngleDown className='text-[16px] text-[rgba(0,0,0,0.7)]' />
+                                                    }
+                                                </Button>
+                                            </td>
+
+                                            <td className="!px-6 !py-4">
+                                                <span className='text-red-500'>{order?._id}</span>
+                                            </td>
+
+                                            <td className="!px-6 !py-4">
+                                                <span className='text-red-500'>{order?.paymentId}</span>
+                                            </td>
+
+                                            <td className="!px-6 !py-4 whitespace-nowrap">
+                                                {order?.delivery_address?.fullName}
+                                            </td>
+
+                                            <td className="!px-6 !py-4">
+                                                {order?.delivery_address?.mobile}
+                                            </td>
+                                            <td className="!px-6 !py-4">
+                                                <span className='block w-[400px]'>
+                                                    {order?.delivery_address ? (
+                                                        `${order?.delivery_address?.address_line1}, ${order?.delivery_address?.city}, ${order?.delivery_address?.state}, ${order?.delivery_address?.country}`
+                                                    ) : (
+                                                        <span className='text-gray-400 italic'>No specific delivery address found</span>
+                                                    )}
+                                                </span>
+                                            </td>
+
+                                            <td className="!px-6 !py-4">
+                                                {order?.delivery_address?.pincode || "N/A"}
+                                            </td>
+                                            <td className="!px-6 !py-4">
+                                                {order?.totalAmt}
+                                            </td>
+
+                                            <td className="!px-6 !py-4">
+                                                {order?.userId?.email}
+                                            </td>
+
+                                            <td className="!px-6 !py-4">
+                                                <span className='text-red-500'>{order?.userId?._id}</span>
+                                            </td>
+
+                                            <td className="!px-6 !py-4">
+                                                <Badge status={order?.order_status} />
+                                            </td>
+
+                                            <td className="!px-6 !py-4 whitespace-nowrap">
+                                                {new Date(order?.createdAt).toLocaleDateString()}
+                                            </td>
+                                        </tr>
+
+
+                                        {
+                                            isOpenOrderedProduct === index && (
+                                                <tr>
+                                                    <td className='!pl-25 !py-4' colSpan="12">
+                                                        <div className="relative overflow-x-auto bg-white !shadow-xs rounded-md !border !border-[rgba(0,0,0,0.1)]">
+                                                            <table className="w-full text-sm text-left rtl:text-right text-body border-collapse">
+                                                                <thead className="text-sm text-body bg-[#f1f1f1] !border-b !border-[rgba(0,0,0,0.1)]">
+                                                                    <tr>
+                                                                        <th scope="col" className="!px-6 !py-3 font-medium whitespace-nowrap">
+                                                                            Product Id
+                                                                        </th>
+                                                                        <th scope="col" className="!px-6 !py-3 font-medium whitespace-nowrap">
+                                                                            Product Details
+                                                                        </th>
+
+                                                                        <th scope="col" className="!px-6 !py-3 font-medium whitespace-nowrap">
+                                                                            Image
+                                                                        </th>
+                                                                        <th scope="col" className="!px-6 !py-3 font-medium whitespace-nowrap">
+                                                                            Quantity
+                                                                        </th>
+                                                                        <th scope="col" className="!px-6 !py-3 font-medium whitespace-nowrap">
+                                                                            Price
+                                                                        </th>
+                                                                        <th scope="col" className="!px-6 !py-3 font-medium whitespace-nowrap">
+                                                                            Sub Total
+                                                                        </th>
+
+
+                                                                    </tr>
+                                                                </thead>
+                                                                <tbody>
+                                                                    {
+                                                                        order?.products?.map((product, pIndex) => (
+                                                                            <tr key={pIndex} className="!bg-white !border-b !border-[rgba(0,0,0,0.1)] hover:!bg-gray-50">
+                                                                                <td className="!px-6 !py-4">
+                                                                                    <span className='text-gray-600'>{product?.productId}</span>
+                                                                                </td>
+
+                                                                                <td className="!px-6 !py-4">
+                                                                                    <span className='text-gray-600'>{product?.productTitle?.slice(0, 20)}...</span>
+                                                                                </td>
+
+                                                                                <td className="!px-6 !py-4 whitespace-nowrap">
+                                                                                    <img src={product?.image}
+                                                                                        className='w-[40px] h-[40px] object-cover whitespace-nowrap !rounded-md' />
+                                                                                </td>
+
+                                                                                <td className="!px-6 !py-4">
+                                                                                    {product?.quantity}
+                                                                                </td>
+
+                                                                                <td className="!px-6 !py-4">
+                                                                                    <span className='block'>{(product?.price)?.toLocaleString('en-US', {
+                                                                                        style: 'currency',
+                                                                                        currency: 'INR',
+                                                                                    })}</span>
+                                                                                </td>
+
+                                                                                <td className="!px-6 !py-4">
+                                                                                    {(product?.price * product?.quantity)?.toLocaleString('en-US', {
+                                                                                        style: 'currency',
+                                                                                        currency: 'INR',
+                                                                                    })}
+                                                                                </td>
+                                                                            </tr>
+                                                                        ))
+                                                                    }
+                                                                </tbody>
+                                                            </table>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                            )}
+                                    </>
+                                )
+                            })
+                        }
                     </tbody>
                 </table>
             </div>

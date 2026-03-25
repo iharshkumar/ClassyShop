@@ -1,5 +1,6 @@
 import OrderModel from "../models/order.model.js";
 import ProductModel from "../models/product.model.js";
+import UserModel from "../models/user.model.js";
 import paypal from "@paypal/checkout-server-sdk";
 
 export const createOrderCOntroller = async (request, response) => {
@@ -51,7 +52,14 @@ export const createOrderCOntroller = async (request, response) => {
 export async function getOrderDeatilsController(request, response) {
     try {
         const userId = request.userId
-        const orderlist = await OrderModel.find({ userId: userId }).sort({ createdAt: -1 }).populate('delivery_address userId');
+        const user = await UserModel.findById(userId);
+
+        let query = { userId: userId };
+        if (user?.role === "ADMIN") {
+            query = {};
+        }
+
+        const orderlist = await OrderModel.find(query).sort({ createdAt: -1 }).populate('delivery_address userId');
 
         return response.status(200).json({
             error: false,
