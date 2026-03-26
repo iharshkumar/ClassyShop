@@ -4,13 +4,18 @@ import { FaAngleDown, FaAngleUp } from 'react-icons/fa6'
 import Badge from '../../components/Badge';
 import SearchBox from '../../Components/SearchBox';
 import { useEffect } from 'react';
-import { fetchDataFromApi } from '../../../../Client/src/utils/api';
+import { editData, fetchDataFromApi } from '../../utils/api';
+import MenuItem from '@mui/material/MenuItem';
+import Select from '@mui/material/Select';
+import { MyContext } from '../../App.jsx';
+import { useContext } from 'react';
+
 
 const Orders = () => {
 
     const [isOpenOrderedProduct, setIsOpenOrderedProduct] = useState(null);
     const [orders, setOrders] = useState([]);
-
+    const context = useContext(MyContext)
 
     const isShowOrderedProduct = (index) => {
         if (isOpenOrderedProduct === index) {
@@ -20,6 +25,21 @@ const Orders = () => {
             setIsOpenOrderedProduct(index);
         }
     }
+    const [orderStatus, setOrderStatus] = useState('');
+
+    const handleChange = (event, id) => {
+        setOrderStatus(event.target.value);
+
+        const obj = {
+            id: id,
+            order_status: event.target.value
+        }
+        editData(`/api/order/order-status/${id}`, obj).then((res) => {
+            if (res?.data?.error === false) {
+                context?.alertBox("success", res?.data?.message)
+            }
+        })
+    };
 
     useEffect(() => {
         fetchDataFromApi("/api/order/order-list").then((res) => {
@@ -27,7 +47,7 @@ const Orders = () => {
                 setOrders(res?.data)
             }
         })
-    }, [])
+    }, [orderStatus])
 
     return (
         <div className='card !mt-5 !my-2 !shadow=md sm:rounded-lg !bg-white' >
@@ -124,7 +144,7 @@ const Orders = () => {
                                             </td>
 
                                             <td className="!px-6 !py-4">
-                                                {order?.delivery_address?.pincode || "N/A"}
+                                                {order?.delivery_address?.pincode}
                                             </td>
                                             <td className="!px-6 !py-4">
                                                 {order?.totalAmt}
@@ -139,7 +159,18 @@ const Orders = () => {
                                             </td>
 
                                             <td className="!px-6 !py-4">
-                                                <Badge status={order?.order_status} />
+                                                <Select
+                                                    value={order?.order_status !== null !== null ? order?.order_status : orderStatus}
+                                                    onChange={(e) => handleChange(e, order?._id)}
+                                                    displayEmpty
+                                                    inputProps={{ 'aria-label': 'Without label' }}
+                                                    size='small'
+                                                    className='!h-[35px] w-full'
+                                                >
+                                                    <MenuItem value={'pending'}>Pending</MenuItem>
+                                                    <MenuItem value={'confirm'}>Confirm</MenuItem>
+                                                    <MenuItem value={'deliver'}>Delivered</MenuItem>
+                                                </Select>
                                             </td>
 
                                             <td className="!px-6 !py-4 whitespace-nowrap">
