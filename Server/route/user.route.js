@@ -6,7 +6,8 @@ import {
     updateUserDetails, userAvatarController, userDetails, verifyEmailController,
     verifyForgotPasswordOtp, addReview, getReview,
     getAllReviews,
-    getAllUsers
+    getAllUsers,
+    deleteMultipleUser
 } from "../controllers/user.controller.js"
 import auth from '../middleware/auth.js'
 import upload from '../middleware/multer.js'
@@ -30,5 +31,6 @@ userRouter.post('/addReview', auth, addReview)
 userRouter.get('/getReview', getReview);
 userRouter.get('/getAllReviews', getAllReviews);
 userRouter.get('/getAllUsers', getAllUsers);
+userRouter.delete('/deleteMultiple', auth, deleteMultipleUser);
 
 export default userRouter;

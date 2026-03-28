@@ -186,7 +186,6 @@ const Products = () => {
 
     const deleteProduct = (id) => {
         deleteData(`/api/product/${id}`).then((res) => {
-
             getProducts();
             context?.alertBox("success", "Product deleted")
         })
@@ -388,7 +387,7 @@ const Products = () => {
                                 isLoading === false ? productData?.length !== 0 && productData?.slice(
                                     page * rowsPerPage,
                                     page * rowsPerPage + rowsPerPage
-                                )?.map((product, index) => {
+                                )?.reverse()?.map((product, index) => {
                                     return (
                                         <TableRow key={product?._id || index}>
                                             <TableCell style={{ minWidth: columns.minWidth }}>
