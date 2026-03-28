@@ -4,7 +4,9 @@ import {
     refreshToken,
     registerUserController, removeImageFromCloudinary, resetpassword, authWithGoogle,
     updateUserDetails, userAvatarController, userDetails, verifyEmailController,
-    verifyForgotPasswordOtp, addReview, getReview
+    verifyForgotPasswordOtp, addReview, getReview,
+    getAllReviews,
+    getAllUsers
 } from "../controllers/user.controller.js"
 import auth from '../middleware/auth.js'
 import upload from '../middleware/multer.js'
@@ -25,6 +27,8 @@ userRouter.post('/reset-password', resetpassword)
 userRouter.post('/refresh-token', refreshToken)
 userRouter.get('/user-details', auth, userDetails)
 userRouter.post('/addReview', auth, addReview)
-userRouter.get('/getReview', getReview)
+userRouter.get('/getReview', getReview);
+userRouter.get('/getAllReviews', getAllReviews);
+userRouter.get('/getAllUsers', getAllUsers);
 
 export default userRouter;

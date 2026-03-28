@@ -893,3 +893,55 @@ export async function getReview(request, response) {
     }
 }
 
+export async function getAllReviews(request, response) {
+    try {
+        const reviews = await ReviewModel.find()
+
+        if (!reviews) {
+            return response.status(404).json({
+                message: "Review not found",
+                error: true,
+                success: false
+            })
+        }
+        return response.status(200).json({
+            message: "Review fetched successfully",
+            reviews: reviews,
+            error: false,
+            success: true
+        })
+    } catch (error) {
+        return response.status(500).json({
+            message: error.message || error,
+            error: true,
+            success: false
+        })
+    }
+}
+
+export async function getAllUsers(request, response) {
+    try {
+        const users = await UserModel.find()
+
+        if (!users) {
+            return response.status(404).json({
+                message: "Users not found",
+                error: true,
+                success: false
+            })
+        }
+        return response.status(200).json({
+            message: "Users fetched successfully",
+            users: users,
+            error: false,
+            success: true
+        })
+    } catch (error) {
+        return response.status(500).json({
+            message: error.message || error,
+            error: true,
+            success: false
+        })
+    }
+}
+

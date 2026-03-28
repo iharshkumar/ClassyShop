@@ -52,19 +52,38 @@ export const createOrderCOntroller = async (request, response) => {
 export async function getOrderDeatilsController(request, response) {
     try {
         const userId = request.userId
+        const { page, limit } = request.query;
+
         const user = await UserModel.findById(userId);
 
-        let query = { userId: userId };
-        if (user?.role === "ADMIN") {
-            query = {};
-        }
-
-        const orderlist = await OrderModel.find(query).sort({ createdAt: -1 }).populate('delivery_address userId');
-
+        const orderlist = await OrderModel.find().sort({ createdAt: -1 }).populate('delivery_address userId');
+        const total = await OrderModel.countDocuments(orderlist);
         return response.status(200).json({
             error: false,
             message: "Order details",
             data: orderlist,
+            success: true,
+            total: total,
+            page: parseInt(page),
+            totalPages: Math.ceil(total / parseInt(limit))
+        });
+    } catch (error) {
+        return response.status(500).json({
+            error: true,
+            message: error.message || error,
+            success: false
+        });
+    }
+}
+
+
+export async function getTotalOrdersCountController(request, response) {
+    try {
+        const ordersCount = await OrderModel.countDocuments();
+        return response.status(200).json({
+            error: false,
+            message: "Total orders count",
+            count: ordersCount,
             success: true
         });
     } catch (error) {
@@ -223,6 +242,333 @@ export const updateOrderStatusController = async (request, response) => {
             error: false,
             message: "Order status updated successfully",
             data: updateOrder,
+            success: true
+        });
+    } catch (error) {
+        return response.status(500).json({
+            error: true,
+            message: error.message,
+            success: false
+        });
+    }
+}
+
+export const totalSalesController = async (request, response) => {
+    try {
+        const currentYear = new Date().getFullYear();
+
+        const orderList = await OrderModel.find();
+
+        let totalSales = 0;
+
+        let monthlySales = [
+            {
+                name: "JAN",
+                TotalSales: 0
+            },
+            {
+                name: "FEB",
+                TotalSales: 0
+            },
+            {
+                name: "MAR",
+                TotalSales: 0
+            },
+            {
+                name: "APR",
+                TotalSales: 0
+            },
+            {
+                name: "MAY",
+                TotalSales: 0
+            },
+            {
+                name: "JUN",
+                TotalSales: 0
+            },
+            {
+                name: "JUL",
+                TotalSales: 0
+            },
+            {
+                name: "AUG",
+                TotalSales: 0
+            },
+            {
+                name: "SEP",
+                TotalSales: 0
+            },
+            {
+                name: "OCT",
+                TotalSales: 0
+            },
+            {
+                name: "NOV",
+                TotalSales: 0
+            },
+            {
+                name: "DEC",
+                TotalSales: 0
+            }
+        ]
+
+        for (let i = 0; i < orderList.length; i++) {
+            totalSales = totalSales + parseInt(orderList[i].totalAmt);
+            const date = new Date(orderList[i]?.createdAt);
+            const year = date.getFullYear();
+            const month = date.getMonth() + 1; // getMonth() is 0-indexed
+
+            if (currentYear === year) {
+                if (month == 1) {
+                    monthlySales[0] = {
+                        name: "JAN",
+                        TotalSales: monthlySales[0].TotalSales = parseInt(monthlySales[0].TotalSales) + parseInt(orderList[i].totalAmt)
+                    }
+                }
+                else if (month == 2) {
+                    monthlySales[1] = {
+                        name: "FEB",
+                        TotalSales: monthlySales[1].TotalSales = parseInt(monthlySales[1].TotalSales) + parseInt(orderList[i].totalAmt)
+                    };
+                }
+                else if (month == 3) {
+                    monthlySales[2] = {
+                        name: "MAR",
+                        TotalSales: monthlySales[2].TotalSales = parseInt(monthlySales[2].TotalSales) + parseInt(orderList[i].totalAmt)
+                    };
+                }
+                else if (month == 4) {
+                    monthlySales[3] = {
+                        name: "APR",
+                        TotalSales: monthlySales[3].TotalSales = parseInt(monthlySales[3].TotalSales) + parseInt(orderList[i].totalAmt)
+                    };
+                }
+                else if (month == 5) {
+                    monthlySales[4] = {
+                        name: "MAY",
+                        TotalSales: monthlySales[4].TotalSales = parseInt(monthlySales[4].TotalSales) + parseInt(orderList[i].totalAmt)
+                    };
+                }
+                else if (month == 6) {
+                    monthlySales[5] = {
+                        name: "JUN",
+                        TotalSales: monthlySales[5].TotalSales = parseInt(monthlySales[5].TotalSales) + parseInt(orderList[i].totalAmt)
+                    };
+                }
+                else if (month == 7) {
+                    monthlySales[6] = {
+                        name: "JUL",
+                        TotalSales: monthlySales[6].TotalSales = parseInt(monthlySales[6].TotalSales) + parseInt(orderList[i].totalAmt)
+                    };
+                }
+                else if (month == 8) {
+                    monthlySales[7] = {
+                        name: "AUG",
+                        TotalSales: monthlySales[7].TotalSales = parseInt(monthlySales[7].TotalSales) + parseInt(orderList[i].totalAmt)
+                    };
+                }
+                else if (month == 9) {
+                    monthlySales[8] = {
+                        name: "SEP",
+                        TotalSales: monthlySales[8].TotalSales = parseInt(monthlySales[8].TotalSales) + parseInt(orderList[i].totalAmt)
+                    };
+                }
+                else if (month == 10) {
+                    monthlySales[9] = {
+                        name: "OCT",
+                        TotalSales: monthlySales[9].TotalSales = parseInt(monthlySales[9].TotalSales) + parseInt(orderList[i].totalAmt)
+                    };
+                }
+                else if (month == 11) {
+                    monthlySales[10] = {
+                        name: "NOV",
+                        TotalSales: monthlySales[10].TotalSales = parseInt(monthlySales[10].TotalSales) + parseInt(orderList[i].totalAmt)
+                    };
+                }
+                else if (month == 12) {
+                    monthlySales[11] = {
+                        name: "DEC",
+                        TotalSales: monthlySales[11].TotalSales = parseInt(monthlySales[11].TotalSales) + parseInt(orderList[i].totalAmt)
+                    };
+                }
+            }
+        }
+
+        return response.status(200).json({
+            error: false,
+            message: "Total sales",
+            totalSales: totalSales,
+            monthlySales: monthlySales,
+            success: true
+        });
+    } catch (error) {
+        return response.status(500).json({
+            error: true,
+            message: error.message,
+            success: false
+        });
+    }
+}
+
+export const totalUsersController = async (request, response) => {
+    try {
+        const userList = await UserModel.aggregate([
+            {
+                $group: {
+                    _id:
+                    {
+                        year:
+                        {
+                            $year: "$createdAt"
+                        },
+                        month:
+                        {
+                            $month: "$createdAt"
+                        }
+                    },
+                    count: { $sum: 1 }
+                }
+            },
+            {
+                $sort: {
+                    "_id.year": 1,
+                    "_id.month": 1
+                }
+            }
+        ]);
+
+        let monthlyUsers = [
+            {
+                name: "JAN",
+                TotalUsers: 0
+            },
+            {
+                name: "FEB",
+                TotalUsers: 0
+            },
+            {
+                name: "MAR",
+                TotalUsers: 0
+            },
+            {
+                name: "APR",
+                TotalUsers: 0
+            },
+            {
+                name: "MAY",
+                TotalUsers: 0
+            },
+            {
+                name: "JUN",
+                TotalUsers: 0
+            },
+            {
+                name: "JUL",
+                TotalUsers: 0
+            },
+            {
+                name: "AUG",
+                TotalUsers: 0
+            },
+            {
+                name: "SEP",
+                TotalUsers: 0
+            },
+            {
+                name: "OCT",
+                TotalUsers: 0
+            },
+            {
+                name: "NOV",
+                TotalUsers: 0
+            },
+            {
+                name: "DEC",
+                TotalUsers: 0
+            }
+        ];
+
+        for (let i = 0; i < userList.length; i++) {
+            const item = userList[i];
+            if (item?._id?.month === 1) {
+                monthlyUsers[0] = {
+                    name: "JAN",
+                    TotalUsers: item.count
+                }
+            }
+            else if (item?._id?.month === 2) {
+                monthlyUsers[1] = {
+                    name: "FEB",
+                    TotalUsers: item.count
+                }
+            }
+            else if (item?._id?.month === 3) {
+                monthlyUsers[2] = {
+                    name: "MAR",
+                    TotalUsers: item.count
+                }
+            }
+            else if (item?._id?.month === 4) {
+                monthlyUsers[3] = {
+                    name: "APR",
+                    TotalUsers: item.count
+                }
+            }
+            else if (item?._id?.month === 5) {
+                monthlyUsers[4] = {
+                    name: "MAY",
+                    TotalUsers: item.count
+                }
+            }
+            else if (item?._id?.month === 6) {
+                monthlyUsers[5] = {
+                    name: "JUN",
+                    TotalUsers: item.count
+                }
+            }
+            else if (item?._id?.month === 7) {
+                monthlyUsers[6] = {
+                    name: "JUL",
+                    TotalUsers: item.count
+                }
+            }
+            else if (item?._id?.month === 8) {
+                monthlyUsers[7] = {
+                    name: "AUG",
+                    TotalUsers: item.count
+                }
+            }
+            else if (item?._id?.month === 9) {
+                monthlyUsers[8] = {
+                    name: "SEP",
+                    TotalUsers: item.count
+                }
+            }
+            else if (item?._id?.month === 10) {
+                monthlyUsers[9] = {
+                    name: "OCT",
+                    TotalUsers: item.count
+                }
+            }
+            else if (item?._id?.month === 11) {
+                monthlyUsers[10] = {
+                    name: "NOV",
+                    TotalUsers: item.count
+                }
+            }
+            else if (item?._id?.month === 12) {
+                monthlyUsers[11] = {
+                    name: "DEC",
+                    TotalUsers: item.count
+                }
+            }
+        }
+
+
+        return response.status(200).json({
+            error: false,
+            message: "Total users",
+            TotalUsers: monthlyUsers,
             success: true
         });
     } catch (error) {
