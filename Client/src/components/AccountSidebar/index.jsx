@@ -52,15 +52,18 @@ const AccountSidebar = () => {
                     setUploading(false)
                     return false
                 }
-                uploadImage("/api/user/user-avatar", formdata).then((res) => {
-                    // console.log(res)
-                    setUploading(false)
-                    let avatar = [];
-                    // console.log(res?.data?.avtar)
-                    avatar?.push(res?.data?.avtar)
-                    setPreviews(avatar);
-                })
             }
+
+            uploadImage("/api/user/user-avatar", formdata).then((res) => {
+                setUploading(false)
+                let avatar = [];
+                avatar?.push(res?.avtar)
+                setPreviews(avatar);
+                context.setUserData({
+                    ...context.userData,
+                    avatar: res?.avtar
+                })
+            })
         } catch (error) {
             console.log(error)
         }

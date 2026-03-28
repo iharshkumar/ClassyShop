@@ -55,84 +55,92 @@ const Checkout = () => {
     }, [context?.cartData])
 
     const createPaypalOrder = async () => {
-        try {
-            const resp = await fetch(
-                "https://v6.exchangerate-api.com/v6/8f85eea95dae9336b9ea3ce9/latest/INR"
-            );
-            const respData = await resp.json();
+        if (context?.address?.length !== 0) {
+            try {
+                const resp = await fetch(
+                    "https://v6.exchangerate-api.com/v6/8f85eea95dae9336b9ea3ce9/latest/INR"
+                );
+                const respData = await resp.json();
 
-            if (respData?.result !== "success") {
-                throw new Error("Currency conversion failed");
+                if (respData?.result !== "success") {
+                    throw new Error("Currency conversion failed");
+                }
+
+                const usdToInrRate = respData?.conversion_rates?.USD;
+                const convertedAmount = (totalAmountRef.current * usdToInrRate).toFixed(2);
+
+                const headers = {
+                    'Authorization': `Bearer ${localStorage.getItem('accesstoken')}`,
+                    'Content-Type': 'application/json',
+                };
+
+                const response = await axios.post(
+                    VITE_API_URL + `/api/order/create-order-paypal`,
+                    { userId: userDataRef.current?._id, totalAmount: convertedAmount },
+                    { headers }
+                );
+
+                if (!response?.data?.id) throw new Error("No order ID returned");
+                return response?.data?.id;
+
+            } catch (error) {
+                console.error("PayPal createOrder error:", error);
+                throw error;
             }
-
-            const usdToInrRate = respData?.conversion_rates?.USD;
-            const convertedAmount = (totalAmountRef.current * usdToInrRate).toFixed(2);
-
-            const headers = {
-                'Authorization': `Bearer ${localStorage.getItem('accesstoken')}`,
-                'Content-Type': 'application/json',
-            };
-
-            const response = await axios.post(
-                VITE_API_URL + `/api/order/create-order-paypal`,
-                { userId: userDataRef.current?._id, totalAmount: convertedAmount },
-                { headers }
-            );
-
-            if (!response?.data?.id) throw new Error("No order ID returned");
-            return response?.data?.id;
-
-        } catch (error) {
-            console.error("PayPal createOrder error:", error);
-            throw error;
+        } else {
+            context?.alertBox("error", "Please add address");
         }
     };
 
     const onApprovePayment = async (data, actions) => {
-        try {
-            const user = userDataRef.current;
-            const info = {
-                userId: user?._id,
-                products: cartDataRef.current?.map(p => ({
-                    ...p,
-                    subTotal: p.price * p.quantity
-                })),
-                payment_status: "COMPLETED",
-                delivery_address: selectedAddressRef.current,
-                totalAmt: totalAmountRef.current,
-                date: new Date().toLocaleString('en-US', {
-                    month: 'short', day: '2-digit', year: 'numeric',
-                })
-            }
+        if (context?.address?.length !== 0) {
+            try {
+                const user = userDataRef.current;
+                const info = {
+                    userId: user?._id,
+                    products: cartDataRef.current?.map(p => ({
+                        ...p,
+                        subTotal: p.price * p.quantity
+                    })),
+                    payment_status: "COMPLETED",
+                    delivery_address: selectedAddressRef.current,
+                    totalAmt: totalAmountRef.current,
+                    date: new Date().toLocaleString('en-US', {
+                        month: 'short', day: '2-digit', year: 'numeric',
+                    })
+                }
 
-            const headers = {
-                'Authorization': `Bearer ${localStorage.getItem('accesstoken')}`,
-                'Content-Type': 'application/json',
-            }
+                const headers = {
+                    'Authorization': `Bearer ${localStorage.getItem('accesstoken')}`,
+                    'Content-Type': 'application/json',
+                }
 
-            const response = await axios.post(
-                VITE_API_URL + `/api/order/capture-order-paypal`,
-                { ...info, paymentId: data?.orderID },
-                { headers }
-            )
+                const response = await axios.post(
+                    VITE_API_URL + `/api/order/capture-order-paypal`,
+                    { ...info, paymentId: data?.orderID },
+                    { headers }
+                )
 
-            if (response.data.success) {
-                await deleteData(`/api/cart/emptyCart/${user?._id}`);
-                await context?.getCartItems();
-                context?.alertBox("success", response?.data?.message);
-                navigate("/orders/success");
-            } else {
-                context?.alertBox("error", "Payment failed! Please try again.");
+                if (response.data.success) {
+                    await deleteData(`/api/cart/emptyCart/${user?._id}`);
+                    await context?.getCartItems();
+                    context?.alertBox("success", response?.data?.message);
+                    navigate("/orders/success");
+                } else {
+                    context?.alertBox("error", "Payment failed! Please try again.");
+                    navigate("/orders/failed");
+                }
+
+            } catch (error) {
+                const errorDetail = error.response?.data?.message;
+                if (errorDetail && errorDetail.includes("INSTRUMENT_DECLINED")) {
+                    return actions.restart();
+                }
+                context?.alertBox("error", "Something went wrong! Please try again.");
                 navigate("/orders/failed");
             }
-
-        } catch (error) {
-            const errorDetail = error.response?.data?.message;
-            if (errorDetail && errorDetail.includes("INSTRUMENT_DECLINED")) {
-                return actions.restart();
-            }
-            context?.alertBox("error", "Something went wrong! Please try again.");
-            navigate("/orders/failed");
+        } else {
+            context?.alertBox("error", "Please add address");
         }
     }
 
@@ -145,72 +153,84 @@ const Checkout = () => {
 
     const checkout = (e) => {
         e.preventDefault();
-        var options = {
-            "key": VITE_APP_RAZORPAY_KEY_ID,
-            "key_secret": VITE_APP_RAZORPAY_KEY_SECRET,
-            "amount": parseInt(totalAmount * 100),
-            "currency": "INR",
-            "order_receipt": context?.userData?.name,
-            "name": "ShopMania",
-            "description": "Test Transaction",
-            "handler": function (response) {
-                const paymentId = response?.razorpay_payment_id;
-                const user = context?.userData?._id;
-                const payload = {
-                    userId: user,
-                    products: context?.cartData,
-                    paymentId: paymentId,
-                    payment_status: "Completed",
-                    delivery_address: selectedAddress,
-                    totalAmt: totalAmount,
-                    date: new Date().toLocaleString('en-US', {
-                        month: 'short', day: '2-digit', year: 'numeric',
-                    })
-                }
-                postData(`/api/order/create`, payload).then((res) => {
-                    context?.alertBox("success", res?.message);
-                    if (res?.error === false) {
-                        deleteData(`/api/cart/emptyCart/${user}`).then(() => {
-                            context?.getCartItems();
+        if (context?.address?.length !== 0) {
+            var options = {
+                "key": VITE_APP_RAZORPAY_KEY_ID,
+                "key_secret": VITE_APP_RAZORPAY_KEY_SECRET,
+                "amount": parseInt(totalAmount * 100),
+                "currency": "INR",
+                "order_receipt": context?.userData?.name,
+                "name": "ShopMania",
+                "description": "Test Transaction",
+                "handler": function (response) {
+                    const paymentId = response?.razorpay_payment_id;
+                    const user = context?.userData?._id;
+                    const payload = {
+                        userId: user,
+                        products: context?.cartData,
+                        paymentId: paymentId,
+                        payment_status: "Completed",
+                        delivery_address: selectedAddress,
+                        totalAmt: totalAmount,
+                        date: new Date().toLocaleString('en-US', {
+                            month: 'short', day: '2-digit', year: 'numeric',
                         })
-                        navigate("/orders/success");
-                    } else {
-                        navigate("/orders/failed");
-                        context?.alertBox("error", res?.message);
                     }
-                })
-            },
-            theme: { color: '#ff5252' }
-        };
-        var pay = new Razorpay(options);
-        pay.open();
+                    postData(`/api/order/create`, payload).then((res) => {
+                        context?.alertBox("success", res?.message);
+                        if (res?.error === false) {
+                            deleteData(`/api/cart/emptyCart/${user}`).then(() => {
+                                context?.getCartItems();
+                            })
+                            navigate("/orders/success");
+                        } else {
+                            navigate("/orders/failed");
+                            context?.alertBox("error", res?.message);
+                        }
+                    })
+                },
+                theme: { color: '#ff5252' }
+            };
+
+            var pay = new Razorpay(options);
+            pay.open();
+        } else {
+            context?.alertBox("error", "Please add address");
+        }
     }
 
     const cashOnDelivery = () => {
         const user = context?.userData;
-        const payload = {
-            userId: user?._id,
-            products: context?.cartData,
-            paymentId: "COD",
-            payment_status: "CASH ON DELIVERY",
-            delivery_address: selectedAddress,
-            totalAmt: totalAmount,
-            date: new Date().toLocaleString('en-US', {
-                month: 'short', day: '2-digit', year: 'numeric',
+
+        if (context?.address?.length !== 0) {
+            const payload = {
+                userId: user?._id,
+                products: context?.cartData,
+                paymentId: "COD",
+                payment_status: "CASH ON DELIVERY",
+                delivery_address: selectedAddress,
+                totalAmt: totalAmount,
+                date: new Date().toLocaleString('en-US', {
+                    month: 'short', day: '2-digit', year: 'numeric',
+                })
+            }
+            postData(`/api/order/create`, payload).then((res) => {
+                context?.alertBox("success", res?.message);
+                if (res?.error === false) {
+                    deleteData(`/api/cart/emptyCart/${user?._id}`).then(() => {
+                        context?.getCartItems();
+                    })
+                    navigate("/orders/success");
+                } else {
+                    navigate("/orders/failed");
+                    context?.alertBox("error", res?.message);
+                }
             })
         }
-        postData(`/api/order/create`, payload).then((res) => {
-            context?.alertBox("success", res?.message);
-            if (res?.error === false) {
-                deleteData(`/api/cart/emptyCart/${user?._id}`).then(() => {
-                    context?.getCartItems();
-                })
-                navigate("/orders/success");
-            } else {
-                navigate("/orders/failed");
-                context?.alertBox("error", res?.message);
-            }
-        })
+        else {
+            context?.alertBox("error", "Please add address");
+        }
+
     }
 
     return (
@@ -304,6 +324,7 @@ const Checkout = () => {
                                         height: 45,
                                         tagline: false
                                     }}
+                                    className={`${context?.address?.length === 0 ? "!pointer-events-none" : ""}`}
                                     fundingSource="paypal"
                                     createOrder={createPaypalOrder}
                                     onApprove={(data, actions) => onApprovePayment(data, actions)}
