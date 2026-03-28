@@ -63,7 +63,9 @@ const Products = () => {
     const context = useContext(MyContext)
     const [sortedIds, setSortedIds] = useState([])
     const [isLoading, setIsLoading] = useState(false)
-
+    const [searchProductQuery, setSearchProductQuery] = useState('');
+    const [productsFilterData, setProductsFilterData] = useState([]);
+    const [totalProductsData, setTotalProductsData] = useState([]);
 
     useEffect(() => {
         getProducts();
@@ -72,11 +74,13 @@ const Products = () => {
     const handleSelectAll = (e) => {
         const isChecked = e.target.checked;
 
-        const updatedItems = productData.map((item) => ({
+        const updatedItems = productsFilterData.map((item) => ({
             ...item,
             checked: isChecked,
         }));
-        setProductData(updatedItems);
+        setProductsFilterData(updatedItems);
+        // Also update productData for consistency when search is cleared
+        setProductData(prev => prev.map(item => ({ ...item, checked: isChecked })));
 
         if (isChecked) {
             const ids = updatedItems.map((item) => item._id).sort((a, b) => a - b)
@@ -87,10 +91,12 @@ const Products = () => {
     }
 
     const handleCheckboxChange = (e, id, index) => {
-        const updatedItems = productData.map((item) =>
+        const updatedItems = productsFilterData.map((item) =>
             item._id === id ? { ...item, checked: !item.checked } : item
         );
-        setProductData(updatedItems);
+        setProductsFilterData(updatedItems);
+        // Also update productData for consistency when search is cleared
+        setProductData(prev => prev.map(item => item._id === id ? { ...item, checked: !item.checked } : item));
 
         const selectedIds = updatedItems
             .filter((item) => item.checked)
@@ -111,7 +117,8 @@ const Products = () => {
                     }
                     setTimeout(() => {
                         setProductData(productArr);
-                        // console.log(productArr) 
+                        setTotalProductsData(productArr);
+                        setProductsFilterData(productArr);
                     }, 500);
                 }
             })
@@ -121,13 +128,6 @@ const Products = () => {
     }
 
 
-    useEffect(() => {
-        fetchDataFromApi("/api/product/getAllProducts").then((res) => {
-            if (res?.error === false) {
-                setProductData(res?.data)
-            }
-        })
-    }, [])
 
     const handleChangeProductCat = (event) => {
         setProductCat(event.target.value);
@@ -137,15 +137,13 @@ const Products = () => {
         fetchDataFromApi(`/api/product/getAllProductsByCatId/${event.target.value}`).then((res) => {
             if (res?.error === false) {
                 setProductData(res?.data)
+                setProductsFilterData(res?.data)
             }
         })
             .finally(() => {
                 setIsLoading(false);
             });
     };
-    // const selectCatByName = (name) => {
-    //     formFields.catName = name;
-    //   }
 
     const handleChangeProductSubCat = (event) => {
         setProductSubCat(event.target.value);
@@ -155,15 +153,14 @@ const Products = () => {
         fetchDataFromApi(`/api/product/getAllProductsBySubCatId/${event.target.value}`).then((res) => {
             if (res?.error === false) {
                 setProductData(res?.data)
+                setProductsFilterData(res?.data)
             }
         })
             .finally(() => {
                 setIsLoading(false);
             });
     };
-    // const selectSubCatByName = (name) => {
-    //     formFields.subCat = name;
-    //   }
+
     const handleChangeProductThirdLevelCat = (event) => {
         setProductThirdLevelCat(event.target.value);
         setProductSubCat('');
@@ -172,17 +169,13 @@ const Products = () => {
         fetchDataFromApi(`/api/product/getAllProductsByThirdLevelCat/${event.target.value}`).then((res) => {
             if (res?.error === false) {
                 setProductData(res?.data)
+                setProductsFilterData(res?.data)
             }
         })
             .finally(() => {
                 setIsLoading(false);
             });
     };
-    // const selectSubCatThirdLevel = (name) => {
-    //     formFields.thirdsubCat = name;
-    //   }    
-
-
 
     const deleteProduct = (id) => {
         deleteData(`/api/product/${id}`).then((res) => {
@@ -218,6 +211,30 @@ const Products = () => {
         setRowsPerPage(+event.target.value);
         setPage(0);
     };
+
+    useEffect(() => {
+        setPage(0);
+        if (searchProductQuery !== "") {
+            const filteredProducts = productData?.filter((product) =>
+                product?.brand?.toLowerCase().includes(searchProductQuery.toLowerCase()) ||
+                product?.name?.toLowerCase().includes(searchProductQuery.toLowerCase()) ||
+                product?.catName?.toLowerCase().includes(searchProductQuery.toLowerCase()) ||
+                product?.subCatName?.toLowerCase().includes(searchProductQuery.toLowerCase()) ||
+                product?.thirdLevelCatName?.toLowerCase().includes(searchProductQuery.toLowerCase()) ||
+                product?.price?.toString().toLowerCase().includes(searchProductQuery.toLowerCase()) ||
+                product?.oldPrice?.toString().toLowerCase().includes(searchProductQuery.toLowerCase()) ||
+                product?.productRam?.toString().toLowerCase().includes(searchProductQuery.toLowerCase()) ||
+                product?.productWeight?.toString().toLowerCase().includes(searchProductQuery.toLowerCase()) ||
+                product?.size?.toString().toLowerCase().includes(searchProductQuery.toLowerCase()) ||
+                product?.createdAt?.toString().includes(searchProductQuery)
+            )
+            setProductsFilterData(filteredProducts)
+        }
+        else {
+            setProductsFilterData(productData)
+        }
+    }, [searchProductQuery])
+
     return (
         <>
             <div className='flex items-center justify-between !px-2 !py-0 !mt-3'>
@@ -351,7 +368,11 @@ const Products = () => {
                     </div>
 
                     <div className='col w-[20%] !ml-auto'>
-                        <SearchBox />
+                        <SearchBox
+                            searchQuery={searchProductQuery}
+                            setSearchQuery={setSearchProductQuery}
+                            setPageOrder={() => setPage(0)}
+                        />
                     </div>
 
 
@@ -366,7 +387,7 @@ const Products = () => {
                                 <TableCell >
                                     <Checkbox size='small'
                                         onChange={handleSelectAll}
-                                        checked={productData?.length > 0 ? productData.every((item) => item.checked) : false} />
+                                        checked={productsFilterData?.length > 0 ? productsFilterData.every((item) => item.checked) : false} />
                                 </TableCell>
 
                                 {columns.map((column) => (
@@ -384,7 +405,7 @@ const Products = () => {
 
 
                             {
-                                isLoading === false ? productData?.length !== 0 && productData?.slice(
+                                isLoading === false ? productsFilterData?.length !== 0 && productsFilterData?.slice(
                                     page * rowsPerPage,
                                     page * rowsPerPage + rowsPerPage
                                 )?.reverse()?.map((product, index) => {
@@ -505,7 +526,7 @@ const Products = () => {
                 <TablePagination
                     rowsPerPageOptions={[10, 25, 100]}
                     component="div"
-                    count={productData?.length}
+                    count={productsFilterData?.length}
                     rowsPerPage={rowsPerPage}
                     page={page}
                     onPageChange={handleChangePage}
