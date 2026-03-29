@@ -22,6 +22,7 @@ import Address from "./Pages/MyAccount/address.jsx";
 import OrderSuccess from "./Pages/Orders/success.jsx";
 import OrderFailed from "./Pages/Orders/failed.jsx";
 import { PayPalScriptProvider } from "@paypal/react-paypal-js" // ✅ Add this
+import SearchPage from "./Pages/Search/index.jsx";
 
 const alertBox = (type, msg) => {
   if (type === "success") {
@@ -55,6 +56,8 @@ function App() {
   const [catData, setCatData] = useState([]);
   const [address, setAddress] = useState([]);
   const [editId, setEditId] = useState(null);
+  const [searchData, setSearchData] = useState([]);
+  const [searchQuery, setSearchQuery] = useState("");
 
   const handleOpenProductDetailsModal = (status, item) => {
     setOpenProductDetailsModal({
@@ -220,7 +223,11 @@ function App() {
     setAddress,
     getAddresses,
     editId,
-    setEditId
+    setEditId,
+    searchData,
+    setSearchData,
+    searchQuery,
+    setSearchQuery
   }
 
   return (
@@ -252,6 +259,7 @@ function App() {
                   <Route path={'/orders/success'} exact={true} element={<OrderSuccess />} />
                   <Route path={'/orders/failed'} exact={true} element={<OrderFailed />} />
                   <Route path={'/address'} exact={true} element={<Address />} />
+                  <Route path={'/search'} exact={true} element={<SearchPage />} />
                 </>
               }
               {!isLogin &&
@@ -266,6 +274,7 @@ function App() {
                   <Route path={'/forgot-password'} exact={true} element={<ForgotPassword />} />
                   <Route path={'/checkout'} exact={true} element={<Checkout />} />
                   <Route path={'/my-account'} exact={true} element={<Home />} />
+                  <Route path={'/search'} exact={true} element={<SearchPage />} />
                 </>
               }
             </Routes>

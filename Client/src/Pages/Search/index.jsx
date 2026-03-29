@@ -16,20 +16,19 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { MyContext } from '../../App';
 
 
-const ProductListing = () => {
+const SearchPage = () => {
     const location = useLocation();
     const navigate = useNavigate();
     const [isItemView, setIsItemView] = useState('grid');
     const [anchorEl, setAnchorEl] = useState(null);
     const open = Boolean(anchorEl);
-    const context = useContext(MyContext)
     const [productsData, setProductsData] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
-
+    const context = useContext(MyContext)
     const query = new URLSearchParams(location.search);
     const page = query.get('page') ? Number(query.get('page')) : 1;
-    const [totalPages, setTotalPages] = useState(1);
 
+    const [totalPages, setTotalPages] = useState(1);
     const [selectedSortVal, setSelectedSortVal] = useState('Name, A-Z');
 
     const orderedProducts = useMemo(() => {
@@ -240,4 +239,4 @@ const ProductListing = () => {
     )
 }
 
-export default ProductListing;
+export default SearchPage;

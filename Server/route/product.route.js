@@ -33,7 +33,8 @@ import {
     getProductSIZEById,
     uploadBannerImages,
     filter,
-    sortBy
+    sortBy,
+    searchProductController
 } from "../controllers/product.controller.js";
 
 import { removeImageFromCloudinary } from "../controllers/category.controller.js";
@@ -54,12 +55,11 @@ productRouter.get('/getAllProductsByPrice', getAllProductsByPrice);
 productRouter.get('/getAllProductsByRating', getAllProductsByRating);
 productRouter.get('/getAllProductsCount', getProductsCount);
 productRouter.get('/getAllFeaturedProducts', getAllFeaturedProducts);
-// Delete image must be defined before parameterized :id routes,
-// otherwise "deleteImage" will be treated as an :id and hit deleteProduct.
 productRouter.delete('/deleteImage', auth, removeImageFromCloudinary);
 productRouter.delete('/deleteMultiple', deleteMultipleProduct);
-productRouter.get('/filter', filter);
+productRouter.post('/filter', filter);
 productRouter.post('/sortBy', sortBy);
+productRouter.post('/search/get', searchProductController);
 productRouter.delete('/:id', deleteProduct);
 productRouter.get('/:id', getProduct);
 productRouter.put('/updateProduct/:id', auth, updateProduct);

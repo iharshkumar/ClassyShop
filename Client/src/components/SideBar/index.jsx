@@ -12,7 +12,7 @@ import 'react-range-slider-input/dist/style.css';
 import Rating from '@mui/material/Rating';
 import { MyContext } from '../../App';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { fetchDataFromApi } from '../../utils/api';
+import { fetchDataFromApi, postData } from '../../utils/api';
 
 
 const SideBar = (props) => {
@@ -49,121 +49,105 @@ const SideBar = (props) => {
         const thirdCategoryId = queryParameters.get("thirdLevelCatId");
         if (thirdCategoryId) ids.thirdLevelCatId = [thirdCategoryId];
 
+        ids.minPrice = queryParameters.get("minPrice") ? Number(queryParameters.get("minPrice")) : 0;
+        ids.maxPrice = queryParameters.get("maxPrice") ? Number(queryParameters.get("maxPrice")) : 60000;
+        ids.rating = queryParameters.get("rating") ? Number(queryParameters.get("rating")) : null;
+        ids.page = queryParameters.get("page") ? Number(queryParameters.get("page")) : 1;
+
+        const q = queryParameters.get("q");
+        if (q) ids.q = q;
+
         return ids;
     };
 
-    // keep selectedCatIds in sync with URL when it changes (e.g. navbar click)
-    useEffect(() => {
-        const urlIds = getUrlCategoryIds();
-        setSelectedCatIds(urlIds.catId);
-        setSelectedSizes(urlIds.size);
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [location.search]);
+    const updateUrl = (updatedParams) => {
+        const params = new URLSearchParams(window.location.search);
 
-    const setCatIdsInUrl = (catIds) => {
-        const params = new URLSearchParams(location.search);
+        // Always clear search on filter change
+        params.delete("q");
+        context?.setSearchQuery("");
 
-        // when user uses category checkboxes, we drive category filtering from catId only
-        params.delete("subCatId");
-        params.delete("thirdLevelCatId");
-        params.delete("catId");
+        // Reset page to 1 and scroll to top on ANY filter change EXCEPT for page itself
+        if (!updatedParams.hasOwnProperty("page")) {
+            params.delete("page");
+            props?.setPage?.(1); // sync with parent local state if any
+        }
 
-        catIds.forEach((id) => params.append("catId", id));
+        Object.keys(updatedParams).forEach(key => {
+            params.delete(key);
+            const value = updatedParams[key];
+            if (Array.isArray(value)) {
+                value.forEach(v => params.append(key, v));
+            } else if (value !== null && value !== undefined && value !== "") {
+                params.set(key, value);
+            }
+        });
 
         const nextSearch = params.toString();
         navigate(`${location.pathname}${nextSearch ? `?${nextSearch}` : ""}`, { replace: true });
     };
 
-    const setSizeInUrl = (sizes) => {
-        const params = new URLSearchParams(location.search);
-        params.delete("size");
-        sizes.forEach((s) => params.append("size", s));
+    const setCatIdsInUrl = (catIds) => {
+        updateUrl({ catId: catIds, subCatId: "", thirdLevelCatId: "" });
+    };
 
-        const nextSearch = params.toString();
-        navigate(`${location.pathname}${nextSearch ? `?${nextSearch}` : ""}`, { replace: true });
+    const setSizeInUrl = (sizes) => {
+        updateUrl({ size: sizes });
+    };
+
+    const setPriceInUrl = (priceObj) => {
+        updateUrl({ minPrice: priceObj[0], maxPrice: priceObj[1] });
+    };
+
+    const setRatingInUrl = (ratingVal) => {
+        updateUrl({ rating: ratingVal });
+    };
+
+    const setPageInUrl = (pageVal) => {
+        updateUrl({ page: pageVal });
     };
 
     const filter = useMemo(() => {
         const urlIds = getUrlCategoryIds();
-        const activeCatIds = selectedCatIds;
+
+        // Sync local states with URL for UI components
+        if (JSON.stringify(urlIds.catId) !== JSON.stringify(selectedCatIds)) setSelectedCatIds(urlIds.catId);
+        if (JSON.stringify(urlIds.size) !== JSON.stringify(selectedSizes)) setSelectedSizes(urlIds.size);
+        if (urlIds.minPrice !== price[0] || urlIds.maxPrice !== price[1]) setPrice([urlIds.minPrice, urlIds.maxPrice]);
+        if (urlIds.rating !== rating) setRating(urlIds.rating);
 
         return {
-            catId: activeCatIds,
+            catId: urlIds.catId,
             subCatId: urlIds.subCatId,
             thirdLevelCatId: urlIds.thirdLevelCatId,
-            size: selectedSizes,
-            minPrice: price[0],
-            maxPrice: price[1],
-            rating: rating || '',
+            size: urlIds.size,
+            minPrice: urlIds.minPrice,
+            maxPrice: urlIds.maxPrice,
+            rating: urlIds.rating || '',
             availability: '',
-            page: props.page || 1,
-            perPage: 10,
+            page: urlIds.page || 1,
+            limit: 10,
+            q: urlIds.q || ''
         };
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [selectedCatIds, selectedSizes, price, rating, location.search, props.page]);
+    }, [location.search, props.page]);
 
 
     const filtersData = async () => {
         props?.setIsLoading(true);
 
-        const params = new URLSearchParams();
-
-        // catId can be multiple
-        if (filter.catId && filter.catId.length > 0) {
-            filter.catId.forEach((id) => params.append('catId', id));
-        }
-
-        if (filter.subCatId && filter.subCatId.length > 0) {
-            filter.subCatId.forEach((id) => params.append('subCatId', id));
-        }
-
-        if (filter.thirdLevelCatId && filter.thirdLevelCatId.length > 0) {
-            filter.thirdLevelCatId.forEach((id) => params.append('thirdsubCatId', id));
-        }
-
-        if (filter.size && filter.size.length > 0) {
-            filter.size.forEach((name) => params.append('size', name));
-        }
-
-        if (filter.minPrice !== undefined && filter.minPrice !== null) {
-            params.append('minPrice', filter.minPrice);
-        }
-
-        if (filter.maxPrice !== undefined && filter.maxPrice !== null) {
-            params.append('maxPrice', filter.maxPrice);
-        }
-
-        if (filter.rating) {
-            params.append('rating', filter.rating);
-        }
-
-        if (filter.page) {
-            params.append('page', filter.page);
-        }
-
-        // backend expects "limit"
-        params.append('limit', filter.perPage || 5);
-
-        try {
-            const res = await fetchDataFromApi(`/api/product/filter?${params.toString()}`);
-
-            if (res?.error === false) {
-                props?.setProductsData(res?.products || []);
-                props?.setTotalPages(res?.totalPages || 1);
-            } else {
-                props?.setProductsData([]);
-                props?.setTotalPages(1);
-            }
-        } finally {
+        postData(`/api/product/filter`, filter).then((res) => {
+            props?.setProductsData(res?.products || []);
             props?.setIsLoading(false);
+            props?.setTotalPages(res?.totalPages || 1);
             window.scrollTo(0, 0);
-        }
+        })
+
     };
 
 
     useEffect(() => {
         filtersData();
-        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [filter]);
 
     useEffect(() => {
@@ -201,6 +185,7 @@ const SideBar = (props) => {
                                                     name='catId'
                                                     value={item?._id}
                                                     onChange={() => {
+                                                        context?.setSearchData([]);
                                                         setSelectedCatIds((prev) => {
                                                             const next = prev.includes(item?._id)
                                                                 ? prev.filter((id) => id !== item?._id)
@@ -285,6 +270,7 @@ const SideBar = (props) => {
                                                     name='size'
                                                     value={item?.name}
                                                     onChange={() => {
+                                                        context?.setSearchData([]);
                                                         setSelectedSizes((prev) => {
                                                             const next = prev.includes(item?.name)
                                                                 ? prev.filter((s) => s !== item?.name)
@@ -312,7 +298,7 @@ const SideBar = (props) => {
                     Filter by Price
                 </h3>
 
-                <RangeSlider value={price} onInput={setPrice} min={100} max={60000} step={5} />
+                <RangeSlider value={price} onInput={setPrice} onAfterChange={() => setPriceInUrl(price)} min={100} max={60000} step={5} />
                 <div className='flex !pt-3 !pb-2 priceRange'>
                     <span className='text-[13px]'>
                         From: <strong className='text-dark'>Rs: {price[0]}  </strong>
@@ -333,7 +319,7 @@ const SideBar = (props) => {
                         name="product-rating-filter"
                         value={rating}
                         onChange={(event, newValue) => {
-                            setRating(newValue);
+                            setRatingInUrl(newValue);
                         }}
                         size="small"
                     />

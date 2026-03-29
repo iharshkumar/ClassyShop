@@ -1365,10 +1365,21 @@ export async function filter(request, response) {
             maxPrice,
             rating,
             page,
-            limit
-        } = request.query;
+            limit,
+            q
+        } = request.body;
 
         const filters = {};
+
+        if (q) {
+            filters.$or = [
+                { name: { $regex: q, $options: "i" } },
+                { catName: { $regex: q, $options: "i" } },
+                { subCat: { $regex: q, $options: "i" } },
+                { thirdsubCat: { $regex: q, $options: "i" } },
+                { brand: { $regex: q, $options: "i" } },
+            ];
+        }
 
         // Category filters (can be arrays)
         if (catId && catId.length) {
@@ -1470,7 +1481,6 @@ export async function filter(request, response) {
     }
 }
 
-
 const sortItems = (products, sortBy, order) => {
     return products.sort((a, b) => {
         if (sortBy === 'name') {
@@ -1495,4 +1505,49 @@ export async function sortBy(request, response) {
         totalPages: 0,
         page: 0
     })
+}
+
+export async function searchProductController(request, response) {
+    try {
+        const { query, page, limit } = request.body;
+
+        if (!query) {
+            return response.status(400).json({
+                message: "Query is required",
+                error: true,
+                success: false
+            });
+        }
+
+        const filter = {
+            $or: [
+                { name: { $regex: query, $options: "i" } },
+                { catName: { $regex: query, $options: "i" } },
+                { subCat: { $regex: query, $options: "i" } },
+                { thirdsubCat: { $regex: query, $options: "i" } },
+                { brand: { $regex: query, $options: "i" } },
+            ]
+        };
+
+        const total = await ProductModel.countDocuments(filter);
+        const products = await ProductModel.find(filter)
+            .populate("category")
+            .skip((page - 1) * limit)
+            .limit(parseInt(limit));
+
+        return response.status(200).json({
+            error: false,
+            success: true,
+            products: products,
+            total: total,
+            page: parseInt(page),
+            totalPages: Math.ceil(total / limit)
+        });
+    } catch (error) {
+        return response.status(500).json({
+            message: error.message || error,
+            error: true,
+            success: false
+        });
+    }
 }
