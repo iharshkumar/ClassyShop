@@ -61,19 +61,19 @@ function App() {
   const [isLogin, setIsLogin] = useState(false)
   const [userData, setUserData] = useState(null)
   const [address, setAddress] = useState([])
-  const [catData, setCatData] = useState([])
+  const [catData, setCatData] = useState([]);
+  const [windowWidth, setWindowWidth] = useState(window.innerWidth);
+  const [sidebarWidth, setSidebarWidth] = useState(18);
   const [isOpenFullScreenPanel, setIsOpenFullScreenPanel] = useState({
     open: false,
     model: '',
     id: ""
   })
 
-
   useEffect(() => {
     const token = localStorage.getItem('accesstoken')
     if (token !== undefined && token !== null && token !== "") {
       setIsLogin(true)
-
 
       fetchDataFromApi(`/api/user/user-details`).then((res) => {
         // console.log("===== I am here ---- 1", res.status)
@@ -91,6 +91,7 @@ function App() {
     else {
       setIsLogin(false)
     }
+
   }, [isLogin])
 
 
@@ -103,8 +104,27 @@ function App() {
   }
 
   useEffect(() => {
-    getCat()
+    getCat();
+
+    const handleResize = () => {
+      setWindowWidth(window.innerWidth);
+    }
+
+    window.addEventListener("resize", handleResize);
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    }
   }, [])
+
+  useEffect(() => {
+    if (windowWidth < 992) {
+      setisSidebarOpen(false);
+      setSidebarWidth(100);
+    }
+    else {
+      setSidebarWidth(18);
+    }
+  }, [windowWidth])
 
   const router = createBrowserRouter([
 
@@ -113,22 +133,34 @@ function App() {
       path: '/',
       exact: true,
       element: (
-        <>
-          <section className='main'>
-            <Header />
-            <div className='contentMain flex'>
-              <div className={`overflow-hidden sidebarWrapper ${isSidebarOpen === true ? 'w-[18%]' : 'w-[0px] opacity-0 transition-all'}`}>
-                <Sidebar />
-              </div>
-              <div className={`contentRight !py-4 !pt-20 !px-5 ${isSidebarOpen === true ? 'w-[82%]' : 'w-[100%]'} transition-all`}>
-                <Dashboard />
-              </div>
+        <section className='main'>
+          <Header />
+          <div className='contentMain flex'>
+            {/* Sidebar Wrapper */}
+            <div
+              className="sidebarWrapper transition-all duration-300 ease-in-out overflow-hidden"
+              style={{
+                width: isSidebarOpen ? (windowWidth < 992 ? '70%' : '260px') : '0px',
+                opacity: isSidebarOpen ? 1 : 0
+              }}
+            >
+              <Sidebar />
             </div>
-          </section>
-        </>
+
+            {/* Right Content Area */}
+            <div
+              className={`contentRight !py-4 !pt-20 !px-5 transition-all duration-300 ${isSidebarOpen && windowWidth < 992 ? 'opacity-0' : 'opacity-100'
+                }`}
+              style={{
+                width: isSidebarOpen && windowWidth >= 992 ? 'calc(100% - 260px)' : '100%'
+              }}
+            >
+              <Dashboard />
+            </div>
+          </div>
+        </section>
       )
     },
-
 
     //login router
     {
@@ -140,7 +172,6 @@ function App() {
         </>
       )
     },
-
 
     //sign-up router
     {
@@ -164,7 +195,6 @@ function App() {
       )
     },
 
-
     //verify-account router
     {
       path: '/verify-account',
@@ -175,7 +205,6 @@ function App() {
         </>
       )
     },
-
 
     //change password router
     {
@@ -309,7 +338,6 @@ function App() {
       )
     },
 
-
     {
       path: '/profile',
       exact: true,
@@ -412,6 +440,7 @@ function App() {
         </>
       )
     },
+
     {
       path: '/bannerV1/List',
       exact: true,
@@ -431,6 +460,7 @@ function App() {
         </>
       )
     },
+
     {
       path: '/bannerV2/List',
       exact: true,
@@ -450,6 +480,7 @@ function App() {
         </>
       )
     },
+
     {
       path: '/adsBannerV1/list',
       exact: true,
@@ -469,6 +500,7 @@ function App() {
         </>
       )
     },
+
     {
       path: '/adsBannerV2/list',
       exact: true,
@@ -488,6 +520,7 @@ function App() {
         </>
       )
     },
+
     {
       path: '/blog/List',
       exact: true,
@@ -507,7 +540,6 @@ function App() {
         </>
       )
     }
-
   ])
 
 
@@ -525,7 +557,11 @@ function App() {
     address,
     catData,
     setCatData,
-    getCat
+    getCat,
+    windowWidth,
+    setWindowWidth,
+    sidebarWidth,
+    setSidebarWidth
   };
 
 

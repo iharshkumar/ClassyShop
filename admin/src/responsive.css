@@ -1,0 +1,43 @@
+@media only screen and (min-width: 320px) and (max-width: 992px) {
+    body {
+        overflow-x: hidden;
+    }
+
+    .main {
+        overflow-x: hidden;
+    }
+
+    /* .dashboardBoxesSlider .swiper-wrapper {
+        overflow-x: scroll !important;
+        white-space: nowrap !important;
+        display: block !important;
+    }
+
+    .dashboardBoxesSlider .swiper-wrapper .swiper-slide {
+        width: 250px !important;
+        display: inline-block !important;
+        vertical-align: top !important;
+    } */
+
+    .dashboardFilters {
+        display: block !important;
+        white-space: nowrap !important;
+        overflow-x: scroll !important;
+    }
+
+    .dashboardFilters::-webkit-scrollbar {
+        display: none !important;
+    }
+
+    .dashboardFilters .col {
+        display: inline-block !important;
+        vertical-align: top !important;
+        width: 250px !important;
+        padding-right: 15px !important;
+    }
+
+    .dashboardFilters .searchBox {
+        position: relative !important;
+        top: 15px !important;
+    }
+}

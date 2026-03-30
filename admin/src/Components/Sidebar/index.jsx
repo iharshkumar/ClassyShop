@@ -30,8 +30,9 @@ const Sidebar = () => {
 
     return (
         <>
-            <div className={`sidebar !fixed !top-0 !left-0 !z-[50] !bg-white h-full 
-    !border-r !border-[rgba(0,0,0,0.1)] !py-1 !px-5 sidebarWrapper w-[${context.isSidebarOpen === true ? '18%' : '0px'}]`}>
+            <div
+                className="sidebar !fixed !top-0 !left-0 !z-[52] !bg-white h-full !border-r !border-[rgba(0,0,0,0.1)] !py-1 !px-5 transition-all duration-300"
+                style={{ width: context.isSidebarOpen ? '260px' : '0px' }}>
                 <div className='!py-2 w-full'>
                     <Link to="/">
                         <img src="https://upload.wikimedia.org/wikipedia/commons/e/ed/ECOM-logo-RGB.png"
@@ -41,7 +42,7 @@ const Sidebar = () => {
 
 
 
-                <ul className='!mt-3'>
+                <ul className='!mt-3 !overflow-y-scroll !max-h-[80vh]'>
                     <li>
                         <Link to="/">
                             <Button className='w-full !capitalise !justify-start 
@@ -146,7 +147,7 @@ const Sidebar = () => {
                         <Link to="/">
                             <Button className='w-full !capitalise !justify-start 
                         flex gap-3 text-[14px] !font-[500] !text-[rgba(0,0,0,0.8)] items-center !py-2 !hover:bg-[#f1f1f1]' onClick={() => isOpenSubMenu(4)}>
-                                <FaBoxOpen  className='text-[20px] ' />
+                                <FaBoxOpen className='text-[20px] ' />
                                 <span>Products</span>
                                 <span className='!ml-auto !w-[30px] !h-[30px] flex items-center justfy-center'
                                 >
@@ -254,7 +255,7 @@ const Sidebar = () => {
                             <Button className='w-full !capitalise !justify-start flex gap-3 text-[14px] !font-[500] !text-[rgba(0,0,0,0.8)] items-center !py-2 !hover:bg-[#f1f1f1]'
                                 onClick={() => isOpenSubMenu(6)}
                             >
-                                <HiOutlinePencilAlt  className='text-[20px]' />
+                                <HiOutlinePencilAlt className='text-[20px]' />
                                 <span>Blogs</span>
                                 <span className='!ml-auto !w-[30px] !h-[30px] flex items-center justfy-center'>
                                     <FaAngleDown className={`transition-all ${subMenuIndex === 6 ? 'rotate-180' : ''}`} />
@@ -288,7 +289,7 @@ const Sidebar = () => {
                             <Button className='w-full !capitalise !justify-start flex gap-3 text-[14px] !font-[500] !text-[rgba(0,0,0,0.8)] items-center !py-2 !hover:bg-[#f1f1f1]'
                                 onClick={() => isOpenSubMenu(7)}
                             >
-                                    <IoImageOutline className='text-[20px]' />
+                                <IoImageOutline className='text-[20px]' />
                                 <span>Banners V2</span>
                                 <span className='!ml-auto !w-[30px] !h-[30px] flex items-center justfy-center'>
                                     <FaAngleDown className={`transition-all ${subMenuIndex === 7 ? 'rotate-180' : ''}`} />
@@ -322,7 +323,7 @@ const Sidebar = () => {
                             <Button className='w-full !capitalise !justify-start flex gap-3 text-[14px] !font-[500] !text-[rgba(0,0,0,0.8)] items-center !py-2 !hover:bg-[#f1f1f1]'
                                 onClick={() => isOpenSubMenu(8)}
                             >
-                                    <IoImageOutline className='text-[20px]' />
+                                <IoImageOutline className='text-[20px]' />
                                 <span>Ads Banner V1</span>
                                 <span className='!ml-auto !w-[30px] !h-[30px] flex items-center justfy-center'>
                                     <FaAngleDown className={`transition-all ${subMenuIndex === 8 ? 'rotate-180' : ''}`} />
@@ -358,9 +359,16 @@ const Sidebar = () => {
                             </Button>
                         </Link>
                     </li>
-
                 </ul>
             </div>
+            {context.isSidebarOpen && window.innerWidth < 992 && (
+                <div
+                    className='sidebarOverlay pointer-events-auto sm:pointer-events-none fixed !top-0 !left-0 bg-[rgba(0,0,0,0.5)] w-full h-full z-[51]'
+                    onClick={() => context.setisSidebarOpen(false)}
+                >
+                </div>
+            )}
+
         </>
     )
 }

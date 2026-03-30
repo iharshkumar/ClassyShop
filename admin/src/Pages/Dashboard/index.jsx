@@ -26,8 +26,6 @@ import { LazyLoadImage } from 'react-lazy-load-image-component'
 import 'react-lazy-load-image-component/src/effects/blur.css'
 import Rating from '@mui/material/Rating';
 
-
-//const label = {inputProps : {"aria-label":"Checkbox demo"}};
 const columns =
   [
     { id: 'product', label: 'PRODUCT', minWidth: 150 },
@@ -467,10 +465,10 @@ const Dashboard = () => {
   return (
     <>
       {/*Front View*/}
-      <div className='w-full !py-2 !px-5 !bg-white !border !border-[rgba(0,0,0,0.1)] flex items-center gap-8 !mb-5 
+      <div className=' w-full !py-5 !px-5 !bg-white !border !border-[rgba(0,0,0,0.1)] flex items-center gap-8 !mb-5 
       justify-between !rounded-md'>
         <div className='info'>
-          <h1 className='text-[35px] !text-[600] !font-bold leading-10 !mb-3'>Good Morning,<br />
+          <h1 className='sm:text-[35px] text-[28px] !text-[600] !font-bold leading-10 !mb-3'>Good Morning,<br />
             <span className="inline-flex items-center gap-2">
               Admin
               <img
@@ -491,7 +489,7 @@ const Dashboard = () => {
           </Button>
         </div>
 
-        <img src="/shopDashboard.webp" className='w-[250px]' />
+        <img src="/shopDashboard.webp" className='w-[250px] hidden lg:block' />
       </div>
 
       {
@@ -1184,7 +1182,7 @@ const Dashboard = () => {
 
       {/*Material UI Table*/}
       <div className='card !my-4 !pt-5 !shadow=md sm:rounded-lg !bg-white' >
-        <div className='flex items-center w-full !px-5 justify-between gap-4 !mb-2'>
+        <div className='flex items-center w-full !px-5 justify-between gap-4 !mb-2 dashboardFilters'>
           <div className='col w-[15%] '>
             <h4 className='font-[600] text-[12px] !mb-2'>Category by</h4>
 
@@ -1288,7 +1286,7 @@ const Dashboard = () => {
             }
           </div>
 
-          <div className='col w-[20%] !ml-auto'>
+          <div className='col w-[20%] !ml-auto searchBox'>
             <SearchBox
               searchQuery={searchProductQuery}
               setSearchQuery={setSearchProductQuery}
@@ -1459,9 +1457,9 @@ const Dashboard = () => {
 
       {/*Order Section*/}
       <div className='card !mt-5 !my-2 !shadow-md sm:rounded-lg !bg-white' >
-        <div className='flex items-center justify-between !px-5 !py-5 '>
-          <h1 className='text-[18px] font-[600]'>Recent Orders</h1>
-          <div className="w-[25%]">
+        <div className='flex items-center justify-between !px-5 !py-5 flex-col sm:flex-row'>
+          <h1 className='text-[18px] font-[600] w-[75%] text-center md:text-left'>Recent Orders</h1>
+          <div className="w-[75%] md:w-[25%]">
             <SearchBox
               searchQuery={searchQuery}
               setSearchQuery={setSearchQuery}
@@ -1697,7 +1695,7 @@ const Dashboard = () => {
           </span>
         </div>
 
-        <ResponsiveContainer width="100%" height={400}>
+        <ResponsiveContainer width={context?.windowWidth < 992 ? "100%" : "100%"} height={400}>
           <BarChart
             data={chartData}
             margin={{
