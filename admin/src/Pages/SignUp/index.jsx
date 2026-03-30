@@ -5,7 +5,6 @@ import { CiLogin } from "react-icons/ci";
 import { CiUser } from "react-icons/ci";
 import LoadingButton from "@mui/lab/LoadingButton";
 import { FcGoogle } from "react-icons/fc";
-import { FaFacebook } from "react-icons/fa";
 import Checkbox from '@mui/material/Checkbox';
 import { FaEye } from "react-icons/fa";
 import { FaEyeSlash } from "react-icons/fa";
@@ -17,11 +16,8 @@ import { useNavigate } from 'react-router-dom'
 import { getAuth, signInWithPopup, GoogleAuthProvider } from "firebase/auth";
 import { firebaseApp } from '../../firebase.jsx';
 
-
 const auth = getAuth(firebaseApp);
 const googleProvider = new GoogleAuthProvider();
-
-
 
 const SignUp = () => {
     const [isLoading, setIsLoading] = useState(false);
@@ -53,7 +49,6 @@ const SignUp = () => {
     };
     const validateValue = Object.values(formFields).every(el => el)
 
-    // console.log(formFields)
     const handleSubmit = (e) => {
 
         e.preventDefault()
@@ -74,7 +69,6 @@ const SignUp = () => {
             return false
         }
         postData("/api/user/register", formFields).then((res) => {
-            // console.log(res)
             if (res?.error === false) {
                 setIsLoading(false)
                 context.alertBox("success", res?.message)
@@ -119,7 +113,6 @@ const SignUp = () => {
                 }
 
                 postData("/api/user/authWithGoogle", fields).then((res) => {
-                    console.log(res)
                     if (res?.error === false) {
                         setIsLoading(false);
                         context.alertBox("success", res?.message);
@@ -144,13 +137,13 @@ const SignUp = () => {
 
     return (
         <section className="w-full">
-            <header className=' w-full fixed !top-0 !left-0 !px-4 !py-3 flex !items-center !justify-between !z-50'>
+            <header className='w-full static lg:fixed !top-0 !left-0 !px-4 !py-3 flex !items-center !justify-center sm:!justify-between !z-50'>
                 <Link to="/">
                     <img src="https://upload.wikimedia.org/wikipedia/commons/e/ed/ECOM-logo-RGB.png" className='w-[200px]' />
                 </Link>
 
 
-                <div className='flex items-center'>
+                <div className='hidden sm:flex items-center'>
                     <NavLink to="/login" exact={true} activeClassname="isActive">
                         <Button className='!rounded-full !text-[rgba(0,0,0,0.8)] !px-5 flex gap-1'>
                             <CiLogin className='text-[18px]' />
@@ -176,12 +169,12 @@ const SignUp = () => {
                 className="fixed inset-0 w-screen h-screen object-cover -z-10 opacity-50"
             />
 
-            <div className='!mt-30 loginBox card w-[600px] !h-[auto] !pb-20 !mx-auto !pt-20 relative z-50'>
+            <div className='loginBox card md:w-[600px] w-full !h-[auto] !pb-20 !mx-auto !pt-5 lg:!pt-20 relative z-50'>
                 <div className='!text-center'>
                     <img src="https://upload.wikimedia.org/wikipedia/commons/e/ed/ECOM-logo-RGB.png" className='!m-auto w-[35%]' />
                 </div>
 
-                <h1 className='text-center text-[35px] font-[800] !mt-4'>
+                <h1 className='text-center text-[18px] sm:text-[35px] font-[800] !mt-4'>
                     Join us today! Get special <br />
                     Benefits and stay up-to-date
                 </h1>
@@ -202,27 +195,13 @@ const SignUp = () => {
                     >
                         Signin with Google
                     </LoadingButton>
-
-                    <LoadingButton
-                        size="small"
-                        onClick={handleClickFb}
-                        endIcon={<FaFacebook />}
-                        loading={loadingFb}
-                        loadingPosition="end"
-                        variant="outlined"
-                        disabled={isLoading === true ? true : false}
-                        className='!bg-none !py-2 !text-[16px] !capitalize !px-5 !text-[rgba(0,0,0,0.8)]'
-
-                    >
-                        Signin with Facebook
-                    </LoadingButton>
                 </div>
 
                 <br />
 
                 <div className='w-full flex items-center justify-center gap-3'>
                     <span className='flex items-center w-[100px] h-[1px] !bg-[rgba(0,0,0,0.2)]'></span>
-                    <span className='text-[15px] font-[500]'>Or, Sign in with your email</span>
+                    <span className='text-[10px] sm:text-[15px] font-[500]'>Or, Sign in with your email</span>
                     <span className='flex items-center w-[100px] h-[1px] !bg-[rgba(0,0,0,0.2)]'></span>
                 </div>
                 <br />
@@ -273,8 +252,8 @@ const SignUp = () => {
                                         setPasswordError('');
                                     }
                                 }}
-                                className='w-full h-[50px] !border-2 !border-[rgba(0,0,0,0.1)] !rounded-md 
-                        focus:!border-[rgba(0,0,0,0.7)] focus:!outline-none !px-3' />
+                                className='w-full h-[50px] !border-2 !border-[rgba(0,0,0,0.1)] !rounded-md focus:!border-[rgba(0,0,0,0.7)] focus:!outline-none !px-3'
+                            />
                             <Button className='!absolute top-[7px] right-[10px] z-50 !rounded-full !w-[35px] !h-[35px] !min-w-[35px] !text-gray-500'
                                 onClick={() => setIsPasswordShow(!isPasswordShow)}>
                                 {
@@ -293,7 +272,7 @@ const SignUp = () => {
                         </div>
                     </div>
 
-                    <div className='form-group !mb-4 w-full flex items-center justify-between'>
+                    <div className='form-group !mb-2 w-full flex items-center justify-between'>
                         <FormControlLabel
                             control={<Checkbox defaultChecked />}
                             label="Remember Me"
@@ -302,6 +281,11 @@ const SignUp = () => {
                         <Link to="/forget-password" className='!text-blue-500 text-[15px] font-[700] hover:underline hover:!text-[rgba(0,0,0,0.8)]'>
                             Forget Password?
                         </Link>
+                    </div>
+
+                    <div className='flex items-center justify-between !mb-4'>
+                        <span className='text-[14px]'>Already have an account?</span>
+                        <Link to="/login" className='!text-blue-500 text-[15px] font-[700] hover:underline hover:!text-[rgba(0,0,0,0.8)]'>Login</Link>
                     </div>
 
                     <div className='flex items-center w-full !mt-3 !mb-3'>

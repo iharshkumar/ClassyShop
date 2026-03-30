@@ -3,6 +3,7 @@ import React from 'react';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 //import "../../index.css";
 import './App.css';
+import './responsive.css';
 import Dashboard from './Pages/Dashboard'
 import Header from './Components/Header'
 import Sidebar from './Components/Sidebar';
