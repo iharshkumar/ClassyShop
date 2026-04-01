@@ -1,0 +1,47 @@
+@import "tailwindcss";
+
+@media only screen and (min-width: 320px) and (max-width: 992px) {
+
+    html,
+    body {
+        overflow-x: clip;
+    }
+
+    .main {
+        overflow-x: clip;
+    }
+
+    .mobileNav a.active button {
+        color: #ff5252 !important;
+    }
+
+    .mobileNav a.active button svg {
+        color: #ff5252 !important;
+    }
+
+    .mobileNav a.active button span {
+        color: #ff5252 !important;
+    }
+
+    .navigation ul {
+        white-space: nowrap;
+        overflow-x: scroll;
+        overflow-y: hidden;
+        display: block !important;
+        text-align: center !important;
+    }
+
+    .navigation ul::-webkit-scrollbar {
+        display: none !important;
+    }
+
+    .navigation ul li {
+        display: inline-block !important;
+        vertical-align: top !important;
+    }
+
+    .container {
+        width: 98% !important;
+        max-width: 98% !important;
+    }
+}
