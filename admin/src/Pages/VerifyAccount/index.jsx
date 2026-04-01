@@ -78,7 +78,7 @@ const VerifyAccount = () => {
         <section className="w-full">
             <header className='w-full fixed !top-0 !left-0 !px-4 !py-3 flex !items-center !justify-between !z-50'>
                 <Link to="/">
-                    <img src="https://upload.wikimedia.org/wikipedia/commons/e/ed/ECOM-logo-RGB.png" className='w-[200px]' />
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/e/ed/ECOM-logo-RGB.png" className='w-[150px] md:w-[200px]' />
                 </Link>
 
 
@@ -108,12 +108,12 @@ const VerifyAccount = () => {
                 className="fixed inset-0 w-screen h-screen object-cover -z-10 opacity-50"
             />
 
-            <div className='!mt-30 loginBox card w-[600px] !h-[auto] !pb-20 !mx-auto !pt-20 relative z-50'>
+            <div className='!mt-20 md:!mt-30 loginBox card w-[95%] sm:w-[90%] max-w-[600px] !h-[auto] !pb-10 md:!pb-20 !mx-auto !pt-10 md:!pt-20 relative z-50'>
                 <div className='!text-center'>
                     <img src="/verify.png" className='w-[100px] !m-auto w-[35%]' />
                 </div>
 
-                <h1 className='text-center text-[35px] font-[800] !mt-4'>
+                <h1 className='text-center text-[24px] md:text-[35px] font-[800] !mt-4'>
                     Welcome Back!<br />
                     Please verify your Email
                 </h1>
@@ -131,7 +131,7 @@ const VerifyAccount = () => {
                     <OtpBox length={6} onChange={handleOtpChange} />
 
                     <div className='flex items-center justify-center !mt-5'>
-                        <Button type="submit" className="btn-blue btn-lg w-[50%]">Verify OTP</Button>
+                        <Button type="submit" className="btn-blue btn-lg w-full sm:w-[50%]">Verify OTP</Button>
                     </div>
                 </form>
             </div>

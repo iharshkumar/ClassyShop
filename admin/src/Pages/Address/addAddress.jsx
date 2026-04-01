@@ -124,10 +124,10 @@ const AddAddress = () => {
     }
 
     return (
-        <section className='!p-5 !bg-gray-100'>
-            <form className='form !py-0 !p-8' onSubmit={handleSubmit}>
-                <div className='scroll !min-h-[72vh] !overflow-y-scroll !pr-4 !pt-4'>
-                    <div className='grid grid-cols-2 !mb-3 gap-4'>
+        <section className='!p-2 md:!p-5 !bg-gray-100'>
+            <form className='form !py-0 !p-4 md:!p-8' onSubmit={handleSubmit}>
+                <div className='scroll !min-h-[72vh] !overflow-y-scroll !pr-2 md:!pr-4 !pt-4'>
+                    <div className='grid grid-cols-1 md:grid-cols-2 !mb-3 gap-4'>
                         <div className='col w-[100%]'>
                             <h3 className='!text-[18px] !font-[500] !mb-1 text-black-500'>Address Line 1</h3>
                             <input
@@ -154,7 +154,7 @@ const AddAddress = () => {
                     </div>
 
 
-                    <div className='grid grid-cols-3 !mb-3 gap-4'>
+                    <div className='grid grid-cols-1 md:grid-cols-3 !mb-3 gap-4'>
                         <div className='col w-[100%]'>
                             <h3 className='!text-[18px] !font-[500] !mb-1 text-black-500'>State</h3>
                             <input
@@ -187,7 +187,7 @@ const AddAddress = () => {
                                 value={formFields.country} />
                         </div>
 
-                        <div className='col w-[100%]'>
+                        <div className='col w-[100%] overflow-hidden'>
                             <h3 className='!text-[18px] !font-[500] !mb-1 text-black-500'>Mobile</h3>
                             <PhoneInput
                                 defaultCountry="in"
@@ -229,7 +229,7 @@ const AddAddress = () => {
 
                     <br />
                     <br />
-                    <div className='w-[250px]'>
+                    <div className='w-full md:w-[250px]'>
                         <Button type='submit' className='btn-blue btn-lg w-full flex gap-2 '>
                             <GrCloudUpload className='text-[25px] text-white' />
                             Publish and View

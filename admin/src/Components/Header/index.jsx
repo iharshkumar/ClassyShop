@@ -29,6 +29,7 @@ import AddAddress from '../../Pages/Address/addAddress.jsx';
 import AddSubCategory from '../../Pages/Category/addSubCategory.jsx';
 import AddCategory from '../../Pages/Category/addCategory.jsx';
 import AddHomeSlide from '../../Pages/HomeSliderBanners/addHomeSlide.jsx';
+import EditHomeSlide from '../../Pages/HomeSliderBanners/editHomeSlide.jsx';
 import AddProduct from '../../Pages/Products/addProduct.jsx';
 import EditProduct from '../../Pages/Products/editProduct.jsx';
 import AddBannersV1 from '../../Pages/Banners/addBannersV1.jsx';
@@ -236,6 +237,9 @@ const Header = () => {
 
         {
           context?.isOpenFullScreenPanel?.model === "Add Home Slide" && <AddHomeSlide />
+        }
+        {
+          context?.isOpenFullScreenPanel?.model === "Edit Home Slide" && <EditHomeSlide />
         }
 
         {

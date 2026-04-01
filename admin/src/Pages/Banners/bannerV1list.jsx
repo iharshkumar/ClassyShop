@@ -1,4 +1,4 @@
-import { Button, Checkbox } from '@mui/material'
+import { Button } from '@mui/material'
 import React, { useContext, useState } from 'react'
 import { MdOutlineModeEdit } from "react-icons/md";
 import { GoTrash } from "react-icons/go";
@@ -12,7 +12,7 @@ import TableRow from '@mui/material/TableRow';
 import { IoBagAddOutline } from "react-icons/io5";
 import { MyContext } from '../../App';
 import { useEffect } from 'react';
-import { deleteData, deleteMultipleData, fetchDataFromApi } from '../../utils/api';
+import { deleteData, fetchDataFromApi } from '../../utils/api';
 
 
 const columns =
@@ -25,29 +25,12 @@ const BannerV1List = () => {
     const [slidesData, setSlidesData] = useState([]);
     const [rowsPerPage, setRowsPerPage] = useState(10);
     const [page, setPage] = useState(0);
-    const [sortedIds, setSortedIds] = useState([])
     const [isLoading, setIsLoading] = useState(false)
     const context = useContext(MyContext)
 
     useEffect(() => {
         getData();
     }, [context?.isOpenFullScreenPanel])
-
-    const handleSelectAll = (e) => {
-        const isChecked = e.target.checked;
-        const updatedItems = slidesData.map((item) => ({
-            ...item,
-            checked: isChecked,
-        }));
-        setSlidesData(updatedItems);
-
-        if (isChecked) {
-            const ids = updatedItems.map((item) => item._id).sort((a, b) => a - b)
-            setSortedIds(ids);
-        } else {
-            setSortedIds([]);
-        }
-    }
 
     const getData = () => {
         fetchDataFromApi("/api/bannerV1").then((res) => {
@@ -65,19 +48,6 @@ const BannerV1List = () => {
         })
     }
 
-    const handleCheckboxChange = (e, id, index) => {
-        const updatedItems = slidesData.map((item) =>
-            item._id === id ? { ...item, checked: !item.checked } : item
-        );
-        setSlidesData(updatedItems);
-
-        const selectedIds = updatedItems
-            .filter((item) => item.checked)
-            .map((item) => item._id)
-            .sort((a, b) => a - b);
-        setSortedIds(selectedIds);
-    };
-
     const handleChangePage = (event, newPage) => {
         setPage(newPage);
     };
@@ -94,30 +64,11 @@ const BannerV1List = () => {
         })
     }
 
-    // const deleteMultipleSlide = () => {
-    //     if (sortedIds.length === 0) {
-    //         context?.alertBox("error", "Please select items to delete.");
-    //         return
-    //     }
-
-    //     try {
-    //         deleteMultipleData(`/api/bannerV1/deleteMultiple`, {
-    //             data: { ids: sortedIds },
-    //         }).then((res) => {
-    //             getData();
-    //             context.alertBox("success", "Product Deleted");
-    //         })
-    //     } catch (error) {
-    //         context.alertBox("error", "Error deleting item")
-    //     }
-    // }
-
-
     return (
         <>
-            <div className='flex items-center justify-between !px-2 !py-0 !mt-3'>
+            <div className='grid grid-cols-1 md:grid-cols-2 items-center !px-2 !py-0 !mt-3'>
                 <h1 className='text-[20px] font-[600]'>Banner List</h1>
-                <div className='col w-[50%] !ml-auto flex items-center !justify-end gap-3 '>
+                <div className='col flex items-center !justify-start md:!justify-end gap-3 '>
 
                     <Button className='btn-blue !text-white btn-sm flex items-center btn gap-2'
                         onClick={() => context.setIsOpenFullScreenPanel({
@@ -134,11 +85,6 @@ const BannerV1List = () => {
                     <Table stickyHeader aria-label="sticky table">
                         <TableHead >
                             <TableRow>
-                                <TableCell width={50}>
-                                    <Checkbox size='small'
-                                        onChange={handleSelectAll}
-                                        checked={slidesData?.length > 0 ? slidesData.every((item) => item.checked) : false} />
-                                </TableCell>
 
                                 {
                                     columns.map((column) => (
@@ -159,12 +105,6 @@ const BannerV1List = () => {
                                 slidesData?.length !== 0 && slidesData?.map((item, index) => {
                                     return (
                                         <TableRow>
-
-                                            <TableCell >
-                                                <Checkbox size='small'
-                                                    checked={item.checked === true ? true : false}
-                                                    onChange={(e) => handleCheckboxChange(e, item._id, index)} />
-                                            </TableCell>
 
                                             <TableCell width={300}>
                                                 <div className='flex items-center gap-4 w-[300px]'>

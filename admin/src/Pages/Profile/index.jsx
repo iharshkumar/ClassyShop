@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { MyContext } from '../../App.jsx';
 import CircularProgress from '@mui/material/CircularProgress';
-import { editData, fetchDataFromApi, postData, uploadImage } from '../../../../admin/src/utils/api.js';
+import { editData, fetchDataFromApi, postData, uploadImage, hashPassword } from '../../utils/api.js';
 import { IoCloudUpload } from 'react-icons/io5';
 import { Button } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
@@ -192,37 +192,56 @@ const Profile = () => {
         }
     }, [context?.userData])
 
-    const validateValue2 = Object.values(formFields).every(el => el)
-    const handleSubmitChangePassword = (e) => {
-
+    const handleSubmitChangePassword = async (e) => {
         e.preventDefault()
 
         setIsLoading2(true)
         if (context?.userData?.signUpWithGoogle === false && changePassword.oldPassword === "") {
             context.alertBox("error", "Please enter Old Password")
+            setIsLoading2(false)
             return false
         }
 
         if (changePassword.newPassword === "") {
             context.alertBox("error", "Please enter New Password ")
+            setIsLoading2(false)
             return false
         }
 
         if (changePassword.confirmPassword === "") {
             context.alertBox("error", "Please enter confirm password")
+            setIsLoading2(false)
             return false
         }
 
         if (changePassword.confirmPassword !== changePassword.newPassword) {
             context.alertBox("error", "Password and Confirm Password doesn't match")
+            setIsLoading2(false)
             return false
         }
 
-        postData(`/api/user/reset-password`, changePassword, { withCredentials: true }).then((res) => {
+        const hashedOldPassword = changePassword.oldPassword ? await hashPassword(changePassword.oldPassword) : "";
+        const hashedNewPassword = await hashPassword(changePassword.newPassword);
+        const hashedConfirmPassword = await hashPassword(changePassword.confirmPassword);
+
+        const resetData = {
+            ...changePassword,
+            oldPassword: hashedOldPassword,
+            newPassword: hashedNewPassword,
+            confirmPassword: hashedConfirmPassword
+        }
+
+        postData(`/api/user/reset-password`, resetData, { credentials: 'include' }).then((res) => {
             //console.log(res)
             if (res?.error === false) {
                 setIsLoading2(false)
                 context.alertBox("success", res?.message)
+                setChangePassword({
+                    ...changePassword,
+                    oldPassword: "",
+                    newPassword: "",
+                    confirmPassword: ""
+                })
             } else {
                 context.alertBox("error", res?.message)
                 setIsLoading2(false)
@@ -251,13 +270,11 @@ const Profile = () => {
     return (
         <>
 
-            <div className='card !my-4 !pt-5 !w-[75%] !shadow=md sm:rounded-lg !bg-white !py-5 !px-5' >
-                <div className='flex items-center justify-between'>
+            <div className='card !my-4 !pt-5 w-full lg:!w-[75%] !shadow-md sm:rounded-lg !bg-white !py-5 !px-5' >
+                <div className='flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4'>
                     <h1 className='text-[18px] font-[600]'>User Profile</h1>
 
-
-                    <Button className='!ml-auto' onClick={() => setIsChangePasswordFormShow(!isChangePasswordFormShow)}>Change Password</Button>
-
+                    <Button className='!ml-0 sm:!ml-auto' onClick={() => setIsChangePasswordFormShow(!isChangePasswordFormShow)}>Change Password</Button>
                 </div>
 
                 <br />
@@ -304,7 +321,7 @@ const Profile = () => {
 
 
                 <form className='form !mt-8' onSubmit={handleSubmit}>
-                    <div className='flex items-center gap-5'>
+                    <div className='grid grid-cols-1 md:grid-cols-2 gap-5'>
                         <div className='w-[100%]'>
                             <TextField
                                 label="Full Name"
@@ -317,9 +334,7 @@ const Profile = () => {
                                 className='w-full'
                             />
                         </div>
-                    </div>
 
-                    <div className='flex items-center !mt-4 gap-5'>
                         <div className='w-[100%]'>
                             <TextField
                                 type='email'
@@ -336,10 +351,11 @@ const Profile = () => {
                     </div>
 
                     <div className='flex items-center !mt-4 gap-5'>
-                        <div className='w-[100%]'>
+                        <div className='w-[100%] overflow-hidden'>
                             <PhoneInput
                                 defaultCountry="in"
                                 value={phone}
+                                className='w-full'
                                 disabled={isLoading === true ? true : false}
                                 onChange={(phone) => {
                                     setPhone(phone);
@@ -398,7 +414,7 @@ const Profile = () => {
                     <div className='flex items-center gap-4'>
                         <Button type="submit"
                             disabled={!validateValue}
-                            className='btn-blue btn-lg w-[250px] !mt-5'>
+                            className='btn-blue btn-lg w-full md:w-[250px] !mt-5'>
                             {
                                 isLoading === true ? <CircularProgress color="inherit" />
                                     :
@@ -413,14 +429,14 @@ const Profile = () => {
             </div >
 
             <Collapse isOpened={isChangePasswordFormShow} >
-                <div className='card bg-white !mt-5 !w-[75%] !p-5 !shadow-md !rounded-md'>
+                <div className='card bg-white !mt-5 w-full lg:!w-[75%] !p-5 !shadow-md !rounded-md'>
                     <div className='flex items-center !pb-3'>
-                        <h2 className='!pb-0'>Change Password</h2>
+                        <h2 className='!pb-0 text-[18px]'>Change Password</h2>
                     </div>
                     <hr />
 
                     <form className='!mt-8' onSubmit={handleSubmitChangePassword}>
-                        <div className='grid grid-cols-2  gap-5'>
+                        <div className='grid grid-cols-1 md:grid-cols-2 gap-5'>
                             {
                                 context?.userData?.signUpWithGoogle === false &&
                                 <div className='col'>
@@ -470,7 +486,7 @@ const Profile = () => {
 
                         <div className='flex items-center gap-4'>
                             <Button type="submit"
-                                className='btn-blue btn-lg w-[250px]'>
+                                className='btn-blue btn-lg w-full md:w-[250px]'>
 
                                 {
                                     isLoading2 === true ? <CircularProgress color="inherit" />

@@ -28,10 +28,9 @@ const SubCategoryList = () => {
     }
     return (
         <>
-            <div className='flex items-center justify-between !px-2 !py-0 !mt-3'>
-                <h1 className='text-[20px] font-[600]'>Sub Category List</h1>
-                <div className='col w-[35%] !ml-auto flex items-center !justify-end gap-3 '>
-                    <Button className='btn !bg-green-600 !text-white btn-sm flex items-center gap-2'><BiExport />Export</Button>
+            <div className='flex items-center flex-col md:flex-row !justify-start md:!justify-between !px-2 !py-0 !mt-3'>
+                <h1 className='text-[20px] font-[600] w-full md:w-[50%] !mb-2 md:!mb-0'>Sub Category List</h1>
+                <div className='col !mr-auto md:!mr-0 md:!ml-auto flex items-center !justify-end gap-3 '>
                     <Button className='btn-blue !text-white btn-sm flex items-center btn gap-2'
                         onClick={() => context.setIsOpenFullScreenPanel({
                             open: true,
@@ -82,21 +81,22 @@ const SubCategoryList = () => {
                                                                             selectedCatName={subCat?.parentCatName}
                                                                         />
                                                                         {
-                                                                            subCat?.children?.length !== 0 && 
+                                                                            subCat?.children?.length !== 0 &&
                                                                             <ul className='!pl-4'>
                                                                                 {
-                                                                                    subCat?.children?.map((thirdLevel,index__) => {
-                                                                                        return(
-                                                                                            <li 
-                                                                                            key={index__}
-                                                                                            className='w-full !hover:bg-[#f1f1f1]'>
+                                                                                    subCat?.children?.map((thirdLevel, index__) => {
+                                                                                        return (
+                                                                                            <li
+                                                                                                key={index__}
+                                                                                                className='w-full !hover:bg-[#f1f1f1]'>
                                                                                                 <EditSubCatBox
-                                                                                                name={thirdLevel.name}
-                                                                                                catData={firstLevelCat?.children}
-                                                                                                index={index__}
-                                                                                                selectedCat={thirdLevel?.parentId}
-                                                                                                selectedCatName={thirdLevel?.parentCatName}
-                                                                                                id={thirdLevel?._id}/>
+                                                                                                    name={thirdLevel.name}
+                                                                                                    catData={firstLevelCat?.children}
+                                                                                                    index={index__}
+                                                                                                    selectedCat={thirdLevel?.parentId}
+                                                                                                    selectedCatName={thirdLevel?.parentCatName}
+                                                                                                    id={thirdLevel?._id}
+                                                                                                />
                                                                                             </li>
                                                                                         )
                                                                                     })

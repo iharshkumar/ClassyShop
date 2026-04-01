@@ -10,7 +10,7 @@ import { FaEye } from "react-icons/fa";
 import { FaEyeSlash } from "react-icons/fa";
 import { useContext } from 'react';
 import { MyContext } from '../../App';
-import { postData } from '../../utils/api';
+import { postData, hashPassword } from '../../utils/api';
 import { useNavigate } from 'react-router-dom'
 import CircularProgress from '@mui/material/CircularProgress';
 import { getAuth, signInWithPopup, GoogleAuthProvider } from "firebase/auth";
@@ -83,21 +83,29 @@ const Login = () => {
 
     const validateValue = Object.values(formFields).every(el => el)
 
-    const handleSubmit = (e) => {
-
+    const handleSubmit = async (e) => {
         e.preventDefault()
-
         setIsLoading(true)
+
         if (formFields.email === "") {
             context.alertBox("error", "Please enter email id")
+            setIsLoading(false)
             return false
         }
 
         if (formFields.password === "") {
             context.alertBox("error", "Please enter password")
+            setIsLoading(false)
             return false
         }
-        postData("/api/user/login", formFields, { withCredentials: true }).then((res) => {
+
+        const hashedPassword = await hashPassword(formFields.password);
+        const loginData = {
+            ...formFields,
+            password: hashedPassword
+        }
+
+        postData("/api/user/login", loginData, { credentials: 'include' }).then((res) => {
             if (res?.error === false) {
                 setIsLoading(false)
                 context.alertBox("success", res?.message)
@@ -106,13 +114,10 @@ const Login = () => {
                     password: ""
                 })
 
-
                 localStorage.setItem("accesstoken", res?.data?.accesstoken)
                 localStorage.setItem("refreshToken", res?.data?.refreshToken)
 
-
                 context.setIsLogin(true)
-
                 history("/")
             } else {
                 context.alertBox("error", res?.message)
@@ -282,7 +287,7 @@ const Login = () => {
                             label="Remember Me"
                         />
 
-                        <a className='!text-blue-500 text-[15px] font-[700] hover:underline hover:!text-[rgba(0,0,0,0.8)]' onClick={forgotPassword}>Forgot Password?</a>
+                        <a className='!text-blue-500 text-[15px] font-[700] hover:underline hover:!text-[rgba(0,0,0,0.8)] cursor-pointer' onClick={forgotPassword}>Forgot Password?</a>
 
                     </div>
 

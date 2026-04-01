@@ -237,21 +237,20 @@ const Products = () => {
 
     return (
         <>
-            <div className='flex items-center justify-between !px-2 !py-0 !mt-3'>
+            <div className='grid grid-cols-1 md:grid-cols-2 items-center !px-2 !py-0 !mt-3'>
                 <h1 className='text-[20px] font-[600]'>Products</h1>
-                <div className='col w-[50%] !ml-auto flex items-center !justify-end gap-3 '>
+                <div className='col flex items-center !justify-start md:!justify-end gap-3 '>
                     {
                         sortedIds?.length !== 0 &&
                         <Button
                             variant="contained"
-                            className="btn-sm"
+                            className="btn-sm !mt-3 md:!mt-0"
                             size='small' color='error'
                             onClick={deleteMultipleProduct}>
                             Delete
                         </Button>
                     }
-                    <Button className='btn !bg-green-600 !text-white btn-sm flex items-center gap-2'><BiExport />Export</Button>
-                    <Button className='btn-blue !text-white btn-sm flex items-center btn gap-2'
+                    <Button className='btn-blue !text-white btn-sm flex items-center btn gap-2 !mt-3 md:!mt-0'
                         onClick={() => context.setIsOpenFullScreenPanel({
                             open: true,
                             model: 'Add Product'
@@ -261,11 +260,10 @@ const Products = () => {
                 </div>
             </div>
 
-
             <div className='card !my-4 !pt-5 !shadow=md sm:rounded-lg !bg-white' >
 
-                <div className='flex items-center w-full !px-5 justify-between gap-4 !mb-2'>
-                    <div className='col w-[15%] '>
+                <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 items-center w-full !px-5 justify-between gap-4 !mb-2'>
+                    <div className='col w-full'>
                         <h4 className='font-[600] text-[12px] !mb-2'>Category by</h4>
                         {
                             context?.catData.length !== 0 &&
@@ -294,7 +292,7 @@ const Products = () => {
                         }
                     </div>
 
-                    <div className='col w-[15%] '>
+                    <div className='col w-full '>
                         <h4 className='font-[600] text-[12px] !mb-2'>Sub Category by</h4>
                         {
                             context?.catData.length !== 0 &&
@@ -327,7 +325,7 @@ const Products = () => {
                         }
                     </div>
 
-                    <div className='col w-[20%] '>
+                    <div className='col w-full '>
                         <h4 className='font-[600] text-[12px] !mb-2'>Third Level Category by</h4>
                         {
                             context?.catData.length !== 0 &&
@@ -367,15 +365,13 @@ const Products = () => {
                         }
                     </div>
 
-                    <div className='col w-[20%] !ml-auto'>
+                    <div className='col w-full !ml-auto'>
                         <SearchBox
                             searchQuery={searchProductQuery}
                             setSearchQuery={setSearchProductQuery}
                             setPageOrder={() => setPage(0)}
                         />
                     </div>
-
-
                 </div>
 
 

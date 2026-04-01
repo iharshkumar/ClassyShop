@@ -1182,10 +1182,9 @@ const Dashboard = () => {
 
       {/*Material UI Table*/}
       <div className='card !my-4 !pt-5 !shadow=md sm:rounded-lg !bg-white' >
-        <div className='flex items-center w-full !px-5 justify-between gap-4 !mb-2 dashboardFilters'>
-          <div className='col w-[15%] '>
+        <div className='grid grid-cols-1 sm:grid-cols-4 md:grid-cols-4 lg:grid-cols-4 w-full gap-4 !px-5 !mb-2'>
+          <div className='col  '>
             <h4 className='font-[600] text-[12px] !mb-2'>Category by</h4>
-
             {
               context?.catData.length !== 0 &&
               <Select
@@ -1213,7 +1212,7 @@ const Dashboard = () => {
             }
           </div>
 
-          <div className='col w-[15%] '>
+          <div className='col  '>
             <h4 className='font-[600] text-[12px] !mb-2'>Sub Category by</h4>
             {
               context?.catData.length !== 0 &&
@@ -1246,7 +1245,7 @@ const Dashboard = () => {
             }
           </div>
 
-          <div className='col w-[20%] '>
+          <div className='col '>
             <h4 className='font-[600] text-[12px] !mb-2'>Third Level Category by</h4>
             {
               context?.catData.length !== 0 &&
@@ -1286,12 +1285,14 @@ const Dashboard = () => {
             }
           </div>
 
-          <div className='col w-[20%] !ml-auto searchBox'>
-            <SearchBox
-              searchQuery={searchProductQuery}
-              setSearchQuery={setSearchProductQuery}
-              setPageOrder={() => setPage(0)}
-            />
+          <div className='col w-full flex items-center !ml-auto searchBox'>
+            <div style={{ alignSelf: 'end' }} className='w-full'>
+              <SearchBox
+                searchQuery={searchProductQuery}
+                setSearchQuery={setSearchProductQuery}
+                setPageOrder={() => setPage(0)}
+              />
+            </div>
           </div>
 
 
@@ -1327,7 +1328,7 @@ const Dashboard = () => {
                 isLoading === false ? productsFilterData?.length !== 0 && productsFilterData?.slice(
                   page * rowsPerPage,
                   page * rowsPerPage + rowsPerPage
-                )?.map((product, index) => {
+                )?.reverse()?.map((product, index) => {
                   return (
                     <TableRow key={product?._id || index}>
                       <TableCell style={{ minWidth: columns.minWidth }}>
@@ -1457,9 +1458,9 @@ const Dashboard = () => {
 
       {/*Order Section*/}
       <div className='card !mt-5 !my-2 !shadow-md sm:rounded-lg !bg-white' >
-        <div className='flex items-center justify-between !px-5 !py-5 flex-col sm:flex-row'>
-          <h1 className='text-[18px] font-[600] w-[75%] text-center md:text-left'>Recent Orders</h1>
-          <div className="w-[75%] md:w-[25%]">
+        <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-2 flex-col sm:flex-row w-full gap-4 !px-5 !py-5'>
+          <h1 className='text-[18px] font-[600] text-left !mb-2 lg:!mb-0'>Recent Orders</h1>
+          <div className="!ml-auto w-full">
             <SearchBox
               searchQuery={searchQuery}
               setSearchQuery={setSearchQuery}

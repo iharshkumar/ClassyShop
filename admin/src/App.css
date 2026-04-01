@@ -133,7 +133,7 @@ input[type="email"]:disabled {
   border: 1px solid rgba(0, 0, 0, 0.1) !important
 }
 
-.Mui-focused fieldset legend{
+.Mui-focused fieldset legend {
   display: none !important;
 }
 
@@ -189,7 +189,7 @@ input[type="email"]:disabled {
   transform: none !important;
 }
 
-.swiper-slide .liz{
+.swiper-slide .liz {
   height: 600px !important;
   overflow: hidden !important;
 }
@@ -241,11 +241,15 @@ input[type="email"]:disabled {
   color: #000;
 }
 
-.contentRight{
+.contentRight {
   padding-top: 80px !important;
 }
 
-.rsw-editor{
+.rsw-editor {
   min-height: 200px !important;
   background: #ccc !important;
+}
+
+.contentRight {
+  padding-left: 30px !important;
 }

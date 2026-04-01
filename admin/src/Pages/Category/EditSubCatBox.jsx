@@ -57,6 +57,7 @@ const EditSubCatBox = (props) => {
         context.alertBox("success", "Category updated successfully");
         context?.getCat();
         setIsLoading(false);
+        setEditMode(false);
       }, 1000);
     })
   }
@@ -65,12 +66,11 @@ const EditSubCatBox = (props) => {
 
   return (
     <form className='w-[100] flex items-center gap-3 !p-0 !px-4' onSubmit={handleSubmit}>
-
       {
         editMode === true &&
         <>
-          <div className='flex items-center justify-between !py-2 gap-4'>
-            <div className='w-[150px]'>
+          <div className='flex items-center justify-between !py-2 gap-4 whitespace-nowrap overflow-x-scroll'>
+            <div className='w-[180px] md:w-[150px]'>
               <Select
                 style={{ zoom: '75%' }}
                 className="w-full"
@@ -103,7 +103,7 @@ const EditSubCatBox = (props) => {
 
             <input
               type='text'
-              className='w-full !h-[30px] !border !border-[rgba(0,0,0,0.2)] focus:outline-none focus:border-[rgba(0,0,0,0.4)] rounded-sm !p-3 !text-sm'
+              className='w-[150px] md:w-full !h-[30px] !border !border-[rgba(0,0,0,0.2)] focus:outline-none focus:border-[rgba(0,0,0,0.4)] rounded-sm !p-3 !text-sm'
               name="name"
               value={formFields?.name}
               onChange={onChangeInput} />

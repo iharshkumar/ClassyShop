@@ -98,12 +98,12 @@ const AddRAMS = () => {
 
     return (
         <>
-            <div className='flex items-center justify-between !px-2 !py-0 !mt-3 bg-white-[65%]'>
+            <div className='flex items-center justify-between !px-2 !py-0 !mt-3'>
                 <h1 className='text-[20px] font-[600]'>Add Product RAMS</h1>
             </div>
 
-            <div className='card my-4 pt-5 pb-5 !shadow=md sm:rounded-lg !bg-white w-[65%]' >
-                <form className='form !py-3 !p-8' onSubmit={handleSubmit}>
+            <div className='card my-4 pt-5 pb-5 !shadow-md sm:rounded-lg !bg-white w-full md:w-[65%]' >
+                <form className='form !py-3 !p-1 md:!p-8' onSubmit={handleSubmit}>
                     <div className='col mb-4'>
                         <h3 className='text-[14px] font-[500] !mb-1'>PRODUCT RAM</h3>
                         <input
@@ -131,7 +131,7 @@ const AddRAMS = () => {
 
             {
                 data?.length !== 0 &&
-                <div className='card my-4 pt-5 pb-5 !shadow-md sm:rounded-lg !bg-white w-[65%]' >
+                <div className='card my-4 pt-5 pb-5 !shadow-md sm:rounded-lg !bg-white w-full md:w-[65%]' >
                     <div className="relative overflow-x-auto !pb-5">
                         <table className="w-full text-sm text-left rtl:text-right text-body border-collapse">
                             <thead className="text-sm text-body bg-[#f1f1f1] !border-b !border-[rgba(0,0,0,0.1)]">

@@ -115,9 +115,9 @@ const HomeSliderBanners = () => {
 
     return (
         <>
-            <div className='flex items-center justify-between !px-2 !py-0 !mt-3'>
+            <div className='grid grid-cols-1 md:grid-cols-2 items-center !px-2 !py-0 !mt-3'>
                 <h1 className='text-[20px] font-[600]'>Home Slider Banners</h1>
-                <div className='col w-[50%] !ml-auto flex items-center !justify-end gap-3 '>
+                <div className='col flex items-center !justify-start md:!justify-end gap-3 '>
                     {
                         sortedIds?.length !== 0 &&
                         <Button
@@ -130,12 +130,12 @@ const HomeSliderBanners = () => {
                             Delete
                         </Button>
                     }
-                    <Button className='btn-blue !text-white btn-sm flex items-center btn gap-2'
+                    <Button className='btn-blue !text-white !whitespace-nowrap btn-sm flex items-center justify-center'
                         onClick={() => context.setIsOpenFullScreenPanel({
                             open: true,
                             model: 'Add Home Slide'
                         })}>
-                        <IoBagAddOutline />Add Home Slides
+                        Add Home Slides
                     </Button>
                 </div>
             </div>
@@ -189,7 +189,13 @@ const HomeSliderBanners = () => {
 
                                             <TableCell width={50}>
                                                 <div className='flex items-center gap-1'>
-                                                    <Button className='!w-[35px] !h-[35px] !min-w-[35px] bg-[#f1f1f1] !border !border-[rgba(0,0,0,0.4)] !rounded-full hover:!bg-[#f1f1f1]'>
+                                                    <Button className='!w-[35px] !h-[35px] !min-w-[35px] bg-[#f1f1f1] !border !border-[rgba(0,0,0,0.4)] !rounded-full hover:!bg-[#f1f1f1]'
+                                                        onClick={() => context.setIsOpenFullScreenPanel({
+                                                            open: true,
+                                                            model: 'Edit Home Slide',
+                                                            id: item?._id
+                                                        })}
+                                                    >
                                                         <MdOutlineModeEdit className='text-[rgba(0,0,0,0.7)] text-[20px] ' />
                                                     </Button>
                                                     <Button className='!w-[35px] !h-[35px] !min-w-[35px] bg-[#f1f1f1] !border !border-[rgba(0,0,0,0.4)] !rounded-full hover:!bg-[#f1f1f1]'

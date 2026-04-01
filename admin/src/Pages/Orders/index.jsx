@@ -108,10 +108,10 @@ const Orders = () => {
     }, [searchQuery, totalOrdersData])
 
     return (
-        <div className='card !mt-5 !my-2 !shadow=md sm:rounded-lg !bg-white' >
-            <div className='flex items-center justify-between !px-5 !py-5'>
-                <h1 className='text-[18px] font-[600]'>Recent Orders</h1>
-                <div className='w-[40%]'>
+        <div className='card !my-2 md:!mt-4 !shadow-md sm:rounded-lg !bg-white' >
+            <div className='grid grid-cols-1 lg:grid-cols-2 flex-col sm:flex-row w-full gap-4 !px-5 !py-5'>
+                <h2 className='text-[18px] !font-[600] text-left !mb-2 lg:!mb-0'>Recent Orders</h2>
+                <div className='ml-auto w-full'>
                     <SearchBox
                         searchQuery={searchQuery}
                         setSearchQuery={setSearchQuery}
@@ -232,6 +232,7 @@ const Orders = () => {
                                                         displayEmpty
                                                         inputProps={{ 'aria-label': 'Without label' }}
                                                         size='small'
+                                                        style={{ zoom: '80%' }}
                                                         className='!h-[35px] w-full'
                                                     >
                                                         <MenuItem value={'pending'}>Pending</MenuItem>

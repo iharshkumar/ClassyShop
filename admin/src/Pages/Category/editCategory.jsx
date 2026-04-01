@@ -28,7 +28,7 @@ const EditCategory = () => {
             return {
                 ...formFields,
                 [name]: value
-                
+
             }
         });
         formFields.images = previews
@@ -38,14 +38,14 @@ const EditCategory = () => {
         setPreviews(previewsArr);
         formFields.images = previewsArr
     }
-    useEffect(()=>{
-        const id=context.isOpenFullScreenPanel?.id;
+    useEffect(() => {
+        const id = context.isOpenFullScreenPanel?.id;
 
-        fetchDataFromApi(`/api/category/${id}`).then((res)=>{
-            formFields.name=res?.category?.name 
+        fetchDataFromApi(`/api/category/${id}`).then((res) => {
+            formFields.name = res?.category?.name
             setPreviews(res?.category?.images)
         })
-    },[])
+    }, [])
 
     const removeImg = (image, index) => {
         var imageArr = [];
@@ -92,11 +92,11 @@ const EditCategory = () => {
     return (
 
         <section className='!p-5 !bg-gray-100'>
-            <form className='form !py-0 !p-8' onSubmit={handleSubmit}>
+            <form className='form !py-1 !p-1 md:!p-8 md:!py-1' onSubmit={handleSubmit}>
                 <div className='scroll !min-h-[72vh] !overflow-y-scroll !pr-4 !pt-4'>
-                    <div className='grid grid-cols-1 !mb-3'>
-                        <div className='col w-[25%]'>
-                            <h3 className='!text-[18px] !font-[500] !mb-1 text-black-500'>Category Name</h3>
+                    <div className='grid grid-cols-2 md:grid-cols-7 gap-4'>
+                        <div className='col !w-full md:w-[25%]'>
+                            <h3 className='!text-[18px] !font-[500] !whitespace-nowrap !mb-1 text-black-500'>Category Name</h3>
                             <input
                                 type="text"
                                 className='w-full h-[40px] border border-[rgba(0,0,0,0.2)] !focus:outline-none !focus:border-[rgba(0,0,0,0.4)] !rounded-sm !p-3 !text-sm !bg-[#fafafa]'
@@ -111,7 +111,7 @@ const EditCategory = () => {
                     <h3 className='!text-[18px] !font-[500] !mb-2 text-black-500'>Category Image</h3>
 
 
-                    <div className='grid grid-cols-7 gap-4'>
+                    <div className='grid grid-cols-2 md:grid-cols-7 gap-4'>
 
                         {
                             previews?.length !== 0 && previews?.map((image, index) => {

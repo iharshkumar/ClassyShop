@@ -56,12 +56,12 @@ const ProductDetails = () => {
             {
                 product?._id !== "" && product?._id !== undefined && product?._id !== null ?
                     <>
-                        <div className='productDetails flex'>
-                            <div className='w-[40%]'>
+                        <div className='productDetails flex flex-col lg:flex-row'>
+                            <div className='w-full lg:w-[40%] mb-10 lg:mb-0'>
                                 {
                                     product?.images?.length !== 0 &&
                                     <div className='flex gap-3'>
-                                        <div className='slider w-[12%]'>
+                                        <div className='slider w-[15%] md:w-[12%]'>
                                             <Swiper
                                                 ref={zoomSliderSml}
                                                 direction={'vertical'}
@@ -89,7 +89,7 @@ const ProductDetails = () => {
                                             </Swiper>
                                         </div>
 
-                                        <div className='zoomContainer w-[330px] !h-[450px] overflow-hidden !rounded-md'>
+                                        <div className='zoomContainer w-full md:w-[330px] !h-[450px] overflow-hidden !rounded-md'>
                                             <Swiper
                                                 ref={zoomSliderBig}
                                                 slidesPerView={1}
@@ -116,17 +116,17 @@ const ProductDetails = () => {
 
                             </div>
 
-                            <div className='w-[60%]'>
+                            <div className='w-full lg:w-[60%] !pl-0 lg:!pl-8'>
                                 <h1 className='text-[25px] font-[500] !mb-4'>{product?.name}</h1>
 
                                 <div className='flex items-center !py-1'>
-                                    <span className='w-[20%] font-[500] flex items-center gap-2 text-[14px]'>
+                                    <span className='w-[40%] md:w-[20%] font-[500] flex items-center gap-2 text-[14px]'>
                                         <MdBrandingWatermark className='opacity-65' />Brand :</span>
                                     <span className='text-[14px]'>{product?.brand}</span>
                                 </div>
 
                                 <div className='flex items-center !py-1'>
-                                    <span className='w-[20%] font-[500] flex items-center gap-2 text-[14px]'>
+                                    <span className='w-[40%] md:w-[20%] font-[500] flex items-center gap-2 text-[14px]'>
                                         <BiSolidCategoryAlt className='opacity-65' />Category :</span>
                                     <span className='text-[14px]'>{product?.catName}</span>
                                 </div>
@@ -134,7 +134,7 @@ const ProductDetails = () => {
                                 {
                                     product?.productRam?.length !== 0 &&
                                     <div className='flex items-center !py-1'>
-                                        <span className='w-[20%] font-[500] flex items-center gap-2 text-[14px]'>
+                                        <span className='w-[40%] md:w-[20%] font-[500] flex items-center gap-2 text-[14px]'>
                                             <MdFilterVintage className='opacity-65' />RAM :</span>
 
                                         <div className='flex items-center gap-2'>
@@ -152,7 +152,7 @@ const ProductDetails = () => {
                                 {
                                     product?.size?.length !== 0 &&
                                     <div className='flex items-center !py-1'>
-                                        <span className='w-[20%] font-[500] flex items-center gap-2 text-[14px]'>
+                                        <span className='w-[40%] md:w-[20%] font-[500] flex items-center gap-2 text-[14px]'>
                                             <MdFilterVintage className='opacity-65' />Size :</span>
 
                                         <div className='flex items-center gap-2'>
@@ -170,7 +170,7 @@ const ProductDetails = () => {
                                 {
                                     product?.productWeight?.length !== 0 &&
                                     <div className='flex items-center !py-1'>
-                                        <span className='w-[20%] font-[500] flex items-center gap-2 text-[14px]'>
+                                        <span className='w-[40%] md:w-[20%] font-[500] flex items-center gap-2 text-[14px]'>
                                             <MdFilterVintage className='opacity-65' />Weight :</span>
 
                                         <div className='flex items-center gap-2'>
@@ -186,131 +186,56 @@ const ProductDetails = () => {
                                 }
 
                                 <div className='flex items-center !py-1'>
-                                    <span className='w-[20%] font-[500] flex items-center gap-2 text-[14px]'>
+                                    <span className='w-[40%] md:w-[20%] font-[500] flex items-center gap-2 text-[14px]'>
                                         <MdRateReview className='opacity-65' />Reviews :</span>
                                     <span className='text-[14px]'>({product?.reviews?.length > 0 ? product?.reviews?.length : 0}) Review</span>
                                 </div>
 
                                 <div className='flex items-center !py-1'>
-                                    <span className='w-[20%] font-[500] flex items-center gap-2 text-[14px]'>
+                                    <span className='w-[40%] md:w-[20%] font-[500] flex items-center gap-2 text-[14px]'>
                                         <BsPatchCheckFill className='opacity-65' />Published :</span>
                                     <span className='text-[14px]'>{product?.createdAt?.split("T")[0]}</span>
                                 </div>
 
                                 <h2 className='text-[25px] font-[500] !mb-3'>Product Description</h2>
                                 {
-                                    product?.description && <p className='text-[14px] w-[75%]'>{product?.description}</p>
+                                    product?.description && <p className='text-[14px] w-full'>{product?.description}</p>
                                 }
                             </div>
                         </div>
 
                         <h2 className='text-[18px] font-[500] !mt-3'>Customer Reviews</h2>
                         <div className='reviewWrap !mt-3'>
-                            <div className='w-full !h-auto !mb-3 !p-4 !bg-white !rounded-sm !shadow-md flex items-center justify-between'>
-                                <div className='flex items-center gap-8'>
-                                    <div className='img w-[85px] !h-[85px] !rounded-full overflow-hidden  !border-3 !border-[#2b62c6] '>
-                                        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTfE8XWOVe86hLGi8m9mgPTsva_KWjTHbT9iQ&s"
-                                            className='w-full !h-full object-cover' />
+                            {
+                                product?.reviews?.length > 0 ? (
+                                    product?.reviews?.map((item, index) => {
+                                        return (
+                                            <div key={index} className='w-full !h-auto !mb-3 !p-4 !bg-white !rounded-sm !shadow-md flex flex-col md:flex-row items-center justify-between'>
+                                                <div className='flex flex-col md:flex-row items-center gap-4 md:gap-8'>
+                                                    <div className='img w-[85px] !h-[85px] !rounded-full overflow-hidden !border-3 !border-[#2b62c6] '>
+                                                        <img src={item?.image || "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTfE8XWOVe86hLGi8m9mgPTsva_KWjTHbT9iQ&s"}
+                                                            className='w-full !h-full object-cover' />
+                                                    </div>
+
+                                                    <div className='info w-full md:w-[80%]'>
+                                                        <div className='flex items-center justify-between'>
+                                                            <h4 className='text-[16px] font-[500]'>{item?.userName}</h4>
+                                                            <Rating name="read-only" value={item?.rating} readOnly size='small' />
+                                                        </div>
+                                                        <span className='text-[13px]'>{item?.createdAt?.split("T")[0]}</span>
+
+                                                        <p className='text-[13px] !mt-2'>{item?.review}</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        )
+                                    })
+                                ) : (
+                                    <div className='w-full !h-auto !mb-3 !p-4 !bg-white !rounded-sm !shadow-md text-center'>
+                                        <p className='text-[16px] font-[500] opacity-50'>No review</p>
                                     </div>
-
-
-                                    <div className='info w-[80%]'>
-                                        <div className='flex items-center justify-between'>
-                                            <h4 className='text-[16px] font-[500]'>Harsh Kumar</h4>
-                                            <Rating name="read-only" value={5} readOnly size='small' />
-                                        </div>
-                                        <span className='text-[13px]'>2026-02-27</span>
-
-                                        <p className='text-[13px] !mt-2'>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.</p>
-                                    </div>
-
-                                </div>
-                            </div>
-
-                            <div className='w-full !h-auto !mb-3 !p-4 !bg-white !rounded-sm !shadow-md flex items-center justify-between'>
-                                <div className='flex items-center gap-8'>
-                                    <div className='img w-[85px] !h-[85px] !rounded-full overflow-hidden  !border-3 !border-[#2b62c6] '>
-                                        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTfE8XWOVe86hLGi8m9mgPTsva_KWjTHbT9iQ&s"
-                                            className='w-full !h-full object-cover' />
-                                    </div>
-
-
-                                    <div className='info w-[80%]'>
-                                        <div className='flex items-center justify-between'>
-                                            <h4 className='text-[16px] font-[500]'>Harsh Kumar</h4>
-                                            <Rating name="read-only" value={5} readOnly size='small' />
-                                        </div>
-                                        <span className='text-[13px]'>2026-02-27</span>
-
-                                        <p className='text-[13px] !mt-2'>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.</p>
-                                    </div>
-
-                                </div>
-                            </div>
-
-                            <div className='w-full !h-auto !mb-3 !p-4 !bg-white !rounded-sm !shadow-md flex items-center justify-between'>
-                                <div className='flex items-center gap-8'>
-                                    <div className='img w-[85px] !h-[85px] !rounded-full overflow-hidden  !border-3 !border-[#2b62c6] '>
-                                        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTfE8XWOVe86hLGi8m9mgPTsva_KWjTHbT9iQ&s"
-                                            className='w-full !h-full object-cover' />
-                                    </div>
-
-
-                                    <div className='info w-[80%]'>
-                                        <div className='flex items-center justify-between'>
-                                            <h4 className='text-[16px] font-[500]'>Harsh Kumar</h4>
-                                            <Rating name="read-only" value={5} readOnly size='small' />
-                                        </div>
-                                        <span className='text-[13px]'>2026-02-27</span>
-
-                                        <p className='text-[13px] !mt-2'>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.</p>
-                                    </div>
-
-                                </div>
-                            </div>
-
-                            <div className='w-full !h-auto !mb-3 !p-4 !bg-white !rounded-sm !shadow-md flex items-center justify-between'>
-                                <div className='flex items-center gap-8'>
-                                    <div className='img w-[85px] !h-[85px] !rounded-full overflow-hidden  !border-3 !border-[#2b62c6] '>
-                                        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTfE8XWOVe86hLGi8m9mgPTsva_KWjTHbT9iQ&s"
-                                            className='w-full !h-full object-cover' />
-                                    </div>
-
-
-                                    <div className='info w-[80%]'>
-                                        <div className='flex items-center justify-between'>
-                                            <h4 className='text-[16px] font-[500]'>Harsh Kumar</h4>
-                                            <Rating name="read-only" value={5} readOnly size='small' />
-                                        </div>
-                                        <span className='text-[13px]'>2026-02-27</span>
-
-                                        <p className='text-[13px] !mt-2'>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.</p>
-                                    </div>
-
-                                </div>
-                            </div>
-                            <div className='w-full !h-auto !mb-3 !p-4 !bg-white !rounded-sm !shadow-md flex items-center justify-between'>
-                                <div className='flex items-center gap-8'>
-                                    <div className='img w-[85px] !h-[85px] !rounded-full overflow-hidden  !border-3 !border-[#2b62c6] '>
-                                        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTfE8XWOVe86hLGi8m9mgPTsva_KWjTHbT9iQ&s"
-                                            className='w-full !h-full object-cover' />
-                                    </div>
-
-
-                                    <div className='info w-[80%]'>
-                                        <div className='flex items-center justify-between'>
-                                            <h4 className='text-[16px] font-[500]'>Harsh Kumar</h4>
-                                            <Rating name="read-only" value={5} readOnly size='small' />
-                                        </div>
-                                        <span className='text-[13px]'>2026-02-27</span>
-
-                                        <p className='text-[13px] !mt-2'>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.</p>
-                                    </div>
-
-                                </div>
-                            </div>
-
-
+                                )
+                            }
                         </div>
                     </>
                     :

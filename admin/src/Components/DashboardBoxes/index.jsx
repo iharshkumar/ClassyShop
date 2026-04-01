@@ -2,8 +2,9 @@ import React, { useContext } from 'react'
 import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css';
 import 'swiper/css/navigation';
+import 'swiper/css/free-mode';
 import { FiGift } from "react-icons/fi";
-import { Navigation } from 'swiper/modules';
+import { Navigation, FreeMode } from 'swiper/modules';
 import { IoStatsChartSharp } from "react-icons/io5";
 import { IoPieChart } from "react-icons/io5";
 import { AiOutlineBank } from "react-icons/ai";
@@ -18,7 +19,8 @@ const DashboardBoxes = (props) => {
             slidesPerView={4}
             spaceBetween={10}
             navigation={context?.windowWidth > 992 ? true : false}
-            modules={[Navigation]}
+            modules={[Navigation, FreeMode]}
+            freeMode={true}
             breakpoints={{
                 300: {
                     slidesPerView: 1,
@@ -40,7 +42,7 @@ const DashboardBoxes = (props) => {
             className="dashboardBoxesSlider"
         >
             <SwiperSlide>
-                <div className='box !p-5 cursor-pointer hover:!bg-[#fafafa] !rounded-md !border !border-[rgba(0,0,0,0.1)] flex items-center gap-4 !bg-[#A527C4]'>
+                <div className='box !p-5 cursor-pointer hover:!bg-[#A527C4] !rounded-md !border !border-[rgba(0,0,0,0.1)] flex items-center gap-4 !bg-[#A527C4]'>
                     <FiGift className='text-[50px] text-[#fff]' />
                     <div className='info w-[70%] '>
                         <h3 className='text-[#fff]'>Total Users</h3>
@@ -52,7 +54,7 @@ const DashboardBoxes = (props) => {
 
 
             <SwiperSlide>
-                <div className='box !bg-green-500 !p-5 cursor-pointer hover:!bg-[#fafafa] !rounded-md !border !border-[rgba(0,0,0,0.1)] flex items-center gap-4'>
+                <div className='box !bg-green-500 !p-5 cursor-pointer hover:!bg-[#ccc] !rounded-md !border !border-[rgba(0,0,0,0.1)] flex items-center gap-4'>
                     <IoPieChart className='text-[50px] text-[#fff]' />
                     <div className='info w-[70%] '>
                         <h3 className='text-[#fff]'>New Orders</h3>
@@ -64,7 +66,7 @@ const DashboardBoxes = (props) => {
 
 
             <SwiperSlide>
-                <div className='box !bg-red-500 !p-5 cursor-pointer hover:!bg-[#fafafa] !rounded-md !border !border-[rgba(0,0,0,0.1)] flex items-center gap-4'>
+                <div className='box !bg-red-500 !p-5 cursor-pointer hover:!bg-[#ccc] !rounded-md !border !border-[rgba(0,0,0,0.1)] flex items-center gap-4'>
                     <AiOutlineBank className='text-[50px] text-[#fff]' />
                     <div className='info w-[70%] '>
                         <h3 className='text-[#fff]'>Total Category</h3>
@@ -75,7 +77,7 @@ const DashboardBoxes = (props) => {
             </SwiperSlide>
 
             <SwiperSlide>
-                <div className='box !bg-red-500 !p-5 cursor-pointer hover:!bg-[#fafafa] !rounded-md !border !border-[rgba(0,0,0,0.1)] flex items-center gap-4'>
+                <div className='box !bg-red-500 !p-5 cursor-pointer hover:!bg-[#ccc] !rounded-md !border !border-[rgba(0,0,0,0.1)] flex items-center gap-4'>
                     <BsCart4 className='text-[50px] text-[#fff]' />
                     <div className='info w-[70%] '>
                         <h3 className='text-[#fff]'>Total Product</h3>

@@ -88,8 +88,6 @@ const AddSubCategory = () => {
         });
     }
 
-
-
     const handleSubmit = (e) => {
 
         e.preventDefault()
@@ -148,17 +146,13 @@ const AddSubCategory = () => {
         })
     }
 
-
-
-
-
     return (
-        <section className='!p-5 !bg-gray-100 flex grid-cols-2 gap-10'>
-            <form className='form !py-3 !p-8' onSubmit={handleSubmit}>
+        <section className='!p-5 !bg-gray-100 grid-cols-1 md:grid-cols-2 gap-10'>
+            <form className='form !py-1 !p-1 md:!p-8 md:!py-1' onSubmit={handleSubmit}>
                 <h4 className='font-[600]'>Add Sub Category</h4>
-                <div className='scroll !min-h-[82vh] !overflow-y-scroll !pr-4 !pt-4'>
-                    <div className='grid grid-cols-2 !mb-3 gap-5'>
-                        <div className='col '>
+                <div className='scroll !max-h-[72vh] !overflow-y-scroll !pr-4 !pt-4'>
+                    <div className='grid grid-cols-1 md:grid-cols-2 !mb-3 gap-4'>
+                        <div className='col'>
                             <h3 className='text-[14px] font-[500] !mb-1'>Product Category</h3>
                             <Select
                                 labelId="demo-simple-select-label"
@@ -212,11 +206,11 @@ const AddSubCategory = () => {
             </form>
 
 
-            <form className='form !py-3 !p-8' onSubmit={handleSubmit2}>
+            <form className='form !py-1 !p-1 md:!p-8 md:!py-1 mt-10' onSubmit={handleSubmit2}>
                 <h4 className='font-[600]'>Add Third Level Category</h4>
 
                 <div className='scroll !min-h-[82vh] !overflow-y-scroll !pr-4 !pt-4'>
-                    <div className='grid grid-cols-2 !mb-3 gap-5'>
+                    <div className='grid grid-cols-1 md:grid-cols-2 !mb-3 gap-4'>
                         <div className='col '>
                             <h3 className='text-[14px] font-[500] !mb-1'>Product Category</h3>
                             <Select

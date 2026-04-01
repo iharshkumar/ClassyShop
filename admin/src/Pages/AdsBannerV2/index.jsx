@@ -64,9 +64,9 @@ const AdsBannerV2List = () => {
 
     return (
         <>
-            <div className='flex items-center justify-between !px-2 !py-0 !mt-3'>
+            <div className='grid grid-cols-1 md:grid-cols-2 items-center !px-2 !py-0 !mt-3'>
                 <h1 className='text-[20px] font-[600]'>Ads Banner V2 List</h1>
-                <div className='col w-[50%] !ml-auto flex items-center !justify-end gap-3 '>
+                <div className='col flex items-center !justify-start md:!justify-end gap-3 '>
 
                     <Button className='btn-blue !text-white btn-sm flex items-center btn gap-2'
                         onClick={() => context.setIsOpenFullScreenPanel({

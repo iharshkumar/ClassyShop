@@ -8,7 +8,7 @@ import { FcGoogle } from "react-icons/fc";
 import Checkbox from '@mui/material/Checkbox';
 import { FaEye } from "react-icons/fa";
 import { FaEyeSlash } from "react-icons/fa";
-import { postData } from '../../utils/api';
+import { postData, hashPassword } from '../../utils/api';
 import { useContext } from 'react';
 import { MyContext } from '../../App';
 import CircularProgress from '@mui/material/CircularProgress';
@@ -49,30 +49,39 @@ const SignUp = () => {
     };
     const validateValue = Object.values(formFields).every(el => el)
 
-    const handleSubmit = (e) => {
-
+    const handleSubmit = async (e) => {
         e.preventDefault()
-
         setIsLoading(true)
+
         if (formFields.name === "") {
             context.alertBox("error", "Please add full name")
+            setIsLoading(false)
             return false
         }
 
         if (formFields.email === "") {
             context.alertBox("error", "Please enter email id")
+            setIsLoading(false)
             return false
         }
 
         if (formFields.password === "") {
             context.alertBox("error", "Please enter password")
+            setIsLoading(false)
             return false
         }
-        postData("/api/user/register", formFields).then((res) => {
+
+        const hashedPassword = await hashPassword(formFields.password);
+        const registerData = {
+            ...formFields,
+            password: hashedPassword
+        }
+        postData("/api/user/register", registerData).then((res) => {
             if (res?.error === false) {
                 setIsLoading(false)
                 context.alertBox("success", res?.message)
                 localStorage.setItem("userEmail", formFields.email)
+                localStorage.removeItem("actionType")
                 setFormFields({
                     name: "",
                     email: "",
@@ -278,8 +287,8 @@ const SignUp = () => {
                             label="Remember Me"
                         />
 
-                        <Link to="/forget-password" className='!text-blue-500 text-[15px] font-[700] hover:underline hover:!text-[rgba(0,0,0,0.8)]'>
-                            Forget Password?
+                        <Link to="/forgot-password" className='!text-blue-500 text-[15px] font-[700] hover:underline hover:!text-[rgba(0,0,0,0.8)]'>
+                            Forgot Password?
                         </Link>
                     </div>
 

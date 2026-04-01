@@ -387,7 +387,7 @@ const EditProduct = () => {
 
   return (
     <section className='!p-5 !bg-gray-100'>
-      <form className='form !py-0 !p-8' onSubmit={handleSubmit}>
+      <form className='form !py-1 !p-1 md:!p-8 md:!py-1' onSubmit={handleSubmit}>
         <div className='scroll !min-h-[72vh] !overflow-y-scroll !pr-2'>
           <div className='grid grid-cols-1 !mb-3'>
             <div className='col'>
@@ -415,7 +415,7 @@ const EditProduct = () => {
             </div>
           </div>
 
-          <div className='grid grid-cols-4 !mb-3 gap-4'>
+          <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 !mb-3 gap-4'>
             <div className='col'>
               <h3 className='text-[14px] font-[500] !mb-1'>Product Category</h3>
               {
@@ -663,7 +663,7 @@ const EditProduct = () => {
             </div>
           </div>
 
-          <div className='grid grid-cols-4 !mb-3 gap-4'>
+          <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 !mb-3 gap-4'>
 
 
             <div className='col'>
@@ -681,12 +681,12 @@ const EditProduct = () => {
 
           <div className='col w-full !p-5 !px-0'>
             <h3 className='text-[18px] font-[700] !mb-4'>Media & Images</h3>
-            <div className='grid grid-cols-7 gap-4'>
+            <div className='grid grid-cols-2 md:grid-cols-7 gap-4'>
 
               {
                 previews.length !== 0 && previews?.map((image, index) => {
                   return (
-                    <div key={index} className='uploadBoxWrapper relative'>
+                    <div key={index} className='uploadBoxWrapper !mr-3 relative'>
                       <span className='absolute w-[20px] h-[20px] !rounded-full !overflow-hidden !bg-red-500 -top-[5px] -right-[5px] flex items-center justify-center z-50 cursor-pointer'
                         onClick={() => removeImg(image, index)}>
                         <IoMdClose className='text-white text-[17px]' />
@@ -705,7 +705,7 @@ const EditProduct = () => {
 
             </div>
 
-            <div className='shadow-md bg-white !p-4 !mt-6 w-full'>
+            <div className='shadow-md bg-white !p-4 md:!p-4 !mt-6 w-full'>
               <div className='col w-full !p-5 !px-0'>
                 <div className='flex items-center gap-8'>
                   <h3 className='text-[18px] font-[700] !mb-4'>Banner Images</h3>
@@ -714,11 +714,11 @@ const EditProduct = () => {
                     checked={checkedSwitch}
                   />
                 </div>
-                <div className='grid grid-cols-7 gap-4'>
+                <div className='grid grid-cols-2 md:grid-cols-7 gap-4'>
                   {
                     bannerPreviews.length !== 0 && bannerPreviews?.map((image, index) => {
                       return (
-                        <div key={index} className='uploadBoxWrapper relative'>
+                        <div key={index} className='uploadBoxWrapper !mr-3 relative'>
                           <span className='absolute w-[20px] h-[20px] !rounded-full !overflow-hidden !bg-red-500 -top-[5px] -right-[5px] flex items-center justify-center z-50 cursor-pointer'
                             onClick={() => removeBannerImg(image, index)}>
                             <IoMdClose className='text-white text-[17px]' />

@@ -9,7 +9,7 @@ import { FaFacebook } from "react-icons/fa";
 import Checkbox from '@mui/material/Checkbox';
 import { FaEye } from "react-icons/fa";
 import { FaEyeSlash } from "react-icons/fa";
-import { postData } from '../../utils/api';
+import { postData, hashPassword } from '../../utils/api';
 import { useContext } from 'react';
 import { MyContext } from '../../App.jsx';
 import CircularProgress from '@mui/material/CircularProgress';
@@ -46,8 +46,7 @@ const ChangePassword = () => {
     const validateValue = Object.values(formFields).every(el => el)
 
     // console.log(formFields)
-    const handleSubmit = (e) => {
-
+    const handleSubmit = async (e) => {
         e.preventDefault()
 
         setIsLoading(true)
@@ -63,8 +62,16 @@ const ChangePassword = () => {
             return false
         }
 
+        const hashedNewPassword = await hashPassword(formFields.newPassword);
+        const hashedConfirmPassword = await hashPassword(formFields.confirmPassword);
 
-        postData(`/api/user/reset-password`, formFields).then((res) => {
+        const resetData = {
+            ...formFields,
+            newPassword: hashedNewPassword,
+            confirmPassword: hashedConfirmPassword
+        }
+
+        postData(`/api/user/reset-password`, resetData, { credentials: 'include' }).then((res) => {
             // console.log(res)
             if (res?.error === false) {
                 localStorage.removeItem("userEmail")
@@ -75,6 +82,7 @@ const ChangePassword = () => {
                 history('/login')
             } else {
                 context.alertBox("error", res?.message)
+                setIsLoading(false)
             }
 
         })
@@ -85,7 +93,7 @@ const ChangePassword = () => {
         <section className="w-full">
             <header className='w-full fixed !top-0 !left-0 !px-4 !py-3 flex !items-center !justify-between !z-50'>
                 <Link to="/">
-                    <img src="https://upload.wikimedia.org/wikipedia/commons/e/ed/ECOM-logo-RGB.png" className='w-[200px]' />
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/e/ed/ECOM-logo-RGB.png" className='w-[150px] md:w-[200px]' />
                 </Link>
 
 
@@ -115,12 +123,12 @@ const ChangePassword = () => {
                 className="fixed inset-0 w-screen h-screen object-cover -z-10 opacity-50"
             />
 
-            <div className='!mt-30 loginBox card w-[600px] !h-[auto] !pb-20 !mx-auto !pt-20 relative z-50'>
+            <div className='!mt-20 md:!mt-30 loginBox card w-[95%] sm:w-[90%] max-w-[600px] !h-[auto] !pb-10 md:!pb-20 !mx-auto !pt-10 md:!pt-20 relative z-50'>
                 <div className='!text-center'>
                     <img src="https://upload.wikimedia.org/wikipedia/commons/e/ed/ECOM-logo-RGB.png" className='!m-auto w-[35%]' />
                 </div>
 
-                <h1 className='text-center text-[35px] font-[800] !mt-4'>
+                <h1 className='text-center text-[24px] md:text-[35px] font-[800] !mt-4'>
                     Welcome Back!<br />
                     You can change your password from here
                 </h1>

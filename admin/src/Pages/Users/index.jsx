@@ -239,7 +239,7 @@ const Users = () => {
                                             <TableCell style={{ minWidth: columns.minWidth }}>
                                                 <div className='flex items-center gap-4 w-[70px]'>
                                                     <div className='img !w-[45px] !h-[45px] !rounded-md !overflow-hidden group'>
-                                                        <Link to="/product/45745">
+                                                        <Link to="/">
                                                             <img src={user?.avatar !== null && user?.avatar !== undefined && user?.avatar !== "" ? user?.avatar : '/user.png'}
                                                                 className='w-full group-hover:scale-105 transition-all' />
                                                         </Link>
