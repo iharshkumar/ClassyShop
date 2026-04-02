@@ -103,9 +103,17 @@ const Header = () => {
                                 <HiOutlineMenu size={20} />
                             </Button>
                         }
-                        <div className="col1 w-[40%] lg:w-[25%]">
-                            <Link to="/">
-                                <img src="/logo.jpg" alt="Logo" />
+                        <div className="col1 w-[40%] lg:w-[30%] flex items-center">
+                            <Link to="/" className="flex items-center">
+
+                                <div className="h-12 overflow-hidden flex items-center">
+                                    <img
+                                        src="/cartloop.png"
+                                        alt="Logo"
+                                        className="h-full w-[250px] scale-280 object-contain"
+                                    />
+                                </div>
+
                             </Link>
                         </div>
                         <div className="col2 fixed top-0 left-0 w-full h-full lg:w-[40%] lg:static !p-2 lg:p-0 !bg-white z-50 hidden lg:block">
