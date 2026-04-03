@@ -19,6 +19,7 @@ import { fetchDataFromApi } from '../../utils/api';
 import { MyContext } from '../../App';
 import ProductLoading from '../../components/ProductLoading';
 import BannerLoading from '../../components/BannerLoading';
+import BannerBoxLoading from '../../components/BannerBoxLoading';
 
 
 
@@ -158,13 +159,13 @@ const Home = () => {
 
           <div className='part2 w-full lg:w-[30%] lg:pl-5 flex items-center gap-5 justify-between flex-col '>
             {
-              bannerV2Data?.length !== 0 && (() => {
+              bannerV2Data?.length !== 0 ? (() => {
                 const leftBanner = bannerV2Data[0];
                 const rightBanner = bannerV2Data[1];
 
                 return (
                   <>
-                    <div className="z-10 flex flex-col gap-4">
+                    <div className="z-10 flex flex-col gap-4 w-full">
                       {leftBanner && (
                         <BannerBoxV2
                           info={leftBanner?.alignInfo}
@@ -187,7 +188,12 @@ const Home = () => {
                     </div>
                   </>
                 );
-              })()
+              })() : (
+                <div className="flex flex-col gap-4 w-full">
+                  <BannerBoxLoading />
+                  <BannerBoxLoading />
+                </div>
+              )
             }
           </div>
 
@@ -215,7 +221,11 @@ const Home = () => {
           </div>
 
           {
-            bannerV1Data?.length !== 0 && <AdsBannerSliderV2 items={4} data={bannerV1Data} />
+            bannerV1Data?.length !== 0 ? (
+              <AdsBannerSliderV2 items={4} data={bannerV1Data} />
+            ) : (
+              <BannerLoading />
+            )
           }
 
 
@@ -236,8 +246,10 @@ const Home = () => {
             }
 
             {
-              adsBannerV1Data?.length !== 0 && (
+              adsBannerV1Data?.length !== 0 ? (
                 <AdsBannerSlider items={3} data={adsBannerV1Data} />
+              ) : (
+                <BannerLoading />
               )
             }
           </div>
@@ -257,8 +269,10 @@ const Home = () => {
               featuredProducts?.length !== 0 && <ProductsSlider items={6} data={featuredProducts} />
             }
             {
-              adsBannerV2Data?.length !== 0 && (
+              adsBannerV2Data?.length !== 0 ? (
                 <AdsBannerSlider items={3} data={adsBannerV2Data} />
+              ) : (
+                <BannerLoading />
               )
             }
           </div>

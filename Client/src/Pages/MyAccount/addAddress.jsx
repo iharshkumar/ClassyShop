@@ -123,45 +123,51 @@ const AddAddress = (props) => {
         }
         if (formFields.address_line1 === "") {
             context.alertBox("error", "Please enter Full Address")
+            setIsLoading(false);
             return false
         }
 
         if (formFields.city === "") {
             context.alertBox("error", "Please enter your City")
+            setIsLoading(false);
             return false
         }
 
         if (formFields.state === "") {
             context.alertBox("error", "Please enter State")
+            setIsLoading(false);
             return false
         }
 
         if (formFields.pincode === "") {
             context.alertBox("error", "Please enter Pincode")
+            setIsLoading(false);
             return false
         }
 
         if (formFields.country === "") {
             context.alertBox("error", "Please enter Country")
+            setIsLoading(false);
             return false
         }
 
         if (phone === "") {
             context.alertBox("error", "Please enter your 10-digit Mobile Number")
+            setIsLoading(false);
             return false
         }
 
         if (formFields.addressType === "") {
             context.alertBox("error", "Please select Address Type")
+            setIsLoading(false);
             return false
         }
 
-        if (formFields.landmark === "") {
+        if (formFields.landmark === "" || formFields.landmark === undefined) {
             context.alertBox("error", "Please enter Landmark")
+            setIsLoading(false);
             return false
         }
-
-
 
         if (isEdit === "add") {
             postData(`/api/address/add`, formFields).then((res) => {
