@@ -76,8 +76,6 @@ function App() {
       setIsLogin(true)
 
       fetchDataFromApi(`/api/user/user-details`).then((res) => {
-        // console.log("===== I am here ---- 1", res.status)
-        //console.log(res)
         setUserData(res.data)
         if (res?.status !== 200) {
           localStorage.removeItem("accesstoken")
@@ -98,7 +96,6 @@ function App() {
 
   const getCat = () => {
     fetchDataFromApi("/api/category/").then((res) => {
-      //console.log(res?.data)
       setCatData(res?.data)
     })
   }

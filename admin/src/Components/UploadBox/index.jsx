@@ -54,7 +54,6 @@ const UploadBox = (props) => {
                 console.error("Upload error:", error);
             }
         } catch (error) {
-            console.log(error);
             context.alertBox("error", "An error occurred while processing files.");
         }
 

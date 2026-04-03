@@ -38,7 +38,6 @@ const VerifyAccount = () => {
                 email: localStorage.getItem("userEmail"),
                 otp: otp
             }).then((res) => {
-                //console.log(res)
                 if (res?.error === false) {
                     // Show success message from API
                     context.alertBox("success", res?.message)
@@ -56,7 +55,6 @@ const VerifyAccount = () => {
                 email: localStorage.getItem("userEmail"),
                 otp: otp
             }).then((res) => {
-                //console.log(res)
                 if (res?.error === false) {
                     // Show success message from API
                     context.alertBox("success", res?.message)

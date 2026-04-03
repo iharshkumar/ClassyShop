@@ -6,7 +6,7 @@ import { CiUser } from "react-icons/ci";
 import { MyContext } from '../../App';
 import CircularProgress from '@mui/material/CircularProgress';
 import { postData, hashPassword } from '../../utils/api';
-import {  useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { useContext } from 'react';
 import { useState } from 'react';
 
@@ -37,10 +37,9 @@ const ForgotPassword = () => {
         });
     };
 
-    
+
     const validateValue = Object.values(formFields).every(el => el)
 
-    // console.log(formFields)
     const handleSubmit = async (e) => {
 
         e.preventDefault()
@@ -69,7 +68,6 @@ const ForgotPassword = () => {
         }
 
         postData(`/api/user/reset-password`, resetData, { credentials: 'include' }).then((res) => {
-            // console.log(res)
             if (res?.error === false) {
                 localStorage.removeItem("userEmail")
                 localStorage.removeItem("actionType")
@@ -145,16 +143,16 @@ const ForgotPassword = () => {
 
 
                     <div className='flex items-center w-full !mt-3 !mb-3'>
-                            <Button type='submit'
-                                disabled={!validateValue} className="btn-blue btn-lg w-full !h-[40px] !min-h-[40px] !py-0">
-                                {
-                                    isLoading === true ? <CircularProgress color="inherit" />
-                                        :
-                                        "Reset Password"
-                                }
-                            </Button>
-                        </div>
-                    
+                        <Button type='submit'
+                            disabled={!validateValue} className="btn-blue btn-lg w-full !h-[40px] !min-h-[40px] !py-0">
+                            {
+                                isLoading === true ? <CircularProgress color="inherit" />
+                                    :
+                                    "Reset Password"
+                            }
+                        </Button>
+                    </div>
+
                     <br />
                     <br />
 

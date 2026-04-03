@@ -49,11 +49,8 @@ export const fetchDataFromApi = async (url) => {
         }
 
         const { data } = await axios.get(apiUrl + url, params);
-
-        // console.log("======== data", data)
         return data
     } catch (error) {
-        // console.log("======== error", error)
         return error
     }
 }

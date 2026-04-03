@@ -18,7 +18,6 @@ const AddSIZE = () => {
     // })
     const getData = () => {
         fetchDataFromApi("/api/product/productSIZE/get").then((res) => {
-            console.log(res)
             if (res?.error === false) {
                 setData(res?.data)
             }
@@ -150,7 +149,7 @@ const AddSIZE = () => {
                                     data?.map((item, index) => {
                                         return (
                                             <tr className='!odd:bg-white !odd:dark:bg-gray-900 !even:bg-gray-50 !even:dark:bg-gray-800 border-b dark:border-gray-700' key={index}>
-                                            
+
                                                 <td className='!px-8 !py-3'>
                                                     <span className='font-[600]'>{item?.name}</span>
                                                 </td>

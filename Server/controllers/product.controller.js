@@ -663,10 +663,9 @@ export async function deleteProduct(request, response) {
 
         if (imageName) {
             cloudinary.uploader.destroy(imageName, (error, result) => {
-                //console.log(error,result)
+
             })
         }
-        //console.log(imageName)
     }
 
 
@@ -790,7 +789,6 @@ export async function removeImageFromCloudinary(request, response) {
         const res = await cloudinary.uploader.destroy(
             imageName,
             (error, result) => {
-                // console.log(error,res)
             }
         )
 
@@ -1339,7 +1337,6 @@ export async function uploadBannerImages(request, response) {
                 image[i].path,
                 options,
                 function (error, result) {
-                    //console.log(result)
                     bannerImage.push(result.secure_url);
                     fs.unlinkSync(`uploads/${request.files[i].filename}`)
                 }

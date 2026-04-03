@@ -199,7 +199,6 @@ const Dashboard = () => {
         order?.createdAt?.toString().includes(searchQuery)
       )
       setOrdersData(filteredOrders)
-      console.log(filteredOrders)
     }
     else {
       fetchDataFromApi(`/api/order/order-list?page=${orderPage + 1}&limit=${orderRowsPerPage}`).then((res) => {

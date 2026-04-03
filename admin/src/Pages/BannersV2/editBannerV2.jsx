@@ -124,7 +124,6 @@ const EditBannersV2 = () => {
 
         setIsLoading(true);
         editData(`/api/bannerV2/${context.isOpenFullScreenPanel?.id}`, formFields).then((res) => {
-            console.log("API Response:", res);
             if (res?.data?.error === false) {
                 context.alertBox("success", "Banner updated successfully!");
                 setTimeout(() => {

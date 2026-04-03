@@ -60,7 +60,6 @@ const Register = () => {
 
     const validateValue = Object.values(formFields).every(el => el)
 
-    // console.log(formFields)
     const handleSubmit = async (e) => {
 
         e.preventDefault()
@@ -86,7 +85,6 @@ const Register = () => {
             password: hashedPassword
         }
         postData("/api/user/register", registerData).then((res) => {
-            console.log(res)
             if (res?.error === false) {
                 setIsLoading(false)
                 context.alertBox("success", res?.message)
@@ -124,7 +122,6 @@ const Register = () => {
                 }
 
                 postData("/api/user/authWithGoogle", fields).then((res) => {
-                    console.log(res)
                     if (res?.error === false) {
                         setIsLoading(false);
                         context.alertBox("success", res?.message);

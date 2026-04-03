@@ -152,7 +152,7 @@ export async function removeImageFromCloudinary(request, response) {
         const res = await cloudinary.uploader.destroy(
             imageName,
             (error, result) => {
-                // console.log(error,res)
+
             }
         )
 
@@ -215,7 +215,6 @@ export async function deleteSlide(request, response) {
 
 export async function updatedSlide(request, response) {
     try {
-        //console.log(imagesArr)
         const slide = await HomeSliderModel.findByIdAndUpdate(
             request.params.id,
             {

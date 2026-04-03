@@ -218,7 +218,7 @@ export async function deleteBlog(request, response) {
 
 export async function updatedBlog(request, response) {
     try {
-        //console.log(imagesArr)
+
         const blog = await BlogModel.findByIdAndUpdate(
             request.params.id,
             {

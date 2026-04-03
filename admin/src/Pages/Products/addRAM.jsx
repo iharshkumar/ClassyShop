@@ -13,12 +13,9 @@ const AddRAMS = () => {
     const [data, setData] = useState([])
     const context = useContext(MyContext)
     const [editId, seteditId] = useState('')
-    // const [formFields, setFormFields] = useState({
-    //     name: '',
-    // })
+
     const getData = () => {
         fetchDataFromApi("/api/product/productRAMS/get").then((res) => {
-            console.log(res)
             if (res?.error === false) {
                 setData(res?.data)
             }

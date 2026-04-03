@@ -49,7 +49,6 @@ const Login = () => {
             postData("/api/user/forgot-password", {
                 email: formFields.email,
             }).then((res) => {
-                //console.log(res)
                 if (res?.error === false) {
                     // Show success message from API
                     context.alertBox("success", res?.message)
@@ -77,7 +76,6 @@ const Login = () => {
 
     const validateValue = Object.values(formFields).every(el => el)
 
-    // console.log(formFields)
     const handleSubmit = async (e) => {
 
         e.preventDefault()
@@ -98,7 +96,6 @@ const Login = () => {
             password: hashedPassword
         }
         postData("/api/user/login", loginData, { credentials: 'include' }).then((res) => {
-            console.log(res)
             if (res?.error === false) {
                 setIsLoading(false)
                 context.alertBox("success", res?.message)
@@ -141,7 +138,6 @@ const Login = () => {
                 }
 
                 postData("/api/user/authWithGoogle", fields).then((res) => {
-                    console.log(res)
                     if (res?.error === false) {
                         setIsLoading(false);
                         context.alertBox("success", res?.message);

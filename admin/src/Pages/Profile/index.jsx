@@ -110,10 +110,8 @@ const Profile = () => {
                     return false
                 }
                 uploadImage("/api/user/user-avatar", formdata).then((res) => {
-                    // console.log(res)
                     setUploading(false)
                     let avatar = [];
-                    // console.log(res?.data?.avtar)
                     avatar?.push(res?.data?.avtar)
                     setPreviews(avatar);
                 })
@@ -128,9 +126,7 @@ const Profile = () => {
 
 
     const validateValue = Object.values(formFields).every(el => el)
-    // console.log(formFields)
     const handleSubmit = (e) => {
-
         e.preventDefault()
 
         setIsLoading(true)
@@ -156,7 +152,6 @@ const Profile = () => {
         }
 
         editData(`/api/user/${userId}`, updateData, { withCredentials: true }).then((res) => {
-            //console.log(res)
             if (res?.data?.error === false) {
                 setIsLoading(false)
                 context.alertBox("success", res?.data?.message)
@@ -232,7 +227,6 @@ const Profile = () => {
         }
 
         postData(`/api/user/reset-password`, resetData, { credentials: 'include' }).then((res) => {
-            //console.log(res)
             if (res?.error === false) {
                 setIsLoading2(false)
                 context.alertBox("success", res?.message)

@@ -75,7 +75,6 @@ const Header = () => {
     setAnchorMyAcc(null)
     fetchDataFromApi(`/api/user/logout?token=${localStorage.getItem('accesstoken')}`,
       { withCredentials: true }).then((res) => {
-        console.log(res)
         if (res?.error === false) {
           context.setIsLogin(false);
           localStorage.removeItem("accesstoken", res?.data?.accesstoken)

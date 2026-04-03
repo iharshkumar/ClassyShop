@@ -367,7 +367,6 @@ export async function userAvatarController(request, response) {
             const res = await cloudinary.uploader.destroy(
                 imageName,
                 (error, result) => {
-                    // console.log(error,res)
                 }
             )
 
@@ -424,7 +423,7 @@ export async function removeImageFromCloudinary(request, response) {
         const res = await cloudinary.uploader.destroy(
             imageName,
             (error, result) => {
-                // console.log(error,res)
+
             }
         )
 
@@ -802,10 +801,8 @@ export async function refreshToken(request, response) {
 
 //get login user details
 export async function userDetails(request, response) {
-    // console.log("===== I am here")
     try {
         const userId = request.userId
-        //console.log(userId)
         const user = await UserModel.findById(userId).select('-password -refresh_token')
 
         return response.json({

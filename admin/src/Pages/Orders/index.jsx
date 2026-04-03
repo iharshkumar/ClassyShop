@@ -98,7 +98,6 @@ const Orders = () => {
                 order?.delivery_address?.pinCode?.toString().includes(searchQuery.toLowerCase()) ||
                 order?.createdAt?.toString().includes(searchQuery)
             )
-            console.log(filteredOrders);
             setOrdersData(filteredOrders)
         }
 

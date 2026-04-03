@@ -86,7 +86,6 @@ const MyAccount = () => {
 
 
     const validateValue = Object.values(formFields).every(el => el)
-    // console.log(formFields)
     const handleSubmit = (e) => {
 
         e.preventDefault()
@@ -108,7 +107,6 @@ const MyAccount = () => {
         }
 
         editData(`/api/user/${userId}`, formFields, { withCredentials: true }).then((res) => {
-            //console.log(res)
             if (res?.data?.error === false) {
                 setIsLoading(false)
                 context.alertBox("success", res?.data?.message)
@@ -153,7 +151,7 @@ const MyAccount = () => {
         const hashedOldPassword = changePassword.oldPassword ? await hashPassword(changePassword.oldPassword) : "";
         const hashedNewPassword = await hashPassword(changePassword.newPassword);
         const hashedConfirmPassword = await hashPassword(changePassword.confirmPassword);
-        
+
         const resetData = {
             ...changePassword,
             oldPassword: hashedOldPassword,
@@ -162,7 +160,6 @@ const MyAccount = () => {
         }
 
         postData(`/api/user/reset-password`, resetData, { credentials: 'include' }).then((res) => {
-            //console.log(res)
             if (res?.error === false) {
                 setIsLoading2(false)
                 context.alertBox("success", res?.message)

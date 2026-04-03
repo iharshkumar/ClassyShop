@@ -45,7 +45,6 @@ const ChangePassword = () => {
     };
     const validateValue = Object.values(formFields).every(el => el)
 
-    // console.log(formFields)
     const handleSubmit = async (e) => {
         e.preventDefault()
 
@@ -72,7 +71,6 @@ const ChangePassword = () => {
         }
 
         postData(`/api/user/reset-password`, resetData, { credentials: 'include' }).then((res) => {
-            // console.log(res)
             if (res?.error === false) {
                 localStorage.removeItem("userEmail")
                 localStorage.removeItem("actionType")

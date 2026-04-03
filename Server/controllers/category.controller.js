@@ -217,7 +217,7 @@ export async function removeImageFromCloudinary(request, response) {
         const res = await cloudinary.uploader.destroy(
             imageName,
             (error, result) => {
-                // console.log(error,res)
+
             }
         )
 
@@ -306,7 +306,7 @@ export async function deleteCategory(request, response) {
 
 export async function updatedCategory(request, response) {
     try {
-        //console.log(imagesArr)
+
         const category = await CategoryModel.findByIdAndUpdate(
             request.params.id,
             {

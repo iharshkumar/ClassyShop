@@ -43,7 +43,6 @@ const ForgotPassword = () => {
 
     const validateValue = Object.values(formFields).every(el => el)
 
-    // console.log(formFields)
     const handleSubmit = async (e) => {
 
         e.preventDefault()
@@ -64,7 +63,7 @@ const ForgotPassword = () => {
 
         const hashedNewPassword = await hashPassword(formFields.newPassword);
         const hashedConfirmPassword = await hashPassword(formFields.confirmPassword);
-        
+
         const resetData = {
             ...formFields,
             newPassword: hashedNewPassword,
@@ -72,7 +71,6 @@ const ForgotPassword = () => {
         }
 
         postData(`/api/user/reset-password`, resetData, { credentials: 'include' }).then((res) => {
-            // console.log(res)
             if (res?.error === false) {
                 localStorage.removeItem("userEmail")
                 localStorage.removeItem("actionType")

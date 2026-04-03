@@ -15,7 +15,6 @@ const AddWEIGHT = () => {
     const [editId, seteditId] = useState('')
     const getData = () => {
         fetchDataFromApi("/api/product/productWEIGHT/get").then((res) => {
-            console.log(res)
             if (res?.error === false) {
                 setData(res?.data)
             }

@@ -10,7 +10,7 @@ import Select from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
 import { MyContext } from '../../App'
 import { useContext } from 'react'
-import {  fetchDataFromApi, postData } from '../../utils/api'
+import { fetchDataFromApi, postData } from '../../utils/api'
 
 
 const AddAddress = () => {
@@ -28,7 +28,7 @@ const AddAddress = () => {
         mobile: '',
         status: '',
         userId: context.userData?._id,
-        selected:false
+        selected: false
     })
 
     useEffect(() => {
@@ -37,10 +37,10 @@ const AddAddress = () => {
             userId: formFields.userId
         }))
 
-        
+
     }, [context?.userData])
 
-   
+
 
     const handleChangeStatus = (event) => {
         setStatus(event.target.value);
@@ -99,21 +99,20 @@ const AddAddress = () => {
 
 
         postData(`/api/address/add`, formFields, { withCredentials: true }).then((res) => {
-            //console.log(res)
             if (res?.data?.error === false) {
                 setIsLoading(false)
-                
+
                 context.alertBox("success", res?.data?.message)
-                
+
                 context?.setIsOpenFullScreenPanel({
                     open: false
                 })
                 fetchDataFromApi(`/api/address/get?userId=${context?.userData?._id}`).then((res) => {
                     context?.setAddress(res.address)
-    
+
                 })
 
-                
+
                 history("/")
             } else {
                 context.alertBox("error", res?.data?.message)
