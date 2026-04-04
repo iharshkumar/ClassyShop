@@ -25,6 +25,7 @@ import OrderFailed from "./Pages/Orders/failed.jsx";
 import { PayPalScriptProvider } from "@paypal/react-paypal-js"
 import SearchPage from "./Pages/Search/index.jsx";
 import CompareModal from "./components/CompareModal";
+import OrderTracker from "./Pages/OrderTracker/OrderTracker.jsx";
 
 const alertBox = (type, msg) => {
   if (type === "success") {
@@ -305,6 +306,7 @@ function App() {
                   <Route path={'/orders/failed'} exact={true} element={<OrderFailed />} />
                   <Route path={'/address'} exact={true} element={<Address />} />
                   <Route path={'/search'} exact={true} element={<SearchPage />} />
+                  <Route path={'/track'} exact={true} element={<OrderTracker />} />
                 </>
               }
               {!isLogin &&
@@ -320,6 +322,7 @@ function App() {
                   <Route path={'/checkout'} exact={true} element={<Checkout />} />
                   <Route path={'/my-account'} exact={true} element={<Home />} />
                   <Route path={'/search'} exact={true} element={<SearchPage />} />
+                  <Route path={'/track'} exact={true} element={<OrderTracker />} />
                 </>
               }
             </Routes>

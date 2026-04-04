@@ -1,0 +1,738 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap');
+
+:root {
+  --ot-bg-base: #f5f0f0;
+  --ot-bg-surface: #ffffff;
+  --ot-bg-card: #ffffff;
+  --ot-bg-card-hover: #fafafa;
+  --ot-border: rgba(0, 0, 0, 0.08);
+  --ot-border-active: rgba(255, 82, 82, 0.4);
+
+  --ot-accent: #ff5252;
+  --ot-accent-light: #ff7675;
+  --ot-accent-glow: rgba(255, 82, 82, 0.15);
+
+  --ot-success: #22c55e;
+  --ot-success-glow: rgba(34, 197, 94, 0.15);
+  --ot-warning: #f59e0b;
+  --ot-info: #38bdf8;
+  --ot-danger: #ef4444;
+
+  --ot-text-primary: rgba(0, 0, 0, 0.9);
+  --ot-text-secondary: rgba(0, 0, 0, 0.6);
+  --ot-text-muted: rgba(0, 0, 0, 0.4);
+
+  /* Spacing */
+  --ot-radius: 12px;
+  --ot-radius-sm: 8px;
+  --ot-radius-xs: 4px;
+  --ot-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  --ot-shadow-glow: 0 0 12px var(--ot-accent-glow);
+
+  /* Transitions */
+  --ot-transition: all 0.2s ease-in-out;
+}
+
+/* ── Base ── */
+.ot-root {
+  min-height: 100vh;
+  background: var(--ot-bg-base);
+  font-family: 'Montserrat', sans-serif;
+  color: var(--ot-text-primary);
+  padding: 0 0 80px;
+  min-width: 320px;
+}
+
+/* ══ HEADER ══════════════════════════════════════════════ */
+.ot-header {
+  background: var(--ot-bg-surface);
+  border-bottom: 1px solid var(--ot-border);
+  padding: 24px 32px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+}
+
+.ot-header-left {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.ot-logo-icon {
+  width: 44px;
+  height: 44px;
+  background: var(--ot-accent);
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 22px;
+  color: white;
+  box-shadow: 0 4px 10px var(--ot-accent-glow);
+}
+
+.ot-header-title {
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--ot-text-primary);
+  letter-spacing: -0.5px;
+}
+
+.ot-header-sub {
+  font-size: 13px;
+  color: var(--ot-text-secondary);
+}
+
+/* Live Badge */
+.ot-live-badge {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(34, 197, 94, 0.08);
+  border: 1px solid rgba(34, 197, 94, 0.2);
+  border-radius: 9999px;
+  padding: 6px 14px;
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--ot-success);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.ot-live-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--ot-success);
+  animation: livePulse 1.5s ease-in-out infinite;
+}
+
+@keyframes livePulse {
+
+  0%,
+  100% {
+    box-shadow: 0 0 0 0 rgba(34, 197, 94, 0.7);
+    transform: scale(1);
+  }
+
+  50% {
+    box-shadow: 0 0 0 6px rgba(34, 197, 94, 0);
+    transform: scale(1.1);
+  }
+}
+
+/* ══ MAIN LAYOUT ═════════════════════════════════════════ */
+.ot-main {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 40px 24px 0;
+}
+
+/* ══ ORDERS LIST ═════════════════════════════════════════ */
+.ot-orders-list-header {
+  margin-bottom: 24px;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+}
+
+.ot-section-title {
+  font-size: 26px;
+  font-weight: 700;
+  color: var(--ot-text-primary);
+  margin: 0;
+}
+
+.ot-section-desc {
+  font-size: 14px;
+  color: var(--ot-text-secondary);
+  margin-top: 4px;
+}
+
+.ot-empty-state {
+  text-align: center;
+  padding: 100px 24px;
+  background: var(--ot-bg-surface);
+  border-radius: var(--ot-radius);
+  border: 1px dashed var(--ot-border);
+}
+
+.ot-empty-icon {
+  font-size: 64px;
+  margin-bottom: 20px;
+}
+
+.ot-empty-title {
+  font-size: 20px;
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+
+.ot-btn-cta {
+  background: var(--ot-accent);
+  color: white;
+  padding: 10px 24px;
+  border-radius: var(--ot-radius-sm);
+  text-decoration: none;
+  font-weight: 600;
+  display: inline-block;
+  margin-top: 16px;
+  transition: var(--ot-transition);
+}
+
+.ot-btn-cta:hover {
+  background: #171717;
+  transform: translateY(-2px);
+}
+
+/* ══ ORDER CARD (LIGHT) ══════════════════════════════════ */
+.ot-order-card {
+  background: var(--ot-bg-surface);
+  border: 1px solid var(--ot-border);
+  border-radius: var(--ot-radius);
+  padding: 32px;
+  margin-bottom: 24px;
+  box-shadow: var(--ot-shadow);
+  transition: var(--ot-transition);
+}
+
+.ot-order-card:hover {
+  box-shadow: 0 10px 25px rgba(0,0,0,0.06);
+}
+
+/* ── Accordion Summary Header ── */
+.ot-card-summary {
+  cursor: pointer;
+  padding: 24px 32px;
+  transition: var(--ot-transition);
+  user-select: none;
+}
+
+.ot-card-summary:hover {
+  background: var(--ot-bg-card-hover);
+}
+
+.ot-summary-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+.ot-summary-left {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.ot-toggle-icon {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: var(--ot-bg-base);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  color: var(--ot-text-secondary);
+  transition: var(--ot-transition);
+}
+
+.is-expanded .ot-toggle-icon {
+  background: var(--ot-accent-glow);
+  color: var(--ot-accent);
+}
+
+.ot-summary-progress {
+  margin-top: 12px;
+}
+
+.ot-summary-progress .ot-progress-section {
+  margin-bottom: 0;
+  padding: 0;
+  background: transparent;
+}
+
+/* ── Card Details (Expanded) ── */
+.ot-card-details {
+  padding: 0 32px 32px;
+}
+
+/* Card Header */
+.ot-card-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  margin-bottom: 28px;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+.ot-order-id {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--ot-text-primary);
+  margin-bottom: 4px;
+}
+
+.ot-order-meta-small {
+  font-size: 13px;
+  color: var(--ot-text-secondary);
+}
+
+/* Status Pill */
+.ot-status-pill {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 14px;
+  border-radius: 9999px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  border: 1px solid;
+}
+
+.ot-status-pill.in-progress {
+  background: rgba(255, 82, 82, 0.08);
+  border-color: rgba(255, 82, 82, 0.2);
+  color: var(--ot-accent);
+}
+
+.ot-status-pill.delivered {
+  background: rgba(34, 197, 94, 0.08);
+  border-color: rgba(34, 197, 94, 0.2);
+  color: var(--ot-success);
+}
+
+.ot-status-blink {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: currentColor;
+  animation: blink 1.2s step-start infinite;
+}
+
+@keyframes blink {
+
+  0%,
+  100% {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: 0;
+  }
+}
+
+/* ══ PROGRESS BAR ════════════════════════════════════════ */
+.ot-progress-section {
+  margin-bottom: 32px;
+  background: #fafafa;
+  padding: 16px;
+  border-radius: var(--ot-radius-sm);
+}
+
+.ot-progress-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.ot-progress-label {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--ot-text-primary);
+}
+
+.ot-progress-pct {
+  font-size: 13px;
+  font-weight: 800;
+  color: var(--ot-accent);
+}
+
+.ot-progress-track {
+  height: 8px;
+  background: #eee;
+  border-radius: 9999px;
+  overflow: hidden;
+  margin-bottom: 14px;
+}
+
+.ot-progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--ot-accent), var(--ot-accent-light));
+  border-radius: 9999px;
+  transition: width 1.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.ot-progress-times {
+  display: flex;
+  justify-content: space-between;
+  font-size: 12px;
+}
+
+.ot-time-label {
+  font-size: 10px;
+  font-weight: 700;
+  color: var(--ot-text-muted);
+  text-transform: uppercase;
+  margin-bottom: 4px;
+  display: block;
+}
+
+.ot-time-value {
+  color: var(--ot-text-secondary);
+  font-weight: 500;
+}
+
+/* ══ STEPPER ═════════════════════════════════════════════ */
+.ot-stepper {
+  display: flex;
+  align-items: flex-start;
+  margin-bottom: 36px;
+  padding: 0 10px;
+}
+
+.ot-step {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex: 1;
+  position: relative;
+}
+
+/* Connector line */
+.ot-step:not(:first-child)::before {
+  content: '';
+  position: absolute;
+  top: 18px;
+  right: 50%;
+  width: 100%;
+  height: 3px;
+  background: #eee;
+  z-index: 0;
+}
+
+.ot-step.completed:not(:first-child)::before {
+  background: var(--ot-accent);
+}
+
+.ot-step-node {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: 2px solid #eee;
+  background: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  position: relative;
+  z-index: 1;
+  transition: var(--ot-transition);
+}
+
+.ot-step.completed .ot-step-node {
+  background: var(--ot-accent);
+  border-color: var(--ot-accent);
+  color: white;
+}
+
+.ot-step.active .ot-step-node {
+  border-color: var(--ot-accent);
+  background: #fff;
+  animation: pulseLight 2s infinite;
+}
+
+@keyframes pulseLight {
+
+  0%,
+  100% {
+    box-shadow: 0 0 0 0 rgba(255, 82, 82, 0.4);
+  }
+
+  50% {
+    box-shadow: 0 0 0 12px rgba(255, 82, 82, 0);
+  }
+}
+
+.ot-step-label {
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--ot-text-muted);
+  text-align: center;
+  margin-top: 10px;
+}
+
+/* ══ META INFO ═══════════════════════════════════════════ */
+.ot-meta-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 16px;
+  margin-top: 24px;
+}
+
+.ot-meta-item {
+  background: #fafafa;
+  border: 1px solid var(--ot-border);
+  border-radius: var(--ot-radius-sm);
+  padding: 16px;
+}
+
+.ot-meta-key {
+  font-size: 11px;
+  text-transform: uppercase;
+  font-weight: 700;
+  color: var(--ot-text-muted);
+  margin-bottom: 8px;
+}
+
+.ot-meta-val {
+  font-size: 14px;
+  color: var(--ot-text-primary);
+  line-height: 1.5;
+}
+
+/* Divider */
+.ot-divider {
+  height: 1px;
+  background: #eee;
+  margin: 32px 0;
+}
+
+/* Items list */
+.ot-items-list {
+  list-style: none;
+  padding: 0;
+}
+
+.ot-item-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 0;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.ot-item-row:last-child {
+  border-bottom: none;
+}
+
+.ot-item-img {
+  width: 48px;
+  height: 48px;
+  border-radius: var(--ot-radius-xs);
+  object-fit: cover;
+  background: #f9f9f9;
+}
+
+.ot-item-name {
+  flex: 1;
+  font-weight: 600;
+  font-size: 14px;
+}
+
+.ot-item-qty {
+  color: var(--ot-text-secondary);
+  font-size: 13px;
+  margin: 0 12px;
+}
+
+.ot-item-price {
+  font-weight: 700;
+  color: var(--ot-accent);
+}
+
+/* ══ TIMELINE ════════════════════════════════════════════ */
+.ot-timeline-title {
+  font-size: 15px;
+  font-weight: 700;
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.ot-timeline {
+  padding-left: 20px;
+  position: relative;
+}
+
+.ot-timeline::before {
+  content: '';
+  position: absolute;
+  left: 9px;
+  top: 10px;
+  bottom: 0;
+  width: 2px;
+  background: #eee;
+}
+
+.ot-tl-item {
+  display: flex;
+  gap: 20px;
+  padding-bottom: 24px;
+  position: relative;
+}
+
+.ot-tl-dot {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: #ddd;
+  border: 3px solid #fff;
+  z-index: 1;
+  margin-top: 2px;
+}
+
+.ot-tl-dot.latest {
+  background: var(--ot-accent);
+  box-shadow: 0 0 0 4px var(--ot-accent-glow);
+}
+
+.ot-tl-status {
+  font-weight: 700;
+  font-size: 14px;
+  margin-bottom: 4px;
+}
+
+.ot-tl-note {
+  color: var(--ot-text-secondary);
+  font-size: 13px;
+  line-height: 1.5;
+  margin-bottom: 6px;
+}
+
+.ot-tl-time {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  color: var(--ot-text-muted);
+}
+
+/* ══ SKELETON ════════════════════════════════════════════ */
+.ot-skeleton {
+  background: linear-gradient(90deg, #eee 25%, #f5f5f5 50%, #eee 75%);
+  background-size: 200% 100%;
+  animation: skeletonShimmer 1.5s infinite;
+  border-radius: 4px;
+}
+
+@keyframes skeletonShimmer {
+  0% {
+    background-position: 200% 0;
+  }
+
+  100% {
+    background-position: -200% 0;
+  }
+}
+
+/* ══ RESPONSIVE ══════════════════════════════════════════ */
+@media (max-width: 640px) {
+  .ot-main {
+    padding: 40px 12px 0;
+  }
+
+  .ot-order-card {
+    padding: 16px;
+    margin-bottom: 20px;
+  }
+
+  .ot-card-header {
+    margin-bottom: 20px;
+  }
+
+  .ot-order-id {
+    font-size: 15px;
+  }
+
+  .ot-status-pill {
+    padding: 4px 10px;
+    font-size: 10px;
+  }
+
+  /* Compact Stepper for Mobile */
+  .ot-stepper {
+    overflow-x: auto;
+    padding: 0 0 16px;
+    gap: 0;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+  }
+
+  .ot-stepper::-webkit-scrollbar {
+    display: none;
+  }
+
+  .ot-step {
+    min-width: 90px;
+  }
+
+  .ot-step-node {
+    width: 30px;
+    height: 30px;
+    font-size: 14px;
+  }
+
+  .ot-step:not(:first-child)::before {
+    top: 15px;
+  }
+
+  .ot-step-label {
+    font-size: 9px;
+    margin-top: 8px;
+  }
+
+  /* Stack Progress Dates */
+  .ot-progress-times {
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .ot-time-label {
+    margin-bottom: 2px;
+  }
+
+  /* Grid Fix */
+  .ot-meta-grid {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+
+  .ot-meta-item {
+    padding: 12px;
+  }
+
+  /* Items Adjustments */
+  .ot-item-name {
+    font-size: 13px;
+    line-height: 1.3;
+  }
+
+  .ot-item-price {
+    font-size: 13px;
+  }
+
+  .ot-item-qty {
+    font-size: 12px;
+    margin: 0 8px;
+  }
+
+  /* Section Titles */
+  .ot-section-title {
+    font-size: 22px;
+  }
+
+  .ot-section-desc {
+    font-size: 13px;
+  }
+}
