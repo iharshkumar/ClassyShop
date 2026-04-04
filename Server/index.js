@@ -19,6 +19,7 @@ import adsBannerV1Router from "./route/adsBannerV1.route.js";
 import adsBannerV2Router from "./route/adsBannerV2.route.js";
 import blogRouter from "./route/blog.route.js";
 import orderRouter from "./route/order.route.js";
+import trackingRouter from "./route/tracking.route.js";
 
 const app = express();
 
@@ -30,7 +31,7 @@ app.use(cors({
 
 app.use(express.json())
 app.use(cookieParser());
-app.use(morgan());
+app.use(morgan("dev"));
 app.use(helmet({
     crossOriginResourcePolicy: false
 }))
@@ -55,6 +56,7 @@ app.use('/api/adsBannerV1', adsBannerV1Router);
 app.use('/api/adsBannerV2', adsBannerV2Router);
 app.use('/api/blog', blogRouter);
 app.use('/api/order', orderRouter);
+app.use('/api/orders', trackingRouter);
 
 
 connectDB().then(() => {
