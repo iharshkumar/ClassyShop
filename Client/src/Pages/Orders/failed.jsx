@@ -12,6 +12,9 @@ const OrderFailed = () => {
             <Link to="/">
                 <Button className='btn-org !border-none'>Back to Home</Button>
             </Link>
+            <Link to="/track">
+                <Button className='btn-org !border-none'>Track Order</Button>
+            </Link>
         </section>
     )
 }

@@ -26,6 +26,8 @@ import { PayPalScriptProvider } from "@paypal/react-paypal-js"
 import SearchPage from "./Pages/Search/index.jsx";
 import CompareModal from "./components/CompareModal";
 import OrderTracker from "./Pages/OrderTracker/OrderTracker.jsx";
+import Blogs from "./Pages/Blogs/index.jsx";
+import BlogDetails from "./Pages/BlogDetails/index.jsx";
 
 const alertBox = (type, msg) => {
   if (type === "success") {
@@ -223,6 +225,22 @@ function App() {
     }
   }
 
+  const logout = () => {
+    fetchDataFromApi(`/api/user/logout?token=${localStorage.getItem('accesstoken')}`,
+      { withCredentials: true }).then((res) => {
+        if (res?.error === false) {
+          setIsLogin(false);
+          localStorage.removeItem("accesstoken")
+          localStorage.removeItem("refreshToken")
+          setUserData(null);
+          setCartData([]);
+          setMyListData([]);
+          alertBox("success", "Logout Successfully");
+          window.location.href = "/login"
+        }
+      })
+  }
+
   useEffect(() => {
     if (userData?._id !== null) {
       getAddresses();
@@ -273,7 +291,8 @@ function App() {
     isCompareModalOpen,
     setIsCompareModalOpen,
     addToCompare,
-    removeCompareItem
+    removeCompareItem,
+    logout
   }
 
   return (
@@ -307,6 +326,8 @@ function App() {
                   <Route path={'/address'} exact={true} element={<Address />} />
                   <Route path={'/search'} exact={true} element={<SearchPage />} />
                   <Route path={'/track'} exact={true} element={<OrderTracker />} />
+                  <Route path={'/blogs'} exact={true} element={<Blogs />} />
+                  <Route path={'/blog/:id'} exact={true} element={<BlogDetails />} />
                 </>
               }
               {!isLogin &&
@@ -323,6 +344,7 @@ function App() {
                   <Route path={'/my-account'} exact={true} element={<Home />} />
                   <Route path={'/search'} exact={true} element={<SearchPage />} />
                   <Route path={'/track'} exact={true} element={<OrderTracker />} />
+                  <Route path={'/blogs'} exact={true} element={<Blogs />} />
                 </>
               }
             </Routes>

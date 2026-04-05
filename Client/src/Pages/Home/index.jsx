@@ -203,18 +203,18 @@ const Home = () => {
       <section className="!w-full bg-white pt-12 md:pt-16 pb-8 md:pb-12" style={{ paddingTop: '30px' }}>
         <div className="container bg-white w-full">
           <div className="freeShippng w-full bg-gradient-to-r from-red-50 to-orange-50 flex 
-          flex-col md:flex-row items-center justify-between gap-4 md:gap-8 rounded-lg p-4 md:p-10 mb-8 shadow-sm">
+          flex-col md:flex-row items-center justify-between gap-4 md:gap-8 rounded-lg !p-1 md:!p-10 !mb-8 shadow-sm">
             <div className="col1 flex flex-row items-center gap-2 md:gap-5 w-full md:w-auto justify-center md:justify-start text-left">
               <LiaShippingFastSolid className='text-[40px] md:text-[60px] text-primary' />
               <span className='text-[16px] md:text-[24px] font-[600] uppercase whitespace-nowrap'>Free Shipping</span>
             </div>
 
-            <div className="col2 flex-1 px-2 md:px-4 text-center md:text-left">
+            <div className="col2 flex-1 !px-2 md:!px-4 text-center md:text-left">
               <p className='text-[13px] md:text-[18px] mb-0 font-[500] leading-tight'>Enjoy free shipping on all orders over $50. Shop now and save!</p>
             </div>
 
             <div className="col3 w-full md:w-auto flex justify-center">
-              <button className='bg-primary !text-black py-2 md:py-3 px-6 md:px-10 rounded-md font-[500] text-[14px] md:text-[18px] hover:bg-opacity-90 transition-all whitespace-nowrap'>
+              <button className='bg-primary !text-black !py-2 md:!py-3 !px-6 md:!px-10 rounded-md font-[500] text-[14px] md:text-[18px] hover:bg-opacity-90 transition-all whitespace-nowrap'>
                 Shop Now
               </button>
             </div>

@@ -12,6 +12,7 @@ import 'react-international-phone/style.css';
 import Radio from '@mui/material/Radio';
 import UserAvatar from '../../components/UserAvatar/index.jsx';
 import AddressBox from './addressBox';
+import { IoLogOut } from "react-icons/io5";
 
 
 const MyAccount = () => {
@@ -66,21 +67,19 @@ const MyAccount = () => {
 
 
     const onChangeInput = (e) => {
-        const { name, value } = e.target
-        setFormFields(() => {
-            return {
-                ...formFields,
-                [name]: value
-            }
-        })
+        const { name, value } = e.target;
 
-
-        setChangePassword(() => {
-            return {
-                ...formFields,
+        if (name === "oldPassword" || name === "newPassword" || name === "confirmPassword") {
+            setChangePassword((prev) => ({
+                ...prev,
                 [name]: value
-            }
-        })
+            }));
+        } else {
+            setFormFields((prev) => ({
+                ...prev,
+                [name]: value
+            }));
+        }
     }
 
 
@@ -93,16 +92,19 @@ const MyAccount = () => {
         setIsLoading(true)
         if (formFields.name === "") {
             context.alertBox("error", "Please enter Full name")
+            setIsLoading(false)
             return false
         }
 
         if (formFields.email === "") {
             context.alertBox("error", "Please enter emailid")
+            setIsLoading(false)
             return false
         }
 
         if (formFields.mobile === "") {
             context.alertBox("error", "Please enter Mobile Number")
+            setIsLoading(false)
             return false
         }
 
@@ -130,21 +132,25 @@ const MyAccount = () => {
         setIsLoading2(true)
         if (context?.userData?.signUpWithGoogle === false && changePassword.oldPassword === "") {
             context.alertBox("error", "Please enter Old Password")
+            setIsLoading2(false)
             return false
         }
 
         if (changePassword.newPassword === "") {
             context.alertBox("error", "Please enter New Password ")
+            setIsLoading2(false)
             return false
         }
 
         if (changePassword.confirmPassword === "") {
             context.alertBox("error", "Please enter confirm password")
+            setIsLoading2(false)
             return false
         }
 
         if (changePassword.confirmPassword !== changePassword.newPassword) {
             context.alertBox("error", "Password and Confirm Password doesn't match")
+            setIsLoading2(false)
             return false
         }
 
@@ -197,16 +203,17 @@ const MyAccount = () => {
 
     return (
         <section className='!py-10 w-full'>
-            <div className='container flex flex-col lg:flex-row gap-5 px-4 lg:px-0'>
+            <div className='container flex flex-col lg:flex-row gap-5 !px-4 lg:px-0'>
                 <div className='col1 hidden lg:block w-[20%]'>
                     <AccountSidebar />
                 </div>
 
 
                 <div className='col2 w-full lg:w-[70%]'>
-                    <div className='card bg-white !p-5 !shadow-md !rounded-md !mb-5'>
-                        <UserAvatar className='lg:hidden mb-5' />
-                        <div className='flex items-center !pb-3'>
+                    <div className='card bg-white !p-5 !shadow-md !rounded-md !mb-5 relative'>
+                        <UserAvatar className='lg:hidden !mb-5' />
+                        <Button className='!text-[#ff5252] lg:!hidden !absolute !top-[10px] !right-[5px] !text-[22px] !min-w-[40px]' onClick={() => context.logout()}><IoLogOut /></Button>
+                        <div className='flex items-center !pb-3 flex-wrap gap-2'>
                             <h2 className='!pb-0'>My Profile</h2>
                             <Button className='!ml-auto' onClick={() => setIsChangePasswordFormShow(!isChangePasswordFormShow)}>Change Password</Button>
                         </div>
